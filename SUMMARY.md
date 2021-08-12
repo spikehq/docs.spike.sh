@@ -1,0 +1,129 @@
+# Table of contents
+
+* [Introduction](README.md)
+* [What is Spike.sh?](what-is-spike.md)
+
+## Incidents
+
+* [What is an incident?](incidents/what-is-an-incident.md)
+* [Incident lifecycle](incidents/incident-lifecycle.md)
+* [Incident statuses](incidents/incident-statuses.md)
+* [How to change incident status?](incidents/how-to-change-incident-status.md)
+* [Acknowledge timeout](incidents/acknowledge-timeout.md)
+* [Grouping incidents](incidents/grouping-incidents.md)
+* [Priority and Severity](incidents/priority-and-severity.md)
+* [Mute alerts](incidents/mute-alerts.md)
+* [Reassign incidents](incidents/reassign-incidents.md)
+* [Sharing incidents](incidents/sharing-incidents.md)
+* [Why does message parsing fail?](incidents/why-does-message-parsing-fail.md)
+
+## Alerts
+
+* [Phone](alerts/phone.md)
+* [SMS](alerts/sms.md)
+* [E-mail](alerts/email.md)
+* [Slack](alerts/slack.md)
+* [Microsoft Teams](alerts/microsoft-teams.md)
+* [Pushover](alerts/pushover.md)
+* [Discord](alerts/discord.md)
+* [Alert rules](alerts/alert-rules.md)
+* [Vacation mode](alerts/vacation-mode.md)
+
+## Services
+
+* [Introduction to services on Spike](services/introduction-to-services-on-spike.md)
+
+## Escalations
+
+* [Introduction to escalations](escalations/introduction-to-escalations.md)
+* [How to create an escalation policy?](escalations/how-to-create-an-escalation-policy.md)
+* [Repeat escalations](escalations/repeat-escalations.md)
+* [Archive escalation policy](escalations/archive-escalation-policy.md)
+
+## On-call schedules <a id="oncall-schedules"></a>
+
+* [Introduction to On-call schedules](oncall-schedules/introduction-to-on-call-schedules.md)
+* [Create On-call schedule](oncall-schedules/create-on-call-schedule.md)
+* [Introduction to Slots in schedules](oncall-schedules/introduction-to-slots-in-schedules.md)
+* [Introduction to Layers in on-call schedules](oncall-schedules/introduction-to-layers-in-on-call-schedules.md)
+* [Override an on-call](oncall-schedules/override-an-on-call.md)
+* [Add on-call schedule to your calendar](oncall-schedules/export-on-call-schedule.md)
+
+## Integrations guideline
+
+* [Create integration and service on our dashboard](integrations-guideline/create-integration-and-service-on-dashboard.md)
+* [Setup integrations](integrations-guideline/setup-integrations.md)
+* [Archive an integration](integrations-guideline/archive-an-integration.md)
+* [Integrating with Webhooks](integrations-guideline/integrating-with-webhooks.md)
+* [Integrate Spike with Email](integrations-guideline/integrate-spike-with-email.md)
+* [Integrate Spike with AWS](integrations-guideline/integrate-spike-with-aws.md)
+* [Integrate Spike with Google Cloud](integrations-guideline/integrate-google-cloud-with-spike.md)
+* [Integrate Spike with Sematext](integrations-guideline/integrate-spike-with-sematext.md)
+* [Integrate Spike with Healthchecks](integrations-guideline/integrate-healthchecks-with-spike.md)
+* [Integrate Spike with Pingdom](integrations-guideline/integrate-spike-with-pingdom.md)
+* [Integrate Spike.sh with Sentry](integrations-guideline/integrate-spike-with-sentry.md)
+* [Integrate Spike with Sentry webhook](integrations-guideline/integrate-spike-with-sentry-webhook.md)
+* [Integrate Spike with Apex ping](integrations-guideline/integrate-apex-ping-with-spike.md)
+* [Integrate Spike with Uptime Robot](integrations-guideline/integrate-spike-with-uptime-robot.md)
+* [Integrate Spike with Twilio](integrations-guideline/integrate-spike-with-twilio.md)
+* [Integrate Spike with Microsoft Azure](integrations-guideline/integrate-spike-with-microsoft-azure.md)
+* [Integrate Spike with Honeybadger](integrations-guideline/integrate-spike-with-honeybadger.md)
+* [Integrate Spike with Rollbar](integrations-guideline/integrate-spike-with-rollbar.md)
+* [Integrate Spike with Travis CI](integrations-guideline/integrate-spike-with-travis-ci.md)
+* [Integrate Spike with Heroku](integrations-guideline/integrate-spike-with-heroku.md)
+* [Integrate Spike with Datadog](integrations-guideline/integrate-spike-with-datadog.md)
+* [Integrate Spike with Needle.sh](integrations-guideline/integrate-spike-with-needle.sh.md)
+* [Integrate Spike with Cronitor](integrations-guideline/integrate-spike-with-cronitor.md)
+* [Integrate Spike with Bugsnag](integrations-guideline/integrate-spike-with-bugsnag.md)
+* [Integrate Spike with Grafana](integrations-guideline/integrate-spike-with-grafana.md)
+* [Integrate Spike with Prometheus](integrations-guideline/integrate-spike-with-prometheus.md)
+* [Integrate Spike with Instana](integrations-guideline/integrate-spike-with-instana.md)
+* [Integrate Spike with Zapier](integrations-guideline/integration-spike-with-zapier.md)
+* [Integrate Spike with Librato](integrations-guideline/integrate-spike-with-librato.md)
+* [Integrate Spike with Checkly](integrations-guideline/integrate-spike-with-checkly.md)
+* [Integrate Spike with AppSignal](integrations-guideline/integrate-spike-with-appsignal.md)
+* [Integrate Spike with New Relic](integrations-guideline/integrate-spike-with-new-relic.md)
+* [Integrate Spike with Site24x7](integrations-guideline/integrate-spike-with-site24x7.md)
+* [Integrate Spike with Stackify](integrations-guideline/integrate-spike-with-stackify.md)
+* [Integrate Spike with Scout-apm](integrations-guideline/integrate-spike-with-scout-apm.md)
+* [Integrate Spike with Oh-Dear](integrations-guideline/integrate-spike-with-oh-dear.md)
+* [Integrate Spike with Nixstats](integrations-guideline/integrate-spike-with-nixstats.md)
+* [Integrate Spike with Server Density](integrations-guideline/integrate-spike-with-server-density.md)
+* [Integrate Spike with Raygun](integrations-guideline/integrate-spike-with-raygun.md)
+* [Integrate Spike with Lightstep](integrations-guideline/integrate-spike-with-lightstep.md)
+* [Integrate Spike with Runscope](integrations-guideline/integrate-spike-with-runscope.md)
+* [Integrate Spike with Honeycomb](integrations-guideline/integrate-spike-with-honeycomb.md)
+* [Integrate Spike with Graylog](integrations-guideline/integrate-spike-with-graylog.md)
+* [Integrate Spike with Checkmk](integrations-guideline/integrate-spike-with-checkmk.md)
+* [Integrate Spike with Hyperping](integrations-guideline/integrate-spike-with-hyperping.md)
+* [Integrate Spike with Epsagon](integrations-guideline/integrate-spike-with-epsagon.md)
+* [Integrate Spike with Uptime](integrations-guideline/integrate-spike-with-uptime.md)
+* [Integrate Spike with Splunk](integrations-guideline/integrate-spike-with-splunk.md)
+* [Integrate Spike with Sumo Logic](integrations-guideline/integrate-spike-with-sumo-logic.md)
+* [Integrate Spike with Thousand Eyes](integrations-guideline/integrate-spike-with-thousand-eyes.md)
+* [Integrate Spike with Loggly](integrations-guideline/integrate-spike-with-loggly.md)
+* [Integrate Spike with Elastic Cloud](integrations-guideline/integrate-spike-with-elastic-cloud.md)
+* [Integrate Spike with App Optics](integrations-guideline/integrate-spike-with-app-optics.md)
+* [Integrate Spike with NodePing](integrations-guideline/integrate-spike-with-nodeping.md)
+* [Integrate Spike with Scalyr](integrations-guideline/integrate-spike-with-scalyr.md)
+* [Integrate Spike with Moogsoft](integrations-guideline/integrate-spike-with-moogsoft.md)
+* [Integrate Spike with AppDynamics](integrations-guideline/integrate-spike-with-appdynamics.md)
+* [Integrate Spike with Dynatrace](integrations-guideline/integrate-spike-with-dynatrace.md)
+* [Integrate Spike with CopperEgg](integrations-guideline/integrate-spike-with-copperegg.md)
+* [Integrate Spike with Coralogix](integrations-guideline/integrate-spike-with-coralogix.md)
+* [Integrate Spike with ElastAlert](integrations-guideline/integrate-spike-with-elastalert.md)
+* [Integrate Spike with LogDNA](integrations-guideline/integrate-spike-with-logdna.md)
+
+## Administration
+
+* [Roles and access](administration/roles-and-access.md)
+* [Our notification numbers](administration/our-notification-numbers.md)
+* [Contact the support team](administration/contact-the-support-team.md)
+* [Adding team members](administration/adding-team-members.md)
+* [Check if team is getting alerts](administration/check-if-team-is-getting-alerts.md)
+* [Removing team members](administration/removing-team-members.md)
+
+## Additional resources
+
+* [Create a badge](additional-resources/create-a-badge.md)
+
