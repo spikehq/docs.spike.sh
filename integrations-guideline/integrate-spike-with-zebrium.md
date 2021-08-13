@@ -2,7 +2,7 @@
 
 ### Service and Integration
 
-Make sure to make a LogDNA integration and copy the webhook URL.
+Make sure to make a Zebrium integration and copy the webhook URL.
 
 {% page-ref page="create-integration-and-service-on-dashboard.md" %}
 
