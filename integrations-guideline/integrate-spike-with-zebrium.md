@@ -14,7 +14,7 @@ Make sure to make a Zebrium integration and copy the webhook URL.
 
 Go to the alerts section.
 
-![](../.gitbook/assets/image%20%2863%29.png)
+![](../.gitbook/assets/image%20%2886%29.png)
 
 #### 
 
@@ -22,7 +22,7 @@ Go to the alerts section.
 
 Create an Outbound Alert.
 
-![](../.gitbook/assets/image%20%2886%29.png)
+![](../.gitbook/assets/image%20%2891%29.png)
 
 
 

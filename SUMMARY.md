@@ -115,6 +115,7 @@
 * [Integrate Spike with LogDNA](integrations-guideline/integrate-spike-with-logdna.md)
 * [Integrate Spike with Zebrium](integrations-guideline/integrate-spike-with-zebrium.md)
 * [Integrate Spike with LibreNMS](integrations-guideline/integrate-spike-with-librenms.md)
+* [Integrate Spike with Uptime Kuma](integrations-guideline/integrate-spike-with-uptime-kuma.md)
 
 ## Administration
 
