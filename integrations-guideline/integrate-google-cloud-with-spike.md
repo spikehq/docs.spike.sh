@@ -40,7 +40,7 @@ If it fails, make sure you have pasted the right username and password. Refresh 
 
 Go to the [monitoring section](https://console.cloud.google.com/monitoring) again and click on Create policy.
 
-![Add your conditions for alerts and select notification channel](../.gitbook/assets/new-6-gcp.png)
+![Add your conditions for alerts and select notification channel](../.gitbook/assets/new-6-gcp%20%281%29.png)
 
 ![Select the notification channel we just created](../.gitbook/assets/new-7-gcp.png)
 

@@ -14,7 +14,7 @@ Make sure you have the service and integration already set up for NodePing. Foll
 
 From the contacts page, create a new contact.
 
-![](../.gitbook/assets/image%20%28112%29.png)
+![](../.gitbook/assets/image%20%28118%29%20%281%29.png)
 
 
 

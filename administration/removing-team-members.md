@@ -30,7 +30,3 @@ _Remember that this is not the same as undo-ing the removal of a member_
 
 ![Add removed team members](../.gitbook/assets/screenshot-2020-09-25-at-12.54.15-pm.png)
 
-
-
-
-

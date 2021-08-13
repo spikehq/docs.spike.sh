@@ -40,7 +40,7 @@ You can create services by just adding a name to it. No other field is required.
 
 ### Escalations
 
-![Multiple escalation policies](.gitbook/assets/screenshot-2019-08-07-at-7.26.37-pm.png)
+![Multiple escalation policies](.gitbook/assets/escalations-list%20%282%29.png)
 
 We provide simplicity by un-complicating escalation policies by allowing you to choose your alert channels. Anyone from your team can create escalation policies you can easily use. With the power of unlimited escalations, you can create escalations policies just for your self or one for your team and one for every team in your organization.
 

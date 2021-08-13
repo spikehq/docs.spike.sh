@@ -15,7 +15,7 @@ Make sure to add the Moogsoft integration and copying the webhook.[
 
 From the config, select **outbound integrations**.
 
-![](../.gitbook/assets/image%20%2852%29.png)
+![](../.gitbook/assets/image%20%28126%29.png)
 
 
 

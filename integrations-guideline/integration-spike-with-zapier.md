@@ -51,7 +51,7 @@ Don't have API enabled on your account yet? email us at [support@spike.sh](mailt
 
 ### Trigger
 
-![ex: Every new incident on our critical integration creates an issue on Linear.app](../.gitbook/assets/image%20%2895%29.png)
+![ex: Every new incident on our critical integration creates an issue on Linear.app](../.gitbook/assets/image%20%2835%29%20%281%29.png)
 
 You will need to paste the full webhook URL on Zapier for an integration you want. Head over to your [integrations page](https://app.spike.sh/integrations) and copy the webhook for integration of your choice to automate.
 
