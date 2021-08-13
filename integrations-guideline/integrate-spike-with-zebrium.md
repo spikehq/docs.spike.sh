@@ -14,7 +14,7 @@ Make sure to make a LogDNA integration and copy the webhook URL.
 
 Go to the alerts section.
 
-![](../.gitbook/assets/image%20%2852%29.png)
+![](../.gitbook/assets/image%20%2863%29.png)
 
 #### 
 
@@ -22,7 +22,7 @@ Go to the alerts section.
 
 Create an Outbound Alert.
 
-![](../.gitbook/assets/image%20%2858%29.png)
+![](../.gitbook/assets/image%20%2886%29.png)
 
 
 
@@ -30,5 +30,5 @@ Create an Outbound Alert.
 
 Paste the Webhook Url
 
-![](../.gitbook/assets/image%20%2840%29.png)
+![](../.gitbook/assets/image%20%2852%29.png)
 
