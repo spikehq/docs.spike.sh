@@ -20,7 +20,7 @@ Navigate to **Contact Lists** and create a new contact.
 
 
 
-Step 2 
+**Step 2** 
 
 Select webhooks from the options and paste the Spike webhook URL.
 
