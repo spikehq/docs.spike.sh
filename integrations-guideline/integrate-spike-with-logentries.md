@@ -12,13 +12,13 @@ Make sure to make a Logentries integration and copy the webhook URL.
 
 
 
-Step 1 
+**Step 1** 
 
 From the Dashboard, go to alerts.
 
 
 
-Step 2
+**Step 2**
 
 Paste the Spike webhook URL.
 
