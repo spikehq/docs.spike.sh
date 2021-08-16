@@ -119,6 +119,7 @@
 * [Integrate Spike with Logentries](integrations-guideline/integrate-spike-with-logentries.md)
 * [Integrate Spike with Logz](integrations-guideline/integrate-spike-with-logz.md)
 * [Integrate Spike with Ghost Inspector](integrations-guideline/integrate-spike-with-ghost-inspector.md)
+* [Integrate Spike with Hetrix Tools](integrations-guideline/integrate-spike-with-hetrix-tools.md)
 
 ## Administration
 
