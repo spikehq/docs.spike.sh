@@ -22,7 +22,7 @@ From the Dashboard, go to alerts.
 
 Paste the Spike webhook URL.
 
-![](../.gitbook/assets/image%20%2892%29.png)
+![](../.gitbook/assets/image%20%2895%29.png)
 
 
 
