@@ -2,7 +2,7 @@
 
 ### Service and Integration
 
-Make sure to make a LibreNMS integration and copy the webhook URL.
+Make sure to make an Uptime Kuma integration and copy the webhook URL.
 
 {% page-ref page="create-integration-and-service-on-dashboard.md" %}
 
