@@ -118,6 +118,7 @@
 * [Integrate Spike with Uptime Kuma](integrations-guideline/integrate-spike-with-uptime-kuma.md)
 * [Integrate Spike with Logentries](integrations-guideline/integrate-spike-with-logentries.md)
 * [Integrate Spike with Logz](integrations-guideline/integrate-spike-with-logz.md)
+* [Integrate Spike with Ghost Inspector](integrations-guideline/integrate-spike-with-ghost-inspector.md)
 
 ## Administration
 
