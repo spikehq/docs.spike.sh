@@ -122,6 +122,7 @@
 * [Integrate Spike with Hetrix Tools](integrations-guideline/integrate-spike-with-hetrix-tools.md)
 * [Integrate Spike with LogRocket](integrations-guideline/untitled.md)
 * [Integrate Spike with StatusCake](integrations-guideline/integrate-spike-with-statuscake.md)
+* [Integrate Spike with Sysdig](integrations-guideline/integrate-spike-with-sysdig.md)
 
 ## Administration
 
