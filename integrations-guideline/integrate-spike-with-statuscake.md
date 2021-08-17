@@ -1,8 +1,8 @@
 # Integrate Spike with StatusCake
 
+### Service and Integration
 
-
-
+Make sure to make a StatusCake integration and copy the webhook URL.
 
 {% page-ref page="create-integration-and-service-on-dashboard.md" %}
 
