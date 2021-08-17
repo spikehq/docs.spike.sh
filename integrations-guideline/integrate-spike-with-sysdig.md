@@ -14,7 +14,7 @@ Make sure to make a Sysdig integration and copy the webhook URL.
 
 Navigate to **Notification Channel** and add a new channel.
 
-![](../.gitbook/assets/image%20%28136%29.png)
+![](../.gitbook/assets/image%20%28138%29.png)
 
 
 
@@ -22,7 +22,7 @@ Navigate to **Notification Channel** and add a new channel.
 
 Select webhooks from the available options
 
-![](../.gitbook/assets/image%20%28137%29.png)
+![](../.gitbook/assets/image%20%28140%29.png)
 
 
 
@@ -30,7 +30,7 @@ Select webhooks from the available options
 
 Paste the Spike webhook URL and save.
 
-![](../.gitbook/assets/image%20%28134%29.png)
+![](../.gitbook/assets/image%20%28136%29.png)
 
 
 

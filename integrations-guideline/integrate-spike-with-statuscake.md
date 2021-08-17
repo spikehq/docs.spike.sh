@@ -14,7 +14,7 @@ Make sure to make a StatusCake integration and copy the webhook URL.
 
  Navigate to new contact group from the menu.
 
-![](../.gitbook/assets/image%20%28139%29.png)
+![](../.gitbook/assets/image%20%28142%29.png)
 
 
 
@@ -22,7 +22,7 @@ Make sure to make a StatusCake integration and copy the webhook URL.
 
 Paste the Spike webhook URL and save.
 
-![](../.gitbook/assets/image%20%28135%29.png)
+![](../.gitbook/assets/image%20%28137%29.png)
 
 
 
