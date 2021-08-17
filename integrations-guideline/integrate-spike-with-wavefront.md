@@ -26,7 +26,7 @@ Select webhooks from the available options
 
 
 
-Step 3
+**Step 3**
 
 ‌Paste the Spike webhook URL. Choose the **generic webhook** **template** and then save.
 
