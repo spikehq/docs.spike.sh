@@ -12,7 +12,7 @@ Make sure to make a Buildkite integration and copy the webhook URL.
 
 **Step 1**
 
-Navigate to notification services from the left menu.
+Navigate to notification services from the menu.
 
 ![](../.gitbook/assets/image%20%28143%29.png)
 
