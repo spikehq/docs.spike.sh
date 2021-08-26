@@ -8,7 +8,7 @@ description: >-
 
 ### Service and Integration
 
-Make sure you have the service and integration already setup for Instana. Follow the link below on instructions of how to create integration and service.
+Make sure you have the service and integration already setup for Zapier. Follow the link below on instructions of how to create integration and service.
 
 {% page-ref page="create-integration-and-service-on-dashboard.md" %}
 
@@ -17,7 +17,7 @@ Make sure you have the service and integration already setup for Instana. Follow
 Click on **Create zap** \([what is a zap?](https://zapier.com/help/create/basics/learn-key-concepts-in-zapier)\) on Zapier's dashboard. You can choose to have Spike as a **trigger** and also as an **action**
 
 {% hint style="success" %}
-In case if you are unable to find our Zapier app on the dashboard, [please use this invite link](https://zapier.com/developer/public-invite/111629/f94c72a024e0797f77479502ae99cecd/).
+Use Spike.sh's Zapier app to [setup triggers and actions here](https://zapier.com/apps/spikesh/integrations). 
 {% endhint %}
 
 **Trigger**  
