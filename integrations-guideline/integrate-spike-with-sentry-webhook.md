@@ -55,7 +55,7 @@ Add your conditions for alerts and in actions select **Send a notification via a
 
 This should be the end result. 
 
-![Spike webook integration on Sentry](../.gitbook/assets/image%20%2839%29%20%281%29.png)
+![Spike webook integration on Sentry](../.gitbook/assets/image%20%2839%29%20%281%29%20%281%29.png)
 
 
 

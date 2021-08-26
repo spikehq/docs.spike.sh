@@ -15,7 +15,7 @@ Make sure to make a LibreNMS integration and copy the webhook URL.
 * From the **Alerts** menu, choose **Alert Transports** from the dropdown.
 * Create a new Alert Transport
 
-![](../.gitbook/assets/image%20%2858%29.png)
+![](../.gitbook/assets/image%20%2858%29%20%281%29.png)
 
 **Step 2**
 

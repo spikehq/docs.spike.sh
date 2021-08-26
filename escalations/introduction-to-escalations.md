@@ -4,7 +4,7 @@
 
 An escalation policy is a simple set of rules to alert the right person at the right time using the right channel such as phone, slack or email. If that person misses out then the incident gets escalated to the next person.
 
-![](../.gitbook/assets/escalations-list.png)
+![](../.gitbook/assets/escalations-list%20%282%29.png)
 
 ## Basics
 

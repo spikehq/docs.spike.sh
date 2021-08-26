@@ -14,7 +14,7 @@ Make sure to make a Coralogix integration and copy the webhook URL.
 
 From the dashboard, go to **settings**.
 
-![](../.gitbook/assets/image%20%28110%29.png)
+![](../.gitbook/assets/image%20%28110%29%20%281%29.png)
 
 
 

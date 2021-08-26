@@ -14,7 +14,7 @@ Make sure to make a CopperEgg integration and copy the webhook URL.
 
 From the dashboard, navigate to alerts. 
 
-![](../.gitbook/assets/image%20%2843%29.png)
+![](../.gitbook/assets/image%20%2843%29%20%281%29.png)
 
 #### 
 

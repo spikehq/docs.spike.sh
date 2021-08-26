@@ -14,7 +14,7 @@ Make sure to add the AppDynamics integration and copying the webhook.
 
 From the dashboard,  go to the Alert & Respond menu.
 
-![](../.gitbook/assets/image%20%2898%29%20%281%29.png)
+![](../.gitbook/assets/image%20%2898%29%20%281%29%20%281%29.png)
 
 #### 
 
