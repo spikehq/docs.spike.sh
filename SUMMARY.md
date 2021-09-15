@@ -121,7 +121,7 @@
 * [Integrate Spike with Logz](integrations-guideline/integrate-spike-with-logz.md)
 * [Integrate Spike with Ghost Inspector](integrations-guideline/integrate-spike-with-ghost-inspector.md)
 * [Integrate Spike with Hetrix Tools](integrations-guideline/integrate-spike-with-hetrix-tools.md)
-* [Integrate Spike with LogRocket](integrations-guideline/untitled.md)
+* [Integrate Spike with LogRocket](integrations-guideline/logrocket.md)
 * [Integrate Spike with StatusCake](integrations-guideline/integrate-spike-with-statuscake.md)
 * [Integrate Spike with Sysdig](integrations-guideline/integrate-spike-with-sysdig.md)
 * [Integrate Spike with Wavefront](integrations-guideline/integrate-spike-with-wavefront.md)
