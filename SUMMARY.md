@@ -40,7 +40,7 @@
 * [Repeat escalations](escalations/repeat-escalations.md)
 * [Archive escalation policy](escalations/archive-escalation-policy.md)
 
-## On-call schedules <a id="oncall-schedules"></a>
+## On-call schedules <a href="oncall-schedules" id="oncall-schedules"></a>
 
 * [Introduction to On-call schedules](oncall-schedules/introduction-to-on-call-schedules.md)
 * [Create On-call schedule](oncall-schedules/create-on-call-schedule.md)
@@ -49,6 +49,7 @@
 * [Override an on-call](oncall-schedules/override-an-on-call.md)
 * [Add on-call schedule to your calendar](oncall-schedules/export-on-call-schedule.md)
 * [Notifications for on-call shifts](oncall-schedules/notifications-for-on-call-shifts.md)
+* [Teams](oncall-schedules/teams.md)
 
 ## Integrations guideline
 
@@ -140,4 +141,3 @@
 ## Additional resources
 
 * [Create a badge](additional-resources/create-a-badge.md)
-
