@@ -1,5 +1,5 @@
 ---
-description: 'How to get Phone, SMS and Slack alerts from Epsagon?'
+description: How to get Phone, SMS and Slack alerts from Epsagon?
 ---
 
 # Integrate Spike with Epsagon
@@ -8,9 +8,11 @@ description: 'How to get Phone, SMS and Slack alerts from Epsagon?'
 
 Make sure to add the Epsagon integration and copy the webhook. 
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
-### 
+###
 
 ### Using Webhooks with Epsagon
 
@@ -18,7 +20,7 @@ Make sure to add the Epsagon integration and copy the webhook.
 
 On the Epsagon dashboard, navigate to the alerts page and **create a new alert**.
 
-![](../.gitbook/assets/group-17.png)
+![](<../.gitbook/assets/Group 17.png>)
 
 
 
@@ -26,9 +28,7 @@ On the Epsagon dashboard, navigate to the alerts page and **create a new alert**
 
 Choose **webhook** from the dropdown list and then paste the spike webhook URL.
 
-![](../.gitbook/assets/group-18.png)
-
-
+![](<../.gitbook/assets/Group 18.png>)
 
 
 

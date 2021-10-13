@@ -11,13 +11,15 @@ description: >-
 
 Make sure you have the service and integration already setup for Healthchecks. Follow the link below on instructions of how to create integration and service
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 ## Use the webhook on Healthchecks
 
-![Spike.sh on Healthchecks.io](../.gitbook/assets/image%20%2877%29.png)
+![Spike.sh on Healthchecks.io](<../.gitbook/assets/image (36).png>)
 
-You can use our native **Spike.sh** integration on [**Healthchecks.io**](https://healthchecks.io)**.** Copy the webhook from above steps after creating an integration. Next, paste it on Healthchecks.io, simple as that. 
+You can use our native **Spike.sh** integration on [**Healthchecks.io**](https://healthchecks.io)**. **Copy the webhook from above steps after creating an integration. Next, paste it on Healthchecks.io, simple as that. 
 
 {% hint style="success" %}
 This integration supports auto resolution.
@@ -28,4 +30,3 @@ If you are using the webhook integration with Healthchecks.io then feel free to 
 {% endhint %}
 
  At any given point in time, you can book a free consultation with us by [blocking our calendar](https://calendly.com/spikehq) or contacting us at [support@spike.sh](mailto:support@spike.sh)
-

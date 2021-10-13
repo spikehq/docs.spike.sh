@@ -26,13 +26,13 @@ In simple words - if both layers have common times then Layer 2 will overlap cal
 
 Here is a simple on-call schedule with 2 members rotating each day. This means one of the members is on-call every day covering for the entire week. 
 
-**All days -** Daily rotation among 2 members 
+**All days - **Daily rotation among 2 members 
 
 ![Just one layer to our schedule](../.gitbook/assets/layer-1.png)
 
 This is how the calendar looks like with just the above layer in our on-call schedule
 
-![Calendar for above on-call schedule with just one layer](../.gitbook/assets/image%20%282%29.png)
+![Calendar for above on-call schedule with just one layer](<../.gitbook/assets/image (67).png>)
 
 ### Adding the weekend layer to override
 
@@ -40,16 +40,16 @@ Now, this could be too much to handle. How about we give them a break over the w
 
 To enable this, we can add another layer with weekly rotation among members who only need to be on-call **from Friday 6 PM to Monday 9 AM**
 
-**Weekdays -** Daily rotation among 2 members   
+**Weekdays - **Daily rotation among 2 members \
 **Weekends** - One person for the entire weekend rotating weekly
 
 ![2 separate layers, one for weekday and another for weekend](../.gitbook/assets/weekday-weekend-desc.png)
 
-Members from Layer 1 will be on-call every alternate day, on all weekdays and members from Layer 2 will be on-call for the entire alternate weekend \(since weekly rotation has been applied\). 
+Members from Layer 1 will be on-call every alternate day, on all weekdays and members from Layer 2 will be on-call for the entire alternate weekend (since weekly rotation has been applied). 
 
 This is how the calendar looks with both layers. 
 
-![Calendar with 2 layers, one set of members for weekdays and another for weekend](../.gitbook/assets/image%20%2837%29.png)
+![Calendar with 2 layers, one set of members for weekdays and another for weekend](<../.gitbook/assets/image (68).png>)
 
 ### **How did overlapping work here?**
 
@@ -69,8 +69,6 @@ You can start experimenting with layers by editing the same schedule as many tim
   * There is no limitation. Our recommendation is to avoid adding too many layers. Otherwise, it could get confusing how the calendar works and as a result teams usually hesitate to delete any layer. 
 * **How many members can be added in one layer?**
   * There is no limit here either. 
-
-
 
 
 

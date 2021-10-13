@@ -10,7 +10,9 @@ description: >-
 
 With our Checkly integration make sure your API always responds quickly and with the correct payload. Monitor your web app's crucial transactions and get alerts. 
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 ## Use our webhook on Checkly
 
@@ -30,7 +32,7 @@ Paste the webhook and the payload for our integration.
 
 **Copy and paste the below body to Checkly's dashboard after you have pasted the webhook**
 
-```text
+```
 {
   {{! Embeds for the SSL expiry notifications}}
   {{#eq ALERT_TYPE "ALERT_SSL" }}
@@ -58,4 +60,3 @@ Please refrain from editing the above body. Doing so will not give you the best 
 {% hint style="success" %}
 This integration auto-resolves all types of incidents except SSL warnings from Checkly
 {% endhint %}
-

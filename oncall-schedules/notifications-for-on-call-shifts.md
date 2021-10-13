@@ -20,7 +20,5 @@ You can choose to get alerts over **Phone calls, SMS, and Email** when your shif
 
 You can set up Slack notifications when anyone of your team starts and ends a shift across all on-call schedules. Visit [Slack settings](https://app.spike.sh/settings/organisation#slack) and set up channels you would like to receive notifications on. Once saved, all members in selected Slack channels will receive updates on shift start and end.
 
-![Slack notifications for shift start and ends](../.gitbook/assets/image%20%2839%29.png)
-
-
+![Slack notifications for shift start and ends](<../.gitbook/assets/image (139).png>)
 

@@ -1,5 +1,5 @@
 ---
-description: 'How to get Phone, SMS and Slack alerts from Runscope?'
+description: How to get Phone, SMS and Slack alerts from Runscope?
 ---
 
 # Integrate Spike with Runscope
@@ -8,7 +8,9 @@ description: 'How to get Phone, SMS and Slack alerts from Runscope?'
 
 Make sure to add the Runscope integration and copy the webhook.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -18,7 +20,7 @@ Make sure to add the Runscope integration and copy the webhook.
 
 Choose the **connected services** option from the dropdown.
 
-![choose connected services](../.gitbook/assets/group-1%20%285%29.png)
+![choose connected services](<../.gitbook/assets/Group 1 (6).png>)
 
 
 
@@ -26,17 +28,16 @@ Choose the **connected services** option from the dropdown.
 
 Select **Webhooks** from the given services.
 
-![Select webhooks](../.gitbook/assets/group-2%20%282%29.png)
+![Select webhooks](<../.gitbook/assets/Group 2 (7).png>)
 
 #### Step 3
 
 Paste the spike webhook URL and save.
 
-![](../.gitbook/assets/group-3%20%281%29.png)
+![](<../.gitbook/assets/Group 3 (5).png>)
 
 
 
 {% hint style="success" %}
 This integration auto resolves
 {% endhint %}
-

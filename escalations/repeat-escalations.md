@@ -14,15 +14,15 @@ Let's take a simple example. Consider the below policy.
 
 When a new incident is created - 
 
-**Step 1:** Alert on \#incidents Slack channel
+**Step 1:** Alert on #incidents Slack channel
 
 **Step 2:** Email Jay Ramirez
 
 **Step 3:** Phone call to Jay Ramirez 
 
-![Example escalation policy](../.gitbook/assets/image%20%28128%29.png)
+![Example escalation policy](<../.gitbook/assets/image (48).png>)
 
-In this case, if noone on the Slack channel takes an action and Jay also misses out on it, then the alerts will continue from **Step 1 after a default interval of 10 minutes.** 
+In this case, if noone on the Slack channel takes an action and Jay also misses out on it, then the alerts will continue from **Step 1 after a default interval of 10 minutes. **
 
 This is handy as some incidents can just not be ignored.
 
@@ -34,21 +34,21 @@ By default, escalation policy will only be repeated 5 times.
 
 At Spike.sh, you can choose to configure repeating escalations on an integration basis and not on a central level. We designed this so you can choose exactly which integrations are critical to never miss an alert.
 
-To setup, you can configure this while adding or editing an integration. Select **Repeat escalation checkbox** and save / update integration.
+To setup, you can configure this while adding or editing an integration. Select **Repeat escalation checkbox **and save / update integration.
 
-![Configure repeat escalations for any integration](../.gitbook/assets/image%20%2859%29.png)
+![Configure repeat escalations for any integration](<../.gitbook/assets/image (49).png>)
 
  
 
 ### What actions would stop from repeating escalations?
 
-If you **acknowledge or resolve** an incident then escalations will stop repeating itself and alerts will stop automatically. 
+If you **acknowledge or resolve **an incident then escalations will stop repeating itself and alerts will stop automatically. 
 
-{% page-ref page="../incidents/how-to-change-incident-status.md" %}
+{% content-ref url="../incidents/how-to-change-incident-status.md" %}
+[how-to-change-incident-status.md](../incidents/how-to-change-incident-status.md)
+{% endcontent-ref %}
 
 ### If no action is taken, wouldn't the escalations repeat continuously?
 
 This is a valid problem. For this reason, by default, **we repeat escalations 5 times**. After which, no alerts will be sent.
-
-
 

@@ -1,5 +1,5 @@
 ---
-description: 'How to get Phone, SMS and Slack alerts from Honeycomb.io?'
+description: How to get Phone, SMS and Slack alerts from Honeycomb.io?
 ---
 
 # Integrate Spike with Honeycomb
@@ -8,7 +8,9 @@ description: 'How to get Phone, SMS and Slack alerts from Honeycomb.io?'
 
 Make sure to add the Honeycomb integration and copy the webhook.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -18,7 +20,7 @@ Make sure to add the Honeycomb integration and copy the webhook.
 
 Go to the integrations page on honeycomb and **add integration.** 
 
-![Add integration](../.gitbook/assets/group-1%20%281%29.png)
+![Add integration](<../.gitbook/assets/Group 1 (7).png>)
 
 
 
@@ -26,7 +28,7 @@ Go to the integrations page on honeycomb and **add integration.**
 
 Select webhook and paste the spike webhook URL here.
 
-![](../.gitbook/assets/group-2.png)
+![](<../.gitbook/assets/Group 2 (8).png>)
 
 
 
@@ -34,7 +36,7 @@ Select webhook and paste the spike webhook URL here.
 
 Then go to the triggers page and add a new trigger.
 
-![](../.gitbook/assets/group-3%20%284%29.png)
+![](<../.gitbook/assets/Group 3 (6).png>)
 
 
 
@@ -42,7 +44,7 @@ Then go to the triggers page and add a new trigger.
 
 Choose the dataset you want to add the trigger for.
 
-![](../.gitbook/assets/group-4%20%282%29.png)
+![](<../.gitbook/assets/Group 4 (2).png>)
 
 
 
@@ -50,7 +52,5 @@ Choose the dataset you want to add the trigger for.
 
 Now select the earlier created webhook from the dropdown menu and save.
 
-![](../.gitbook/assets/group-5.png)
-
-
+![](<../.gitbook/assets/Group 5.png>)
 

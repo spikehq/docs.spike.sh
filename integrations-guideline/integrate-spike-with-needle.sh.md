@@ -4,13 +4,15 @@
 
 Make sure to add the Needle integration and copy the webhook. 
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
 ### Using the webhook with Needle.sh
 
-Go to **Security** section from the side navigation and chose **Alert Settings** option.
+Go to **Security** section from the side navigation and chose **Alert Settings **option.
 
 ![Choose Alert Settings](../.gitbook/assets/needle-1.png)
 
@@ -18,7 +20,7 @@ Go to **Security** section from the side navigation and chose **Alert Settings**
 
 
 
-Chose to **Add Webhook** option from the settings and paste the spike hooks URL.
+Chose to **Add Webhook **option from the settings and paste the spike hooks URL.
 
 ![Choose Webhook](../.gitbook/assets/needle-2.png)
 
@@ -34,4 +36,3 @@ Chose to **Add Webhook** option from the settings and paste the spike hooks URL.
 At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
 
 If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
-

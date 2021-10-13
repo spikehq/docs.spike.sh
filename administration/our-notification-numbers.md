@@ -6,7 +6,7 @@ description: List of numbers and emails you will get alerts from.
 
 ## Bypass Do Not Disturb
 
-Please download this vCard and add us to your contacts. If you add it favorites in contacts then our calls will ring when you are in **Do Not Disturb mode.** 
+Please download this vCard and add us to your contacts. If you add it favorites in contacts then our calls will ring when you are in **Do Not Disturb mode. **
 
 Works with -
 
@@ -16,7 +16,8 @@ Works with -
 4. MacOS
 5. Windows
 
-{% file src="../.gitbook/assets/spike.sh-contact-card.vcf" caption="Download our vCard and store our number in favorites" %}
+{% file src="../.gitbook/assets/Spike.sh-contact-card.vcf" %}
+Download our vCard and store our number in favorites
+{% endfile %}
 
 Check if your country/region supports phone calls and SMS [on this page](https://app.spike.sh/geo-permissions).
-

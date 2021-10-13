@@ -4,7 +4,9 @@
 
 Make sure to make a StatusCake integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,7 +16,7 @@ Make sure to make a StatusCake integration and copy the webhook URL.
 
  Navigate to new contact group from the menu.
 
-![](../.gitbook/assets/image%20%28142%29.png)
+![](<../.gitbook/assets/image (125).png>)
 
 
 
@@ -22,13 +24,11 @@ Make sure to make a StatusCake integration and copy the webhook URL.
 
 Paste the Spike webhook URL and save.
 
-![](../.gitbook/assets/image%20%28137%29.png)
+![](<../.gitbook/assets/image (127).png>)
 
 
 
 {% hint style="success" %}
 This integration auto resolves
 {% endhint %}
-
-
 

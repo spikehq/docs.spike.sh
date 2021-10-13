@@ -11,8 +11,8 @@ description: >-
 There are mainly 3 states - 
 
 1. **Triggered 🔥**
-2. **Acknowledged** 👩‍💻
-3. **Resolved** ✅
+2. **Acknowledged **👩‍💻
+3. **Resolved **✅
 
 ### **1. Triggered 🔥**
 
@@ -30,15 +30,15 @@ In this state, repeat incidents are automatically suppressed and logged reducing
 We highly recommend setting an acknowledge timeout for all your incidents. 
 {% endhint %}
 
-{% page-ref page="acknowledge-timeout.md" %}
+{% content-ref url="acknowledge-timeout.md" %}
+[acknowledge-timeout.md](acknowledge-timeout.md)
+{% endcontent-ref %}
 
 ### 3. Resolved ✅
 
 Once an incident is fixed, you mark it as **resolved**. This is the end state for all incidents. 
 
 If a similar incident is triggered then a new incident is created.
-
-
 
 
 

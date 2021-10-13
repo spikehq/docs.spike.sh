@@ -4,7 +4,9 @@
 
 Make sure to make a LogRocket integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -20,7 +22,7 @@ Go to metrics and proceed to **edit** **chart** for a metric.
 
 **Step 2**
 
-Click on **Add Alert** button and choose webhook.  
+Click on **Add Alert** button and choose webhook.\
 Then paste the Spike webhook URL and set the webhook to be `POST`
 
 
@@ -28,4 +30,3 @@ Then paste the Spike webhook URL and set the webhook to be `POST`
 {% hint style="success" %}
 This integration auto resolves.
 {% endhint %}
-

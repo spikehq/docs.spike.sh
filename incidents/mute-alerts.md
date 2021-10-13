@@ -1,5 +1,7 @@
 ---
-description: "Mute all alerts \U0001F6A8  (or switch off all alarms) for an incident so you can continue your work fixing it."
+description: >-
+  Mute all alerts 🚨  (or switch off all alarms) for an incident so you can
+  continue your work fixing it.
 ---
 
 # Mute alerts
@@ -13,11 +15,10 @@ For every **incident** **and it's repeated incidents**, you can choose to mute a
 3. A day
 4. A week
 5. A month
-6. **Forever** - \(_note: be careful with this_\)
+6. **Forever** - (_note: be careful with this_)
 
-![Mute alerts or switch off alarms](../.gitbook/assets/image%20%2884%29.png)
+![Mute alerts or switch off alarms](<../.gitbook/assets/image (15).png>)
 
 ### Use cases
 
 Not all incidents are critical, also, not all incidents need to be worked upon instantly. For all those low handing fruits, you can now mute the alerts and just log these incidents on Spike. 
-

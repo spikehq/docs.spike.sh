@@ -18,13 +18,15 @@ With Bugsnag integration, you can -
 
 Make sure to add the Bugsnag integration and copy the webhook. 
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 ## Using the Webhook with Bugsnag
 
 ### Step 1
 
-Choose your project and goto **Settings.** Choose **Data Forwarding** to view all the options.
+Choose your project and goto **Settings. **Choose **Data Forwarding** to view all the options.
 
 ![](../.gitbook/assets/bugsnag-1.png)
 
@@ -50,4 +52,3 @@ This integration auto resolves it's incidents
 At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
 
 If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
-

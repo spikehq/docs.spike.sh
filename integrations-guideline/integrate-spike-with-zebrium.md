@@ -4,9 +4,11 @@
 
 Make sure to make a Zebrium integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
-### 
+###
 
 ### Using Webhooks with Zebrium
 
@@ -14,15 +16,15 @@ Make sure to make a Zebrium integration and copy the webhook URL.
 
 Go to the alerts section.
 
-![](../.gitbook/assets/image%20%2886%29.png)
+![](<../.gitbook/assets/image (111).png>)
 
-#### 
+####
 
 #### Step 2
 
 Create an Outbound Alert.
 
-![](../.gitbook/assets/image%20%2891%29.png)
+![](<../.gitbook/assets/image (112).png>)
 
 
 
@@ -30,5 +32,4 @@ Create an Outbound Alert.
 
 Paste the Webhook Url
 
-![](../.gitbook/assets/image%20%2852%29.png)
-
+![](<../.gitbook/assets/image (113).png>)

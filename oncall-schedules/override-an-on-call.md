@@ -16,13 +16,13 @@ An on-call override does not repeat like your regular schedule. This makes it ea
 
 ### Adding an override
 
-To add an override, **visit your on-call schedule &gt; settings &gt; override**
+To add an override, **visit your on-call schedule > settings > override**
 
-![Adding an override](../.gitbook/assets/image%20%281%29.png)
+![Adding an override](<../.gitbook/assets/image (74).png>)
 
 From the above example, Jay will be on-call from 28th April midnight to 30th April midnight. Adding a comment helps give context for the override. 
 
-![On-call schedule with an override](../.gitbook/assets/image%20%2818%29.png)
+![On-call schedule with an override](<../.gitbook/assets/image (75).png>)
 
 ### Deleting an override
 
@@ -39,4 +39,3 @@ Ensure to delete the older overrides so as to avoid confusion. If two overrides 
 ### Editing an on-call schedule
 
 You will not see override layers while editing an on-call schedule. This is by design as overrides don't tend to repeat.
-

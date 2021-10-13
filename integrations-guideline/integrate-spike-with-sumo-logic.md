@@ -4,7 +4,9 @@
 
 Make sure to add the Sumo Logic integration and copy the webhook. 
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,7 +16,7 @@ Make sure to add the Sumo Logic integration and copy the webhook.
 
 Navigate to the alerts page and open the connections tab.
 
-![](../.gitbook/assets/group-28.png)
+![](<../.gitbook/assets/Group 28.png>)
 
 
 
@@ -22,7 +24,7 @@ Navigate to the alerts page and open the connections tab.
 
 Select the webhook connection type.
 
-![](../.gitbook/assets/group-27.png)
+![](<../.gitbook/assets/Group 27.png>)
 
 
 
@@ -30,11 +32,11 @@ Select the webhook connection type.
 
 Paste the Spike webhook URL and the JSON provided below.
 
-![](../.gitbook/assets/group-26.png)
+![](<../.gitbook/assets/Group 26.png>)
 
 
 
-```text
+```
 {
     "Name": "{{Name}}",
     "Description": "{{Description}}",
@@ -55,4 +57,3 @@ Paste the Spike webhook URL and the JSON provided below.
     "SourceURL": "{{SourceURL}}"
 }
 ```
-

@@ -1,11 +1,13 @@
 # Integrate Spike with Moogsoft
 
-### Service and integration <a id="service-and-integration"></a>
+### Service and integration <a href="service-and-integration" id="service-and-integration"></a>
 
-Make sure to add the Moogsoft integration and copying the webhook.[  
+Make sure to add the Moogsoft integration and copying the webhook.[\
 ](https://docs.spike.sh/integrations-guideline/create-integration-and-service-on-dashboard)
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -15,7 +17,7 @@ Make sure to add the Moogsoft integration and copying the webhook.[
 
 From the config, select **outbound integrations**.
 
-![](../.gitbook/assets/image%20%28126%29.png)
+![](<../.gitbook/assets/image (126).png>)
 
 
 
@@ -23,7 +25,7 @@ From the config, select **outbound integrations**.
 
 Select webhooks from the integrations list. 
 
-![](../.gitbook/assets/image%20%2876%29.png)
+![](<../.gitbook/assets/image (89).png>)
 
 
 
@@ -31,5 +33,4 @@ Select webhooks from the integrations list.
 
 Configure the webhook by adding your required filters and pasting the Spike webhook URL.
 
-![](../.gitbook/assets/image%20%2865%29.png)
-
+![](<../.gitbook/assets/image (90).png>)

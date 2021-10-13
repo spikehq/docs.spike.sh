@@ -4,7 +4,9 @@
 
 Make sure to make a Ghost Inspector integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -16,7 +18,7 @@ Make sure to make a Ghost Inspector integration and copy the webhook URL.
 
 Navigate to **Account Settings** from the dashboard. Then go to **Notifications.**
 
-![](../.gitbook/assets/image%20%2897%29.png)
+![](<../.gitbook/assets/image (97) (1).png>)
 
 
 
@@ -24,5 +26,4 @@ Navigate to **Account Settings** from the dashboard. Then go to **Notifications.
 
 Paste the Spike webhook URL and save.
 
-![](../.gitbook/assets/image%20%28121%29.png)
-
+![](<../.gitbook/assets/image (122).png>)

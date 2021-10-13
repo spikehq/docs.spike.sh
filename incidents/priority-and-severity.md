@@ -20,11 +20,11 @@ Available priorities are -
 * **P4** - Low
 * **P5** - Info 
 
-Setting priority is a great way to indicate to your team the urgency to fix it. Additionally, you can setup alert rules to take actions automatically when the incident repeats itself.   
-  
-**Example:**  
-P1 ****- Billing service downtime  
-****P2 ****- DB server running out of storage space
+Setting priority is a great way to indicate to your team the urgency to fix it. Additionally, you can setup alert rules to take actions automatically when the incident repeats itself. \
+\
+**Example:**\
+****P1** **- Billing service downtime\
+****P2** **- DB server running out of storage space
 
 ## Severity
 
@@ -52,15 +52,15 @@ Select incidents and the options for priority, severity, and mute will be availa
 
 
 
-![Set priority on multiple incidents](../.gitbook/assets/priority-on-dashboard.png)
+![Set priority on multiple incidents](<../.gitbook/assets/Priority on dashboard.png>)
 
 ### From Incident page
 
 You will find these options on the incident page for both priority and severity. 
 
-![Setting priority from the incident page](../.gitbook/assets/image%20%2812%29.png)
+![Setting priority from the incident page](<../.gitbook/assets/image (81).png>)
 
-### From integrations \(automated\)
+### From integrations (automated)
 
 Integrations like Azure send priority and severity with their incident details. We will acknowledge this and overwrite your incident's priority and severity.
 
@@ -77,4 +77,3 @@ It's recommended to do so, at least for critical incidents. However, if you woul
 ### Who has access to set and unset?
 
 Everyone. There is no access control because we believe tackling incidents is a team effort. 
-

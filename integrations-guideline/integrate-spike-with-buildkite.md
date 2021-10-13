@@ -4,7 +4,9 @@
 
 Make sure to make a Buildkite integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,7 +16,7 @@ Make sure to make a Buildkite integration and copy the webhook URL.
 
 Navigate to notification services from the menu.
 
-![](../.gitbook/assets/image%20%28143%29.png)
+![](<../.gitbook/assets/image (134).png>)
 
 
 
@@ -22,7 +24,7 @@ Navigate to notification services from the menu.
 
 Select webhooks from the available options.
 
-![](../.gitbook/assets/image%20%28144%29.png)
+![](<../.gitbook/assets/image (135).png>)
 
 
 
@@ -30,7 +32,5 @@ Select webhooks from the available options.
 
 Paste the Spike webhook URL and save.
 
-![](../.gitbook/assets/image%20%28145%29.png)
-
-
+![](<../.gitbook/assets/image (136).png>)
 

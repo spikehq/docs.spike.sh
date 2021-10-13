@@ -4,7 +4,9 @@
 
 Make sure to add the Heroku integration and copying the webhook. 
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 ## Using the webhook with Heroku
 
@@ -18,7 +20,7 @@ You will see an option to “View Webhooks” that will take you to the webhooks
 
 From the **More** dropdown, select View **Webhook**.
 
-![Go to More at the Dashboard](../.gitbook/assets/image%20%2883%29.png)
+![Go to More at the Dashboard](<../.gitbook/assets/image (32).png>)
 
 
 
@@ -26,16 +28,16 @@ From the **More** dropdown, select View **Webhook**.
 
 Click **Create Webhook**
 
-![Click to Create a Webhook](../.gitbook/assets/image%20%2881%29.png)
+![Click to Create a Webhook](<../.gitbook/assets/image (33).png>)
 
 
 
 Step 3
 
-Paste the Spike hook URL in the **Payload-URL** field and fill other necessary details.  
+Paste the Spike hook URL in the **Payload-URL** field and fill other necessary details.\
 Finally, click on **Add Workbook**
 
-![Paste the Wbhook URL](../.gitbook/assets/image%20%2832%29.png)
+![Paste the Wbhook URL](<../.gitbook/assets/image (34).png>)
 
 ## FAQ
 
@@ -47,4 +49,3 @@ Finally, click on **Add Workbook**
 At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
 
 If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
-

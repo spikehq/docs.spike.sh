@@ -12,7 +12,7 @@ After you setup integrations on Spike.sh, these integrations send us payload of 
 
 Sometimes, this parsing fails and your table might see an entry like below - 
 
-![Example of incident message parsing fail](../.gitbook/assets/image%20%28101%29.png)
+![Example of incident message parsing fail](<../.gitbook/assets/image (40).png>)
 
 ### Report with a single click
 
@@ -34,7 +34,7 @@ Yes. Alerts will still be sent however the exact incident message will not be av
 
 ### Is the incident affected?
 
-No. The details of your incident are still available. You can click on the \#ID of the incident and see all the details as you do with other incidents.
+No. The details of your incident are still available. You can click on the #ID of the incident and see all the details as you do with other incidents.
 
 ### Should we take any action?
 
@@ -43,6 +43,4 @@ We would love it if you can please report the incident.
 {% hint style="warning" %}
 Once the parser is fixed, it will not change the message for existing incidents but it will surely pave the way for future incidents
 {% endhint %}
-
-
 

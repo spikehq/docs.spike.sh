@@ -27,9 +27,8 @@ _Here's what we recommend -_
 2. Severe but not critical integration - **60 minutes**
 3. Non-severe and non-critical integration - **Leave it blank.**
 
-You don't need an Acknowledge timeout for _every integration._ 
+You don't need an Acknowledge timeout for _every integration. _
 
 {% hint style="info" %}
 Please make sure to keep a generous timeout and **avoid keeping short times like 5 or 10 minutes**. Keeping short timeouts will end up in way too many alerts you did rather ignore.
 {% endhint %}
-

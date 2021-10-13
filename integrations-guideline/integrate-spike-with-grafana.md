@@ -4,7 +4,9 @@
 
 Make sure to add the Grafana integration and copy the webhook. 
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 ### Using the Webhook with Grafana
 
@@ -16,7 +18,7 @@ Select **Notification Channel** from the menu.
 
 ### Step 2
 
-Click **Add Channel** to create a new Alerting rule.
+Click **Add Channel **to create a new Alerting rule.
 
 ![Add Channel](../.gitbook/assets/grafana-2.png)
 
@@ -44,4 +46,3 @@ This integration automatically resolves it's incidents. You will, however, need 
 At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
 
 If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
-

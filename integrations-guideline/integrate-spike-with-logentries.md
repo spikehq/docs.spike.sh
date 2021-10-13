@@ -4,7 +4,9 @@
 
 Make sure to make a Logentries integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -12,7 +14,7 @@ Make sure to make a Logentries integration and copy the webhook URL.
 
 
 
-**Step 1** 
+**Step 1 **
 
 From the Dashboard, go to alerts.
 
@@ -22,7 +24,5 @@ From the Dashboard, go to alerts.
 
 Paste the Spike webhook URL.
 
-![](../.gitbook/assets/image%20%28112%29.png)
-
-
+![](<../.gitbook/assets/image (116).png>)
 

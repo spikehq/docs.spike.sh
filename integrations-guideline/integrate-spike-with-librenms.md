@@ -4,7 +4,9 @@
 
 Make sure to make a LibreNMS integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -12,21 +14,21 @@ Make sure to make a LibreNMS integration and copy the webhook URL.
 
 **Step 1**
 
-* From the **Alerts** menu, choose **Alert Transports** from the dropdown.
+* From the **Alerts** menu, choose **Alert Transports **from the dropdown.
 * Create a new Alert Transport
 
-![](../.gitbook/assets/image%20%2858%29%20%281%29.png)
+![](<../.gitbook/assets/image (114).png>)
 
 **Step 2**
 
 * Give a **Name** to the Alert Transport
-* Select `Api` ****as **Transport type** 
+* Select `Api`** **as** Transport type** 
 * **Default alert** is toggled to `ON`
 * Choose the **API Method** as `POST`
 * Paste the Spike webhook URL
 * In **Options**, paste the following template given below.
 
-```text
+```
 device_id={{ $device_id }}
 hostname= {{ $hostname }}
 sysName={{ $sysName }}
@@ -66,6 +68,4 @@ timestamp={{ $timestamp }}
 transport={{ $transport }} 
 transport_name={{ $transport_name }}
 ```
-
-
 

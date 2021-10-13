@@ -18,19 +18,19 @@ We will learn how to add slots but before that let's look at some examples of di
 
 If your team members don't wish to be on-call 24 hours of the day then you can add a slot like below wherein the person will only be on-call from **6 PM to 9 AM everyday for Layer 1**
 
-![On-call every from 6 PM to 9 AM](../.gitbook/assets/image.png)
+![On-call every from 6 PM to 9 AM](<../.gitbook/assets/image (69).png>)
 
 ### Slots for specific times and days of week
 
 Alternatively, you can choose for your team members to be on-call on specific times and days of week. In the example below, we have chosen for members to be on-call every **Monday 6 PM to Tuesday 9 AM and then Thursday 6 PM to Friday 6 PM for Layer 1**
 
-![On-call every Monday 6 PM to Tuesday 9 AM and then Thursday 6 PM to Friday 6 PM](../.gitbook/assets/image%20%2830%29.png)
+![On-call every Monday 6 PM to Tuesday 9 AM and then Thursday 6 PM to Friday 6 PM](<../.gitbook/assets/image (70).png>)
 
 ### How to add slots?
 
 While creating or editing an on-call schedule, you will find the option to add slots in every layer. 
 
-![Add slots on each layer](../.gitbook/assets/image%20%2813%29.png)
+![Add slots on each layer](<../.gitbook/assets/image (71).png>)
 
 While slots can be added to each layer, please bear in mind that it will affect the entire on-call schedule. 
 
@@ -49,6 +49,5 @@ Here are some use cases you might helpful.
 2. Let's assume we have maintenance scheduled for the entire day on Thursday and want no-one to be on-call. Here's how you could do it -  multiple slots across the week - Monday 9 AM to Thursday 12 AM and then Friday 12 AM to Monday 9 AM. 
 
 {% hint style="danger" %}
-Avoid overlapping when selecting days and times of week. For ex: Monday 9 AM to Thursday 9 AM and then another condition for Tuesday 9 AM to Friday 9 AM. **In this case, you are overlapping both conditions for Tuesday and Wednesday**. **Please avoid this.** 
+Avoid overlapping when selecting days and times of week. For ex: Monday 9 AM to Thursday 9 AM and then another condition for Tuesday 9 AM to Friday 9 AM. **In this case, you are overlapping both conditions for Tuesday and Wednesday**. **Please avoid this. **
 {% endhint %}
-

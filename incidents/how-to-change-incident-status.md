@@ -49,8 +49,8 @@ Upon status change, the relevant Slack messages will update to reflect them. Thi
 
 Use the following actions to change incident status directly from email by replying - 
 
-1. **\#res** to resolve
-2. **\#ack** to acknowledge
+1. **#res** to resolve
+2. **#ack** to acknowledge
 
 {% hint style="info" %}
 Upon status change, we do not send a confirmation
@@ -60,8 +60,8 @@ Upon status change, we do not send a confirmation
 
 Send Spike.sh an SMS from your registered phone number to change incident status. 
 
-1. **\#&lt;incident\_id&gt; res** to resolve. \(example: \#2071 res\)
-2. **\#&lt;incident\_id&gt; ack** to acknowledge. \(example: \#1226 ack\)
+1. **#\<incident_id> res** to resolve. (example: #2071 res)
+2. **#\<incident_id> ack **to acknowledge. (example: #1226 ack)
 
 The SMS action doesn't depend on replying to our message. It only relies on you sending us a message. This means if you don't have SMS in your escalation policy and then choose to perform the above action, it would still work. 
 
@@ -73,11 +73,9 @@ Upon status change, we do not send a confirmation
 
 Our dashboard page and incident details page are mobile compatible. You can check open incidents and relevant incidents on your mobile and change incident statuses. 
 
-![Incident page on mobile](../.gitbook/assets/image%20%2828%29.png)
+![Incident page on mobile](<../.gitbook/assets/image (73).png>)
 
 {% hint style="info" %}
 visit [https://app.spike.sh](https://app.spike.sh) on mobile to access the dashboard.
 {% endhint %}
-
-
 

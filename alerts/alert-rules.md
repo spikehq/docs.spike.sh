@@ -20,7 +20,7 @@ Don’t see this option? Contact us and we will enable it on your account.
 
 ## **Conditions**
 
-You can create a group of conditions with an AND/OR clause. If any single block of condition\(s\) evaluates to True then we will execute the actions. But first, let's take a look at all the conditions -
+You can create a group of conditions with an AND/OR clause. If any single block of condition(s) evaluates to True then we will execute the actions. But first, let's take a look at all the conditions -
 
 ### 1. Incident title
 
@@ -78,17 +78,15 @@ Assign the incident a Severity. [Learn more about severity](https://docs.spike.s
 
 For an incident, multiple alert rulesets can also be applied. Consider the below example -
 
-![Alert ruleset 1](../.gitbook/assets/image%20%2855%29.png)
+![Alert ruleset 1](<../.gitbook/assets/image (82).png>)
 
-![Alert ruleset 2](../.gitbook/assets/image%20%2811%29.png)
+![Alert ruleset 2](<../.gitbook/assets/image (83).png>)
 
-According the above two alert rulesets, If an incident title contains **syslog** in it then the incident will be marked as **P5 priority** and subsequently, the escalation policy will also change to **Slack dev** \(ref: Alert ruleset 2\)
+According the above two alert rulesets, If an incident title contains **syslog** in it then the incident will be marked as **P5 priority** and subsequently, the escalation policy will also change to **Slack dev** (ref: Alert ruleset 2)
 
 {% hint style="info" %}
 No more than 5 alert configs will be applied to a single incident
 {% endhint %}
-
-
 
 
 

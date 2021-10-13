@@ -4,7 +4,9 @@
 
 Make sure to make a Logz.io integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,9 +16,9 @@ Make sure to make a Logz.io integration and copy the webhook URL.
 
 **Step 1**
 
-From the Alerts tab, go to **Notification Endpoints.** 
+From the Alerts tab, go to **Notification Endpoints. **
 
-![](../.gitbook/assets/image%20%2892%29.png)
+![](<../.gitbook/assets/image (117).png>)
 
 
 
@@ -26,7 +28,7 @@ Add a new notification endpoint. Paste the Spike webhook URL and make the reques
 
 Paste the below template and save.
 
-```text
+```
 {
     "alert_title": "{{alert_title}}",
     "alert_description": "{{alert_description}}",
@@ -40,7 +42,5 @@ Paste the below template and save.
 
 
 
-![](../.gitbook/assets/image%20%28130%29.png)
-
-
+![](<../.gitbook/assets/image (120).png>)
 

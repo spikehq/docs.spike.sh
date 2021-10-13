@@ -4,7 +4,9 @@
 
 Make sure to make a Coralogix integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,7 +16,7 @@ Make sure to make a Coralogix integration and copy the webhook URL.
 
 From the dashboard, go to **settings**.
 
-![](../.gitbook/assets/image%20%28110%29%20%281%29.png)
+![](<../.gitbook/assets/image (110) (1).png>)
 
 
 
@@ -22,7 +24,7 @@ From the dashboard, go to **settings**.
 
 Select webhooks from the top menu and add a new webhook.
 
-![](../.gitbook/assets/image%20%28100%29.png)
+![](<../.gitbook/assets/image (105).png>)
 
 
 
@@ -30,5 +32,4 @@ Select webhooks from the top menu and add a new webhook.
 
 Paste the Spike webhook URL and select POST.
 
-![](../.gitbook/assets/image%20%2869%29.png)
-
+![](<../.gitbook/assets/image (106).png>)

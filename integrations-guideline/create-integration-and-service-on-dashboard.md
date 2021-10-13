@@ -9,18 +9,18 @@ description: >-
 
 ## **What is a service?**
 
-**You can think of services as a microservice.** Services are a way to scope your internal services from your architecture. Each of your services can have multiple integrations and you can create an unlimited number of services. We highly encourage you to create different services for each of your different modules.
+**You can think of services as a microservice. **Services are a way to scope your internal services from your architecture. Each of your services can have multiple integrations and you can create an unlimited number of services. We highly encourage you to create different services for each of your different modules.
 
 [Learn more about services](https://docs.spike.sh/services/introduction-to-services-on-spike).
 
 ## Adding service
 
-![](../.gitbook/assets/image%20%2825%29.png)
+![](<../.gitbook/assets/image (58).png>)
 
 You can create a new service by clicking on the [New Service button](https://app.spike.sh/services/new) on the [services page](https://app.spike.sh/services).
 
-Give it an appropriate name, **for ex: Billing service**. \( This way you can also integrate your payment gateway by adding another integration for every time payments fail \). Hit **Create service!**  
-
+Give it an appropriate name, **for ex: Billing service**. ( This way you can also integrate your payment gateway by adding another integration for every time payments fail ). Hit **Create service!**\
+****
 
 Once the service is created you will be able to see an overview of your service with all of it's integrations. 
 
@@ -28,9 +28,9 @@ Once the service is created you will be able to see an overview of your service 
 
 From the header, select Add integration. Optionally, on the sidebar select integrations and then add integration.
 
-![Step 1 - Select an integration](../.gitbook/assets/image%20%2854%29.png)
+![Step 1 - Select an integration](<../.gitbook/assets/image (19).png>)
 
-![Step 2 - add service, escalation, Acknowledge timeout](../.gitbook/assets/image%20%28106%29.png)
+![Step 2 - add service, escalation, Acknowledge timeout](<../.gitbook/assets/image (20).png>)
 
 [Acknowledge timeout](https://docs.spike.sh/incidents/acknowledge-timeout) and repeat escalations are optional but we highly recommend it. 
 
@@ -47,6 +47,5 @@ Make sure to use the Pingdom webhook in Pingdom. Using it on other integrations 
 {% endhint %}
 
 {% hint style="success" %}
-Not able to find an integration you are looking for?? Use the **Webhook** integration instead and paste it on any service. 
+Not able to find an integration you are looking for?? Use the **Webhook **integration instead and paste it on any service. 
 {% endhint %}
-

@@ -4,7 +4,9 @@
 
 Make sure to add the Twilio integration and copying the webhook. 
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,15 +16,15 @@ On [Twilio](https://twilio.com/console) console, setup **debugger and usage trig
 
 **Usage triggers**
 
-On the console, visit **Usage &gt; Triggers**. You can setup multiple triggers with various webhooks. 
+On the console, visit **Usage > Triggers**. You can setup multiple triggers with various webhooks. 
 
 ![Setup Usage triggers on twilio and receive alerts on Spike.sh](../.gitbook/assets/twilio-with-spike-1.png)
 
 **Debugger alerts**
 
-On the side panel, click on **All products & services &gt; Runtime &gt; Debugger.** You can setup multiple triggers with a single or more webhooks. 
+On the side panel, click on **All products & services > Runtime > Debugger. **You can setup multiple triggers with a single or more webhooks. 
 
-![Upon every debugger issue caught by twilio, get an alert from Spike.sh](../.gitbook/assets/image%20%28108%29.png)
+![Upon every debugger issue caught by twilio, get an alert from Spike.sh](<../.gitbook/assets/image (17).png>)
 
 
 
@@ -36,4 +38,3 @@ On the side panel, click on **All products & services &gt; Runtime &gt; Debugger
 At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
 
 If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
-

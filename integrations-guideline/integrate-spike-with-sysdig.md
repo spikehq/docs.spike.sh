@@ -4,7 +4,9 @@
 
 Make sure to make a Sysdig integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,7 +16,7 @@ Make sure to make a Sysdig integration and copy the webhook URL.
 
 Navigate to **Notification Channel** and add a new channel.
 
-![](../.gitbook/assets/image%20%28138%29.png)
+![](<../.gitbook/assets/image (128).png>)
 
 
 
@@ -22,7 +24,7 @@ Navigate to **Notification Channel** and add a new channel.
 
 Select webhooks from the available options
 
-![](../.gitbook/assets/image%20%28140%29.png)
+![](<../.gitbook/assets/image (129).png>)
 
 
 
@@ -30,11 +32,10 @@ Select webhooks from the available options
 
 Paste the Spike webhook URL and save.
 
-![](../.gitbook/assets/image%20%28136%29.png)
+![](<../.gitbook/assets/image (130).png>)
 
 
 
 {% hint style="success" %}
 This integration auto resolves
 {% endhint %}
-

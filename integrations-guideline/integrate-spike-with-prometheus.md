@@ -4,9 +4,11 @@
 
 Make sure to add the Grafana integration and copy the webhook. 
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
-### 
+###
 
 ### Using the Webhook with Grafana
 
@@ -35,4 +37,3 @@ This integration auto resolves itself
 
 
 If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
-

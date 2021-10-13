@@ -10,7 +10,9 @@ description: >-
 
 Make sure you have the service and integration already setup for Pingdom. Follow the link below on instructions of how to create integration and service
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 ## Use the webhook on Pingdom
 
@@ -18,7 +20,7 @@ Login to [pingdom](https://my.pingdom.com) and navigate to [Integrations page](h
 
 You can choose to edit or add a new one. Enter the webhook you copied in the above step.
 
-![Adding spike&apos;s webhook on pingdom](../.gitbook/assets/1%20%281%29.png)
+![Adding spike's webhook on pingdom](../.gitbook/assets/1.png)
 
 Once you have saved it, you can use this for all monitoring. For uptime checks, navigate to the [uptime section](https://my.pingdom.com/newchecks/checks) under **Experience monitoring.**
 
@@ -40,4 +42,3 @@ Select one or more checks and edit to select the webhook at the bottom of the mo
 At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
 
 If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
-

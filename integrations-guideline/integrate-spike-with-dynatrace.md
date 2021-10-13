@@ -4,7 +4,9 @@
 
 Make sure to make a Dynatrace integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -12,11 +14,11 @@ Make sure to make a Dynatrace integration and copy the webhook URL.
 
 #### Step 1
 
-From your Dynatrace dashboard, navigate to &gt; Settings &gt; Integration &gt; Problem notifications.
+From your Dynatrace dashboard, navigate to > Settings > Integration > Problem notifications.
 
 From the available options, select **custom integration.**
 
-![](../.gitbook/assets/image%20%2874%29.png)
+![](<../.gitbook/assets/image (97).png>)
 
 
 
@@ -24,11 +26,11 @@ From the available options, select **custom integration.**
 
 Paste the Spike webhook URL.
 
-![](../.gitbook/assets/image%20%2822%29.png)
+![](<../.gitbook/assets/image (99).png>)
 
 Paste the following JSON payload in the **Custom payload** section of the integration.
 
-```text
+```
 {
     "State": "{State}",
     "ProblemID": "{ProblemID}",
@@ -47,6 +49,4 @@ Paste the following JSON payload in the **Custom payload** section of the integr
 {% hint style="success" %}
 This integration auto resolves.
 {% endhint %}
-
-
 

@@ -4,7 +4,9 @@
 
 Make sure to make a Buildkite integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -12,7 +14,7 @@ Make sure to make a Buildkite integration and copy the webhook URL.
 
 
 
-#### Semaphore provides the option to trigger alerts by filtering by pipeline results <a id="filtering-by-pipeline-result"></a>
+#### Semaphore provides the option to trigger alerts by filtering by pipeline results <a href="filtering-by-pipeline-result" id="filtering-by-pipeline-result"></a>
 
 You can specify notifications to be sent only on specific pipeline results.
 
@@ -25,7 +27,7 @@ Available values for the results filter are:
 
 Example YAML configuration:
 
-```text
+```
 # notify-on-fail.yml
 
 apiVersion: v1alpha
@@ -50,6 +52,4 @@ spec:
 Create the notification flow above using the following command
 
 `sem create -f notify-on-fail.yml`
-
-
 

@@ -4,7 +4,9 @@
 
 Make sure to add the AppDynamics integration and copying the webhook.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,32 +16,32 @@ Make sure to add the AppDynamics integration and copying the webhook.
 
 From the dashboard,  go to the Alert & Respond menu.
 
-![](../.gitbook/assets/image%20%2898%29%20%281%29%20%281%29.png)
+![](<../.gitbook/assets/image (98).png>)
 
-#### 
+####
 
 #### Step 2
 
  Select HTTP Request Templates.
 
-![](../.gitbook/assets/image%20%2868%29.png)
+![](<../.gitbook/assets/image (94).png>)
 
-#### 
+####
 
 #### Step 3
 
-Add a Custom Templating Variable named `sc_event_type` and the default value as `triggered`.  
+Add a Custom Templating Variable named `sc_event_type` and the default value as `triggered`.\
 Paste the Spike webhook URL
 
-![](../.gitbook/assets/image%20%2879%29.png)
+![](<../.gitbook/assets/image (95).png>)
 
 #### Step 4
 
 Paste the webhook provided below and add success criteria
 
-![](../.gitbook/assets/image%20%2861%29.png)
+![](<../.gitbook/assets/image (96).png>)
 
-```text
+```
 {
     "description": "${latestEvent.displayName} on ${latestEvent.node.name}",
     "client": "AppDynamics",
@@ -67,4 +69,3 @@ Paste the webhook provided below and add success criteria
 {% hint style="success" %}
 This integration auto resolves
 {% endhint %}
-

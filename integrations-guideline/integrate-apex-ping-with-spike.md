@@ -11,11 +11,13 @@ description: >-
 
 Make sure you have the service and integration already setup for Apex ping. Follow the link below on instructions of how to create integration and service
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 ## Use the webhook on Apex ping
 
-Login into [Apex.sh/ping](https://ping.apex.sh/) account and visit the [alerts page](https://ping.apex.sh/alerts) to being your integration.
+Login into [Apex.sh/ping](https://ping.apex.sh) account and visit the [alerts page](https://ping.apex.sh/alerts) to being your integration.
 
 ![](../.gitbook/assets/apex-ping.png)
 
@@ -43,4 +45,3 @@ This integration supports auto resolution.
 At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
 
 If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
-

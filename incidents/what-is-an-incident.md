@@ -37,9 +37,8 @@ When an incident is **triggered**, Spike loads the escalation policy attached to
 
 ### Acknowledged
 
-An **acknowledged** incident would mean that the work for the resolution of incident is ongoing. In this state, we **do not** send any alerts and stop the escalation policy to where it stands. You can customise the settings to have a timeout for amount of time the incident remains in acknowledged state and does not get resolved. Once this timeout reaches, we change the status to triggered and start sending alerts again. _The acknowledge timeout setting is optional._ In this state, repeat incidents are automatically suppressed and logged reducing alert fatigue
+An **acknowledged** incident would mean that the work for the resolution of incident is ongoing. In this state, we **do not **send any alerts and stop the escalation policy to where it stands. You can customise the settings to have a timeout for amount of time the incident remains in acknowledged state and does not get resolved. Once this timeout reaches, we change the status to triggered and start sending alerts again. _The acknowledge timeout setting is optional. _In this state, repeat incidents are automatically suppressed and logged reducing alert fatigue
 
 ### Resolved
 
 Once incident has been fixed, you can mark it as **resolved**. In this case, no alerts are sent and escalation policy resets in case if there is a new incident again.
-

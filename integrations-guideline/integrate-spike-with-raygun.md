@@ -1,14 +1,16 @@
 ---
-description: 'How to get Phone, SMS and Slack alerts from Raygun?'
+description: How to get Phone, SMS and Slack alerts from Raygun?
 ---
 
 # Integrate Spike with Raygun
 
-## Service and integration <a id="service-and-integration"></a>
+## Service and integration <a href="service-and-integration" id="service-and-integration"></a>
 
 Make sure to add the Raygun Integration and copy the webhook.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 ### Using the Webhook with Raygun
 
@@ -16,7 +18,7 @@ Make sure to add the Raygun Integration and copy the webhook.
 
 From the [dashboard](https://app.raygun.com/settings), go to integrations and choose webhook integration.
 
-![Select webhook from the integration page](../.gitbook/assets/group-1%20%286%29.png)
+![Select webhook from the integration page](<../.gitbook/assets/Group 1 (4).png>)
 
 
 
@@ -24,7 +26,5 @@ From the [dashboard](https://app.raygun.com/settings), go to integrations and ch
 
 Paste the Spike  webhook URL and save.
 
-![Paste the spike webhook ](../.gitbook/assets/group-2%20%288%29.png)
-
-
+![Paste the spike webhook ](<../.gitbook/assets/Group 2 (5).png>)
 

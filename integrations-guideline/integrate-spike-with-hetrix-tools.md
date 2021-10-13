@@ -4,7 +4,9 @@
 
 Make sure to make a Hetrix Tools integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -16,15 +18,13 @@ Make sure to make a Hetrix Tools integration and copy the webhook URL.
 
 Navigate to **Contact Lists** and create a new contact.
 
-![](../.gitbook/assets/image%20%28132%29.png)
+![](<../.gitbook/assets/image (123).png>)
 
 
 
-**Step 2** 
+**Step 2 **
 
 Select webhooks from the options and paste the Spike webhook URL.
 
-![](../.gitbook/assets/image%20%28133%29.png)
-
-
+![](<../.gitbook/assets/image (124).png>)
 

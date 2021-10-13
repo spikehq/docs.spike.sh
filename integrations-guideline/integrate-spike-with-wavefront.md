@@ -4,7 +4,9 @@
 
 Make sure to make a Wavefront integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,7 +16,7 @@ Make sure to make a Wavefront integration and copy the webhook URL.
 
 Navigate to the integrations page and search for webhooks 
 
-![](../.gitbook/assets/image%20%28135%29.png)
+![](<../.gitbook/assets/image (131).png>)
 
 
 
@@ -22,7 +24,7 @@ Navigate to the integrations page and search for webhooks
 
 Select webhooks from the available options
 
-![](../.gitbook/assets/image%20%28134%29.png)
+![](<../.gitbook/assets/image (132).png>)
 
 
 
@@ -30,5 +32,4 @@ Select webhooks from the available options
 
 ‌Paste the Spike webhook URL. Choose the **generic webhook** **template** and then save.
 
-![](../.gitbook/assets/image%20%28139%29.png)
-
+![](<../.gitbook/assets/image (133).png>)

@@ -4,7 +4,9 @@
 
 Make sure to make an Uptime Kuma integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,11 +16,10 @@ Make sure to make an Uptime Kuma integration and copy the webhook URL.
 
 Navigate to Settings and setup webhook notification
 
-![](../.gitbook/assets/image%20%2863%29.png)
+![](<../.gitbook/assets/image (115).png>)
 
 
 
-**Step 2** 
+**Step 2 **
 
 Paste the Spike webhook URL and save.
-
