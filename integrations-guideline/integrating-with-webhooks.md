@@ -52,11 +52,11 @@ Sets the priority on your incident. Options are
 {% endswagger-response %}
 {% endswagger %}
 
-The above request will create a new incident. Please make sure you have used the correct webhook URL. If you have copied the URL from the dashboard then the **token**_** **_**should already be present. **A new incident is created soon as make a POST request. A successful request will get you 200 HTTP response status code. 
+The above request will create a new incident. Please make sure you have used the correct webhook URL. If you have copied the URL from the dashboard then the **token **_****_** should already be present.** A new incident is created soon as make a POST request. A successful request will get you 200 HTTP response status code.&#x20;
 
 ### **When is a new incident NOT created?**
 
-If the integration has an open incident (_not resolved state_)_ _with the same title then a new incident will NOT be created.
+If the integration has an open incident (_not resolved state_) __ with the same title then a new incident will NOT be created.
 
 ### What is the title's significance?
 
@@ -64,7 +64,7 @@ The **title** plays an important role really. A new incident will use this title
 
 ### What happens if I miss adding a title?
 
-Failing to add **title **would create incidents with no message. This also means that it will NOT group, suppress or auto-resolve these incidents.
+Failing to add **title** would create incidents with no message. This also means that it will NOT group, suppress or auto-resolve these incidents.
 
 {% hint style="info" %}
 We highly recommend you add a title to your POST request while creating an incident
@@ -104,9 +104,9 @@ This will be the title of your incident. Failing to add this will create an empt
 {% endswagger-response %}
 {% endswagger %}
 
-The above request will automatically resolve incidents. We use the title and the token to uniquely get open incidents and resolve them. 
+The above request will automatically resolve incidents. We use the title and the token to uniquely get open incidents and resolve them.&#x20;
 
-All you need is to add the **status parameter as 'resolve' **in your POST request. The rest of the parameters are the same as creating incident request.
+All you need is to add the **status parameter as 'resolve'** in your POST request. The rest of the parameters are the same as creating incident request.
 
 {% hint style="warning" %}
 Make sure to have the same **title while resolving,** otherwise it won't work.

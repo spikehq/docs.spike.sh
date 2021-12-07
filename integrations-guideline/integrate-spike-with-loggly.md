@@ -2,7 +2,7 @@
 
 ### Service and integration
 
-Make sure to add the Stackify integration and copy the webhook. 
+Make sure to add the Stackify integration and copy the webhook.&#x20;
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -14,7 +14,7 @@ Make sure to add the Stackify integration and copy the webhook.
 
 #### Step 1
 
-On the alerts page, navigate to the **alert endpoints **tab. Choose to create a new endpoint.
+On the alerts page, navigate to the **alert endpoints** tab. Choose to create a new endpoint.
 
 ![Create Endpoint](<../.gitbook/assets/Group 34.png>)
 

@@ -20,6 +20,6 @@ Navigate to Settings and setup webhook notification
 
 
 
-**Step 2 **
+**Step 2**&#x20;
 
 Paste the Spike webhook URL and save.

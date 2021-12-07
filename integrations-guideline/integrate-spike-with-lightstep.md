@@ -32,7 +32,7 @@ Select the type of alert you want to create.
 
 #### Step 3
 
-In the **Notification destinations **section, choose webhook from the dropdown. Then paste the spike webhook URL and save.
+In the **Notification destinations** section, choose webhook from the dropdown. Then paste the spike webhook URL and save.
 
 ![](<../.gitbook/assets/Group 3 (4).png>)
 

@@ -2,7 +2,7 @@
 
 ### Service and integration
 
-Make sure to add the Needle integration and copy the webhook. 
+Make sure to add the Needle integration and copy the webhook.&#x20;
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -12,7 +12,7 @@ Make sure to add the Needle integration and copy the webhook.
 
 ### Using the webhook with Needle.sh
 
-Go to **Security** section from the side navigation and chose **Alert Settings **option.
+Go to **Security** section from the side navigation and chose **Alert Settings** option.
 
 ![Choose Alert Settings](../.gitbook/assets/needle-1.png)
 
@@ -20,7 +20,7 @@ Go to **Security** section from the side navigation and chose **Alert Settings *
 
 
 
-Chose to **Add Webhook **option from the settings and paste the spike hooks URL.
+Chose to **Add Webhook** option from the settings and paste the spike hooks URL.
 
 ![Choose Webhook](../.gitbook/assets/needle-2.png)
 

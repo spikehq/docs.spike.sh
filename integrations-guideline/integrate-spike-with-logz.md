@@ -16,7 +16,7 @@ Make sure to make a Logz.io integration and copy the webhook URL.
 
 **Step 1**
 
-From the Alerts tab, go to **Notification Endpoints. **
+From the Alerts tab, go to **Notification Endpoints.**&#x20;
 
 ![](<../.gitbook/assets/image (117).png>)
 

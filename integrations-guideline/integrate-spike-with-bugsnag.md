@@ -10,13 +10,13 @@ description: >-
 
 With Bugsnag integration, you can -
 
-*  Add unlimited Bugsnag integrations for each of your checks in different services
+* &#x20;Add unlimited Bugsnag integrations for each of your checks in different services
 * Receive error alerts for all projects when logged on Bugsnag
 * Monitor your business for all clients including tvOS
 * Segment and get alerts for the right errors
 * Alert the right person/team with multiple Bugsnag integrations across your services
 
-Make sure to add the Bugsnag integration and copy the webhook. 
+Make sure to add the Bugsnag integration and copy the webhook.&#x20;
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -26,7 +26,7 @@ Make sure to add the Bugsnag integration and copy the webhook.
 
 ### Step 1
 
-Choose your project and goto **Settings. **Choose **Data Forwarding** to view all the options.
+Choose your project and goto **Settings.** Choose **Data Forwarding** to view all the options.
 
 ![](../.gitbook/assets/bugsnag-1.png)
 

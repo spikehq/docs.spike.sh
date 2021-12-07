@@ -9,7 +9,7 @@ description: >-
 
 ## Get e-mail alerts for your incident from Spike
 
-In your escalation policy, you can choose to receive e-mail alert by selecting the **e-mail **option and the member who should receive it. 
+In your escalation policy, you can choose to receive e-mail alert by selecting the **e-mail** option and the member who should receive it.&#x20;
 
 ![e-mail alert on Spike](<../.gitbook/assets/image (1).png>)
 

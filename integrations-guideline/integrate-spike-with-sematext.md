@@ -20,13 +20,13 @@ Create a new Sematext integration. Follow the steps in the link below to create 
 
 ### Step 1
 
-From the [Sematext Hook](https://apps.sematext.com/ui/hooks) dashboard,** Create New** alert.
+From the [Sematext Hook](https://apps.sematext.com/ui/hooks) dashboard, **Create New** alert.
 
 ![Select to add Alerts](../.gitbook/assets/sematext-1.png)
 
 ### Step 2
 
-From the list of options, select **Spike.sh**. 
+From the list of options, select **Spike.sh**.&#x20;
 
 ![Select WebHook](../.gitbook/assets/sematext-2.png)
 

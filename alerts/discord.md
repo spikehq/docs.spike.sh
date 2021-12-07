@@ -8,7 +8,7 @@ description: >-
 
 ## Get Discord notifications from Spike.sh
 
-Our Discord alert channel is incredibly simple yet informative. Once you add Discord alert channel, you will get a neat hello from us. On every new incident, you will get Incident details along with the link to navigate and take action. 
+Our Discord alert channel is incredibly simple yet informative. Once you add Discord alert channel, you will get a neat hello from us. On every new incident, you will get Incident details along with the link to navigate and take action.&#x20;
 
 ![Discord alerts from Spike.sh](<../.gitbook/assets/image (78).png>)
 
@@ -18,7 +18,7 @@ With Discord, you can get alerts on your Discord workspace using the channel web
 
 **Step 1**
 
-Navigate to any channel's **settings** > **integrations. **Select the webhook integration on the integrations page.
+Navigate to any channel's **settings** > **integrations.** Select the webhook integration on the integrations page.
 
 ![](../.gitbook/assets/discord-1.png)
 
@@ -26,7 +26,7 @@ Navigate to any channel's **settings** > **integrations. **Select the webhook in
 
 **Step 2**
 
-Name the integration Spike.sh and copy the webhook URL. Download the below badge to use it as the avatar. 
+Name the integration Spike.sh and copy the webhook URL. Download the below badge to use it as the avatar.&#x20;
 
 {% file src="../.gitbook/assets/spike-badge-400.png" %}
 Spike.sh badge for Discord
@@ -38,7 +38,7 @@ Spike.sh badge for Discord
 
 **Step 3**
 
-On Spike dashboard, navigate to **settings >** **organisation. **Paste the copied webhook URL in the Discord setup and save.
+On Spike dashboard, navigate to **settings >** **organisation.** Paste the copied webhook URL in the Discord setup and save.
 
 ![Save the copied webhook url](../.gitbook/assets/discord-3.png)
 

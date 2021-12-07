@@ -13,7 +13,7 @@ Make sure to add the Splunk integration and copy the webhook.[\
 
 #### Step 1
 
-Go to the **Alerts **page from the left menu.
+Go to the **Alerts** page from the left menu.
 
 ![](<../.gitbook/assets/Group 22.png>)
 

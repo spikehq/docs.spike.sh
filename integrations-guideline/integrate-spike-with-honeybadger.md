@@ -26,7 +26,7 @@ From the [Honeybadger](https://app.honeybadger.io) dashboard, select your projec
 
 ### Step 2
 
-Scroll down till you find **WebHook **option and select it.
+Scroll down till you find **WebHook** option and select it.
 
 ![Select WebHook from the list](<../.gitbook/assets/image (26).png>)
 

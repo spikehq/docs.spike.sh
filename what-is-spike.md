@@ -1,10 +1,10 @@
 # What is Spike.sh?
 
-Spike.sh is a simple incident management platform. We help you by alerting the right team members about incidents that affect your customer. 
+Spike.sh is a simple incident management platform. We help you by alerting the right team members about incidents that affect your customer.&#x20;
 
 ## Focusing on simplicity
 
-Spike.sh's mission is to reduce the complexity of managing incidents and make it simple so teams of all sizes use it. 
+Spike.sh's mission is to reduce the complexity of managing incidents and make it simple so teams of all sizes use it.&#x20;
 
 **Our platform consists of a few modules -**
 
@@ -17,7 +17,7 @@ Spike.sh's mission is to reduce the complexity of managing incidents and make it
 7. Reports
 
 {% hint style="info" %}
-To get in depth, please reach out to us at [demo@spike.sh](mailto:demo@spike.sh) or book a call directly on our [calendar](https://spike.sh/demo). 
+To get in depth, please reach out to us at [demo@spike.sh](mailto:demo@spike.sh) or book a call directly on our [calendar](https://spike.sh/demo).&#x20;
 {% endhint %}
 
 ### Integrations
@@ -38,7 +38,7 @@ We have a growing [list of integrations](https://spike.sh/integrations). If you 
 
 ![Services on spike](<.gitbook/assets/affected services.png>)
 
-**You can think of services as a microservice. **Services are a way to scope your internal services from your architecture. Each of your service can have multiple integrations and you can create unlimited number of services. We highly encourage you to create different services for each of your different modules.
+**You can think of services as a microservice.** Services are a way to scope your internal services from your architecture. Each of your service can have multiple integrations and you can create unlimited number of services. We highly encourage you to create different services for each of your different modules.
 
 You can create services by just adding a name to it. No other field is required. With the power of unlimited services, you can create a blueprint of your entire architecture on Spike. This way, we will tell which service is affected and what is the current health status in terms of open incidents.
 

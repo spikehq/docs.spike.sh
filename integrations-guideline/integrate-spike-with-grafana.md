@@ -2,7 +2,7 @@
 
 ### Service and integration
 
-Make sure to add the Grafana integration and copy the webhook. 
+Make sure to add the Grafana integration and copy the webhook.&#x20;
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -18,7 +18,7 @@ Select **Notification Channel** from the menu.
 
 ### Step 2
 
-Click **Add Channel **to create a new Alerting rule.
+Click **Add Channel** to create a new Alerting rule.
 
 ![Add Channel](../.gitbook/assets/grafana-2.png)
 
@@ -26,7 +26,7 @@ Click **Add Channel **to create a new Alerting rule.
 
 ### Step 3
 
-Choose a Name for the channel and type to be **Webhook**. 
+Choose a Name for the channel and type to be **Webhook**.&#x20;
 
 Paste the webhook URL under **Webhook Settings**.
 

@@ -6,7 +6,7 @@ description: How to get Phone, SMS and Slack alerts from Site24x7?
 
 ### Service and integration
 
-Make sure to add the Site24x7 integration and copy the webhook. 
+Make sure to add the Site24x7 integration and copy the webhook.&#x20;
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -34,7 +34,7 @@ From the left panel, open the Admin panel and choose **Third-party Integrations*
 
 ### Step 3
 
-Select Webhooks from the integrations window. 
+Select Webhooks from the integrations window.&#x20;
 
 ![Select Webhhoks](<../.gitbook/assets/Group 3.png>)
 
@@ -42,7 +42,7 @@ Select Webhooks from the integrations window.
 
 ### Step 4
 
-Paste the Spike.sh webhook link. Make sure to mark the HTTP method as **POST **and **post as JSON.**
+Paste the Spike.sh webhook link. Make sure to mark the HTTP method as **POST** and **post as JSON.**
 
 ![](<../.gitbook/assets/image (3) (1).png>)
 

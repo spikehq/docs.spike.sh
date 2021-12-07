@@ -6,7 +6,7 @@ description: Get alerts on your Microsoft Teams from Spike.sh
 
 ## Get Teams alerts from Spike.sh
 
-The alert messages on Microsoft Teams (referred to as Teams from here on) comes with gists for you and your team to quickly learn about the incident. 
+The alert messages on Microsoft Teams (referred to as Teams from here on) comes with gists for you and your team to quickly learn about the incident.&#x20;
 
 ![How alerts look on Teams](<../.gitbook/assets/image (59).png>)
 
@@ -14,7 +14,7 @@ The alert messages on Microsoft Teams (referred to as Teams from here on) comes 
 
 **Step 1 - Setup incoming webhook**
 
-Go to the Apps section in your teams account and install the **Incoming Webhook **app (created by Microsoft).
+Go to the Apps section in your teams account and install the **Incoming Webhook** app (created by Microsoft).
 
 ![Install the Incoming Webhook app](<../.gitbook/assets/Screenshot 2021-03-04 at 5.41.41 PM.png>)
 
@@ -42,11 +42,11 @@ Make sure to paste the exact URL from above. Any changes in the URL might result
 Once integrated, we will send a sample alert to your configured Teams channel
 {% endhint %}
 
-A friendly name will help you identify this integration while creating escalation policies. Like below - 
+A friendly name will help you identify this integration while creating escalation policies. Like below -&#x20;
 
 ![Using Teams in Escalation policies](<../.gitbook/assets/image (64).png>)
 
-You can create multiple Teams integrations with different incoming webhooks configured on Teams. 
+You can create multiple Teams integrations with different incoming webhooks configured on Teams.&#x20;
 
 {% hint style="success" %}
 Our MS Team alert channel accepts inputs from you to acknowledge or resolve an incident.

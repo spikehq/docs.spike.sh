@@ -16,7 +16,7 @@ New Relic is a platform built to help engineers analyze, troubleshoot, and optim
 
 ### Step 1
 
-Start by going to **notification channels **in the left menu.
+Start by going to **notification channels** in the left menu.
 
 ![Select notification channels](../.gitbook/assets/new-relic-1.png)
 
@@ -29,7 +29,7 @@ In the Notification Channel, click to create a new channel and select **Webhooks
 ### Step 3
 
 * Configure the webhook as shown in the figure and **paste the Spike.sh webhook in Base Url** input.
-* Paste the custom payload from below and please make sure to not make any edits to the payload. 
+* Paste the custom payload from below and please make sure to not make any edits to the payload.&#x20;
 
 ```
 {

@@ -6,10 +6,10 @@ description: Create a badge for your integration or service to embed in any mark
 
 ## How to create and embed a badge?
 
-On your integration or service page, click on **settings > Create badge. **Copy and use the code on any markdown files such as 
+On your integration or service page, click on **settings > Create badge.** Copy and use the code on any markdown files such as&#x20;
 
-* GitHub  
-* GitLab 
+* GitHub &#x20;
+* GitLab&#x20;
 * Obsidian
 * Roam research
 * [and others..](https://www.markdownguide.org/tools/)
@@ -28,5 +28,5 @@ Upon clicking the badge, it will take you to the service or integration page you
 
 ### Who can access the pages?
 
-By default, only users from your organisation on Spike.sh can access the integration or escalation page. 
+By default, only users from your organisation on Spike.sh can access the integration or escalation page.&#x20;
 

@@ -6,7 +6,7 @@ description: SMS alerts from Spike.sh. Not all incidents need a phone call to wa
 
 ## Get SMS alerts
 
-SMS alerts are now supported for all regions. Please note that currently, you _cannot _change the status of an incident by replying. 
+SMS alerts are now supported for all regions. Please note that currently, you _cannot_ change the status of an incident by replying.&#x20;
 
 ![SMS alerts on Spike.sh](../.gitbook/assets/SMS-on-Spike-sh.png)
 

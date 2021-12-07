@@ -2,7 +2,7 @@
 
 ### Service and integration
 
-Make sure to add the Datadog integration and copying the webhook. 
+Make sure to add the Datadog integration and copying the webhook.&#x20;
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -42,8 +42,8 @@ Copy the below payload and paste it on Datadog. Alternatively, you can add your 
 
 {% hint style="warning" %}
 Make sure to \
-1\. Add **$AGGREG_KEY **so your incidents will auto-resolve.\
-2\. Add **$ALERT_TRANSITION** so we know if the event is for triggering or  resolving.
+1\. Add **$AGGREG\_KEY** so your incidents will auto-resolve.\
+2\. Add **$ALERT\_TRANSITION** so we know if the event is for triggering or  resolving.
 {% endhint %}
 
 ```

@@ -6,13 +6,13 @@ description: Learn more about roles and their access privileges on Spike.sh
 
 These are the different roles available:
 
-1. **Admin - **can remove anyone from the team
+1. **Admin -** can remove anyone from the team
 2. **Member -** cannot remove anyone from the team
-3. **Support - **Cannot remove anyone from the team and cannot change incident status. 
+3. **Support -** Cannot remove anyone from the team and cannot change incident status.&#x20;
 
 ### Access control
 
-In accordance to keeping it simple for you and your team members to use our platform, we have kept access control simple with transparency in mind. 
+In accordance to keeping it simple for you and your team members to use our platform, we have kept access control simple with transparency in mind.&#x20;
 
 | Feature                | Access                  |
 | ---------------------- | ----------------------- |

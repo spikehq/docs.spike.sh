@@ -4,7 +4,7 @@ description: How to add team members on Spike?
 
 # Adding team members
 
-Adding team members on Spike is very easy. Click on the **Add team **link on the header to invite your team.
+Adding team members on Spike is very easy. Click on the **Add team** link on the header to invite your team.
 
 Anyone on Spike.sh can add a team member. Your organisation will also have a **unique invite link** which can be shared with your other teammates to join you.
 

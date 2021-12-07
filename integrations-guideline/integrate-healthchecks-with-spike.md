@@ -19,14 +19,14 @@ Make sure you have the service and integration already setup for Healthchecks. F
 
 ![Spike.sh on Healthchecks.io](<../.gitbook/assets/image (36).png>)
 
-You can use our native **Spike.sh** integration on [**Healthchecks.io**](https://healthchecks.io)**. **Copy the webhook from above steps after creating an integration. Next, paste it on Healthchecks.io, simple as that. 
+You can use our native **Spike.sh** integration on [**Healthchecks.io**](https://healthchecks.io)**.** Copy the webhook from above steps after creating an integration. Next, paste it on Healthchecks.io, simple as that.&#x20;
 
 {% hint style="success" %}
 This integration supports auto resolution.
 {% endhint %}
 
 {% hint style="warning" %}
-If you are using the webhook integration with Healthchecks.io then feel free to create a new integration as mentioned above and **delete the webhook**. The native integration is more robust and is the recommended way. 
+If you are using the webhook integration with Healthchecks.io then feel free to create a new integration as mentioned above and **delete the webhook**. The native integration is more robust and is the recommended way.&#x20;
 {% endhint %}
 
- At any given point in time, you can book a free consultation with us by [blocking our calendar](https://calendly.com/spikehq) or contacting us at [support@spike.sh](mailto:support@spike.sh)
+&#x20;At any given point in time, you can book a free consultation with us by [blocking our calendar](https://calendly.com/spikehq) or contacting us at [support@spike.sh](mailto:support@spike.sh)

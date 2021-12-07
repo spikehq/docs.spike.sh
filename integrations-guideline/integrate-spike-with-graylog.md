@@ -4,7 +4,7 @@ description: How to get Phone, SMS and Slack alerts from Graylog?
 
 # Integrate Spike with Graylog
 
-### Service and integration <a href="service-and-integration" id="service-and-integration"></a>
+### Service and integration <a href="#service-and-integration" id="service-and-integration"></a>
 
 Make sure to add the Graylog integration and copying the webhook.[\
 ](https://docs.spike.sh/integrations-guideline/create-integration-and-service-on-dashboard)
@@ -25,7 +25,7 @@ Navigate to the **alert notifications** page on the Graylog panel.
 
 #### Step 2
 
-Click on _Add New Notification _button to add a notification channel. Choose webhooks from the dropdown list.
+Click on _Add New Notification_ button to add a notification channel. Choose webhooks from the dropdown list.
 
 
 

@@ -6,7 +6,7 @@ description: List of numbers and emails you will get alerts from.
 
 ## Bypass Do Not Disturb
 
-Please download this vCard and add us to your contacts. If you add it favorites in contacts then our calls will ring when you are in **Do Not Disturb mode. **
+Please download this vCard and add us to your contacts. If you add it favorites in contacts then our calls will ring when you are in **Do Not Disturb mode.**&#x20;
 
 Works with -
 

@@ -2,7 +2,7 @@
 
 ### Service and integration
 
-Make sure to add the Twilio integration and copying the webhook. 
+Make sure to add the Twilio integration and copying the webhook.&#x20;
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -16,13 +16,13 @@ On [Twilio](https://twilio.com/console) console, setup **debugger and usage trig
 
 **Usage triggers**
 
-On the console, visit **Usage > Triggers**. You can setup multiple triggers with various webhooks. 
+On the console, visit **Usage > Triggers**. You can setup multiple triggers with various webhooks.&#x20;
 
 ![Setup Usage triggers on twilio and receive alerts on Spike.sh](../.gitbook/assets/twilio-with-spike-1.png)
 
 **Debugger alerts**
 
-On the side panel, click on **All products & services > Runtime > Debugger. **You can setup multiple triggers with a single or more webhooks. 
+On the side panel, click on **All products & services > Runtime > Debugger.** You can setup multiple triggers with a single or more webhooks.&#x20;
 
 ![Upon every debugger issue caught by twilio, get an alert from Spike.sh](<../.gitbook/assets/image (17).png>)
 

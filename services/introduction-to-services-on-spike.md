@@ -2,7 +2,7 @@
 
 ## **What is a service?**
 
-**You can think of services as a microservice. **Services are a way to scope your internal services from your architecture. Each of your service can have multiple integrations and you can create unlimited number of services. We highly encourage you to create different services for each of your different modules.
+**You can think of services as a microservice.** Services are a way to scope your internal services from your architecture. Each of your service can have multiple integrations and you can create unlimited number of services. We highly encourage you to create different services for each of your different modules.
 
 ## Why create a service?
 

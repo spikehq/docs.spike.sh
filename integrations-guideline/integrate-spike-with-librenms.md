@@ -14,7 +14,7 @@ Make sure to make a LibreNMS integration and copy the webhook URL.
 
 **Step 1**
 
-* From the **Alerts** menu, choose **Alert Transports **from the dropdown.
+* From the **Alerts** menu, choose **Alert Transports** from the dropdown.
 * Create a new Alert Transport
 
 ![](<../.gitbook/assets/image (114).png>)
@@ -22,7 +22,7 @@ Make sure to make a LibreNMS integration and copy the webhook URL.
 **Step 2**
 
 * Give a **Name** to the Alert Transport
-* Select `Api`** **as** Transport type** 
+* Select `Api` **** as **Transport type**&#x20;
 * **Default alert** is toggled to `ON`
 * Choose the **API Method** as `POST`
 * Paste the Spike webhook URL

@@ -14,7 +14,7 @@ Make sure to make a Logentries integration and copy the webhook URL.
 
 
 
-**Step 1 **
+**Step 1**&#x20;
 
 From the Dashboard, go to alerts.
 

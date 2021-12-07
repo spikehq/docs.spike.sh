@@ -6,29 +6,29 @@ description: >-
 
 # Priority and Severity
 
-Not all incidents are critical or need to be resolved immediately. To help understand an incident better, we bring you two critical components to every incident - **Priority, and Severity**. 
+Not all incidents are critical or need to be resolved immediately. To help understand an incident better, we bring you two critical components to every incident - **Priority, and Severity**.&#x20;
 
 ## Priority
 
 Assign a priority to your incident to indicate the urgency to resolve it. If the incident repeats itself, the set priority will be automatically assigned.
 
-Available priorities are - 
+Available priorities are -&#x20;
 
 * **P1** - Urgent
 * **P2** - High
 * **P3** - Medium
 * **P4** - Low
-* **P5** - Info 
+* **P5** - Info&#x20;
 
 Setting priority is a great way to indicate to your team the urgency to fix it. Additionally, you can setup alert rules to take actions automatically when the incident repeats itself. \
 \
 **Example:**\
-****P1** **- Billing service downtime\
-****P2** **- DB server running out of storage space
+****P1 **** - Billing service downtime\
+****P2 **** - DB server running out of storage space
 
 ## Severity
 
-Assign severity to indicate the severity of damage to your systems. 
+Assign severity to indicate the severity of damage to your systems.&#x20;
 
 Available severities are -
 
@@ -44,11 +44,11 @@ Once set, we will remember the severity and priority when the incident occurs in
 
 ## Setting priority and severity
 
-There are multiple ways to assign these properties to an incident. 
+There are multiple ways to assign these properties to an incident.&#x20;
 
 ### From dashboard
 
-Select incidents and the options for priority, severity, and mute will be available for you. 
+Select incidents and the options for priority, severity, and mute will be available for you.&#x20;
 
 
 
@@ -56,7 +56,7 @@ Select incidents and the options for priority, severity, and mute will be availa
 
 ### From Incident page
 
-You will find these options on the incident page for both priority and severity. 
+You will find these options on the incident page for both priority and severity.&#x20;
 
 ![Setting priority from the incident page](<../.gitbook/assets/image (81).png>)
 
@@ -72,8 +72,8 @@ You can also send priority and severity with webhook integration. [Learn more](h
 
 ### Should I set both priority and severity?
 
-It's recommended to do so, at least for critical incidents. However, if you would like, you can choose to only use one. 
+It's recommended to do so, at least for critical incidents. However, if you would like, you can choose to only use one.&#x20;
 
 ### Who has access to set and unset?
 
-Everyone. There is no access control because we believe tackling incidents is a team effort. 
+Everyone. There is no access control because we believe tackling incidents is a team effort.&#x20;

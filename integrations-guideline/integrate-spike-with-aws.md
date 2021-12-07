@@ -14,11 +14,11 @@ Make sure you have the service and integration already setup for AWS. Follow the
 We will create a SNS topic and add alarms on say EC2 servers which can be monitored eventually on **Cloudwatch**
 {% endhint %}
 
-![](../.gitbook/assets/Simple_Notification_Service.png)
+![](../.gitbook/assets/Simple\_Notification\_Service.png)
 
-Login to your AWS console and head straight to [Simple Notification Service (SNS)](https://console.aws.amazon.com/sns/v3/home). 
+Login to your AWS console and head straight to [Simple Notification Service (SNS)](https://console.aws.amazon.com/sns/v3/home).&#x20;
 
-![](../.gitbook/assets/Simple_Notification_Service\_2019-06-17\_14-31-16.png)
+![](../.gitbook/assets/Simple\_Notification\_Service\_2019-06-17\_14-31-16.png)
 
 We will create a topic in SNS which will be available across AWS services.
 
@@ -81,7 +81,7 @@ We recommend choosing many metrics as incidents can occur from any of the above 
 {% endhint %}
 
 {% hint style="success" %}
-This integration supports auto resolution by adding an **OK **state in all your monitors in AWS
+This integration supports auto resolution by adding an **OK** state in all your monitors in AWS
 {% endhint %}
 
 ### EC2 (example)
