@@ -52,10 +52,8 @@
 
 ***
 
-* [Page 1](page-1.md)
 * [Create Status page](create-status-page.md)
 * [Create public Incident on status page](create-public-incident-on-status-page.md)
-* [Page 2](page-2.md)
 * [Create Planned Maintenance on status page](create-planned-maintenance-on-status-page.md)
 * [Edit Planned Maintenance](edit-planned-maintenance.md)
 
