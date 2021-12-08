@@ -50,14 +50,15 @@
 * [Add on-call schedule to your calendar](oncall-schedules/export-on-call-schedule.md)
 * [Notifications for on-call shifts](oncall-schedules/notifications-for-on-call-shifts.md)
 
-***
+## Status Pages
 
-* [Create Status page](create-status-page.md)
-* [Create public Incident on status page](create-public-incident-on-status-page.md)
-* [Create Planned Maintenance on status page](create-planned-maintenance-on-status-page.md)
-* [Edit Planned Maintenance](edit-planned-maintenance.md)
+* [Create Status page](status-pages/create-status-page.md)
+* [Create public Incident on status page](status-pages/create-public-incident-on-status-page.md)
+* [Create Planned Maintenance on status page](status-pages/create-planned-maintenance-on-status-page.md)
+* [Edit Planned Maintenance](status-pages/edit-planned-maintenance.md)
+* [Add custom domain to status page](status-pages/add-custom-domain-to-status-page.md)
 
-## Integrations guideline
+## Integrations guidelines <a href="#integrations-guideline" id="integrations-guideline"></a>
 
 * [Create integration and service on our dashboard](integrations-guideline/create-integration-and-service-on-dashboard.md)
 * [Setup integrations](integrations-guideline/setup-integrations.md)
