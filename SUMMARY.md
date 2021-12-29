@@ -136,6 +136,7 @@
 * [Integrate Spike with Buildkite](integrations-guideline/integrate-spike-with-buildkite.md)
 * [Integrate Spike with Semaphore](integrations-guideline/integrate-spike-with-semaphore.md)
 * [Integrate Spike with Better Uptime](integrations-guideline/integrate-spike-with-better-uptime.md)
+* [Integrate Spike with Hexowatch](integrations-guideline/integrate-spike-with-hexowatch.md)
 
 ## Administration
 

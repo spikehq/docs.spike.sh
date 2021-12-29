@@ -2,7 +2,7 @@
 
 ### Service and Integration
 
-Make sure to make a Buildkite integration and copy the webhook URL.
+Make sure to make a Better Uptime integration and copy the webhook URL.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
