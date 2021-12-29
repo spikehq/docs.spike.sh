@@ -135,6 +135,7 @@
 * [Integrate Spike with Wavefront](integrations-guideline/integrate-spike-with-wavefront.md)
 * [Integrate Spike with Buildkite](integrations-guideline/integrate-spike-with-buildkite.md)
 * [Integrate Spike with Semaphore](integrations-guideline/integrate-spike-with-semaphore.md)
+* [Integrate Spike with Better Uptime](integrations-guideline/integrate-spike-with-better-uptime.md)
 
 ## Administration
 
