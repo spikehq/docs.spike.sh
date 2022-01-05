@@ -58,6 +58,10 @@
 * [Edit Planned Maintenance](status-pages/edit-planned-maintenance.md)
 * [Add custom domain to status page](status-pages/add-custom-domain-to-status-page.md)
 
+## Uptime
+
+* [Create Uptime monitor](uptime/create-uptime-monitor.md)
+
 ## Integrations guidelines <a href="#integrations-guideline" id="integrations-guideline"></a>
 
 * [Create integration and service on our dashboard](integrations-guideline/create-integration-and-service-on-dashboard.md)
