@@ -2,7 +2,7 @@
 
 ### Service and integration
 
-Make sure to add the Grafana integration and copy the webhook. 
+Make sure to add the Prometheus integration and copy the webhook.&#x20;
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -10,7 +10,7 @@ Make sure to add the Grafana integration and copy the webhook.
 
 ###
 
-### Using the Webhook with Grafana
+### Using the Webhook with Prometheus
 
 ### Step 1
 
