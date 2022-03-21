@@ -2,7 +2,7 @@
 
 ### Service and Integration
 
-Make sure to make a StatusCake integration and copy the webhook URL.
+Make sure to add a StatusCake integration and copy the webhook URL.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -14,7 +14,7 @@ Make sure to make a StatusCake integration and copy the webhook URL.
 
 **Step 1**
 
- Navigate to new contact group from the menu.
+&#x20;Navigate to new contact group from the menu.
 
 ![](<../.gitbook/assets/image (125).png>)
 

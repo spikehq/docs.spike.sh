@@ -2,25 +2,27 @@
 
 ### Service and Integration
 
-Make sure to add a Buildkite integration and copy the webhook URL.
+Make sure to make a Hexowatch integration and copy the webhook URL.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-
+###
 
 ### Using webhooks with Hexowatch
 
 #### Step 1
 
-Goto monitoring URLs from the side menu and select the website you need to add webhook for.
+Goto monitored URLs and select the link you want to add a webhook for.
 
-![](<../.gitbook/assets/Group 97.png>) ![](<../.gitbook/assets/Group 98.png>)
+![](<../.gitbook/assets/Group 97 (1).png>)
 
+#### Step 2
 
+Paste the Spike.sh webhook URL and save.
 
-
+![](<../.gitbook/assets/Group 98 (1).png>)
 
 
 

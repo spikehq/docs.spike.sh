@@ -2,7 +2,7 @@
 
 ### Service and Integration
 
-Make sure to make a Better Uptime integration and copy the webhook URL.
+Make sure to add a Buildkite integration and copy the webhook URL.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -12,23 +12,29 @@ Make sure to make a Better Uptime integration and copy the webhook URL.
 
 ### Using Webhooks with Better Uptime
 
+
+
 #### Step 1
 
-Goto integrations from the side menu and select exporting data.
+Go to **integrations** from the left menu and select **exporting data** tab.
 
-![](<../.gitbook/assets/Group 93.png>)
+![](<../.gitbook/assets/image (146).png>)
+
+
 
 #### Step 2
 
-Scroll to webhooks and select to configure the webhook.&#x20;
+Scroll till you find Webhooks. Click on **configure webhooks**.
 
-![](<../.gitbook/assets/Group 94.png>)
+![](<../.gitbook/assets/Group 94 (1).png>)
 
 #### Step 3
 
-Select the type of webhook and click add.
+Choose the type of webhook and add the webhook.
 
-![](<../.gitbook/assets/Group 95.png>)
+![](<../.gitbook/assets/image (147).png>)
+
+
 
 #### Step 4
 

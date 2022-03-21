@@ -2,7 +2,7 @@
 
 ### Service and Integration
 
-Make sure to make a LogRocket integration and copy the webhook URL.
+Make sure to add a LogRocket integration and copy the webhook URL.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -16,7 +16,7 @@ Make sure to make a LogRocket integration and copy the webhook URL.
 
 **Step 1**
 
-Go to metrics and proceed to **edit** **chart** for a metric. 
+Go to metrics and proceed to **edit** **chart** for a metric.&#x20;
 
 
 

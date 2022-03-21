@@ -2,7 +2,7 @@
 
 ### Service and Integration
 
-Make sure to make a CopperEgg integration and copy the webhook URL.
+Make sure to add a CopperEgg integration and copy the webhook URL.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -14,7 +14,7 @@ Make sure to make a CopperEgg integration and copy the webhook URL.
 
 #### Step 1
 
-From the dashboard, navigate to alerts. 
+From the dashboard, navigate to alerts.&#x20;
 
 ![](<../.gitbook/assets/image (43) (1).png>)
 

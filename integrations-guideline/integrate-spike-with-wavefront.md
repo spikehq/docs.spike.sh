@@ -2,7 +2,7 @@
 
 ### Service and Integration
 
-Make sure to make a Wavefront integration and copy the webhook URL.
+Make sure to add a Wavefront integration and copy the webhook URL.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -14,7 +14,7 @@ Make sure to make a Wavefront integration and copy the webhook URL.
 
 **Step 1**
 
-Navigate to the integrations page and search for webhooks 
+Navigate to the integrations page and search for webhooks&#x20;
 
 ![](<../.gitbook/assets/image (131).png>)
 

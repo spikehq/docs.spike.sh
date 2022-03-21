@@ -2,7 +2,7 @@
 
 ### Service and Integration
 
-Make sure to make an Uptime Kuma integration and copy the webhook URL.
+Make sure to add an Uptime Kuma integration and copy the webhook URL.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)

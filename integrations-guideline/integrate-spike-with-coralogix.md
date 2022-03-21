@@ -2,7 +2,7 @@
 
 ### Service and Integration
 
-Make sure to make a Coralogix integration and copy the webhook URL.
+Make sure to add a Coralogix integration and copy the webhook URL.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
