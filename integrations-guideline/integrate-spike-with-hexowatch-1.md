@@ -1,3 +1,7 @@
+---
+layout: editorial
+---
+
 # Integrate Spike with Hexowatch
 
 ### Service and Integration

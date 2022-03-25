@@ -142,7 +142,6 @@
 * [Integrate Spike with Better Uptime](integrations-guideline/integrate-spike-with-better-uptime.md)
 * [Integrate Spike with Hexowatch](integrations-guideline/integrate-spike-with-hexowatch.md)
 * [Integrate Spike with PM2](integrations-guideline/integrate-spike-with-pm2.md)
-* [Integrate Spike with Better Uptime](integrations-guideline/integrate-spike-with-better-uptime-1.md)
 * [Integrate Spike with Hexowatch](integrations-guideline/integrate-spike-with-hexowatch-1.md)
 
 ## Administration
