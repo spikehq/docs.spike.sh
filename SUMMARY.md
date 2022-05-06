@@ -61,6 +61,7 @@
 ## Uptime
 
 * [Create Uptime monitor](uptime/create-uptime-monitor.md)
+* [Link uptime to Status Page](uptime/link-uptime-to-status-page.md)
 
 ## Integrations guidelines <a href="#integrations-guideline" id="integrations-guideline"></a>
 
