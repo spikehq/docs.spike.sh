@@ -45,4 +45,10 @@ Paste the IdP XML Metadata and save.
 
 
 
-&#x20;
+### Step 4
+
+Once configured, you can find the organisation slug from organisation settings.
+
+<img src="../.gitbook/assets/image (150).png" alt="" data-size="original">![](<../.gitbook/assets/image (147).png>)
+
+Use that slug at the time of login.&#x20;

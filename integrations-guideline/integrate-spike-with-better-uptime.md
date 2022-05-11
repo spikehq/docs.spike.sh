@@ -32,7 +32,7 @@ Scroll till you find Webhooks. Click on **configure webhooks**.
 
 Choose the type of webhook and add the webhook.
 
-![](<../.gitbook/assets/image (147).png>)
+![](<../.gitbook/assets/image (147) (1).png>)
 
 
 
