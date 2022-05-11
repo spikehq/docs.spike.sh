@@ -10,6 +10,8 @@ This guide explains the settings you’d need to use to configure SAML with your
 
 
 
+### Step 1&#x20;
+
 Follow the configurations given below while configuring your SAML with your IdP.
 
 * Assertion consumer service URL / Single Sign-On URL / Destination URL: `https://app.spike.sh/sso/oauth/saml`
@@ -23,9 +25,17 @@ Follow the configurations given below while configuring your SAML with your IdP.
 
 For example, in the case of Okta users, this is how the configuration looks
 
-![](<../.gitbook/assets/image (140).png>)
+![SAML configurations](<../.gitbook/assets/image (140).png>)
+
+### Step 2
+
+Add user mappings as shown below. Note that `email` , `firstName` and `lastName` are mandatory.
+
+![Mappings](<../.gitbook/assets/image (141).png>)
 
 
+
+### Step 3
 
 Once the SAML is configured, head over to Spike.sh and open [organisation settings](https://app.spike.sh/settings/org).
 
