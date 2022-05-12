@@ -16,7 +16,7 @@ Users and visitors to your status page can subscribe by entering their email. Th
 
 ### Importing subscribers
 
-Visit the subscribers section from the sidebar and you will find a list of all your active subscribers. You can also choose to delete a subscriber.&#x20;
+Visit the **subscribers** section from the sidebar and you will find a list of all your active subscribers. You can also choose to delete a subscriber and import more by uploading a comma-separated values (CSV) file with **Email** in the header field. No other fields from your csv will be read and stored on our end.&#x20;
 
 ### Keep your subscribers informed
 
