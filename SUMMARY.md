@@ -57,6 +57,7 @@
 * [Create Planned Maintenance on status page](status-pages/create-planned-maintenance-on-status-page.md)
 * [Edit Planned Maintenance](status-pages/edit-planned-maintenance.md)
 * [Add custom domain to status page](status-pages/add-custom-domain-to-status-page.md)
+* [Manage your subscribers](status-pages/manage-your-subscribers.md)
 
 ## Uptime
 
