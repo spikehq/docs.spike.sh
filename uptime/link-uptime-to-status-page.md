@@ -12,7 +12,7 @@ Add or Edit any Uptime and link a Status Page in it's settings. You can link one
 
 One uptime can be linked to one status page. However, one status page can be linked to any number of uptimes.
 
-![Link status page in uptime settings](<../.gitbook/assets/image (148).png>)
+![Link status page in uptime settings](<../.gitbook/assets/image (148) (1).png>)
 
 
 

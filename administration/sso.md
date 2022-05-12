@@ -41,7 +41,7 @@ Once the SAML is configured, head over to Spike.sh and open [organisation settin
 
 Paste the IdP XML Metadata and save.
 
-![](<../.gitbook/assets/image (142).png>)
+![](<../.gitbook/assets/image (142) (1).png>)
 
 
 

@@ -18,7 +18,7 @@ Make sure to add a PM2 integration and copy the webhook URL.
 
 Go to the notifications tab from the left side menu.
 
-![](<../.gitbook/assets/image (144).png>)
+![](<../.gitbook/assets/image (144) (1).png>)
 
 
 

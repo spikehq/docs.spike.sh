@@ -18,7 +18,7 @@ Make sure to add a Buildkite integration and copy the webhook URL.
 
 Go to **integrations** from the left menu and select **exporting data** tab.
 
-![](<../.gitbook/assets/image (146) (1) (1).png>)
+![](<../.gitbook/assets/image (146) (1) (1) (1).png>)
 
 
 
