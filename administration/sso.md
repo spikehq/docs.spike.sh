@@ -52,3 +52,7 @@ Once configured, you can find the organisation slug from organisation settings.
 <img src="../.gitbook/assets/image (150).png" alt="" data-size="original">![](<../.gitbook/assets/image (147).png>)
 
 Use that slug at the time of login.&#x20;
+
+
+
+Check out the steps to configure SAML with Azure AD [here](https://docs.microsoft.com/en-us/power-apps/maker/portals/configure/configure-saml2-settings-azure-ad).
