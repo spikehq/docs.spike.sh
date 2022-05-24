@@ -10,9 +10,15 @@ This guide explains the settings you’d need to use to configure SAML with your
 
 
 
+
+
 ### Step 1&#x20;
 
-Follow the configurations given below while configuring your SAML with your IdP.
+Follow the configurations given below while configuring your SAML with your IdP.&#x20;
+
+{% hint style="info" %}
+The below values will be same for Okta, Microsoft Azure AD, Google, and other IdPs.&#x20;
+{% endhint %}
 
 * Assertion consumer service URL / Single Sign-On URL / Destination URL: `https://app.spike.sh/sso/oauth/saml`
 * Entity ID / Identifier / Audience URI / Audience Restriction: `https://app.spike.sh`
@@ -20,6 +26,12 @@ Follow the configurations given below while configuring your SAML with your IdP.
 * Assertion Signature: `Signed`
 * Signature Algorithm: `RSA-SHA256`
 * Assertion Encryption: `Unencrypted`
+
+Guides for setting up SAML with other IdPs
+
+1. [How to setup SAML on Microsoft Azure AD](https://docs.microsoft.com/en-us/power-apps/maker/portals/configure/configure-saml2-settings-azure-ad)
+2. [How to setup SAML on Google Workspace](https://support.google.com/a/answer/6087519?hl=en)
+3. [How to setup SAML on Centrify](https://docs.centrify.com/Content/Applications/AppsCustom/AddConfigSAML.htm)
 
 
 
@@ -55,4 +67,3 @@ Use that slug at the time of login.&#x20;
 
 
 
-Check out the steps to configure SAML with Azure AD [here](https://docs.microsoft.com/en-us/power-apps/maker/portals/configure/configure-saml2-settings-azure-ad).
