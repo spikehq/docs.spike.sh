@@ -18,7 +18,7 @@ Make sure you have the service and integration already setup for Honeybadger. Fo
 
 ### Step 1
 
-From the [Honeybadger](https://app.honeybadger.io) dashboard, select your project, Then go to **Settings** and choose **Alerts and Integrations**
+From the [Honeybadger](https://app.honeybadger.io/) dashboard, select your project, Then go to **Settings** and choose **Alerts and Integrations**
 
 ![Select Alerts and Integrations](<../.gitbook/assets/image (25).png>)
 

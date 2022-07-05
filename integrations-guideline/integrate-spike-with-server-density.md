@@ -6,7 +6,7 @@ description: >-
 
 # Integrate Spike with Server Density
 
-## Service and integration <a href="service-and-integration" id="service-and-integration"></a>
+## Service and integration <a href="#service-and-integration" id="service-and-integration"></a>
 
 Make sure to add the Nixstats Integration and copy the webhook.
 
@@ -18,13 +18,13 @@ Make sure to add the Nixstats Integration and copy the webhook.
 
 #### Step 1
 
-Create a notification channel on [server density](https://www.serverdensity.com). Choose the webhook type and paste the webhook URL.
+Create a notification channel on [server density](https://www.serverdensity.com/). Choose the webhook type and paste the webhook URL.
 
 ![Create a notification channel](<../.gitbook/assets/Group 6 (2).png>)
 
 #### Step 2
 
-Select the service/device and add alerts. 
+Select the service/device and add alerts.&#x20;
 
 ![Add alert to service](<../.gitbook/assets/Group 7 (2).png>)
 

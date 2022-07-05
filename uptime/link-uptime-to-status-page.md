@@ -22,7 +22,7 @@ To unlink a status page with uptime, hover over the status page section on your 
 
 
 
-![Unlink status page](<../.gitbook/assets/image (149).png>)
+![Unlink status page](<../.gitbook/assets/image (149) (1).png>)
 
 
 

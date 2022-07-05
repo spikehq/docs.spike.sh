@@ -17,7 +17,7 @@ Make sure you have the service and integration already setup for Apex ping. Foll
 
 ## Use the webhook on Apex ping
 
-Login into [Apex.sh/ping](https://ping.apex.sh) account and visit the [alerts page](https://ping.apex.sh/alerts) to being your integration.
+Login into [Apex.sh/ping](https://ping.apex.sh/) account and visit the [alerts page](https://ping.apex.sh/alerts) to being your integration.
 
 ![](../.gitbook/assets/apex-ping.png)
 

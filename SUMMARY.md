@@ -28,6 +28,7 @@
 * [Discord](alerts/discord.md)
 * [Alert rules](alerts/alert-rules.md)
 * [Vacation mode](alerts/vacation-mode.md)
+* [Title Remapper](alerts/title-remapper.md)
 
 ## Services
 

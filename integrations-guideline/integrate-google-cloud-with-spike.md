@@ -16,7 +16,7 @@ We will create a webhook on Stackdriver to integrate directly with Spike. There 
 Updated Google Cloud integration docs on 8th May 2020.
 {% endhint %}
 
-Login to your [Google Cloud console](https://console.cloud.google.com) and find [Monitoring](https://console.cloud.google.com/monitoring) on the sidebar
+Login to your [Google Cloud console](https://console.cloud.google.com/) and find [Monitoring](https://console.cloud.google.com/monitoring) on the sidebar
 
 ![Select alerting in Monitoring sub menu](<../.gitbook/assets/image (16).png>)
 

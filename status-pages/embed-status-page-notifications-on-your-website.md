@@ -16,7 +16,7 @@ Our embed feature displays live notifications of status page changes on any of y
 Notifications are currently shown for Planned maintenance only. However, we are extending this feature to display ongoing notifications as well. You can [track the progress](https://github.com/orgs/spikehq/projects/1) and [discuss it with us](https://github.com/spikehq/community/discussions) in our community.
 {% endhint %}
 
-![example notification for upcoming planned maintenance](<../.gitbook/assets/image (144).png>)
+![example notification for upcoming planned maintenance](<../.gitbook/assets/image (144) (1).png>)
 
 #### Example use case:
 
