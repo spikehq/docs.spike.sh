@@ -8,8 +8,6 @@ description: >-
 
 Title Remapper empowers you to programmatically change incident title in real-time for better context. More context in alerts means it's easier and faster for responders to understand the incident better.
 
-
-
 ### Example
 
 Let's take Sentry as an example. The incident title is clear but it will do us as incident responders better if we add the project name. Just makes it tad bit clear.
@@ -72,6 +70,12 @@ Avoid #each and #unless or basically all for.. loops
 Select all the integrations to be connected with the title remapper.
 
 ![](<../.gitbook/assets/image (144).png>)
+
+### Caveats
+
+1. One Title remapper can be linked to multiple integrations.
+2. Ensure to link a remapper created for, say AWS, to only be linked with other AWS integrations. If not, there could be errors and your title will be missing
+3. If you link multiple Title remappers to an integration, only the last linked remapper will be taken into consideration.
 
 ### Examples
 
