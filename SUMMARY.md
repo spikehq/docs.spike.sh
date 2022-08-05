@@ -24,6 +24,7 @@
 * [E-mail](alerts/email.md)
 * [Slack](alerts/slack.md)
 * [Microsoft Teams](alerts/microsoft-teams.md)
+* [WhatsApp](alerts/whatsapp.md)
 * [Telegram](alerts/telegram.md)
 * [Pushover](alerts/pushover.md)
 * [Discord](alerts/discord.md)
