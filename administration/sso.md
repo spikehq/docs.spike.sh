@@ -37,7 +37,7 @@ Guides for setting up SAML with other IdPs
 
 For example, in the case of Okta users, this is how the configuration looks
 
-![SAML configurations](<../.gitbook/assets/image (140).png>)
+![SAML configurations](<../.gitbook/assets/image (140) (2).png>)
 
 ### Step 2
 
