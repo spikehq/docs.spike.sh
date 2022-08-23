@@ -43,6 +43,13 @@
 * [Repeat escalations](escalations/repeat-escalations.md)
 * [Archive escalation policy](escalations/archive-escalation-policy.md)
 
+## Collaboration
+
+* [Task management integrations](collaboration/task-management-integrations/README.md)
+  * [JIRA Cloud](collaboration/task-management-integrations/jira-cloud.md)
+  * [ClickUp](collaboration/task-management-integrations/clickup.md)
+  * [Linear](collaboration/task-management-integrations/linear.md)
+
 ## On-call schedules <a href="#oncall-schedules" id="oncall-schedules"></a>
 
 * [Introduction to On-call schedules](oncall-schedules/introduction-to-on-call-schedules.md)
