@@ -1,7 +1,7 @@
 ---
 description: >-
   War rooms creates instant meeting rooms and involved all possible stakeholders
-  on a single cal
+  on a single call
 ---
 
 # War rooms
