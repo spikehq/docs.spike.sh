@@ -49,6 +49,7 @@
   * [JIRA Cloud](collaboration/task-management-integrations/jira-cloud.md)
   * [ClickUp](collaboration/task-management-integrations/clickup.md)
   * [Linear](collaboration/task-management-integrations/linear.md)
+* [War rooms](collaboration/war-rooms.md)
 
 ## On-call schedules <a href="#oncall-schedules" id="oncall-schedules"></a>
 

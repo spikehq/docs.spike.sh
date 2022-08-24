@@ -10,7 +10,7 @@ description: >-
 
 To connect [Linear](https://linear.app), head to Settings > Organisation and find the Task management integrations section. The connect will take you to Linear to safely authenticate and grant us permission to create tasks on Linear.&#x20;
 
-<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 You can also alternatively set it up from the Incidents table or from the incident details page
 
@@ -34,5 +34,5 @@ There are 2 ways
 
 Users will be asked to select a team to create an issue on Linear
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
 

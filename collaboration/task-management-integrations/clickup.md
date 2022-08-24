@@ -12,7 +12,7 @@ To connect [ClickUp](https://clickup.com), Head up to Settings > Organization an
 
 You can also alternatively set up from the Incidents table or from the incident details page
 
-<figure><img src="../../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (9) (1).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 Once setup, every member across every team from your account will have access to create tickets on ClickUp from Spike.sh

@@ -22,6 +22,6 @@ When you get a phone, you can choose to take actions against an incident.&#x20;
 Make sure to verify your phone number. You can also change the phone number in settings
 {% endhint %}
 
-![Phone alerts from Spike](<../.gitbook/assets/image (2) (1).png>)
+![Phone alerts from Spike](<../.gitbook/assets/image (2) (1) (1).png>)
 
 Check if your country/region supports phone calls and SMS [on this page](https://app.spike.sh/geo-permissions).
