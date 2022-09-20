@@ -8,7 +8,7 @@ Make sure to add the Azure integration and copy the webhook.
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
- 
+&#x20;
 
 {% hint style="success" %}
 Azure Integration on Spike is capable of integrating with Azure Services like [**VMs, Application Insights** and more](https://azure.microsoft.com/en-in/services/).
@@ -20,7 +20,7 @@ Azure Integration on Spike is capable of integrating with Azure Services like [*
 
 ### **Step 1**
 
- On [Azure Portal](https://portal.azure.com/#home) go to **Monitor**
+&#x20;On [Azure Portal](https://portal.azure.com/#home) go to **Monitor**
 
 ![Select monitor](../.gitbook/assets/azure-1.png)
 
@@ -54,6 +54,10 @@ Finally, add a **description** to your alert and choose the **severity** of the 
 ![Set alert rules](../.gitbook/assets/azure-5.png)
 
 
+
+In the advanced settings section, make sure to check both **enable upon creation** and **automatically resolve alerts**.
+
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>Automatically resolve Aure alerts</p></figcaption></figure>
 
 ## FAQ
 
