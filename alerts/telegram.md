@@ -29,7 +29,7 @@ Use `/ack` or `/acknowledge` to acknowledge any incident. Similarly, you can use
 
 ![Just a taste of how incident alerts on Telegram look like](<../.gitbook/assets/Screenshot from 2022-07-22 12-34-47.png>)
 
-To start receiving on-call shift alerts, visit Settings > Account > On-call notifications or [click here](https://app.spike.sh/settings#oncall-notifications)
+To start receiving on-call shift alerts, visit Settings > Account > On-call notifications or [click here](https://app.spike.sh/settings/personal-on-call)
 
 __
 

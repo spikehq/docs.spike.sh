@@ -30,7 +30,7 @@ Name your connector and upload our Spike.sh logo so as to easily identify alerts
 
 **Step 2 - Paste the URL on Spike.sh**
 
-Head over to Spike.sh dashboard and visit [settings > organisation](https://app.spike.sh/settings/organisation) and create a Teams integration by giving a friendly name along with the URL you copied from step 1.
+Head over to Spike.sh dashboard and visit [settings > organisation > alerts](https://app.spike.sh/settings/general/alerts) and create a Teams integration by giving a friendly name along with the URL you copied from step 1.
 
 {% hint style="warning" %}
 Make sure to paste the exact URL from above. Any changes in the URL might result in missing alerts
@@ -62,6 +62,5 @@ We have noticed that in some MS Teams account, **acknowledge** and the **resolve
 
 It could be possible because the connector is disabled in your tenant setting access list. Another possible cause for this could be that you are using a legacy account.
 
-Here are few links that might help you understand why it happens.\
-1\. [Github issue](https://github.com/MicrosoftDocs/msteams-docs/issues/1221)
+Refer to this [GitHub issue](https://github.com/MicrosoftDocs/msteams-docs/issues/1221) or why this might happen.
 

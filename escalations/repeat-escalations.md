@@ -27,7 +27,7 @@ In this case, if noone on the Slack channel takes an action and Jay also misses 
 This is handy as some incidents can just not be ignored.
 
 {% hint style="info" %}
-By default, escalation policy will only be repeated 5 times.
+To avoid alert fatigues, escalation policy will only be repeated 5 times.
 {% endhint %}
 
 ### How to setup repeating escalations?

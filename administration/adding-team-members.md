@@ -12,6 +12,6 @@ Anyone on Spike.sh can add a team member. Your organisation will also have a **u
 
 ### Security with unique link
 
-Signups with your unique link is absolutely safe. For added security, we recommend only allowing signups with emails of your work domain. You can edit the domain in **settings > organisation**
+Signups with your unique link is absolutely safe. For added security, we recommend only allowing signups with emails of your work domain. You can edit the domain in [**settings > organisation**](https://app.spike.sh/settings/general/organisation)****
 
 ![Configure your domain](../.gitbook/assets/configuring-domains.png)

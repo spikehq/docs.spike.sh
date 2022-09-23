@@ -26,7 +26,7 @@ Our war room integrations are --
 
 ### How to set up?
 
-Visit your account settings > War rooms or [click here ](https://app.spike.sh/settings#video-conferencing-block)and link Google Meet or add your personal room's link. For your personal room, just paste the link and it's done.
+Visit your account [Settings > Profile and find War rooms](https://app.spike.sh/settings/personal-alerts#video-conferencing-block) or [click here ](https://app.spike.sh/settings#video-conferencing-block)and link Google Meet or add your personal room's link. For your personal room, just paste the link and it's done.
 
 #### How we create meeting links?
 

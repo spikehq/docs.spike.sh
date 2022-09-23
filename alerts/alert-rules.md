@@ -10,13 +10,13 @@ description: >-
 
 Alert rules help you route alerts efficiently and correctly for every incident. Setup specific conditions to either ignore an incident or assign it to a different member / escalation policy. One that's right for the incident.
 
-Visit the Alerts section from the sidebar and create a new alert rule. 
+Visit the Alerts section from the sidebar and create a new alert rule.&#x20;
 
 {% hint style="info" %}
 Don’t see this option? Contact us and we will enable it on your account.
 {% endhint %}
 
-![Example alert rule](../.gitbook/assets/alert_config.svg)
+![Example alert rule](../.gitbook/assets/alert\_config.svg)
 
 ## **Conditions**
 
@@ -30,7 +30,7 @@ Evaluates to True if an incident title **contain/does not contain/equals/does no
 
 
 
-### 2. Incident details 
+### 2. Incident details&#x20;
 
 Evaluates to True if a specific key in incident details **contain/does not contain/equals/does not equal** a specific text or phrase. You will need to enter a specific key or nested key to compare with the text/phrase.
 
@@ -74,6 +74,14 @@ Assign the incident a Priority. [Learn more about priority](https://docs.spike.s
 
 Assign the incident a Severity. [Learn more about severity](https://docs.spike.sh/incidents/priority-and-severity#severity)
 
+### 6. Auto acknowledge incidents
+
+Create the incident but in the acknowledged state rather than the triggered state. Be mindful because this won't send any alerts but responders will see this as open incident on their dashboard.&#x20;
+
+### 7. Auto resolve incidents
+
+Create the incident but in resolved state rather than the triggered state. Be mindful because this won't send any alerts and responders will _not_ see them as open incidents on their dashboard.
+
 ## Applying multiple rulesets
 
 For an incident, multiple alert rulesets can also be applied. Consider the below example -
@@ -85,7 +93,7 @@ For an incident, multiple alert rulesets can also be applied. Consider the below
 According the above two alert rulesets, If an incident title contains **syslog** in it then the incident will be marked as **P5 priority** and subsequently, the escalation policy will also change to **Slack dev** (ref: Alert ruleset 2)
 
 {% hint style="info" %}
-No more than 5 alert configs will be applied to a single incident
+No more than 5 alert configs will be applied to a single incident to avoid infinite looping
 {% endhint %}
 
 

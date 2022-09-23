@@ -8,7 +8,7 @@ description: >-
 
 ### How to set up ClickUp?
 
-To connect [ClickUp](https://clickup.com), Head up to Settings > Organization and find the Task management integrations section. The connect will take you to ClickUp to safely authenticate and grant us permission to create tasks on ClickUp.&#x20;
+To connect [ClickUp](https://clickup.com), Head up to [Settings > Organization](https://app.spike.sh/settings/general/organisation) and find the Task management integrations section. The connect will take you to ClickUp to safely authenticate and grant us permission to create tasks on ClickUp.&#x20;
 
 You can also alternatively set up from the Incidents table or from the incident details page
 

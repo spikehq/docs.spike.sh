@@ -21,7 +21,7 @@ You can receive alerts for -
 * When your on-call shift starts
 * When your on-call shift ends
 
-You can add WhatsApp to your escalation policies and setup on-call notifications in [your settings](https://app.spike.sh/settings#oncall-notifications)
+You can add WhatsApp to your escalation policies and setup on-call notifications in [On-call settings](https://app.spike.sh/settings/personal-on-call)
 
 {% hint style="success" %}
 To acknowledge or resolve, you reply to our WhatsApp bot with `ack test-123` and `res test-123`
@@ -35,4 +35,8 @@ To acknowledge or resolve, you reply to our WhatsApp bot with `ack test-123` and
 
 By default, WhatsApp is enabled for all phone numbers. You can directly add it in escalation policies and voila!
 
-If WhatsApp isn't your preferred bot, may we recommend trying out our Telegram bot?! [Learn more about Telegram bot](https://docs.spike.sh/alerts/telegram)
+If WhatsApp isn't your preferred bot, may we recommend trying out our Telegram bot?!&#x20;
+
+{% content-ref url="telegram.md" %}
+[telegram.md](telegram.md)
+{% endcontent-ref %}

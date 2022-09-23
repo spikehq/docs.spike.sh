@@ -4,20 +4,14 @@ description: Configure Single Sign-On on Spike.sh
 
 # SSO
 
-
-
 This guide explains the settings you’d need to use to configure SAML with your Identity Provider. Once this is set up you should get an XML metadata file which you can provide to Spike and start using SSO.
-
-
-
-
 
 ### Step 1&#x20;
 
 Follow the configurations given below while configuring your SAML with your IdP.&#x20;
 
 {% hint style="info" %}
-The below values will be same for Okta, Microsoft Azure AD, Google, and other IdPs.&#x20;
+The below values will be the same for Okta, Microsoft Azure AD, Google, and other IdPs.&#x20;
 {% endhint %}
 
 * Assertion consumer service URL / Single Sign-On URL / Destination URL: `https://app.spike.sh/sso/oauth/saml`
@@ -49,7 +43,7 @@ Add user mappings as shown below. Note that `email` , `firstName` and `lastName`
 
 ### Step 3
 
-Once the SAML is configured, head over to Spike.sh and open [organisation settings](https://app.spike.sh/settings/org).
+Once the SAML is configured, head over to Spike.sh and open [organisation settings.](https://app.spike.sh/settings/general/organisation)
 
 Paste the IdP XML Metadata and save.
 
@@ -59,7 +53,7 @@ Paste the IdP XML Metadata and save.
 
 ### Step 4
 
-Once configured, you can find the organisation slug from organisation settings.
+Once configured, you can find the organisation slug from [organisation settings.](https://app.spike.sh/settings/general/organisation)
 
 <img src="../.gitbook/assets/image (150) (1).png" alt="" data-size="original">![](<../.gitbook/assets/image (147).png>)
 

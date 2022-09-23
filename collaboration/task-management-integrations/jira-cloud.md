@@ -8,7 +8,7 @@ description: >-
 
 ### How to set up JIRA Cloud?
 
-Head up to Settings > Organization and find the Task management integrations section. The connect will take you to JIRA to safely authenticate and grant us permission to create tasks on JIRA.&#x20;
+Head up to [Settings > Organization](https://app.spike.sh/settings/general/organisation) and find the Task management integrations section. The connect will take you to JIRA to safely authenticate and grant us permission to create tasks on JIRA.&#x20;
 
 You can also alternatively set up from the Incidents table or from the incident details page
 

@@ -38,7 +38,7 @@ Spike.sh badge for Discord
 
 **Step 3**
 
-On Spike dashboard, navigate to **settings >** **organisation.** Paste the copied webhook URL in the Discord setup and save.
+On Spike dashboard, navigate to [**settings >** **organisation > alerts**](https://app.spike.sh/settings/general/alerts)**.** Paste the copied webhook URL in the Discord setup and save.
 
 ![Save the copied webhook url](../.gitbook/assets/discord-3.png)
 

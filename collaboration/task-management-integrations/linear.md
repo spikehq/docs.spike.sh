@@ -8,7 +8,7 @@ description: >-
 
 ### How to set up Linear?
 
-To connect [Linear](https://linear.app), head to Settings > Organisation and find the Task management integrations section. The connect will take you to Linear to safely authenticate and grant us permission to create tasks on Linear.&#x20;
+To connect [Linear](https://linear.app), head to [Settings > Organisation](https://app.spike.sh/settings/general/organisation) and find the Task management integrations section. The connect will take you to Linear to safely authenticate and grant us permission to create tasks on Linear.&#x20;
 
 <figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
