@@ -18,7 +18,7 @@ Updated Google Cloud integration docs on 8th May 2020.
 
 Login to your [Google Cloud console](https://console.cloud.google.com/) and find [Monitoring](https://console.cloud.google.com/monitoring) on the sidebar
 
-![Select alerting in Monitoring sub menu](<../.gitbook/assets/image (16).png>)
+![Select alerting in Monitoring sub menu](<../.gitbook/assets/image (16) (1).png>)
 
 ![Click on edit notification channel](../.gitbook/assets/new-2-gcp-edit-notification-channel.png)
 

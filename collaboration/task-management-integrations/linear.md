@@ -34,5 +34,5 @@ There are 2 ways
 
 Users will be asked to select a team to create an issue on Linear
 
-<figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (11) (1).png" alt=""><figcaption></figcaption></figure>
 

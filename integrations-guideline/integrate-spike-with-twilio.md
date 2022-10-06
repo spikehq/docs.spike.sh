@@ -24,7 +24,7 @@ On the console, visit **Usage > Triggers**. You can setup multiple triggers with
 
 On the side panel, click on **All products & services > Runtime > Debugger.** You can setup multiple triggers with a single or more webhooks.&#x20;
 
-![Upon every debugger issue caught by twilio, get an alert from Spike.sh](<../.gitbook/assets/image (17).png>)
+![Upon every debugger issue caught by twilio, get an alert from Spike.sh](<../.gitbook/assets/image (17) (1).png>)
 
 
 

@@ -12,7 +12,7 @@ Head up to [Settings > Organization](https://app.spike.sh/settings/general/organ
 
 You can also alternatively set up from the Incidents table or from the incident details page
 
-<figure><img src="../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 Once setup, every member across every team from your account will have access to create tickets on JIRA from Spike.sh
@@ -34,7 +34,7 @@ There are 2 ways.&#x20;
 
 You will need to fill in some details to create the ticket like the example below
 
-<figure><img src="../../.gitbook/assets/image (8).png" alt=""><figcaption><p>Fill in the details to create ticket on JIRA from Spike.sh</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (8) (1).png" alt=""><figcaption><p>Fill in the details to create ticket on JIRA from Spike.sh</p></figcaption></figure>
 
 
 

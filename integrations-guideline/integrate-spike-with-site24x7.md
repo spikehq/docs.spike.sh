@@ -44,7 +44,7 @@ Select Webhooks from the integrations window.&#x20;
 
 Paste the Spike.sh webhook link. Make sure to mark the HTTP method as **POST** and **post as JSON.**
 
-![](<../.gitbook/assets/image (3) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1).png>)
 
 {% hint style="success" %}
 This integration supports auto-resolution of incidents

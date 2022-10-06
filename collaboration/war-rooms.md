@@ -42,7 +42,7 @@ There are 2 ways.
 
 1. **From the dashboard.** Select one or more incidents and hit the Google Meet icon to create a war room instantly.
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>From the dashboard</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (2).png" alt=""><figcaption><p>From the dashboard</p></figcaption></figure>
 
 2\. **From the incident page.** Hit the Meet icon to instantly create a war room for this incident.
 
@@ -56,7 +56,7 @@ There are 2 ways to do this.&#x20;
 
 &#x20;   &#x20;
 
-<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 2\. **From the dashboard header.** Members from your team can instantly see ongoing war rooms from the dashboard header. This war room section will automatically appear for everyone and will have permissions to join the room as well.
 

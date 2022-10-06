@@ -57,7 +57,7 @@ Finally, add a **description** to your alert and choose the **severity** of the 
 
 In the advanced settings section, make sure to check both **enable upon creation** and **automatically resolve alerts**.
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>Automatically resolve Aure alerts</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (8).png" alt=""><figcaption><p>Automatically resolve Aure alerts</p></figcaption></figure>
 
 ## FAQ
 

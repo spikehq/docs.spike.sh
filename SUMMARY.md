@@ -170,3 +170,9 @@
 ## Additional resources
 
 * [Create a badge](additional-resources/create-a-badge.md)
+
+## Alert Modes
+
+* [Deep Work Mode](alert-modes/deep-work-mode.md)
+* [Cooldown Mode](alert-modes/cooldown-mode.md)
+* [Out of office mode](alert-modes/out-of-office-mode.md)

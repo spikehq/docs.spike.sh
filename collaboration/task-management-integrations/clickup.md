@@ -24,7 +24,7 @@ There are 2 ways.&#x20;
 
 1. From the incidents table.&#x20;
 
-<figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption><p>Send incident data to ClickUp from Incidents table</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (4) (1).png" alt=""><figcaption><p>Send incident data to ClickUp from Incidents table</p></figcaption></figure>
 
 &#x20; 2\. From the incident details page
 
