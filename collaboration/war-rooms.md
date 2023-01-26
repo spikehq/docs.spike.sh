@@ -60,7 +60,7 @@ There are 2 ways to do this.&#x20;
 
 2\. **From the dashboard header.** Members from your team can instantly see ongoing war rooms from the dashboard header. This war room section will automatically appear for everyone and will have permissions to join the room as well.
 
-<figure><img src="../.gitbook/assets/image (9).png" alt=""><figcaption><p>Users can access current war rooms from the header</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (9) (2).png" alt=""><figcaption><p>Users can access current war rooms from the header</p></figcaption></figure>
 
 
 

@@ -22,7 +22,7 @@ Toggle the switch to start configuring the out of office mode.
 
 Set the start and the end dates for the time you plan to be out of the office. Optionally you can offload your duties to someone for the time you are out of the office.
 
-<figure><img src="../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (14) (1).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../.gitbook/assets/image (17).png" alt=""><figcaption></figcaption></figure>
 

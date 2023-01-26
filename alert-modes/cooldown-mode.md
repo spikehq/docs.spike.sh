@@ -16,13 +16,13 @@ From the navbar open the dropdown for setting the modes.
 
 Toggle the button to start configuring the cooldown mode.
 
-<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (2).png" alt=""><figcaption></figcaption></figure>
 
 #### Step 3
 
 Set the duration of your cooldown period
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
 
 #### Step 4
 

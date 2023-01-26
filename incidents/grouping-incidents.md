@@ -8,7 +8,7 @@ description: Repeated incidents will be grouped together.
 
 Spike supports automatic grouping of incidents which will be repeated. It helps give you perspective on how many times has this incident been repeated. Below is an example -
 
-![This "Parallel write .." has been grouped to give you some insights](<../.gitbook/assets/image (14) (1).png>)
+![This "Parallel write .." has been grouped to give you some insights](<../.gitbook/assets/image (14) (1) (1).png>)
 
 ### Use cases
 

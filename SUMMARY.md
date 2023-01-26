@@ -156,6 +156,7 @@
 * [Integrate Spike with Better Uptime](integrations-guideline/integrate-spike-with-better-uptime.md)
 * [Integrate Spike with Hexowatch](integrations-guideline/integrate-spike-with-hexowatch.md)
 * [Integrate Spike with PM2](integrations-guideline/integrate-spike-with-pm2.md)
+* [Integrate Spike with Cloudflare](integrations-guideline/integrate-spike-with-cloudflare.md)
 
 ## Administration
 
