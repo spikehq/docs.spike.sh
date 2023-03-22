@@ -47,6 +47,7 @@
 
 * [Task management integrations](collaboration/task-management-integrations/README.md)
   * [JIRA Cloud](collaboration/task-management-integrations/jira-cloud.md)
+  * [JIRA server (self-hosted)](collaboration/task-management-integrations/jira-server-self-hosted.md)
   * [ClickUp](collaboration/task-management-integrations/clickup.md)
   * [Linear](collaboration/task-management-integrations/linear.md)
 * [War rooms](collaboration/war-rooms.md)

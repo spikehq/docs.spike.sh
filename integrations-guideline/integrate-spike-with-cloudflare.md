@@ -28,7 +28,7 @@ From the side menu, navigate to the notifications tab and add a new notification
 
 Choose the event you want to enable notifications for.
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
 
 
 
