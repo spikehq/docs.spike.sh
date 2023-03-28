@@ -158,6 +158,7 @@
 * [Integrate Spike with Hexowatch](integrations-guideline/integrate-spike-with-hexowatch.md)
 * [Integrate Spike with PM2](integrations-guideline/integrate-spike-with-pm2.md)
 * [Integrate Spike with Cloudflare](integrations-guideline/integrate-spike-with-cloudflare.md)
+* [Integrate Spike with Zabbix](integrations-guideline/integrate-spike-with-zabbix.md)
 
 ## Administration
 
