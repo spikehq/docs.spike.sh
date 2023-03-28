@@ -4,9 +4,9 @@
 
 Make sure to make a Zabbix integration and copy the webhook URL.
 
-
-
-[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md "mention")
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
