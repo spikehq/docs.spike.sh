@@ -14,11 +14,11 @@ Make sure to make a Zabbix integration and copy the webhook URL.
 
 #### Step 1
 
-Create a new media type in Zabbix: Go to "Administration" -> "Media types" and click "Create media type". In the "Type" field, select "Webhook". In the "URL" field, enter the URL of the webhook endpoint. You can also specify any additional parameters, such as headers or payload, in the "Headers" and "Body" fields.
+Create a new media type in Zabbix: Go to "Administration" -> "Media types" and click "Create media type". In the "Type" field, select "Webhook". In the "URL" field, enter the URL of the Spike.sh integration webhook endpoint. You can also specify any additional parameters, such as headers or payload, in the "Headers" and "Body" fields.
 
 #### Step 2
 
-Assign the media type to a user: Go to "Administration" -> "Users" and select the user you want to receive alerts. In the "Media" tab, click "Add" and select the media type you just created. Enter any additional parameters required by the webhook URL.
+Assign the media type to a user: Go to "Administration" -> "Users" and select the user you want to receive alerts. In the "Media" tab, click "Add" and select the media type you just created. Enter any additional parameters.
 
 #### Step 3
 
