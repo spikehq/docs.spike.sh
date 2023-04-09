@@ -10,9 +10,11 @@ description: >-
 
 Create a new Sematext integration. Follow the steps in the link below to create a service and integration.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
-### 
+###
 
 ### Using the webhook on Sematext
 
@@ -24,7 +26,7 @@ From the [Sematext Hook](https://apps.sematext.com/ui/hooks) dashboard, **Create
 
 ### Step 2
 
-From the list of options, select **Spike.sh**. 
+From the list of options, select **Spike.sh**.&#x20;
 
 ![Select WebHook](../.gitbook/assets/sematext-2.png)
 
@@ -36,7 +38,7 @@ You will be now displayed with a configuration panel.
 
 Paste your **Spike webhook** in the URL field
 
-```text
+```
 // Make sure to add the following parameters and any other variables you deem fit
 
 $description
@@ -53,4 +55,3 @@ Finally, **Save notification hook.**
 At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
 
 If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
-

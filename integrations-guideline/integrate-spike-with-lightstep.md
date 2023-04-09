@@ -1,5 +1,5 @@
 ---
-description: 'How to get Phone, SMS and Slack alerts from Lightstep?'
+description: How to get Phone, SMS and Slack alerts from Lightstep?
 ---
 
 # Integrate Spike with Lightstep
@@ -8,7 +8,9 @@ description: 'How to get Phone, SMS and Slack alerts from Lightstep?'
 
 Make sure to add the Lightstep integration and copy the webhook.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 ### Using Webhooks with Lightstep
 
@@ -16,7 +18,7 @@ Make sure to add the Lightstep integration and copy the webhook.
 
 From the Lightstep menu, go to **alerts.** Create an alert from the alert page.
 
-![](../.gitbook/assets/group-1%20%282%29.png)
+![](<../.gitbook/assets/Group 1 (5).png>)
 
 
 
@@ -24,7 +26,7 @@ From the Lightstep menu, go to **alerts.** Create an alert from the alert page.
 
 Select the type of alert you want to create.
 
-![](../.gitbook/assets/group-2%20%283%29.png)
+![](<../.gitbook/assets/Group 2 (6).png>)
 
 
 
@@ -32,9 +34,7 @@ Select the type of alert you want to create.
 
 In the **Notification destinations** section, choose webhook from the dropdown. Then paste the spike webhook URL and save.
 
-![](../.gitbook/assets/group-3%20%283%29.png)
-
-
+![](<../.gitbook/assets/Group 3 (4).png>)
 
 
 

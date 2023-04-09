@@ -4,17 +4,19 @@
 
 Make sure to add the Travis CI integration and copying the webhook. 
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 ## Using the webhook with Travis CI
 
-Setting up [Webhooks with Travis CI](https://docs.travis-ci.com/user/notifications/#configuring-webhook-notifications) is just a one-step process.  
-  
+Setting up [Webhooks with Travis CI](https://docs.travis-ci.com/user/notifications/#configuring-webhook-notifications) is just a one-step process.\
+\
 **Configure the `.travis.yml`**
 
 Add the following configuration to  .travis.yml  file
 
-```text
+```
 notifications:
   webhooks:
     urls:
@@ -41,4 +43,3 @@ Don't forget to change the `urls` to the webhook URL provided by Spike.
 At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
 
 If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
-

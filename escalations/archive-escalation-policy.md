@@ -33,4 +33,3 @@ No. In fact, the existing incidents will prompt you about archived policy to avo
 ### How to restore an archived policy?
 
 There is no automated process. If you certain about restoring talk to us via chat from the dashboard or email us at [support@spike.sh](mailto:support@spike.sh)
-

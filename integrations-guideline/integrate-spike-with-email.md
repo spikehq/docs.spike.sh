@@ -12,7 +12,7 @@ Many tools like DigitalOcean, Pulseway etc do not support webhooks as alert chan
 
 ## How does email integration with Spike.sh work?
 
-Select Email from our list of integrations and use the uniquely generated email address on any tool of your choice. The emails received are managed by us for your integration. There is no inbox :\)
+Select Email from our list of integrations and use the uniquely generated email address on any tool of your choice. The emails received are managed by us for your integration. There is no inbox :)
 
 {% hint style="info" %}
 The subject line will be the incident title and the body of email will go into incident details. 
@@ -22,7 +22,7 @@ The subject line will be the incident title and the body of email will go into i
 
 #### Step 1
 
-From the header &gt; click [Add integration](https://app.spike.sh/integrations/new) and select **email**, give it an appropriate name create the integration.
+From the header > click [Add integration](https://app.spike.sh/integrations/new) and select **email**, give it an appropriate name create the integration.
 
 #### Step 2
 
@@ -41,4 +41,3 @@ You can choose to send an email to your unique email address to test if an incid
 {% hint style="warning" %}
 Email integration does not auto-resolve incidents
 {% endhint %}
-

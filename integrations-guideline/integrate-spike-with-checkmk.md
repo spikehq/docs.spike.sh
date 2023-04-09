@@ -1,21 +1,23 @@
 ---
-description: 'How to get Phone, SMS and Slack alerts from CheckMk?'
+description: How to get Phone, SMS and Slack alerts from CheckMk?
 ---
 
 # Integrate Spike with Checkmk
 
-### Service and integration <a id="service-and-integration"></a>
+### Service and integration <a href="service-and-integration" id="service-and-integration"></a>
 
-Make sure to add the Checkmk integration and copying the webhook.[  
+Make sure to add the Checkmk integration and copying the webhook.[\
 ](https://docs.spike.sh/integrations-guideline/create-integration-and-service-on-dashboard)
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
 ## Using Spike.sh script with [Checkmk](https://docs.checkmk.com/latest/en/install_packages_debian.html)
 
-**Download the official checkmk-spike package** [**here**](https://exchange.checkmk.com/p/spike-5)**.**
+**Download the official checkmk-spike package **[**here**](https://exchange.checkmk.com/p/spike-5)**.**
 
 _If you are using Checkmk docker, scroll below._
 
@@ -27,7 +29,7 @@ Create a script called _**`spike.sh`**_  at  `local/share/check_mk/notifications
 
 Paste the below script in the spike.sh file, using your prefered editor like nano or vim.
 
-```text
+```
 #!/bin/bash
 # Notify via Spike.sh
 
@@ -74,7 +76,7 @@ Create a script called _**`spike.sh`**_  in your server at $HOME
 
 Paste the below script in the spike.sh file.
 
-```text
+```
 #!/bin/bash
 # Notify via Spike.sh
 
@@ -105,7 +107,7 @@ Get the container id using `docker ps`
 
 Copy the spike.sh file inside the docker container at the location `/opt/omd/sites/cmk/local/share/check_mk/notifications#` using the following command.
 
-_replace the &lt;CONTAINER\_ID&gt; with the container id you got from docker ps._
+_replace the \<CONTAINER_ID> with the container id you got from docker ps._
 
 `$ docker cp spike.sh <CONTAINER_ID>:/opt/omd/sites/cmk/local/share/check_mk/notifications/spike.sh`
 
@@ -126,4 +128,3 @@ Make the spike.sh executable.
 Export the spike webhook in an environment variable as:
 
 `$ export SPIKE_URL="https://hooks.spike.sh/********************/push-events"`
-

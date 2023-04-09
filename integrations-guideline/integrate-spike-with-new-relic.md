@@ -1,5 +1,5 @@
 ---
-description: 'How to get Phone, SMS and Slack alerts from New Relic?'
+description: How to get Phone, SMS and Slack alerts from New Relic?
 ---
 
 # Integrate Spike with New Relic
@@ -8,7 +8,9 @@ description: 'How to get Phone, SMS and Slack alerts from New Relic?'
 
 New Relic is a platform built to help engineers analyze, troubleshoot, and optimize their entire software stack from one place.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 ## Use Webhook on New Relic
 
@@ -27,9 +29,9 @@ In the Notification Channel, click to create a new channel and select **Webhooks
 ### Step 3
 
 * Configure the webhook as shown in the figure and **paste the Spike.sh webhook in Base Url** input.
-* Paste the custom payload from below and please make sure to not make any edits to the payload. 
+* Paste the custom payload from below and please make sure to not make any edits to the payload.&#x20;
 
-```text
+```
 {
     "account_id": "$ACCOUNT_ID",
     "account_name": "$ACCOUNT_NAME",
@@ -63,9 +65,8 @@ In the Notification Channel, click to create a new channel and select **Webhooks
 
 
 
-![Paste webhook and payload to new relic](../.gitbook/assets/new-relic-3%20%281%29.png)
+![Paste webhook and payload to new relic](<../.gitbook/assets/new-relic-3 (1).png>)
 
 {% hint style="info" %}
 Customising the payload yourself might affect the incident messages, so please avoid it. Not using custom payloads will most likely cause [incident message parsing to fail](https://docs.spike.sh/incidents/why-does-message-parsing-fail)
 {% endhint %}
-

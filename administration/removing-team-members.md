@@ -2,9 +2,9 @@
 
 ## How to remove team members?
 
-On your [team settings panel](https://app.spike.sh/settings/team), you will have the option to remove any **member** from your organization. Removing them would affect the escalation policies they are part of. Our dashboard will show you the number of escalations that could get affected along with the open incidents that the member is assigned to right now. Once removed, no alerts will be sent to this member.
+Only admins can remove a team member. On your [team settings panel](https://app.spike.sh/settings/team), you will have the option to remove any **member** from your organization. Removing them would affect the escalation policies they are part of. You will be shown the number of escalations that could get affected along with the open incidents that the member is assigned to right now. Once removed, no alerts will be sent to this member.
 
-![A snapshot of escalations and current incidents assigned that might get affected](../.gitbook/assets/image%20%2820%29.png)
+![A snapshot of escalations and current incidents assigned that might get affected](<../.gitbook/assets/image (12) (1).png>)
 
 ### How are escalation policies affected?
 
@@ -28,9 +28,4 @@ Yes, we give you the option to add this same member back again. However, you wil
 
 _Remember that this is not the same as undo-ing the removal of a member_
 
-![Add removed team members](../.gitbook/assets/screenshot-2020-09-25-at-12.54.15-pm.png)
-
-
-
-
-
+![Add removed team members](<../.gitbook/assets/Screenshot 2020-09-25 at 12.54.15 PM.png>)

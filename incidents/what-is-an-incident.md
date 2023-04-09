@@ -10,7 +10,7 @@ Incident is any issue that needs to be worked upon and resolved. Many a times, t
 
 1. Monitoring CPU utilization - alerts at high utilization at say, 80%
 2. Monitoring Memory consumption - alerts at high consumption at say, 90%
-3. DB monitoring alerts 
+3. DB monitoring alerts&#x20;
 4. DB backup fails
 5. Billing fails
 6. Sending notification fails
@@ -25,7 +25,7 @@ You can use a simple webhook integration and create incidents from your code too
 
 ## Understanding incident statuses
 
-Incidents can have one of the below statuses - 
+Incidents can have one of the below statuses -&#x20;
 
 1. **Triggered**
 2. **Acknowledged**
@@ -42,4 +42,3 @@ An **acknowledged** incident would mean that the work for the resolution of inci
 ### Resolved
 
 Once incident has been fixed, you can mark it as **resolved**. In this case, no alerts are sent and escalation policy resets in case if there is a new incident again.
-

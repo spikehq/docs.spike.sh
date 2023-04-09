@@ -2,9 +2,11 @@
 
 ### Service and Integration
 
-Make sure to make a CopperEgg integration and copy the webhook URL.
+Make sure to add a CopperEgg integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -12,25 +14,23 @@ Make sure to make a CopperEgg integration and copy the webhook URL.
 
 #### Step 1
 
-From the dashboard, navigate to alerts. 
+From the dashboard, navigate to alerts.&#x20;
 
-![](../.gitbook/assets/image%20%2843%29.png)
+![](<../.gitbook/assets/image (43) (1).png>)
 
-#### 
+####
 
 #### Step 2
 
 Add a new notification profile for Spike.sh webhook alerts in the alerts section.
 
-![](../.gitbook/assets/image%20%28104%29.png)
+![](<../.gitbook/assets/image (102).png>)
 
-#### 
+####
 
 #### Step 3
 
 Paste the Spike webhook URL.
 
-![](../.gitbook/assets/image%20%2878%29.png)
-
-
+![](<../.gitbook/assets/image (103).png>)
 

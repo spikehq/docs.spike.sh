@@ -10,5 +10,3 @@ description: >-
 
 The docs cover how to set up Spike.sh, adding integrations and creating on-call schedules. 
 
-
-

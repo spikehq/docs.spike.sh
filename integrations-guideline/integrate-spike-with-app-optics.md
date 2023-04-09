@@ -4,7 +4,9 @@
 
 Make sure to add the App Optics integration and copy the webhook. 
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -16,7 +18,7 @@ From the dashboard navigate to **organization settings** and then go to **notifi
 
 Select webhooks from the available integrations.
 
-![](../.gitbook/assets/group-43.png)
+![](<../.gitbook/assets/Group 43.png>)
 
 
 
@@ -24,11 +26,10 @@ Select webhooks from the available integrations.
 
 Paste the Spike webhook URL and save.
 
-![](../.gitbook/assets/group-44.png)
+![](<../.gitbook/assets/Group 44.png>)
 
 
 
 {% hint style="success" %}
 This integration auto resolves.
 {% endhint %}
-

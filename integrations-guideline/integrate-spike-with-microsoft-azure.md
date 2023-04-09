@@ -4,9 +4,11 @@
 
 Make sure to add the Azure integration and copy the webhook.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
- 
+&#x20;
 
 {% hint style="success" %}
 Azure Integration on Spike is capable of integrating with Azure Services like [**VMs, Application Insights** and more](https://azure.microsoft.com/en-in/services/).
@@ -18,7 +20,7 @@ Azure Integration on Spike is capable of integrating with Azure Services like [*
 
 ### **Step 1**
 
- On [Azure Portal](https://portal.azure.com/#home) go to **Monitor**
+&#x20;On [Azure Portal](https://portal.azure.com/#home) go to **Monitor**
 
 ![Select monitor](../.gitbook/assets/azure-1.png)
 
@@ -36,9 +38,12 @@ On the Monitor dashboard, choose to **Create Alert**
 
 On the Create Alert dashboard, you will be asked to configure the categories:
 
-1. **Select A Resource** Choose a resource group you wish to monitor, for example, a Virtual Machine.
-2. **Select A Condition** Choose a condition at which you wish to trigger an alert
-3. **Select Action Rule** So, this is the main section which lets you integrate with webhooks. Azure allows you to paste a custom webhook URL to direct alerts to that server.
+1. **Select A Resource**\
+   Choose a resource group you wish to monitor, for example, a Virtual Machine.
+2. **Select A Condition**\
+   Choose a condition at which you wish to trigger an alert
+3. **Select Action Rule**\
+   So, this is the main section which lets you integrate with webhooks. Azure allows you to paste a custom webhook URL to direct alerts to that server.
 
 ![Paste the webhook on Azure](../.gitbook/assets/azure-4.png)
 
@@ -50,6 +55,10 @@ Finally, add a **description** to your alert and choose the **severity** of the 
 
 
 
+In the advanced settings section, make sure to check both **enable upon creation** and **automatically resolve alerts**.
+
+<figure><img src="../.gitbook/assets/image (8).png" alt=""><figcaption><p>Automatically resolve Aure alerts</p></figcaption></figure>
+
 ## FAQ
 
 1. **How many services and integrations can I create on Spike?**
@@ -60,4 +69,3 @@ Finally, add a **description** to your alert and choose the **severity** of the 
 At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
 
 If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
-

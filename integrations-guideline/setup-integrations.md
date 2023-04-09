@@ -2,47 +2,87 @@
 
 Follow the simple instructions on how to setup an integration with Spike.
 
-{% page-ref page="integrate-spike-with-aws.md" %}
+{% content-ref url="integrate-spike-with-aws.md" %}
+[integrate-spike-with-aws.md](integrate-spike-with-aws.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-google-cloud-with-spike.md" %}
+{% content-ref url="integrate-google-cloud-with-spike.md" %}
+[integrate-google-cloud-with-spike.md](integrate-google-cloud-with-spike.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrating-with-webhooks.md" %}
+{% content-ref url="integrating-with-webhooks.md" %}
+[integrating-with-webhooks.md](integrating-with-webhooks.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-healthchecks-with-spike.md" %}
+{% content-ref url="integrate-healthchecks-with-spike.md" %}
+[integrate-healthchecks-with-spike.md](integrate-healthchecks-with-spike.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-apex-ping-with-spike.md" %}
+{% content-ref url="integrate-apex-ping-with-spike.md" %}
+[integrate-apex-ping-with-spike.md](integrate-apex-ping-with-spike.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-uptime-robot.md" %}
+{% content-ref url="integrate-spike-with-uptime-robot.md" %}
+[integrate-spike-with-uptime-robot.md](integrate-spike-with-uptime-robot.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-sentry.md" %}
+{% content-ref url="integrate-spike-with-sentry.md" %}
+[integrate-spike-with-sentry.md](integrate-spike-with-sentry.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-pingdom.md" %}
+{% content-ref url="integrate-spike-with-pingdom.md" %}
+[integrate-spike-with-pingdom.md](integrate-spike-with-pingdom.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-twilio.md" %}
+{% content-ref url="integrate-spike-with-twilio.md" %}
+[integrate-spike-with-twilio.md](integrate-spike-with-twilio.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-microsoft-azure.md" %}
+{% content-ref url="integrate-spike-with-microsoft-azure.md" %}
+[integrate-spike-with-microsoft-azure.md](integrate-spike-with-microsoft-azure.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-honeybadger.md" %}
+{% content-ref url="integrate-spike-with-honeybadger.md" %}
+[integrate-spike-with-honeybadger.md](integrate-spike-with-honeybadger.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-datadog.md" %}
+{% content-ref url="integrate-spike-with-datadog.md" %}
+[integrate-spike-with-datadog.md](integrate-spike-with-datadog.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-travis-ci.md" %}
+{% content-ref url="integrate-spike-with-travis-ci.md" %}
+[integrate-spike-with-travis-ci.md](integrate-spike-with-travis-ci.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-rollbar.md" %}
+{% content-ref url="integrate-spike-with-rollbar.md" %}
+[integrate-spike-with-rollbar.md](integrate-spike-with-rollbar.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-needle.sh.md" %}
+{% content-ref url="integrate-spike-with-needle.sh.md" %}
+[integrate-spike-with-needle.sh.md](integrate-spike-with-needle.sh.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-cronitor.md" %}
+{% content-ref url="integrate-spike-with-cronitor.md" %}
+[integrate-spike-with-cronitor.md](integrate-spike-with-cronitor.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-bugsnag.md" %}
+{% content-ref url="integrate-spike-with-bugsnag.md" %}
+[integrate-spike-with-bugsnag.md](integrate-spike-with-bugsnag.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-prometheus.md" %}
+{% content-ref url="integrate-spike-with-prometheus.md" %}
+[integrate-spike-with-prometheus.md](integrate-spike-with-prometheus.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-grafana.md" %}
+{% content-ref url="integrate-spike-with-grafana.md" %}
+[integrate-spike-with-grafana.md](integrate-spike-with-grafana.md)
+{% endcontent-ref %}
 
-{% page-ref page="integrate-spike-with-instana.md" %}
+{% content-ref url="integrate-spike-with-instana.md" %}
+[integrate-spike-with-instana.md](integrate-spike-with-instana.md)
+{% endcontent-ref %}
 
-{% page-ref page="integration-spike-with-zapier.md" %}
-
-
+{% content-ref url="integration-spike-with-zapier.md" %}
+[integration-spike-with-zapier.md](integration-spike-with-zapier.md)
+{% endcontent-ref %}
 

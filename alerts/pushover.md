@@ -12,17 +12,17 @@ With [Pushover](https://pushover.net), you can get alerts via Mobile push notifi
 
 **Connect Pushover**
 
-![Connect Pushover in account settings](../.gitbook/assets/group-2%20%285%29.png)
+![Connect Pushover in account settings](<../.gitbook/assets/Group 2 (4).png>)
 
 ‌
 
 Alert via Pushover at the time of creating an escalation policy.
 
-![Alert Via Pushover](../.gitbook/assets/group-3%20%282%29.png)
+![Alert Via Pushover](<../.gitbook/assets/Group 3 (3).png>)
 
 **​How do I disconnect Pushover?**
 
-Visit [Settings](https://app.spike.sh/settings) on Spike.sh to disconnect Pushover. Once disconnected, you will not get any push notification from us.
+Visit [Settings](https://app.spike.sh/settings/personal-alerts) on Spike.sh to disconnect Pushover. Once disconnected, you will not get any push notification from us.
 
 **Can I assign Pushover to Oncall?**
 
@@ -30,5 +30,4 @@ You can but we don't recommend it since every on-call person now and in the futu
 
 **Is there a limit to a number of push notifications?**
 
-None. 
-
+None.&#x20;

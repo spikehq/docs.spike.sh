@@ -1,10 +1,12 @@
 # Integrate Spike with Elastic Cloud
 
-### Service and integration <a id="service-and-integration"></a>
+### Service and integration <a href="service-and-integration" id="service-and-integration"></a>
 
 Make sure to add the Elastic Cloud integration and copying the webhook.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,7 +16,7 @@ Make sure to add the Elastic Cloud integration and copying the webhook.
 
 In the alerts and insights section, navigate to rules and connections. Then create a new rule.
 
-![](../.gitbook/assets/group-39.png)
+![](<../.gitbook/assets/Group 39.png>)
 
 
 
@@ -22,7 +24,7 @@ In the alerts and insights section, navigate to rules and connections. Then crea
 
 While creating a rule, select the webhook action.
 
-![](../.gitbook/assets/group-40.png)
+![](<../.gitbook/assets/Group 40.png>)
 
 
 
@@ -30,7 +32,7 @@ While creating a rule, select the webhook action.
 
 Paste the Spike webhook URL and save.
 
-![](../.gitbook/assets/group-41.png)
+![](<../.gitbook/assets/Group 41.png>)
 
 
 
@@ -38,11 +40,11 @@ Paste the Spike webhook URL and save.
 
 Paste the JSON payload provided below for the webhook action.
 
-![](../.gitbook/assets/group-42.png)
+![](<../.gitbook/assets/Group 42.png>)
 
 
 
-```text
+```
 {
 	"kibanaBaseUrl": "{{kibanaBaseUrl}}",
 	"alert": {
@@ -67,4 +69,3 @@ Paste the JSON payload provided below for the webhook action.
 	}
 }
 ```
-

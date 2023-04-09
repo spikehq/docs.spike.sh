@@ -2,9 +2,11 @@
 
 ### Service and integration
 
-Make sure to add the Stackify integration and copy the webhook. 
+Make sure to add the Stackify integration and copy the webhook.&#x20;
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,7 +16,7 @@ Make sure to add the Stackify integration and copy the webhook.
 
 On the alerts page, navigate to the **alert endpoints** tab. Choose to create a new endpoint.
 
-![Create Endpoint](../.gitbook/assets/group-34.png)
+![Create Endpoint](<../.gitbook/assets/Group 34.png>)
 
 
 
@@ -22,5 +24,4 @@ On the alerts page, navigate to the **alert endpoints** tab. Choose to create a 
 
 Select **HTTP Endpoint** from the dropdown. Paste the Spike webhook  URL and select the method as **POST.**
 
-![](../.gitbook/assets/group-38.png)
-
+![](<../.gitbook/assets/Group 38.png>)

@@ -1,5 +1,5 @@
 ---
-description: 'How to get Phone, SMS and Slack alerts from Nixstats?'
+description: How to get Phone, SMS and Slack alerts from Nixstats?
 ---
 
 # Integrate Spike with Nixstats
@@ -8,7 +8,9 @@ description: 'How to get Phone, SMS and Slack alerts from Nixstats?'
 
 Make sure to add the Nixstats integration and copy the webhook. 
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 ### Using Webhooks with Nixstats
 
@@ -16,7 +18,7 @@ Make sure to add the Nixstats integration and copy the webhook.
 
 Create a new Contact
 
-![](../.gitbook/assets/group-7%20%281%29.png)
+![](<../.gitbook/assets/Group 7 (1).png>)
 
 
 
@@ -24,7 +26,7 @@ Create a new Contact
 
 Paste the spike webhook URL.
 
-![](../.gitbook/assets/group-6.png)
+![](<../.gitbook/assets/Group 6 (1).png>)
 
 {% hint style="success" %}
 This integration auto resolves for close incidents.
@@ -33,6 +35,4 @@ This integration auto resolves for close incidents.
 At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
 
 If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
-
-
 

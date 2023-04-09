@@ -1,5 +1,5 @@
 ---
-description: 'How to get Phone, SMS and Slack alerts from Stackify?'
+description: How to get Phone, SMS and Slack alerts from Stackify?
 ---
 
 # Integrate Spike with Stackify
@@ -8,7 +8,9 @@ description: 'How to get Phone, SMS and Slack alerts from Stackify?'
 
 Make sure to add the Stackify integration and copy the webhook. 
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -18,17 +20,16 @@ Make sure to add the Stackify integration and copy the webhook.
 
 Login to the dashboard. Open **Settings** and select **Webhooks** under Integrations menu
 
-![Select Webhooks](../.gitbook/assets/group-1.png)
+![Select Webhooks](<../.gitbook/assets/Group 1 (1).png>)
 
 ### Step 2
 
 Add a new Webhook.
 
-![Add a New Webhook](../.gitbook/assets/group-2%20%284%29.png)
+![Add a New Webhook](<../.gitbook/assets/Group 2 (1).png>)
 
 ### Step 3
 
 Paste the Spike.sh Webhook link.
 
-![Paste the Webhook](../.gitbook/assets/group-3.png)
-
+![Paste the Webhook](<../.gitbook/assets/Group 3 (1).png>)

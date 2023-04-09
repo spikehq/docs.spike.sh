@@ -2,9 +2,11 @@
 
 ### Service and Integration
 
-Make sure to make a LogDNA integration and copy the webhook URL.
+Make sure to add a LogDNA integration and copy the webhook URL.
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,7 +16,7 @@ Make sure to make a LogDNA integration and copy the webhook URL.
 
 From the Settings tab, navigate to the alerts section. Then add a new **Alert Preset.**
 
-![](../.gitbook/assets/image%20%2816%29.png)
+![](<../.gitbook/assets/image (107).png>)
 
 
 
@@ -22,5 +24,4 @@ From the Settings tab, navigate to the alerts section. Then add a new **Alert Pr
 
 Select webhooks from the available integrations and paste the Spike.sh webhook URL.
 
-![](../.gitbook/assets/image%20%28105%29.png)
-
+![](<../.gitbook/assets/image (108).png>)

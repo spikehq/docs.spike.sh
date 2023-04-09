@@ -4,7 +4,9 @@
 
 Make sure you have the service and integration already setup for Google Cloud. Follow the link below on instructions of how to create integration and service
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 ## Use the webhook on Google Cloud
 
@@ -16,7 +18,7 @@ Updated Google Cloud integration docs on 8th May 2020.
 
 Login to your [Google Cloud console](https://console.cloud.google.com/) and find [Monitoring](https://console.cloud.google.com/monitoring) on the sidebar
 
-![Select alerting in Monitoring sub menu](../.gitbook/assets/image%20%2867%29.png)
+![Select alerting in Monitoring sub menu](<../.gitbook/assets/image (16) (1).png>)
 
 ![Click on edit notification channel](../.gitbook/assets/new-2-gcp-edit-notification-channel.png)
 
@@ -40,7 +42,7 @@ If it fails, make sure you have pasted the right username and password. Refresh 
 
 Go to the [monitoring section](https://console.cloud.google.com/monitoring) again and click on Create policy.
 
-![Add your conditions for alerts and select notification channel](../.gitbook/assets/new-6-gcp.png)
+![Add your conditions for alerts and select notification channel](<../.gitbook/assets/new-6-gcp (1).png>)
 
 ![Select the notification channel we just created](../.gitbook/assets/new-7-gcp.png)
 
@@ -64,4 +66,3 @@ Inside of Notifications, click on the dropdown menu and select **Webhook with Ba
 At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
 
 If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
-

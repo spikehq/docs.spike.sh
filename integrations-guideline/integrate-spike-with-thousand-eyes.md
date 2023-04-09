@@ -2,9 +2,11 @@
 
 ### Service and integration
 
-Make sure to add the Thousand Eyes integration and copy the webhook. 
+Make sure to add the Thousand Eyes integration and copy the webhook.&#x20;
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
 
 
@@ -14,7 +16,7 @@ Make sure to add the Thousand Eyes integration and copy the webhook.
 
 Navigate to **alert rules** on the left menu and add a new alert rule.
 
-![](../.gitbook/assets/group-29.png)
+![](<../.gitbook/assets/Group 29.png>)
 
 
 
@@ -22,15 +24,15 @@ Navigate to **alert rules** on the left menu and add a new alert rule.
 
 Click on **configure webhooks** to add a new webhook.
 
-![](../.gitbook/assets/group-30.png)
+![](<../.gitbook/assets/Group 30.png>)
 
 
 
 **Step 3**
 
-Paste the Spike webhook URL here and add the webhook. 
+Paste the Spike webhook URL here and add the webhook.&#x20;
 
-![](../.gitbook/assets/group-31.png)
+![](<../.gitbook/assets/Group 31.png>)
 
 
 
@@ -38,11 +40,10 @@ Paste the Spike webhook URL here and add the webhook.
 
 Use the newly added webhook in your alert rule.
 
-![](../.gitbook/assets/group-32.png)
+![](<../.gitbook/assets/Group 32.png>)
 
 
 
 {% hint style="success" %}
 This integration auto resolves.
 {% endhint %}
-

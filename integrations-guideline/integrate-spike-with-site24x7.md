@@ -1,16 +1,18 @@
 ---
-description: 'How to get Phone, SMS and Slack alerts from Site24x7?'
+description: How to get Phone, SMS and Slack alerts from Site24x7?
 ---
 
 # Integrate Spike with Site24x7
 
 ### Service and integration
 
-Make sure to add the Site24x7 integration and copy the webhook. 
+Make sure to add the Site24x7 integration and copy the webhook.&#x20;
 
-{% page-ref page="create-integration-and-service-on-dashboard.md" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
+[create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
+{% endcontent-ref %}
 
-### 
+###
 
 ### Using the Webhook with Site24x7
 
@@ -18,7 +20,7 @@ Make sure to add the Site24x7 integration and copy the webhook.
 
 Login to Site24x7 Dashboard.
 
-![Site24x7 Dashboard](../.gitbook/assets/group-1%20%284%29.png)
+![Site24x7 Dashboard](<../.gitbook/assets/Group 1.png>)
 
 
 
@@ -26,15 +28,15 @@ Login to Site24x7 Dashboard.
 
 From the left panel, open the Admin panel and choose **Third-party Integrations**.
 
-![Select Third-party Integrations](../.gitbook/assets/group-2%20%287%29.png)
+![Select Third-party Integrations](<../.gitbook/assets/Group 2.png>)
 
 
 
 ### Step 3
 
-Select Webhooks from the integrations window. 
+Select Webhooks from the integrations window.&#x20;
 
-![Select Webhhoks](../.gitbook/assets/group-3%20%285%29.png)
+![Select Webhhoks](<../.gitbook/assets/Group 3.png>)
 
 
 
@@ -42,9 +44,8 @@ Select Webhooks from the integrations window.
 
 Paste the Spike.sh webhook link. Make sure to mark the HTTP method as **POST** and **post as JSON.**
 
-![](../.gitbook/assets/image-3-.png)
+![](<../.gitbook/assets/image (3) (1) (1) (1).png>)
 
 {% hint style="success" %}
 This integration supports auto-resolution of incidents
 {% endhint %}
-

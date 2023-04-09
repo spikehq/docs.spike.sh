@@ -23,13 +23,13 @@ Alternatively, you can choose multiple incidents to change status by selecting e
 
 ![Take actions on incidents from the phone call](../.gitbook/assets/phone.png)
 
-On the phone alert, you can take immediate actions by - 
+On the phone alert, you can take immediate actions by -&#x20;
 
 1. **Press 4 to Acknowledge**
 2. **Press 6 to Resolve**
 3. **Press 9 to Escalate**
 
-Phone calls are restricted to 420 characters which we believe should suffice to give you the context of the incident. 
+Phone calls are restricted to 420 characters which we believe should suffice to give you the context of the incident.&#x20;
 
 {% hint style="info" %}
 You will get a voice confirmation on the same call upon incident status change
@@ -42,15 +42,15 @@ All alerts on Slack will have actionable buttons to **Acknowledge** and **Resolv
 ![](../.gitbook/assets/slack-gif.gif)
 
 {% hint style="info" %}
-Upon status change, the relevant Slack messages will update to reflect them. This also applies if anyone changes the status via Phone, Email, SMS, or from the Dashboard too. 
+Upon status change, the relevant Slack messages will update to reflect them. This also applies if anyone changes the status via Phone, Email, SMS, or from the Dashboard too.&#x20;
 {% endhint %}
 
 ## **From Email**
 
-Use the following actions to change incident status directly from email by replying - 
+Use the following actions to change incident status directly from email by replying -&#x20;
 
-1. **\#res** to resolve
-2. **\#ack** to acknowledge
+1. **#res** to resolve
+2. **#ack** to acknowledge
 
 {% hint style="info" %}
 Upon status change, we do not send a confirmation
@@ -58,12 +58,12 @@ Upon status change, we do not send a confirmation
 
 ## **From SMS**
 
-Send Spike.sh an SMS from your registered phone number to change incident status. 
+Send Spike.sh an SMS from your registered phone number to change incident status.&#x20;
 
-1. **\#&lt;incident\_id&gt; res** to resolve. \(example: \#2071 res\)
-2. **\#&lt;incident\_id&gt; ack** to acknowledge. \(example: \#1226 ack\)
+1. **#\<incident\_id> res** to resolve. (example: #2071 res)
+2. **#\<incident\_id> ack** to acknowledge. (example: #1226 ack)
 
-The SMS action doesn't depend on replying to our message. It only relies on you sending us a message. This means if you don't have SMS in your escalation policy and then choose to perform the above action, it would still work. 
+The SMS action doesn't depend on replying to our message. It only relies on you sending us a message. This means if you don't have SMS in your escalation policy and then choose to perform the above action, it would still work.&#x20;
 
 {% hint style="info" %}
 Upon status change, we do not send a confirmation
@@ -71,13 +71,11 @@ Upon status change, we do not send a confirmation
 
 ## From mobile website
 
-Our dashboard page and incident details page are mobile compatible. You can check open incidents and relevant incidents on your mobile and change incident statuses. 
+Our dashboard page and incident details page are mobile compatible. You can check open incidents and relevant incidents on your mobile and change incident statuses.&#x20;
 
-![Incident page on mobile](../.gitbook/assets/image%20%2828%29.png)
+![Incident page on mobile](<../.gitbook/assets/image (73).png>)
 
 {% hint style="info" %}
 visit [https://app.spike.sh](https://app.spike.sh) on mobile to access the dashboard.
 {% endhint %}
-
-
 

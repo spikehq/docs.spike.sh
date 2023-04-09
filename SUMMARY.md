@@ -24,10 +24,13 @@
 * [E-mail](alerts/email.md)
 * [Slack](alerts/slack.md)
 * [Microsoft Teams](alerts/microsoft-teams.md)
+* [WhatsApp](alerts/whatsapp.md)
+* [Telegram](alerts/telegram.md)
 * [Pushover](alerts/pushover.md)
 * [Discord](alerts/discord.md)
 * [Alert rules](alerts/alert-rules.md)
 * [Vacation mode](alerts/vacation-mode.md)
+* [Title Remapper](alerts/title-remapper.md)
 
 ## Services
 
@@ -40,7 +43,16 @@
 * [Repeat escalations](escalations/repeat-escalations.md)
 * [Archive escalation policy](escalations/archive-escalation-policy.md)
 
-## On-call schedules <a id="oncall-schedules"></a>
+## Collaboration
+
+* [Task management integrations](collaboration/task-management-integrations/README.md)
+  * [JIRA Cloud](collaboration/task-management-integrations/jira-cloud.md)
+  * [JIRA server (self-hosted)](collaboration/task-management-integrations/jira-server-self-hosted.md)
+  * [ClickUp](collaboration/task-management-integrations/clickup.md)
+  * [Linear](collaboration/task-management-integrations/linear.md)
+* [War rooms](collaboration/war-rooms.md)
+
+## On-call schedules <a href="#oncall-schedules" id="oncall-schedules"></a>
 
 * [Introduction to On-call schedules](oncall-schedules/introduction-to-on-call-schedules.md)
 * [Create On-call schedule](oncall-schedules/create-on-call-schedule.md)
@@ -48,8 +60,24 @@
 * [Introduction to Layers in on-call schedules](oncall-schedules/introduction-to-layers-in-on-call-schedules.md)
 * [Override an on-call](oncall-schedules/override-an-on-call.md)
 * [Add on-call schedule to your calendar](oncall-schedules/export-on-call-schedule.md)
+* [Notifications for on-call shifts](oncall-schedules/notifications-for-on-call-shifts.md)
 
-## Integrations guideline
+## Status Pages
+
+* [Create Status page](status-pages/create-status-page.md)
+* [Create public Incident on status page](status-pages/create-public-incident-on-status-page.md)
+* [Create Planned Maintenance on status page](status-pages/create-planned-maintenance-on-status-page.md)
+* [Edit Planned Maintenance](status-pages/edit-planned-maintenance.md)
+* [Add custom domain to status page](status-pages/add-custom-domain-to-status-page.md)
+* [Manage your subscribers](status-pages/manage-your-subscribers.md)
+* [Embed status page notifications on your website](status-pages/embed-status-page-notifications-on-your-website.md)
+
+## Uptime
+
+* [Create Uptime monitor](uptime/create-uptime-monitor.md)
+* [Link uptime to Status Page](uptime/link-uptime-to-status-page.md)
+
+## Integrations guidelines <a href="#integrations-guideline" id="integrations-guideline"></a>
 
 * [Create integration and service on our dashboard](integrations-guideline/create-integration-and-service-on-dashboard.md)
 * [Setup integrations](integrations-guideline/setup-integrations.md)
@@ -113,10 +141,29 @@
 * [Integrate Spike with Coralogix](integrations-guideline/integrate-spike-with-coralogix.md)
 * [Integrate Spike with ElastAlert](integrations-guideline/integrate-spike-with-elastalert.md)
 * [Integrate Spike with LogDNA](integrations-guideline/integrate-spike-with-logdna.md)
+* [Integrate Spike with Zebrium](integrations-guideline/integrate-spike-with-zebrium.md)
+* [Integrate Spike with LibreNMS](integrations-guideline/integrate-spike-with-librenms.md)
+* [Integrate Spike with Uptime Kuma](integrations-guideline/integrate-spike-with-uptime-kuma.md)
+* [Integrate Spike with Logentries](integrations-guideline/integrate-spike-with-logentries.md)
+* [Integrate Spike with Logz](integrations-guideline/integrate-spike-with-logz.md)
+* [Integrate Spike with Ghost Inspector](integrations-guideline/integrate-spike-with-ghost-inspector.md)
+* [Integrate Spike with Hetrix Tools](integrations-guideline/integrate-spike-with-hetrix-tools.md)
+* [Integrate Spike with LogRocket](integrations-guideline/logrocket.md)
+* [Integrate Spike with StatusCake](integrations-guideline/integrate-spike-with-statuscake.md)
+* [Integrate Spike with Sysdig](integrations-guideline/integrate-spike-with-sysdig.md)
+* [Integrate Spike with Wavefront](integrations-guideline/integrate-spike-with-wavefront.md)
+* [Integrate Spike with Buildkite](integrations-guideline/integrate-spike-with-buildkite.md)
+* [Integrate Spike with Semaphore](integrations-guideline/integrate-spike-with-semaphore.md)
+* [Integrate Spike with Better Uptime](integrations-guideline/integrate-spike-with-better-uptime.md)
+* [Integrate Spike with Hexowatch](integrations-guideline/integrate-spike-with-hexowatch.md)
+* [Integrate Spike with PM2](integrations-guideline/integrate-spike-with-pm2.md)
+* [Integrate Spike with Cloudflare](integrations-guideline/integrate-spike-with-cloudflare.md)
+* [Integrate Spike with Zabbix](integrations-guideline/integrate-spike-with-zabbix.md)
 
 ## Administration
 
 * [Roles and access](administration/roles-and-access.md)
+* [SSO](administration/sso.md)
 * [Our notification numbers](administration/our-notification-numbers.md)
 * [Contact the support team](administration/contact-the-support-team.md)
 * [Adding team members](administration/adding-team-members.md)
@@ -127,3 +174,8 @@
 
 * [Create a badge](additional-resources/create-a-badge.md)
 
+## Alert Modes
+
+* [Deep Work Mode](alert-modes/deep-work-mode.md)
+* [Cooldown Mode](alert-modes/cooldown-mode.md)
+* [Out of office mode](alert-modes/out-of-office-mode.md)
