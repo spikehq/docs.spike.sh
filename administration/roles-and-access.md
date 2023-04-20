@@ -34,6 +34,7 @@ Click on `View & edit permissions` for a user and then change the role for what 
 
 ### I don't see a role fit a user, what should I do?
 Best to create a new role. Yes, that's possible. On the teams page, click on Create role. In this section, create a new role with whatever permissions you would like to give and then assign the user the newly created role.
+
 ![create a new role on Spike.sh](<../.gitbook/assets/access-control-create-a-role.png>)
 
 {% hint style="info" %}
