@@ -61,6 +61,7 @@
 * [Override an on-call](oncall-schedules/override-an-on-call.md)
 * [Add on-call schedule to your calendar](oncall-schedules/export-on-call-schedule.md)
 * [Notifications for on-call shifts](oncall-schedules/notifications-for-on-call-shifts.md)
+* [Change on-call rotation day](oncall-schedules/change-on-call-rotation-day.md)
 
 ## Status Pages
 
