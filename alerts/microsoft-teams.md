@@ -3,12 +3,48 @@ description: Get alerts on your Microsoft Teams from Spike.sh
 ---
 
 # Microsoft Teams
+Our app on Microsoft Teams make it incredibly easy to get alerts and instantly take actions against them. Quick list of available actions:
 
-## Get Teams alerts from Spike.sh
+1. Get incident alerts on Teams channels
+2. Create a new incident from Teams
+3. Acknowledge, Resolve, Escalate, Set priority and severity, and trigger an Outbound webhook
+4. Get DMs for On-call shift start/end, invites to war-room, and when you are mentioned in a comment on Spike.sh
+5. Know who is on-call and learn more about your current and upcoming on-call shift timings
+
+Download our app from this link or find Spike.sh in Teams Apps on the sidebar. Please ping your admins in case you need permissions to install an app on Teams. In case you are unable to install it, please use the **Incoming Webhook** methodology to get alerts. *scroll down to find instructions on setup*
+
+## Getting started with the App
+Once installed, you will receive a message from our app with instructions to connect your account. We recommend connecting your Spike.sh account to Teams using the `connect` **and** `connect-org` commands. 
+
+{% hint style="info" %}
+The `connect` command connects your account on Spike.sh with Teams enabling DMs for on-call shift start/end and when you are mentioned in a comment. Whereas, the `connect-org` command connects your organisation's account on Spike.sh with Teams enabling you to get actionable alerts on incidents. 
+
+We recommend you run both commands and follow the link. 
+{% endhint %}
+
+Here is a list of available commands
+1. `create-new-incident` - Create a new incident from Teams
+2. `oncall-me` - Info on whether you are on-call and when does the shift end?
+3. `oncall-now` - Who is on-call right now?
+4. `disconnect` - Disconnects your Spike.sh account with Teams. *This will disconnect only your account. Incident alerts will still be available in channels.*
+
+## Setting up incident alerts with the App
+Once connected, you should be able to add any of your available Teams channels in an escalation policy. Select Teams and your channels will be listed automatically on the right hand side. 
+
+![How incident alerts look on Teams](<../.gitbook/assets/microsoft-teams-app-incident-alerts.png>)
+
+Anyone on Teams can take actions against an incident. We recommend you create a different channel among responders to receive alerts. If an incident is acknowledged or resolved from the dashboard, phone call, email, or any other medium then it will be automatically reflected along with suppressed count and repeated counts. 
+
+## DMs
+Once the `connect` command is run, you can use the `oncall-me` and `oncall-now` to get info on oncall schedules. You will also get alerts from Spike.sh for invites to War rooms, mentions to comments, and you will also be able to create a new incident directly from Teams.
+
+![How incident alerts look on Teams](<../.gitbook/assets/all dms on teams from Spike.png>)
+
+# Get Teams alerts from Spike.sh using Incoming Webhook
 
 The alert messages on Microsoft Teams (referred to as Teams from here on) comes with gists for you and your team to quickly learn about the incident.&#x20;
 
-![How alerts look on Teams](<../.gitbook/assets/image (59).png>)
+![How incident alerts look on Teams](<../.gitbook/assets/image (59).png>)
 
 ## How to set up Teams?
 
