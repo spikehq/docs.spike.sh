@@ -165,6 +165,7 @@
 
 * [Roles and access](administration/roles-and-access.md)
 * [SSO](administration/sso.md)
+* [Enforce login](administration/enforce-login.md)
 * [Our notification numbers](administration/our-notification-numbers.md)
 * [Contact the support team](administration/contact-the-support-team.md)
 * [Adding team members](administration/adding-team-members.md)
