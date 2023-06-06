@@ -16,6 +16,7 @@
 * [Reassign incidents](incidents/reassign-incidents.md)
 * [Sharing incidents](incidents/sharing-incidents.md)
 * [Why does message parsing fail?](incidents/why-does-message-parsing-fail.md)
+* [Rate limiting on duplicate incidents](incidents/rate-limiting-on-duplicate-incidents.md)
 
 ## Alerts
 
