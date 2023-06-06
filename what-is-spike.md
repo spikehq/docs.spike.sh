@@ -9,15 +9,19 @@ Spike.sh's mission is to reduce the complexity of managing incidents and make it
 **Our platform consists of a few modules -**
 
 1. Integrations
-2. Services
+2. Alerts
 3. Escalations
-4. Alerts
+4. Services
 5. On-call schedules
-6. Alert rules
-7. Reports
+6. Reports
+7. Automation
+    - Alert rules: automate routing alerts, setting priority and severity, triggering outbound webhooks
+    - Outbound webhooks: trigger your scripts by creating an outbound webhook (GET/POST/PUT requests)
+    - Title remapper: extract values from an incident and change the incident title programatically for better context
+    - Playbooks (beta): Automate common actions like creating war rooms or creating a ticket on JIRA, or updating your status page
 
 {% hint style="info" %}
-To get in depth, please reach out to us at [demo@spike.sh](mailto:demo@spike.sh) or book a call directly on our [calendar](https://spike.sh/demo).&#x20;
+To get in depth, please reach out to us at [demo@spike.sh](mailto:demo@spike.sh) or book a call directly on our [calendar](https://calendly.com/spikehq).&#x20;
 {% endhint %}
 
 ### Integrations
@@ -26,12 +30,10 @@ To get in depth, please reach out to us at [demo@spike.sh](mailto:demo@spike.sh)
 [setup-integrations.md](integrations-guideline/setup-integrations.md)
 {% endcontent-ref %}
 
-We integrate with a number of services and tools so you can use Spike as a central intelligence as we gather incidents and alert the right person for each incident. You can add unlimited number of integrations to your account. Each integration would have a separate identifiable token so you needn't worry about incidents mixing up and rest knowing that we have got you covered.
-
-We recently released Quick Setup for integrations. You can add new integrations to already existing services in just 10 seconds.
+We integrate with a number of services and tools so you can use Spike as a central intelligence as we gather incidents and alert the right person. You can add an unlimited number of integrations, there are no restrictions. Each integration would have a separate identifiable token so you needn't worry about incidents mixing up and rest knowing that we have got you covered.
 
 {% hint style="info" %}
-We have a growing [list of integrations](https://spike.sh/integrations). If you don't see an integration you need then email us at [integrations@spike.sh](mailto:integrations@spike.sh) and we will build it for you.
+We have a growing [list of integrations](https://spike.sh/integrations). If you don't see an integration you need then email us at [integrations@spike.sh](mailto:integrations@spike.sh) and we would be happy to build it for you and release it for everyone.
 {% endhint %}
 
 ### Services
