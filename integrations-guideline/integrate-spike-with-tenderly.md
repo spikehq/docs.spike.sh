@@ -12,7 +12,7 @@ Make sure to make a Tenderly integration and copy the webhook URL.
 
 #### Step 1
 
-From the left-hand menu, go to **Alerts ->** **Destinations** tab, where you'll see a list of [all the available destinations](broken-reference).
+From the left-hand menu, go to **Alerts ->** **Destinations** tab, where you'll see a list of all the available destinations.
 
 <figure><img src="../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 
