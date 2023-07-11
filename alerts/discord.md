@@ -8,7 +8,7 @@ description: >-
 
 ## Get Discord notifications from Spike.sh
 
-Our Discord alert channel is incredibly simple yet informative. Once you add Discord alert channel, you will get a neat hello from us. On every new incident, you will get Incident details along with the link to navigate and take action.&#x20;
+Our Discord alert channel is incredibly simple yet informative. Once you add Discord alert channel, you will get a neat hello from us. On every new incident, you will get Incident details along with the link to navigate and take action.
 
 ![Discord alerts from Spike.sh](<../.gitbook/assets/image (78).png>)
 
@@ -22,19 +22,15 @@ Navigate to any channel's **settings** > **integrations.** Select the webhook in
 
 ![](../.gitbook/assets/discord-1.png)
 
-
-
 **Step 2**
 
-Name the integration Spike.sh and copy the webhook URL. Download the below badge to use it as the avatar.&#x20;
+Name the integration Spike.sh and copy the webhook URL. Download the below badge to use it as the avatar.
 
 {% file src="../.gitbook/assets/spike-badge-400.png" %}
 Spike.sh badge for Discord
 {% endfile %}
 
 ![](../.gitbook/assets/discord-2.png)
-
-
 
 **Step 3**
 
@@ -52,7 +48,7 @@ You should be able to find Discord option enabled in your escalation policy like
 
 ![Our new Discord alert channel is enabled in escalation policy](<../.gitbook/assets/image (79).png>)
 
-****
+
 
 ### Deleting Discord alert channel
 
@@ -61,6 +57,3 @@ You can always delete this channel on Spike.sh but you must ensure that it's not
 {% hint style="info" %}
 Our Discord bot currently does not accept inputs for you to acknowledge or resolve an incident.
 {% endhint %}
-
-
-

@@ -15,26 +15,26 @@ From your code, you can create an incident simply by making a **POST** request.
 
 {% endswagger-description %}
 
-{% swagger-parameter in="path" name="token" type="string" %}
+{% swagger-parameter in="path" name="token" type="string" required="false" %}
 Unique token for your webhook integration
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="title" type="string" %}
+{% swagger-parameter in="body" name="title" type="string" required="false" %}
 This will be the title of your incident. Failing to add this will create an empty incident. Read more about this below 👇
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="body" type="string" %}
+{% swagger-parameter in="body" name="body" type="string" required="false" %}
 Accepts objects and strings. This data will be in your incident details
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="severity" type="string" %}
-Sets the severity on your incident. Options are 
+{% swagger-parameter in="body" name="severity" type="string" required="false" %}
+Sets the severity on your incident. Options are
 
 **sev1, sev2, and sev3.**
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="priority" type="string" %}
-Sets the priority on your incident. Options are 
+{% swagger-parameter in="body" name="priority" type="string" required="false" %}
+Sets the priority on your incident. Options are
 
 **p1, p2, p3, p4, and p5**
 {% endswagger-parameter %}
@@ -52,11 +52,11 @@ Sets the priority on your incident. Options are
 {% endswagger-response %}
 {% endswagger %}
 
-The above request will create a new incident. Please make sure you have used the correct webhook URL. If you have copied the URL from the dashboard then the **token **_****_** should already be present.** A new incident is created soon as make a POST request. A successful request will get you 200 HTTP response status code.&#x20;
+The above request will create a new incident. Please make sure you have used the correct webhook URL. If you have copied the URL from the dashboard then the **token **_**\*\*\*\***_** should already be present.** A new incident is created soon as make a POST request. A successful request will get you 200 HTTP response status code.
 
 ### **When is a new incident NOT created?**
 
-If the integration has an open incident (_not resolved state_) __ with the same title then a new incident will NOT be created.
+If the integration has an open incident (_not resolved state_) \_\_ with the same title then a new incident will NOT be created.
 
 ### What is the title's significance?
 
@@ -75,19 +75,19 @@ We highly recommend you add a title to your POST request while creating an incid
 
 {% endswagger-description %}
 
-{% swagger-parameter in="path" name="token" type="string" %}
+{% swagger-parameter in="path" name="token" type="string" required="false" %}
 Unique token for your webhook integration
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="status" type="string" %}
+{% swagger-parameter in="body" name="status" type="string" required="false" %}
 **resolve**
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="body" type="string" %}
+{% swagger-parameter in="body" name="body" type="string" required="false" %}
 As of now, you can add any message about the incident you would like here. Accepts objects too.
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="title" type="string" %}
+{% swagger-parameter in="body" name="title" type="string" required="false" %}
 This will be the title of your incident. Failing to add this will create an empty incident title with all other parameters. Read more about this below 👇
 {% endswagger-parameter %}
 
@@ -104,7 +104,7 @@ This will be the title of your incident. Failing to add this will create an empt
 {% endswagger-response %}
 {% endswagger %}
 
-The above request will automatically resolve incidents. We use the title and the token to uniquely get open incidents and resolve them.&#x20;
+The above request will automatically resolve incidents. We use the title and the token to uniquely get open incidents and resolve them.
 
 All you need is to add the **status parameter as 'resolve'** in your POST request. The rest of the parameters are the same as creating incident request.
 

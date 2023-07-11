@@ -8,25 +8,19 @@ Make sure to add a Coralogix integration and copy the webhook URL.
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-
-
 ### Using webhooks with Coralogix
 
 #### Step 1
 
 From the dashboard, go to **settings**.
 
-![](<../.gitbook/assets/image (110) (1).png>)
-
-
+![](<../.gitbook/assets/image (110) (1) (1).png>)
 
 #### Step 2
 
 Select webhooks from the top menu and add a new webhook.
 
 ![](<../.gitbook/assets/image (105).png>)
-
-
 
 #### Step 3
 

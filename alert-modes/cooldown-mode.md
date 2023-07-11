@@ -2,15 +2,13 @@
 
 Rough day? Catch a break with Cooldown mode and offload your duties (including on-call) to one of your colleagues
 
-
-
 ### Steps to enable cooldown mode
 
 #### Step 1
 
 From the navbar open the dropdown for setting the modes.
 
-<figure><img src="../.gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
 
 #### Step 2
 

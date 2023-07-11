@@ -14,19 +14,19 @@ Make sure you have the service and integration already setup for Sentry. Follow 
 
 ### What is the difference between Sentry webhook and Sentry native integration?
 
-The main difference is in how you choose to configure and integrate on Sentry's dashboard. Here are the two approaches -&#x20;
+The main difference is in how you choose to configure and integrate on Sentry's dashboard. Here are the two approaches -
 
-**Sentry webhook integration** takes the approach by pasting the webhook link on Sentry.&#x20;
+**Sentry webhook integration** takes the approach by pasting the webhook link on Sentry.
 
-**Sentry native integration** is a published 1-click install app published on Sentry.&#x20;
+**Sentry native integration** is a published 1-click install app published on Sentry.
 
 Both Sentry webhook and Sentry native integration are created the same way you would create any other integration i.e. by going to [**New Integration**](https://app.spike.sh/integrations/new) section on dashboard.
 
 {% hint style="info" %}
 **Which to choose from the above approaches?**\
-****If you can access the verified Spike.sh integration on Sentry's dashboard then take that approach. ([Instructions](https://docs.spike.sh/integrations-guideline/integrate-spike-with-sentry))\
+\*\*\*\*If you can access the verified Spike.sh integration on Sentry's dashboard then take that approach. ([Instructions](https://docs.spike.sh/integrations-guideline/integrate-spike-with-sentry))\
 \
-If you cannot access the verified Spike.sh integration on Sentry's dashboard then please go with the approach of using our unique webhook endpoint.&#x20;
+If you cannot access the verified Spike.sh integration on Sentry's dashboard then please go with the approach of using our unique webhook endpoint.
 {% endhint %}
 
 ## Integrating with Sentry's webhook
@@ -37,7 +37,7 @@ If you cannot access the verified Spike.sh integration on Sentry's dashboard the
 
 ![Add to project](<../.gitbook/assets/image (41).png>)
 
-Paste your copied webhook from Spike.sh to Sentry's webhook integration.&#x20;
+Paste your copied webhook from Spike.sh to Sentry's webhook integration.
 
 ![Paste Spike.sh webhook on Sentry](<../.gitbook/assets/image (43).png>)
 
@@ -55,7 +55,6 @@ Add your conditions for alerts and in actions select **Send a notification via a
 
 ![Select notification via Integration for Webhook](../.gitbook/assets/sentry-alert-2.png)
 
-This should be the end result.&#x20;
+This should be the end result.
 
-![Spike webook integration on Sentry](<../.gitbook/assets/image (39) (2).png>)
-
+![Spike webook integration on Sentry](<../.gitbook/assets/image (39) (1).png>)

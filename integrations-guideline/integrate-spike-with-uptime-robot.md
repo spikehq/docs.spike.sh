@@ -22,13 +22,11 @@ Select webhook from the drop-down menu.
 
 ![](<../.gitbook/assets/3 Dashboard  Uptime Robot 2019-07-04 17-34-24.png>)
 
-****
+
 
 Paste the Spike webhook URL in the **URL to Notify** field.
 
 ![](<../.gitbook/assets/Screenshot 2021-05-26 at 5.34.05 PM.png>)
-
-
 
 Paste the following JSON in the **POST Value** field.
 
@@ -46,8 +44,6 @@ Paste the following JSON in the **POST Value** field.
     "sslExpiryDaysLeft": "*sslExpiryDaysLeft*"
 }
 ```
-
-
 
 After selecting the Webhook option, paste the webhook you copied earlier from the dashboard and hit **Create alert contact**
 
@@ -68,8 +64,6 @@ This integration supports auto resolution.
 {% endhint %}
 
 **Hit save!**
-
-
 
 ## FAQ
 

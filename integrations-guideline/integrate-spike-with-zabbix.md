@@ -8,8 +8,6 @@ Make sure to make a Zabbix integration and copy the webhook URL.
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-
-
 ### Using Webhooks with Zabbix
 
 #### Step 1
@@ -27,10 +25,6 @@ Create a new action: Go to "Configuration" -> "Actions" and click "Create action
 #### Step 4
 
 Save the action and test it: Once you've saved the action, you can test it by triggering the conditions you configured in step 3. If everything works correctly, you should see alerts sent to the webhook URL you specified in step 1.
-
-****
-
-****
 
 
 
