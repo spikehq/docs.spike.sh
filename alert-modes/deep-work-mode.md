@@ -24,4 +24,4 @@ Toggle the button to start the Deep work mode.
 
 By default, the deep work mode starts for **2 hours**. However, you can change the duration to 1 hour and 4 hours as well
 
-<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>

@@ -26,7 +26,7 @@ To create a webhook alert destination, click on the Webhook card, which will ope
 * **Webhook URL** - Paste the Spike integration URL here
 * **Description** - Optional parameter, but you can use it to provide more information about the webhook configuration
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 #### Step 3&#x20;
 

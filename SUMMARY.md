@@ -162,6 +162,7 @@
 * [Integrate Spike with Cloudflare](integrations-guideline/integrate-spike-with-cloudflare.md)
 * [Integrate Spike with Zabbix](integrations-guideline/integrate-spike-with-zabbix.md)
 * [Integrate Spike with Tenderly](integrations-guideline/integrate-spike-with-tenderly.md)
+* [Integrate Spike with Xitoring](integrations-guideline/integrate-spike-with-xitoring.md)
 
 ## Administration
 
