@@ -2,7 +2,7 @@
 
 ### Service and Integration
 
-Make sure to make a Tenderly integration and copy the webhook URL.
+Make sure to make a Xitoring integration and copy the webhook URL.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -12,7 +12,7 @@ Make sure to make a Tenderly integration and copy the webhook URL.
 
 #### Step 1
 
-From the navbar, navigate to [Notification Roles](https://app.xitoring.com/ui/notificationRoles) in Xitoring app.
+From the navbar, navigate to [Notification Roles](https://app.xitoring.com/ui/notificationRoles) in the Xitoring app.
 
 <figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
