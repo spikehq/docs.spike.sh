@@ -14,7 +14,7 @@ Our app on Microsoft Teams make it incredibly easy to get alerts and instantly t
 4. Get DMs for On-call shift start/end, invites to war-room, and when you are mentioned in a comment on Spike.sh
 5. Know who is on-call and learn more about your current and upcoming on-call shift timings
 
-Download our app from this link or find Spike.sh in Teams Apps on the sidebar. Please ping your admins in case you need permissions to install an app on Teams. In case you are unable to install it, please use the **Incoming Webhook** methodology to get alerts. _scroll down to find instructions on setup_
+Download our app from [this link](https://teams.microsoft.com/l/app/aea2c271-cfd3-4360-86bb-4a16998b2bde?source=app-details-dialog) or find Spike.sh in Teams Apps on the sidebar. Please ping your admins in case you need permissions to install an app on Teams. In case you are unable to install it, please use the **Incoming Webhook** methodology to get alerts. _scroll down to find instructions on setup_
 
 ### Getting started with the App
 
