@@ -163,6 +163,7 @@
 * [Integrate Spike with Zabbix](integrations-guideline/integrate-spike-with-zabbix.md)
 * [Integrate Spike with Tenderly](integrations-guideline/integrate-spike-with-tenderly.md)
 * [Integrate Spike with Xitoring](integrations-guideline/integrate-spike-with-xitoring.md)
+* [Integrate Spike with Crowdstrike](integrations-guideline/integrate-spike-with-xitoring-1.md)
 
 ## Administration
 
