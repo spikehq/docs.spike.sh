@@ -16,6 +16,8 @@ Our app on Microsoft Teams make it incredibly easy to get alerts and instantly t
 
 Download our app from [this link](https://teams.microsoft.com/l/app/aea2c271-cfd3-4360-86bb-4a16998b2bde?source=app-details-dialog) or find Spike.sh in Teams Apps on the sidebar. Please ping your admins in case you need permissions to install an app on Teams. In case you are unable to install it, please use the **Incoming Webhook** methodology to get alerts. _scroll down to find instructions on setup_
 
+{% embed url="https://www.youtube.com/watch?v=aLuMQXcaJEk" %}
+
 ### Getting started with the App
 
 Once installed, you will receive a message from our app with instructions to connect your account. We recommend connecting your Spike.sh account to Teams using the `connect` **and** `connect-org` commands.
@@ -64,8 +66,6 @@ Go to the Apps section in your teams account and install the **Incoming Webhook*
 Select a channel of your choice and click **setup connector**
 
 ![](../.gitbook/assets/setup-connector.png)
-
-
 
 Name your connector and upload our Spike.sh logo so as to easily identify alerts coming from us. [You can download our logo here.](https://drive.google.com/drive/u/1/folders/1o1JwoMXVY9uYUb8v12wZOMUhaaxVLHnH)
 
