@@ -10,12 +10,18 @@ description: >-
 
 With [Pushover](https://pushover.net), you can get alerts via Mobile push notifications by connecting and add Pushover to your escalation policy
 
+You can get Pushover alerts for - 
+1. Incidents & escalations
+2. On-call shift start and end
+
+{% hint style="info" %}
+Spike triggers Pushover alerts are "high" priority so they bypass your Do not disturb settings.
+{% endhint %}
+
 **Connect Pushover**
 
 ![Connect Pushover in account settings](<../.gitbook/assets/Group 2 (4).png>)
-
 ‌
-
 Alert via Pushover at the time of creating an escalation policy.
 
 ![Alert Via Pushover](<../.gitbook/assets/Group 3 (3).png>)
