@@ -12,20 +12,20 @@ Create a GitHub Workflows integration and copy the unique webhook URL.
 
 **Step 1** 
 Go to the settings section of the repository and open the webhooks settings.
-![](<../.gitbook/assets/gw-1.png>)
+<figure><img src="../.gitbook/assets/gw-1.png" alt="Spike.sh on GitHub Actions"><figcaption></figcaption></figure>
 
 **Step 2**
 Add a new webhook.
-![](<../.gitbook/assets/gw-2.png>)
+<figure><img src="../.gitbook/assets/gw-2.png" alt="Spike.sh on GitHub Actions"><figcaption></figcaption></figure>
 
 **Step 3**
 Paste the Spike.sh hooks URL and select content type as application/json. 
 Select individual events to choose the events to monitor.
-![](<../.gitbook/assets/gw-3.png>)
+<figure><img src="../.gitbook/assets/gw-3.png" alt="Spike.sh on GitHub Actions"><figcaption></figcaption></figure>
 
 **Step 4**
 Scroll to the bottom and select the workflow events.
-![](<../.gitbook/assets/gw-4.png>)
+<figure><img src="../.gitbook/assets/gw-4.png" alt="Spike.sh on GitHub Actions"><figcaption></figcaption></figure>
 
 Your integration is ready.
 
