@@ -32,4 +32,3 @@ You can also customise alerts per on-call schedule in the schedule's settings.
 You can set up Slack notifications when anyone of your team starts and ends a shift across all on-call schedules. Visit [Slack settings under organisation > alerts](https://app.spike.sh/settings/general/alerts) and set up channels you would like to receive notifications on. Once saved, all members in selected Slack channels will receive updates on shift start and end.
 
 ![Slack notifications for shift start and ends](<../.gitbook/assets/image (139).png>)
-
