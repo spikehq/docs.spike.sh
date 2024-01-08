@@ -164,6 +164,7 @@
 * [Integrate Spike with Tenderly](integrations-guideline/integrate-spike-with-tenderly.md)
 * [Integrate Spike with Xitoring](integrations-guideline/integrate-spike-with-xitoring.md)
 * [Integrate Spike with Crowdstrike](integrations-guideline/integrate-spike-with-crowdstrike.md)
+* [Integrate Spike with GitHub Workflows](integrations-guideline/integrate-spike-with-github-workflows.md)
 
 ## Administration
 
