@@ -20,7 +20,7 @@ A person will either be on-call or not. You cannot "create" on-call. You will cr
 
 Schedules determine who is/will be on-call. You can create a flexible schedule, one that works for everyone and add team members to it. Schedules will make sure to rotate the members on daily, weekly or even custom time intervals.&#x20;
 
-![Example of Daily rotation among 2 members](../.gitbook/assets/daily-rotation-example.png)
+![Example of Daily rotation among 2 members](../.gitbook/assets/On-call calendar.gif)
 
 ### 1. Who should use on-call?
 
@@ -28,7 +28,7 @@ Anyone with more than one team member.&#x20;
 
 ### 2. Who can create schedules?
 
-Admins and members can both create and edit schedules
+Admins and members can both create and edit schedules. Use fine-grained access control to manage on-call permissions
 
 ### **3. Does being on-call mean ALL the alerts will come to me?**
 

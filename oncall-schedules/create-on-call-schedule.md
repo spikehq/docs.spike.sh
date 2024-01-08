@@ -15,13 +15,11 @@ A simple on-call schedule comprises of layers (_we will get into this on the nex
 
 ## Creating a schedule
 
-On-call section is situated on the navbar of your dashboard.&#x20;
-
-![](<../.gitbook/assets/oncall-create-1 (1).png>)
+Visit [On-call section](https://app.spike.sh/on-calls) from Spike's dashboard.&#x20;
 
 ![](<../.gitbook/assets/oncall-create-2 (1).png>)
 
-Head over to On-call section in the header and click schedules and then **New schedule**
+Click **New schedule**
 
 ### Let's create our first on-call schedule
 
@@ -30,10 +28,14 @@ Head over to On-call section in the header and click schedules and then **New sc
 Should be at least one member. The order of members is the order of members going on-call one at a time.&#x20;
 
 {% hint style="info" %}
-You can choose re-arrange the sequence of members while creating or editing
+Use the live preview on-call calendar while creating the schedule
 {% endhint %}
 
 ![](../.gitbook/assets/oncall-members-1.png)
+
+You can choose ro re-arrange the sequence of members while creating or editing. This will decide the sequence of members going on-call.
+
+{% embed url="https://www.youtube.com/watch?v=ECDlUwC3oKc&ab_channel=Spike" %}
 
 #### **Step 2: Select rotation -**&#x20;
 
