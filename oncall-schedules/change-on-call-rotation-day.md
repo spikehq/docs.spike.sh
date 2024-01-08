@@ -9,10 +9,10 @@ Suppor you have an on-call on weekly shift which rotates every Wednesday and wis
 It comes with 2 caveats though and this documents how to solve them. Please read carefully before changing.
 
 ## Example on-call
-Assume we have a Primary on-call schedule with A,B,C,and D as on-call members in the exact sequence rotating their duties on a weekly basis. C is currently on-call. Next week, D will be on-call.
+Assume we have a Primary on-call schedule with A, B, C, and D as on-call members in the exact sequence rotating their duties on a weekly basis. C is currently on-call. Next week, D will be on-call.
 
 ### How to change?
-You must use the `schedule to start` option. This helps you to schedule an on-call to start a future date. The strategy here is to change the existing schedule to start on the next Monday (or the day you wish to start). To change, Visit on-call schedule > edit > select next monday on the calendar in `Schedule on-call start` > update on-call schedule.
+You must use the `schedule to start` option. This helps you to schedule an on-call to start a future date. The strategy here is to change the existing schedule to start on the next Monday (or the day you wish to start). To change, Visit on-call schedule > Settings > Schedule to start later next monday and submit.
 
 {% hint style="warning" %}
 **Caveats!** Be wary of this. There are 2 caveats since our systems will pretty much treat this as a new on-call schedule.
@@ -33,6 +33,3 @@ No, this operation cannot be undone. To test, feel free to create a new on-call 
 
 ## Can I schedule to start in the past?
 No, we don't support scheduling an on-call to start in the past.
-
-## Do you consider finding a better way to do this?
-Most definitely. Please, upvote this feature on our [HUB](https://hub.spike.sh/12).
