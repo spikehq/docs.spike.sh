@@ -43,8 +43,6 @@ Choose a rotation type that works for your team.&#x20;
 
 ![](../.gitbook/assets/oncall-rotation-1.png)
 
-#### ****
-
 #### **Step 3: Add handoff time**
 
 Handoff time is the time of day when previous person's on-call time ends and the next person's begins.
@@ -57,9 +55,9 @@ This is how our daily rotational oncall form would look like -&#x20;
 
 The above on-call schedule has 2 members, rotates daily and the shift changes at 11:00 AM everyday. This also means our team members will be on-call for 24 hours straight. &#x20;
 
-![](../.gitbook/assets/daily-rotation-example.png)
+![](../.gitbook/assets/oncall-calendar-after-creating-schedules.png)
 
-The calendar will give you a perfect understanding of who's on-call at a given date. You can choose to navigate and plan your dates accordingly too.&#x20;
+The calendar will give you a perfect understanding of who's on-call at any given time of any date. You can choose to navigate and plan your dates accordingly too.&#x20;
 
 ## Using the schedule in an escalation policy
 

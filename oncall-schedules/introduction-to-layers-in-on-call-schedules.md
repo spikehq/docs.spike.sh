@@ -8,19 +8,19 @@ description: >-
 
 ## What are Layers in on-call schedules?
 
-Layers are schedules with the same key components as members, handoff, rotation and slots. You can add multiple layers to one on-call schedule. This helps you give flexibility over timings and members.&#x20;
+In Spike.sh's on-call scheduling, 'Layers' add a dynamic dimension to your planning. Each layer encompasses essential elements like members, handoff times, rotations, and slots. The flexibility of adding multiple layers to a single schedule empowers you to customize timings and team involvement with precision.
 
-Layers for your on-call schedule are organised sequentially in ascending order. This means when timing overlaps between Layer 2 and Layer 1, the higher layer will overlap the lower ones, i.e. in this case **Layer 2 will overlap 1.**&#x20;
+Layers are meticulously organized in a sequential, ascending order. This design means that in instances of overlapping schedules, the higher layer takes precedence. For example, if Layer 2's timing intersects with that of Layer 1, Layer 2 will be the active layer, overriding Layer 1. Similarly, in a configuration with three layers, Layer 3 would supersede both Layers 1 and 2 in overlapping scenarios.
 
-For 3 layers, Layer 3 will take overlap over 1 and 2.&#x20;
+This layered approach ensures a seamless, well-coordinated on-call schedule, allowing for nuanced control over who is on-call and when..&#x20;
 
-{% hint style="info" %}
-Every on-call schedule will have at least one layer
+{% hint style="warning" %}
+Every on-call schedule will have at least one layer.
 {% endhint %}
 
 ### What does overlapping mean?
 
-In simple words - if both layers have common times then Layer 2 will overlap calendar schedules from layer 1. Let's take an example.&#x20;
+'Overlapping' in layered scheduling is straightforward: when two layers share common times, the higher layer takes precedence. To illustrate, if Layer 1 and Layer 2 have overlapping schedules, Layer 2 will be the active one, effectively overriding the schedules set in Layer 1.
 
 ### Understand layers with an example
 
@@ -32,7 +32,7 @@ Here is a simple on-call schedule with 2 members rotating each day. This means o
 
 This is how the calendar looks like with just the above layer in our on-call schedule
 
-![Calendar for above on-call schedule with just one layer](<../.gitbook/assets/image (67).png>)
+![Calendar for above on-call schedule with just one layer](<../.gitbook/assets/oncall-update-after-another-layer-e.png>)
 
 ### Adding the weekend layer to override
 
@@ -64,9 +64,9 @@ You can start experimenting with layers by editing the same schedule as many tim
 ### FAQs on Layers
 
 * **Can I add a layer temporarily?**
-  * You can add a layer and then delete it. A common use case if a person needs to take the day off and someone else has agreed to cover them, then add a new layer to cover that day alone. Once the day is passed, delete the layer.&#x20;
+  * Yes, you can. Alternatively, also check out [On-call overrides](https://docs.spike.sh/oncall-schedules/override-an-on-call).&#x20;
 * **How many layers can I add?**
-  * There is no limitation. Our recommendation is to avoid adding too many layers. Otherwise, it could get confusing how the calendar works and as a result teams usually hesitate to delete any layer.&#x20;
+  * There is no limitation. Our recommendation is to avoid adding too many layers. It could get confusing how the schedule works and as a result teams usually hesitate to delete any layer.&#x20;
 * **How many members can be added in one layer?**
   * There is no limit here either.&#x20;
 
