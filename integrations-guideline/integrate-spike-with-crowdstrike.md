@@ -30,3 +30,6 @@ In the alerts type, select notifications and then select webhook. In actions, se
 #### Step 4
 
 Paste the Spike.sh integration URL and save the workflow.
+
+
+Disclaimer: These integration instructions are offered independently by Spike.sh, and Spike.sh is not affiliated with nor a partner of CrowdStrike, Inc
