@@ -18,15 +18,20 @@ The main difference is in how you choose to configure and integrate on Sentry's 
 
 **Sentry webhook integration** takes the approach by pasting the webhook link on Sentry.
 
-**Sentry native integration** is a published 1-click install app published on Sentry.
+**Sentry native integration** is a 1-click install app published on Sentry.
 
 Both Sentry webhook and Sentry native integration are created the same way you would create any other integration i.e. by going to [**New Integration**](https://app.spike.sh/integrations/new) section on dashboard.
 
 {% hint style="info" %}
 **Which to choose from the above approaches?**\
-\*\*\*\*If you can access the verified Spike.sh integration on Sentry's dashboard then take that approach. ([Instructions](https://docs.spike.sh/integrations-guideline/integrate-spike-with-sentry))\
+If you can access the verified Spike.sh integration on Sentry's dashboard then take that approach. ([Instructions](https://docs.spike.sh/integrations-guideline/integrate-spike-with-sentry))\
 \
-If you cannot access the verified Spike.sh integration on Sentry's dashboard then please go with the approach of using our unique webhook endpoint.
+Consider you have services A,B, and C to integrate with Sentry.
+
+**Service A**: Utilize Sentry's 1-click app for a streamlined integration. Note: The 1-click app is limited to a single project on Sentry.
+**Services B and C**: Establish a webhook integration by creating it on Spike (https://app.spike.sh/integrations/new) and subsequently configuring it in Sentry.
+
+The 1-click app offers an effortless setup for one project, while the webhook integration allows for unrestricted application across multiple projects.
 {% endhint %}
 
 ## Integrating with Sentry's webhook
