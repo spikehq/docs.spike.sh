@@ -18,7 +18,7 @@ You can choose to **acknowledge** or **resolve** an incident directly from Slack
 
 ## Installing the app
 
-Once you have signed up, visit the [Alerts section](https://app.spike.sh/settings/organisation) inside your settings and click on **Add to Slack.** Our Slack app asks for some basic permissions. You can choose any channel you wish in the permissions sections.
+Once you have signed up, visit the [Alerts section](https://app.spike.sh/settings/general/alerts) inside your settings and click on **Add to Slack.** Our Slack app asks for some basic permissions. You can choose any channel you wish in the permissions sections.
 
 While creating escalation policies, you can select any of your **public and private channels** for Slack to send incident alerts on.
 
