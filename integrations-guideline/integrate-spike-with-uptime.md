@@ -16,7 +16,7 @@ Make sure to add the Uptime integration and copy the webhook.
 
 From the left menu, navigate to the integrations page.
 
-![Go to integratoins menu ](<../.gitbook/assets/Group 19.png>)
+![Go to integrations menu ](<../.gitbook/assets/Group 19.png>)
 
 **Step 2**
 
