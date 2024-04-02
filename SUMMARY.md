@@ -102,6 +102,7 @@
 * [Integrate Spike with Travis CI](integrations-guideline/integrate-spike-with-travis-ci.md)
 * [Integrate Spike with Heroku](integrations-guideline/integrate-spike-with-heroku.md)
 * [Integrate Spike with Datadog](integrations-guideline/integrate-spike-with-datadog.md)
+* [Integrate Spike with Axiom](integrations-guideline/integrate-spike-with-axiom.md)
 * [Integrate Spike with Needle.sh](integrations-guideline/integrate-spike-with-needle.sh.md)
 * [Integrate Spike with Cronitor](integrations-guideline/integrate-spike-with-cronitor.md)
 * [Integrate Spike with Bugsnag](integrations-guideline/integrate-spike-with-bugsnag.md)
