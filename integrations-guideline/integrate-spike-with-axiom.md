@@ -18,6 +18,7 @@ Make sure to add the Axiom integration and copy the webhook.
 - Fill in the 'Name' field with a unique identifier for your monitor.
 - In the 'Description' field, provide a brief description of what the monitor aims to check.
 - Specify the query conditions and set the frequency of checks.
+
 ![Create a new monitor](<../.gitbook/assets/integrations/axiom/create_monitor.png>)
 
 #### Step 2: Adding a Notifier
