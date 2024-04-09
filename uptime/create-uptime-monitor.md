@@ -2,6 +2,11 @@
 description: Create an Uptime monitor to check the status of your website, web app or API.
 ---
 
+{% hint style="warning" %}
+The Uptime feature has reached its end of life and is now deprecated. It will remain operational for existing setups to ensure continuity, but we will not support new Uptime configurations moving forward.
+{% endhint %}
+
+
 # Create Uptime monitor
 
 ![](<../.gitbook/assets/uptime 1.png>)
