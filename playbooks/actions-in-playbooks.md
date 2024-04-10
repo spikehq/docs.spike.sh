@@ -71,17 +71,33 @@ Here are the examples illustrated in the form of actions.
 **Action 4:** Setup war room (video conference) -- Creates a Google Meet for immediate discussion.
 **Action 5:** Create an issue on JIRA -- Logs the incident for tracking and further action.
 
-#### Handling Low Severity Incidents
+**Conditions:** Analyze the payload for severity indicators and/or look for number of times an incident has occured in the past `x` minutes.
+
+#### Automated Low Severity Incidents
 **Action 1:** Set severity -- Marks the incident as SEV3, indicating low severity.
 **Action 2:** Set priority -- Assigns a P5 priority, reflecting lower urgency.
 **Action 3:** Resolve incidents -- Automatically marks the incident as resolved.
 
-#### Automated External Communication for Incidents
-**Action 1:** Create an incident on status page and notify subscribers -- Ensures transparency and keeps users informed.
+**Conditions:** Analyse the payload for low severity indicators using specific key/value pairs.
+
+#### Automated Status Page Communications
+**Action 1:** Create an incident on status page and notify subscribers
 **Action 2:** Resolve an incident on status page -- Updates subscribers on resolution status.
 
-#### Trigger Custom Workflows for Incident Analysis
+#### Nudge for Repeated Incident Occurrences
+**Action 1:** Set Severity (SEV2)
+**Action 2:** Create an alert rule to change escalation policy to alert responders. 
+
+**Conditions:** If incident has occurred `x number of times in the last y minutes` (*5 times in the last 30 minutes*)
+
+#### Payment System Glitch
+**Action 1:** Resolve incident 
+**Action 2:** Auto-create a Support ticket detailing the issue for proactive customer outreach
+
+#### Automated Resolution of Incidents
 **Action 1:** Trigger external scripts using outbound webhook -- Initiates custom analysis or alerts external systems for further action.
+**Action 2:** Resolve the incident
+
 
 
 These examples clearly illustrate how Playbooks can be configured to automate responses to a variety of incidents, showcasing the flexibility and power of Playbooks in Spike.sh. By breaking down each response into actionable steps, we demonstrate the practical application of Playbooks in streamlining incident management processes, ensuring teams can respond swiftly and effectively to any situation.

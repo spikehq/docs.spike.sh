@@ -56,8 +56,9 @@ By default, Playbooks are accessible to all team members, including admins and r
 Evaluates to True if the total incident occurrences crossed a specific threshold.
 
 ## Some Example Use Cases in Brief
-- **Critical Incident Response:** Automatically gather a response team in a video conference, assign severity, and create an incident ticket.
-- **Low Severity Management:** For minor issues, set the incident to low priority and resolve it automatically, ensuring focus remains on critical tasks.
-- **External Communication:** Upon incident detection, create a status page incident and notify subscribers, keeping all stakeholders informed.
-- **Custom Workflow Integration:** Use outbound webhooks to trigger custom scripts or processes, integrating with external tools or systems for specialized responses.
-- **High-Volume Ticket Triage:** During peak times when customer support tickets or new incidents surge, a Playbook can categorize tickets based on keywords in incidents, assign them to the appropriate support team, and set priorities.
+1. **Critical Incident Response:** Automatically gather a response team in a video conference, assign severity, and create an incident ticket.
+2. **Low Severity Management:** For minor issues, set the incident to low priority and resolve it automatically, ensuring focus remains on critical tasks.
+3. **External Communication:** Upon incident detection, create a status page incident and notify subscribers, keeping all stakeholders informed.
+4. **Custom Workflow Integration:** Use outbound webhooks to trigger custom scripts or processes, integrating with external tools or systems for specialized responses.
+5. **High-Volume Ticket Triage:** During peak times when customer support tickets or new incidents surge, a Playbook can categorize tickets based on keywords in incidents, assign them to the appropriate responders, and set priorities.
+6. **Security Breach Detected:** Upon a security incidnet, Acknowledge the incident, generate a high-priority Support ticket for the security team, and trigger security protocols via outbound webhook to isolate.
