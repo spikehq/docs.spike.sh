@@ -4,22 +4,20 @@ description: >-
   available.
 ---
 
-# Vacation mode
+# Out of office
 
-**Set vacation mode**
+**Set Out of Office mode**
 
-You can stop alerts to yourself for a period of time by setting up vacation mode. If you are on vacation mode, your alerts will be silenced.&#x20;
+You can stop alerts to yourself for a period of time by setting up **Vacation** mode. 
 
-1. Go to your account settings in Spike.sh, and scroll down to the Vacation mode section.
+In this mode -
+- All alerts are muted
+- Admins of the account will get an email notifying your vacation
 
-![](<../.gitbook/assets/Spike\_vacation 1.png>)
+Visit Your [account settings > Modes](https://app.spike.sh/settings/personal-modes) to get started.
+
+![](<../.gitbook/assets/Modes under settings menu.png>)
 
 2\. Set the start and end date for the duration of your unavailability. You can then click **Save vacation** to set your vacation mode.
 
 ![](<../.gitbook/assets/Spike\_vacation 2.png>)
-
-**Remove vacation mode**
-
-1. To resume your alerts, you can remove the vacation mode from your account settings.
-
-![](<../.gitbook/assets/Spike\_vacation 3.png>)
