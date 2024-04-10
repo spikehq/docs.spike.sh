@@ -12,9 +12,6 @@ Alert rules help you route alerts efficiently and correctly for every incident. 
 
 Visit the Alerts section from the sidebar and create a new alert rule.&#x20;
 
-{% hint style="info" %}
-Don’t see this option? Contact us and we will enable it on your account.
-{% endhint %}
 
 ![Example alert rule](../.gitbook/assets/alert\_config.svg)
 

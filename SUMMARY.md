@@ -64,6 +64,14 @@
 * [Notifications for on-call shifts](oncall-schedules/notifications-for-on-call-shifts.md)
 * [Change on-call rotation day](oncall-schedules/change-on-call-rotation-day.md)
 
+## Playbooks
+
+* [Introduction to Playbooks](playbooks/introduction-to-playbooks.md)
+* [Actions in Playbooks](playbooks/actions-in-playbooks.md)
+* [Automating your Playbooks](playbooks/automating-your-playbooks.md)
+* [Run Playbooks manually](playbooks/run-playbooks-manually.md)
+
+
 ## Status Pages
 
 * [Create Status page](status-pages/create-status-page.md)
