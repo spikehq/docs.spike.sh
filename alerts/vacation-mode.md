@@ -16,8 +16,6 @@ In this mode -
 
 Visit Your [account settings > Modes](https://app.spike.sh/settings/personal-modes) to get started.
 
-![](<../.gitbook/assets/Modes under settings menu.png>)
-
-2\. Set the start and end date for the duration of your unavailability. You can then click **Save vacation** to set your vacation mode.
+Set the start and end date for the duration of your unavailability and hit save! 
 
 ![](<../.gitbook/assets/Spike\_vacation 2.png>)
