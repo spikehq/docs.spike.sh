@@ -18,9 +18,6 @@ Members can set up a Playbook ahead of time, laying out all the necessary action
 
 Playbooks serve as an automated guide, streamlining the execution of all necessary actions promptly and without omission. This approach shortens response times and also shifts the team's focus toward resolving the issue, removing the need for manual coordination and procedure memorization.
 
-
-![Example alert rule](../.gitbook/assets/alert\_config.svg)
-
 ## Common Actions with Playbooks
 
 Playbooks can automate a wide range of actions, including but not limited to:
@@ -39,8 +36,6 @@ Playbooks are versatile, capable of functioning in two distinct modes: through m
 {% hint style="info" %}
 The sequence of actions in a Playbook is strictly adhered to. Say for example - if you add responders as Step 1, set severity as Step 2, and trigger an outbound webhook as Step 3, these actions will be executed in their precise order.
 {% endhint %}
-
-<insert GIF for manual playbook>
 
 #### Manual Runs
 Users can manually run a Playbook with the simple click of a button. This feature is particularly useful in situations where a rapid response is required, and the user is aware of the need to initiate a specific set of actions. Upon running, the Playbook carries out its predefined sequence, such as alerting team members, establishing communication channels, and documenting the incident in appropriate systems.
