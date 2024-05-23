@@ -21,7 +21,7 @@ You can create a new service by clicking on the [New Service button](https://app
 
 Give it an appropriate name, **for ex: Billing service**. ( This way you can also integrate your payment gateway by adding another integration for every time payments fail ). Hit **Create service!**\\
 
-
+***
 
 Once the service is created you will be able to see an overview of your service with all of it's integrations.
 

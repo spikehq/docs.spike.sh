@@ -22,7 +22,7 @@ Select webhook from the drop-down menu.
 
 ![](<../.gitbook/assets/3 Dashboard  Uptime Robot 2019-07-04 17-34-24.png>)
 
-
+***
 
 Paste the Spike webhook URL in the **URL to Notify** field.
 

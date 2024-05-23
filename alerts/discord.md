@@ -48,7 +48,7 @@ You should be able to find Discord option enabled in your escalation policy like
 
 ![Our new Discord alert channel is enabled in escalation policy](<../.gitbook/assets/image (79).png>)
 
-
+***
 
 ### Deleting Discord alert channel
 
