@@ -51,6 +51,7 @@
   * [JIRA server (self-hosted)](collaboration/task-management-integrations/jira-server-self-hosted.md)
   * [ClickUp](collaboration/task-management-integrations/clickup.md)
   * [Linear](collaboration/task-management-integrations/linear.md)
+  * [Shortcut](collaboration/task-management-integrations/shortcut.md)
 * [War rooms](collaboration/war-rooms.md)
 
 ## On-call schedules <a href="#oncall-schedules" id="oncall-schedules"></a>
@@ -70,7 +71,6 @@
 * [Actions in Playbooks](playbooks/actions-in-playbooks.md)
 * [Automating your Playbooks](playbooks/automating-your-playbooks.md)
 * [Run Playbooks manually](playbooks/run-playbooks-manually.md)
-
 
 ## Status Pages
 
