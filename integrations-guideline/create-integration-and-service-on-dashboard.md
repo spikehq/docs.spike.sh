@@ -19,7 +19,7 @@ description: >-
 
 You can create a new service by clicking on the [New Service button](https://app.spike.sh/services/new) on the [services page](https://app.spike.sh/services).
 
-Give it an appropriate name, **for ex: Billing service**. ( This way you can also integrate your payment gateway by adding another integration for every time payments fail ). Hit **Create service!**\\
+Give it an appropriate name, **for ex: Billing service**. ( This way you can also integrate your payment gateway by adding another integration for every time payments fail ). Hit **Create service!**
 
 ***
 
