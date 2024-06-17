@@ -75,12 +75,13 @@
 ## Status Pages
 
 * [Create Status page](status-pages/create-status-page.md)
-* [Create public Incident on status page](status-pages/create-public-incident-on-status-page.md)
+* [Incidents on status page](status-pages/create-public-incident-on-status-page.md)
 * [Create Planned Maintenance on status page](status-pages/create-planned-maintenance-on-status-page.md)
 * [Edit Planned Maintenance](status-pages/edit-planned-maintenance.md)
 * [Add custom domain to status page](status-pages/add-custom-domain-to-status-page.md)
 * [Manage your subscribers](status-pages/manage-your-subscribers.md)
 * [Embed status page notifications on your website](status-pages/embed-status-page-notifications-on-your-website.md)
+* [Live status widget](status-pages/live-status-widget.md)
 
 ## Uptime
 
