@@ -15,7 +15,7 @@ layout:
 
 # Live status widget
 
-<figure><img src="../.gitbook/assets/Live system widget.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/cover image for live status.png" alt=""><figcaption></figcaption></figure>
 
 This widget showcases the latest system health and embeds in your html by simply pasting our code.  It is traditionally placed on website's footer, contact pages, and support documentations and it is not uncommon to place it under navigation such as header dropdown or sidebars. The choice is yours.&#x20;
 
