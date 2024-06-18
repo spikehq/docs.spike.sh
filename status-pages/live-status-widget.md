@@ -63,7 +63,7 @@ Below is an example of snippet on initialising with configuration options.&#x20;
 ```
 
 {% hint style="info" %}
-Please customise it to meet your frontend stack's needs on loading and initialising the snippet.
+Customise it to meet your frontend stack's needs on loading and initialising the snippet.
 {% endhint %}
 
 {% tabs %}
