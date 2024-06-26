@@ -26,7 +26,10 @@ Login to your [Google Cloud console](https://console.cloud.google.com/) and find
 
 ![Paste the webhook and give an appropriate name](../.gitbook/assets/new-4-gcp-test-connection.png)
 
-Enter the webhook you copied earlier. _You can choose to have Basic Auth enabled. Every integration will have a unique username password combination._
+Enter the webhook you copied earlier. 
+{% hint style="info" %}
+Optional: You can choose to have Basic Auth enabled. Every Google Cloud integration will have a unique username password combination.
+{% endhint %}
 
 **Hit Test Connection and Save**
 
