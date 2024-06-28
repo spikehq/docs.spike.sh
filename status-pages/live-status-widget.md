@@ -15,7 +15,7 @@ layout:
 
 # Live status widget
 
-<figure><img src="../.gitbook/assets/cover image for live status.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Live status widget.png" alt=""><figcaption></figcaption></figure>
 
 This widget showcases the latest system health and embeds in your html by simply pasting our code.  It is traditionally placed on website's footer, contact pages, and support documentations and it is not uncommon to place it under navigation such as header dropdown or sidebars. The choice is yours.&#x20;
 
@@ -68,11 +68,11 @@ Customise it to meet your frontend stack's needs on loading and initialising the
 
 {% tabs %}
 {% tab title="Large rounded corners" %}
-<figure><img src="../.gitbook/assets/Live system widget large rounds.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Live status widget rounded.png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Small rounded corners" %}
-<figure><img src="../.gitbook/assets/Live system widget small rounds.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Live status widget square.png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
 
