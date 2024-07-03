@@ -52,6 +52,6 @@ This integration automatically detects and sets Critical severity. It also auto-
 * **Configure Trigger Actions**:
   * Under **Trigger Actions**, select either **GET** or **POST** request.
   * Paste your integration webhook from Spike.
-  * Set the `ContentType` to `"application/json"`
+  * If you see an option for setting headers, set the `ContentType` to `"application/json"`
 {% endtab %}
 {% endtabs %}
