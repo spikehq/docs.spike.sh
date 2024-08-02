@@ -43,6 +43,6 @@ So far, we have prepped our JIRA server to accept requests from Spike.sh. In the
 
 Visit the Task management section under [Settings > Organisation](https://app.spike.sh/settings/general/organisation#org--task-management) and select JIRA server. Enter the Base URL, Client ID, and Client Secret and hit Connect.
 
-<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
 This will take you to your JIRA setup for validation. It's all done once permissions are granted on the next step.
