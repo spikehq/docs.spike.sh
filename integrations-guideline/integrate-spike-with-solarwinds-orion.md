@@ -7,7 +7,7 @@ description: >-
 
 # Integrate Spike with Solarwinds Orion
 
-<figure><img src="../.gitbook/assets/Solarwinds Orion integration brigh.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Solarwinds Orion integration brigh.png" alt="Solarwinds incident response"><figcaption></figcaption></figure>
 
 ### Overview
 

@@ -176,6 +176,7 @@
 * [Integrate Spike with Crowdstrike](integrations-guideline/integrate-spike-with-crowdstrike.md)
 * [Integrate Spike with GitHub Workflows](integrations-guideline/integrate-spike-with-github-workflows.md)
 * [Integrate Spike with Solarwinds Orion](integrations-guideline/integrate-spike-with-solarwinds-orion.md)
+* [Integrate Spike with Airbrake.io](integrations-guideline/integrate-spike-with-airbrake.md)
 
 ## Administration
 
