@@ -73,6 +73,8 @@ That's it! You've successfully switched the connected group.
 
 ![How incident alerts look on Teams](<../.gitbook/assets/all dms on teams from Spike.png>)
 
+***
+
 ## Get Teams alerts from Spike.sh using Incoming Webhook
 
 {% hint style="warning" %}
