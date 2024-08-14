@@ -35,13 +35,13 @@ For the best experience, we suggest running both commands.
 {% tabs %}
 {% tab title="Commands in Microsoft Teams" %}
 * **New incident**:
-  * `create-new-incident` - Create a new incident from Teams
+  * `/create-new-incident` - Create a new incident from Teams
 * **Am I on-call?**:
-  * `oncall-me` - Check if you are on-call and when your shift ends.
+  * `/oncall-me` - Check if you are on-call and when your shift ends.
 * **Who is on-call?**:
-  * `oncall-now` - See who is currently on-call.
+  * `/oncall-now` - See who is currently on-call.
 * **Disconnect**:
-  * `disconnect` - Disconnects your Spike account from Teams. _Note: This will only disconnect your personal account. Incident alerts will continue to be available in channels._
+  * `/disconnect` - Disconnects your Spike account from Teams. _Note: This will only disconnect your personal account. Incident alerts will continue to be available in channels._
 {% endtab %}
 {% endtabs %}
 
