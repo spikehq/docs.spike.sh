@@ -1,5 +1,5 @@
 ---
-description: Manage your team and secure access to critical integrations, on-call policies and more.
+description: Admins can configure roles and permissions minutely at Spike. This doc will guide you through how to create roles and assign different permissions and secure access to critical integrations, on-call policies and more.
 ---
 
 # Roles and access
