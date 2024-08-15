@@ -1,3 +1,8 @@
+---
+description: >-
+   Integrate Spike with Moogsoft to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more for automated workflows
+---
+
 # Integrate Spike with Moogsoft
 
 ### Service and integration <a href="service-and-integration" id="service-and-integration"></a>
@@ -12,6 +17,10 @@ Make sure to add the Moogsoft integration and copying the webhook.[\
 
 
 ### Using webhooks with Moogsoft 
+
+{% hint style="warning" %}
+The below steps may have changed since Moogsoft has been acquired by Dell Technologies. 
+{% endhint %}
 
 #### Step 1
 
