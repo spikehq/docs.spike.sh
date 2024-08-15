@@ -7,7 +7,7 @@ description: >-
 
 <figure><img src="../.gitbook/assets/Cloudflare integration.png" alt=""><figcaption></figcaption></figure>
 
-### Overview
+## Overview
 [Cloudflare](https://cloudflare.com) is a leading web infrastructure and website security company, offering services such as content delivery network (CDN), DDoS mitigation, internet security, and distributed domain name server (DNS) services. It helps improve the performance and security of your websites, applications, and APIs, ensuring they remain fast and secure globally.
 
 ### Incident alerts from Cloudflare

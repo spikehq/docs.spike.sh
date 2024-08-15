@@ -1,3 +1,8 @@
+---
+description: >-
+    Integrate Spike with Copperegg to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more for monitoring and cloud optimisation events.
+---
+
 # Integrate Spike with CopperEgg
 
 ### Service and Integration
