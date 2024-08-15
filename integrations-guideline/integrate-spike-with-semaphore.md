@@ -1,6 +1,6 @@
 ---
 description: >-
-Integrate Spike with Semaphore CI to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more for pipeline results and build statuses, ensuring continuous integration monitoring.
+  Integrate Spike with Semaphore CI to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more for pipeline results and build statuses, ensuring continuous integration monitoring.
 ---
 
 # Integrate Spike with Semaphore CI
@@ -73,3 +73,7 @@ sem create -f notify-on-fail.yml
 This YAML configuration sends alerts to Spike.sh when a pipeline fails.
 {% endtab %}
 {% endtabs %}
+
+{% hint style="info" %}
+Change the endpoints to the webhook URL provided by Spike in the above YAML
+{% endhint %}
