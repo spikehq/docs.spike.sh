@@ -1,3 +1,8 @@
+---
+description: >-
+  Services are a way to scope your internal services from your architecture. Each of your service can have multiple integrations and you can create unlimited number of services.
+---
+
 # Introduction to services on Spike
 
 ## **What is a service?**

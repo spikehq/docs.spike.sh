@@ -1,3 +1,7 @@
+---
+description: >-
+  Spike.sh is a simple incident management platform. We help you by alerting the right team members about incidents that affect your customer.
+---
 # What is Spike.sh?
 
 Spike.sh is a simple incident management platform. We help you by alerting the right team members about incidents that affect your customer.&#x20;
