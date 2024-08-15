@@ -23,7 +23,7 @@ With the Spike integration, you can receive real-time alerts for various inciden
 This integration allows you to stay alert to all incidents triggered by [Airbrake.io](https://airbrake.io) for immediate incident response and resolution.
 
 {% hint style="info" %}
-Spike will automatically group repeated incidents and also suppress alerts while incident is open. You can set up [alert rules](https://docs.spike.sh/alerts/alert-rules) to determine incident severity and take actions accordingly. Auto-resolution is not supported.
+Auto-resolution is supported for this integration. Spike will also automatically group repeated incidents and suppress alerts while incident is open.
 {% endhint %}
 
 ***
