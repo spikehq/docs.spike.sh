@@ -23,7 +23,6 @@ This integration ensures that you’re promptly informed of any issues in your w
 Auto-resolution is supported for this integration. Spike will also automatically group repeated incidents and suppress alerts while incident is open.
 {% endhint %}
 
-
 ## Set up instructions
 
 **Step 1:** Create a GitHub Workflows integration and copy the unique webhook URL.
