@@ -43,11 +43,14 @@ Auto-resolution is supported for this integration. Spike will also automatically
 ```
 {
     "title": "Host {label} : {type} is {event}",
-    "status":"{if success}resolve{else}fail{/if}"
+    "status":"{if success}resolve{else}fail{/if}" // this will help auto-resolve on Spike
 }
 ```
   * Access Level = Notifications Only
   * Click Save
   * Once added you can return to the new NodePing UI and add the contact to checks as needed
+{% hint style="warning" %}
+Switch to Legacy UI on Nodeping if you have trouble adding contact.
+{% endhint %}
 {% endtab %}
 {% endtabs %}
