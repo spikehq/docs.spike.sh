@@ -20,19 +20,6 @@ Your users or visitors can choose to subscribe to your status page to receive re
 ## How to subscribe?
 Users and visitors to your status page can subscribe by entering their email or using RSS/Atom feed.
 
-### Email Subscription
-Email susbcribers is commonly used and once subscriberd they will not receive a confirmation email. The subscribe button is visible on both public and private status pages.&#x20;
-
-{% hint style="info" %}
-Email subscribers for private status page must have a Spike account
-{% endhint %}
-
-### RSS Subscription
-Users can now subscribe to your status page via RSS or Atom feed. This allows for more flexible integration with various platforms and tools. Private status page feed urls comes with a unique token.
-
-**RSS for Slack and Microsoft Teams**: Extend your status updates to Slack or Microsoft Teams channels by using RSS feeds, keeping your team informed directly within their preferred communication tools.
-**Automate with RSS**: Use RSS feeds to automate status updates across different systems, ensuring your users are always in the loop without manual intervention.
-
 {% tabs %}
 {% tab title="Email" %}
 <figure><img src="../.gitbook/assets/subscriber option email.png" alt=""><figcaption></figcaption></figure>
@@ -50,6 +37,19 @@ Users can now subscribe to your status page via RSS or Atom feed. This allows fo
 <figure><img src="../.gitbook/assets/subscriber option microsoft teams.png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
+
+### Email Subscription
+Email susbcribers is commonly used and once subscriberd they will not receive a confirmation email. The subscribe button is visible on both public and private status pages.&#x20;
+
+{% hint style="info" %}
+Email subscribers for private status page must have a Spike account
+{% endhint %}
+
+### RSS Subscription
+Users can now subscribe to your status page via RSS or Atom feed. This allows for more flexible integration with various platforms and tools. Private status page feed urls comes with a unique token.
+
+**RSS for Slack and Microsoft Teams**: Extend your status updates to Slack or Microsoft Teams channels by using RSS feeds, keeping your team informed directly within their preferred communication tools.
+**Automate with RSS**: Use RSS feeds to automate status updates across different systems, ensuring your users are always in the loop without manual intervention.
 
 ## Configure subscriber control
 
