@@ -33,7 +33,7 @@ Visit your account [Settings > Profile and find War rooms](https://app.spike.sh/
 Connect your Google account and grant us permission to access your calendar. When creating a meeting link, we will need to create a Calendar event on your account and generate a Meet link.
 
 {% hint style="success" %}
-We do not read your calendar events (_got nothing to gain from it_). We only create a calendar event and get the attached Google Meet link. Unfortunately, there is no direct Google Meet API to create new calls.
+Spike does not read your calendar events or store them. It only creates a calendar event and get the corresponding Google Meet link.
 {% endhint %}
 
 ### How to create war rooms?
@@ -60,4 +60,7 @@ There are 2 ways to do this.
 
 <figure><img src="../.gitbook/assets/image (9) (2).png" alt=""><figcaption><p>Users can access current war rooms from the header</p></figcaption></figure>
 
-We are working on a zoom integration as well. Look out for our newsletter for updates.
+
+{% hint style="warning" %}
+Spike's Google App is currently pending verification for extended access to calendar scopes.
+{% endhint %}
