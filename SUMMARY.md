@@ -22,6 +22,7 @@
 
 * [Phone](alerts/phone.md)
 * [SMS](alerts/sms.md)
+* [Mobile app alerts](alerts/mobile-app-alerts.md)
 * [E-mail](alerts/email.md)
 * [Slack](alerts/slack.md)
 * [Microsoft Teams](alerts/microsoft-teams.md)
