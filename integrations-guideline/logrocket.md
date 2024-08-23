@@ -1,14 +1,18 @@
 ---
 description: >-
-  Integrate Spike with LogRocket to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more for user session anomalies, performance issues, and error tracking, ensuring quick incident response.
+  Integrate Spike with LogRocket to receive real-time alerts via Phone calls,
+  SMS, Slack, MS Teams, and more for user session anomalies, performance issues,
+  and error tracking, ensuring quick incident r
 ---
 
 # Integrate Spike with LogRocket
+
 <figure><img src="../.gitbook/assets/xitoring integration.png" alt=""><figcaption></figcaption></figure>
 
-[LogRocket](https://logrocket.com) is a session replay and monitoring tool that helps you understand and improve the user experience by capturing and replaying user sessions. It also provides insights into frontend performance, error tracking, and other key metrics, enabling you to identify and resolve issues before they impact your users. 
+[LogRocket](https://logrocket.com) is a session replay and monitoring tool that helps you understand and improve the user experience by capturing and replaying user sessions. It also provides insights into frontend performance, error tracking, and other key metrics, enabling you to identify and resolve issues before they impact your users.
 
 ## Incident alerts from LogRocket
+
 By integrating LogRocket with Spike, you can receive real-time alerts for various user experience and performance-related incidents, including:
 
 * Frontend Errors: Alerts when JavaScript errors or other frontend issues are detected, helping you quickly address user-facing problems.
@@ -26,7 +30,6 @@ Spike will automatically group repeated incidents and also suppress alerts while
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
-
 
 **Step 2:**
 

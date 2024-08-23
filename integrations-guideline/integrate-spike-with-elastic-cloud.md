@@ -1,6 +1,8 @@
 ---
 description: >-
-  This guide will walk you through the steps to integrate Spike.sh with Elastic Cloud using webhooks. With this integration, you can send alerts from Elastic Cloud directly to Spike.sh for streamlined incident management.
+  This guide will walk you through the steps to integrate Spike.sh with Elastic
+  Cloud using webhooks. With this integration, you can send alerts from Elastic
+  Cloud directly to Spike.sh for streamlined i
 ---
 
 # Integrate Spike with Elastic Cloud
@@ -12,13 +14,14 @@ description: >-
 [Elastic Cloud](https://cloud.elastic.co) provides powerful monitoring and alerting capabilities for Elasticsearch clusters and other monitoring services. It allows teams to maintain the health and performance of their search, analytics, and server operations by detecting issues like slow queries, node failures, or resource exhaustion in real-time.
 
 ### Incident alerts from Elastic Cloud
+
 With the Spike integration, you can receive real-time alerts for various incidents detected by Elastic Cloud. These include:
 
-- Cluster health issues
-- Node failures
-- Resource exhaustion (CPU, memory, disk)
-- Slow query performance
-- And much more
+* Cluster health issues
+* Node failures
+* Resource exhaustion (CPU, memory, disk)
+* Slow query performance
+* And much more
 
 {% hint style="info" %}
 This integration automatically detects and sets Critical severity. It also auto-resolves relevant incidents if configured on Elastic Cloud.
@@ -34,7 +37,7 @@ This integration automatically detects and sets Critical severity. It also auto-
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-**Step 2:**&#x20;
+**Step 2:**
 
 {% tabs %}
 {% tab title="Setup on Airbrake.io" %}
@@ -45,14 +48,15 @@ This integration automatically detects and sets Critical severity. It also auto-
 * **Add a Webhook Action**:
   * In the **"Actions"** section of the alert setup, choose Webhook as the action type.
   * Paste the Spike integration webhook URL into the URL field.
-  * Adjust the JSON payload to include relevant data for Spike.sh. *Refer to next section for possible payload*
+  * Adjust the JSON payload to include relevant data for Spike.sh. _Refer to next section for possible payload_
   * `Important` - In the headers, set the `Content-Type` to `application/json`.
   * Save the integration.
 {% endtab %}
 {% endtabs %}
 
 ### Payloads
-Using Elastic Cloud's available variables, we have formed some template payloads you can use. 
+
+Using Elastic Cloud's available variables, we have formed some template payloads you can use.
 
 {% tabs %}
 {% tab title="Cloud monitoring" %}
@@ -82,6 +86,7 @@ Using Elastic Cloud's available variables, we have formed some template payloads
 
 ```
 {% endtab %}
+
 {% tab title="Kibana" %}
 ```
 {

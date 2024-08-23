@@ -1,9 +1,12 @@
 ---
 description: >-
-  Integrate Spike with Xitoring to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more for server monitoring, uptime checks, and system performance, ensuring quick incident response.
+  Integrate Spike with Xitoring to receive real-time alerts via Phone calls,
+  SMS, Slack, MS Teams, and more for server monitoring, uptime checks, and
+  system performance, ensuring quick incident response
 ---
 
 # Integrate Spike with Xitoring
+
 <figure><img src="../.gitbook/assets/xitoring integration.png" alt=""><figcaption></figcaption></figure>
 
 [Xitoring](https://xitoring.com) is a comprehensive monitoring platform designed to help teams keep track of server health, uptime, and overall system performance. With Xitoring, you can monitor the availability and performance of your servers, applications, and websites, receiving instant notifications when something goes wrong. This ensures that you can quickly respond to and resolve issues, maintaining the reliability and performance of your infrastructure.
@@ -31,11 +34,13 @@ Auto-resolution is supported for this integration. Spike will also automatically
 {% endcontent-ref %}
 
 **Step 2:**
+
 {% tabs %}
 {% tab title="Setting up on Xitoring" %}
 * **Navivate to Notification**
   * Visit [Notification Roles](https://app.xitoring.com/ui/notificationRoles)
   * Click Spike.sh > Paste webhook
+
 <figure><img src="../.gitbook/assets/xitoring-spike.png" alt="Spike.sh on Xitoring"><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}

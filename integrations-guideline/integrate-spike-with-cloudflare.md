@@ -1,6 +1,8 @@
 ---
 description: >-
-    Integrate Spike with Cloudflare to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more for security events, DDoS attacks, DNS changes, and other critical incidents. Ensure faster incident response and maintain the security and performance of your online infrastructure.
+  Integrate Spike with Cloudflare to receive real-time alerts via Phone calls,
+  SMS, Slack, MS Teams, and more for security events, DDoS attacks, DNS changes,
+  and other critical incidents. Ensure faster
 ---
 
 # Integrate Spike with Cloudflare
@@ -8,6 +10,7 @@ description: >-
 <figure><img src="../.gitbook/assets/Cloudflare integration.png" alt=""><figcaption></figcaption></figure>
 
 ## Overview
+
 [Cloudflare](https://cloudflare.com) is a leading web infrastructure and website security company, offering services such as content delivery network (CDN), DDoS mitigation, internet security, and distributed domain name server (DNS) services. It helps improve the performance and security of your websites, applications, and APIs, ensuring they remain fast and secure globally.
 
 ### Incident alerts from Cloudflare
@@ -32,12 +35,11 @@ Auto-resolution is supported for this integration. Spike will also automatically
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-
 {% hint style="info" %}
 This feature is only available if your Cloudflare account has at least one zone on a Professional or higher plan. For more information, visit [Cloudflare](https://developers.cloudflare.com/fundamentals/notifications/create-notifications/configure-webhooks/)
 {% endhint %}
 
-**Step 2:**&#x20;
+**Step 2:**
 
 {% tabs %}
 {% tab title="Setup on Cloudflare" %}
