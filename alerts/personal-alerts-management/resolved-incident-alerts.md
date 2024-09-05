@@ -5,7 +5,6 @@ description: "Configure to route alerts for different days and work times for tr
 # Alerts during office hours
 
 Office hours
-
 ### Explore
 - Auto-resolve alerts
     - No duplication. Only one alert
