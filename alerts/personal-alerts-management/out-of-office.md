@@ -17,15 +17,15 @@ Although optional, we recommend offloading your duties to make sure incidents ar
 
 ### Set up
 {% tabs %}
-{% tab title="Settings on Desktop" %}
-* Navigate to `Your account settings`([Dashboard link](https://app.spike.sh/settings/personal-modes#vacation-mode))
+{% tab title="From settings on Desktop" %}
+* Navigate to `Your account settings` ([Dashboard link](https://app.spike.sh/settings/personal-modes#vacation-mode))
 * Click `Modes`
 * Scroll down to **Out of office** 
 * Add **Starts on** and **Ends on**, then click `save`
 
 *Optionally, select a member to offload duties*
 {% endtab %}
-{% tab title="Select a mode on Desktop" %}
+{% tab title="From the header on Desktop" %}
 * From the header, click `Select a mode` 
 * Select **Out of office** from the dropdown
 * Add **Starts on** and **Ends on**, then click `save`
