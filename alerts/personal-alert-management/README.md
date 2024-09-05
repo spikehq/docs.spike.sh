@@ -2,9 +2,9 @@
 description: "Configure to route alerts for different days and work times for triggered and resolved incidents."
 ---
 
-# Personal Alert Preferences
+# Personal Alert Management
 
-Spike provides a range of options to customize how you receive incident alerts. These settings allow you to tailor your alert preferences for office hours, out-of-office times, and when incidents are resolved, ensuring better control over your work-life balance.
+Spike provides a range of options to customize how you receive incident alerts. These settings allow you to tailor your alert preferences for office hours, out-of-office hours, and when incidents are triggered/resolved, so you have better control over your work-life balance.
 
 With these settings, Spike helps you manage alerts in a way that suits your schedule. When you're out of office, Spike will stop sending alerts, allowing you to step away confidently. Be sure to reassign responsibilities to another team member when you're off duty.
 
