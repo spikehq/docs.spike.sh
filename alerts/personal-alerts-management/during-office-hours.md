@@ -5,45 +5,45 @@ description: "Configure to route alerts for different days and work times for tr
 <figure><img src="../../.gitbook/assets/personal-alerts-management/Alerts during office hours - example.png" alt=""><figcaption></figcaption></figure>
 
 # Alerts during office hours
-During office hours, you can route alerts for when incident triggers or resolves. If you work at your desk then you would perhaps choose to route all SMS alerts to [mobile app notification](../mobile-app-alerts.md). Field engineers can opt to get them on [SMS](../sms.md).
+Customize how you receive alerts during office hours, whether for incident triggers or resolutions. If you’re working at your desk, you might prefer to route all SMS alerts to the [mobile app](../mobile-app-alerts.md) for better accessibility. Field engineers may prefer to continue receiving alerts via [SMS](../sms.md).
 
 {% hint style="info" %}
-On-call alerts for your shift start/end will not be affected. If incidents trigger during your on-call shift in office hours, alerts will be routed based on your configuration.
+On-call shift start/end alerts remain unaffected. If an incident occurs during your on-call shift within office hours, alerts will be sent according to your configured settings.
 {% endhint %}
 
 ### Set up
 {% tabs %}
 {% tab title="Mobile app" %}
-* Navigate to `Settings`
+* Go to `Settings`
 * Tap on `Alerts during office hours`
-* Override alerts and hit `Save`
+* Configure your alert preferences and tap `Save`
 {% endtab %}
 {% tab title="Desktop" %}
-  * Navigate to `[Your account settings](https://app.spike.sh/settings/personal-modes#office-mode-alerts)`
+  * Navigate to `Your account settings`([Dashboard link](https://app.spike.sh/settings/personal-modes#office-mode-alerts))
   * Click `Modes`
-  * Override alerts and hit `Save`
+  * Configure your alert preferences and click `Save`
 {% endtab %}
 {% endtabs %}
 
 ## Setting office hours
-Office hours are default set to Monday to Friday (weekdays) from 9AM to 5PM in your timezone ([set automatically](https://app.spike.sh/settings/personal-profile)). You can configure your office hours for different days and hours.
+By default, your office hours are set to Monday through Friday, 9 AM to 5 PM in your local timezone ([found on profile page](https://app.spike.sh/settings/personal-profile)). You can customize these hours to fit your schedule, including different days and times.
 
 ### Set up
 {% tabs %}
 {% tab title="Mobile app" %}
-* Navigate to `Settings`
+* Go to `Settings`
 * Tap on `Office hours`
-* Select your times and hit `Save`
+* Select your preferred days and times, then tap `Save`
 
 {% endtab %}
 {% tab title="Desktop" %}
-  * Navigate to `[Your account settings](https://app.spike.sh/settings/personal-modes)`
+  * Navigate to `Your account settings` ([Dashboard link](https://app.spike.sh/settings/personal-modes))
   * Click `Modes`
-  * Select your times and hit `Save`
+  * Select your times and click `Save`
 {% endtab %}
 {% endtabs %}
 
-**Get Spike's mobile app**
+**Download Spike mobile app**
 - [iOS](https://apps.apple.com/au/app/spike-sh/id1586777789)
 - [Android](https://play.google.com/store/apps/details?id=sh.spike.spike_sh_app)
 
