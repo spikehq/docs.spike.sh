@@ -1,15 +1,45 @@
 ---
-description: "Configure to route alerts for different days and work times for triggered and resolved incidents."
+description: "Customize how and when you receive notifications for resolved incidents, keeping you informed without unnecessary alerts."
 ---
+<figure><img src="../../.gitbook/assets/personal-alerts-management/resolved incidents - configuration.png" alt=""><figcaption></figcaption></figure>
 
-# Alerts during office hours
+# Resolved incident alerts
+Spike notifies you when incidents are automatically resolved or resolved by a responder. This helps provide closure and peace of mind, ensuring you’re informed that an incident you were alerted to has been resolved. It completes the alert cycle effectively.
 
-Office hours
+By default, only current responders and members who were alerted when the incident was triggered will receive a resolved incident alert.
+
+You can customize how you receive resolved incident alerts, including different mediums during office hours.
+
+{% hint style="info" %} 
+The Spike mobile app is ideal for instant notifications when incidents are resolved. 
+{% endhint %}
+
+<details> 
+
+<summary>Can I get notifications for all incidents?</summary>
+No, by design, Spike only alerts current responders and members who were previously notified of the incident. This prevents alert fatigue and ensures that those who were not involved are not disturbed unnecessarily.
+
+</details>
+
+<details>
+
+<details> <summary>Will I receive another alert on Slack, Microsoft Teams, or Discord?</summary>
+
+**Slack and Microsoft Teams:** There will be no new alert, but the original alert message in your Slack or Teams channels will automatically refresh to indicate the resolved status.
+
+**Discord:** No additional alert will be sent.
+
+</details>
+
+<details>
+
+<summary>Why can't I receive a phone call for a resolved incident alert?</summary>
+
+Resolved incident alerts are important, but not critical enough to wake you in the middle of the night with a phone call. This avoids confusion—when you receive a phone call from Spike, it will always be for a newly triggered incident, so there’s no need to guess whether it’s for a new or resolved alert.
+
+</details>
+
 ### Explore
-- Auto-resolve alerts
-    - No duplication. Only one alert
-    - Who gets these alerts?
-    - Mobile app settings
 - Cooldown mode
 - Deep work mode
 - During Office hours
@@ -22,8 +52,3 @@ Office hours
 - Out of office
     - Only you can add Out of office.
     - Duties can be offloaded
-
-
-Offloading duties?
-    What is offloaded
-    When to use?

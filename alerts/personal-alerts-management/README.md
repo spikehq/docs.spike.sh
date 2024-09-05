@@ -1,5 +1,5 @@
 ---
-description: "Configure to route alerts for different days and work times for triggered and resolved incidents."
+description: "Manage your personal alert preferences to customize how, when, and where you receive incident notifications, all designed a better work-life balance"
 ---
 
 # Personal Alert Management

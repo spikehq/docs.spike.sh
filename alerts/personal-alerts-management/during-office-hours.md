@@ -1,5 +1,5 @@
 ---
-description: "Configure to route alerts for different days and work times for triggered and resolved incidents."
+description: "Customize how alerts are routed during office hours to fit your work preferences."
 ---
 
 <figure><img src="../../.gitbook/assets/personal-alerts-management/Alerts during office hours - example.png" alt=""><figcaption></figcaption></figure>

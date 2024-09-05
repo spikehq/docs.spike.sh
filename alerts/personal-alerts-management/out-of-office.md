@@ -1,5 +1,5 @@
 ---
-description: "Configure to route alerts for different days and work times for triggered and resolved incidents."
+description: "Set up Out of Office mode to temporarily pause alerts, schedule time off, and seamlessly offload duties to team members."
 ---
 <figure><img src="../../.gitbook/assets/personal-alerts-management/out of office - example.png" alt=""><figcaption></figcaption></figure>
 
