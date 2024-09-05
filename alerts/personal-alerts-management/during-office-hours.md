@@ -2,7 +2,7 @@
 description: "Configure to route alerts for different days and work times for triggered and resolved incidents."
 ---
 
-<figure><img src="../.gitbook/assets/personal-alerts-management/Alerts during office hours - example.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/personal-alerts-management/Alerts during office hours - example.png" alt=""><figcaption></figcaption></figure>
 
 
 # Alerts during office hours
