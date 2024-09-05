@@ -27,7 +27,7 @@ The Spike mobile app is ideal for instant notifications when incidents are resol
 
 {% endtab %}
 {% tab title="Desktop" %}
-  * Navigate to `Your account settings` ([Dashboard link](https://app.spike.sh/settings/resolved-alerts))
+  * Navigate to `Your account settings` ([Dashboard link](https://app.spike.sh/settings/personal-modes#resolved-alerts))
   * Scroll down to `Resolved alerts`
   * Congiure your alerts and click `Save`
 {% endtab %}
