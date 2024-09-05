@@ -32,7 +32,7 @@
 * [Discord](alerts/discord.md)
 * [Personal alerts management](alerts/personal-alerts-management/README.md)
   * [During office hours](alerts/personal-alerts-management/during-office-hours.md)
-  * [Out of office](alerts/personal-alerts-management/out-of-office.md)
+  * [During out of office](alerts/personal-alerts-management/out-of-office.md)
   * [Resolved incident alerts](alerts/personal-alerts-management/resolved-incident-alerts.md)
 * [Alert rules](alerts/alert-rules.md)
 * [Vacation mode](alerts/vacation-mode.md)
