@@ -33,7 +33,7 @@ By default, your office hours are set to Monday through Friday, 9 AM to 5 PM in 
 {% tab title="Mobile app" %}
 * Go to `Settings`
 * Tap on `Office hours`
-* Select your preferred days and times, then tap `Save`
+* Select your preferred days and times
 
 {% endtab %}
 {% tab title="Desktop" %}

@@ -14,6 +14,26 @@ You can customize how you receive resolved incident alerts, including different 
 The Spike mobile app is ideal for instant notifications when incidents are resolved. 
 {% endhint %}
 
+### Set up
+{% tabs %}
+{% tab title="Mobile app" %}
+* Go to `Settings`
+* Tap on `Resolved alerts`
+* Configure your alerts
+
+**Download Spike mobile app**
+- [iOS](https://apps.apple.com/au/app/spike-sh/id1586777789)
+- [Android](https://play.google.com/store/apps/details?id=sh.spike.spike_sh_app)
+
+{% endtab %}
+{% tab title="Desktop" %}
+  * Navigate to `Your account settings` ([Dashboard link](https://app.spike.sh/settings/resolved-alerts))
+  * Scroll down to `Resolved alerts`
+  * Congiure your alerts and click `Save`
+{% endtab %}
+{% endtabs %}
+
+## FAQs
 <details> 
 
 <summary>Can I get notifications for all incidents?</summary>
