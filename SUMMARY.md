@@ -31,8 +31,12 @@
 * [Pushover](alerts/pushover.md)
 * [Discord](alerts/discord.md)
 * [Alert rules](alerts/alert-rules.md)
-* [Vacation mode](alerts/vacation-mode.md)
 * [Title Remapper](alerts/title-remapper.md)
+* [Personal alerts management](alerts/personal-alerts-management/README.md)
+  * [During office hours](alerts/personal-alerts-management/during-office-hours.md)
+  * [Out of office](alerts/personal-alerts-management/out-of-office.md)
+  * [Resolved incident alerts](alerts/personal-alerts-management/resolved-incident-alerts.md)
+  * [Deep work & Cooldown modes](alerts/personal-alerts-management/deep-work-and-cooldown-modes.md)
 
 ## Services
 
@@ -193,9 +197,3 @@
 ## Additional resources
 
 * [Create a badge](additional-resources/create-a-badge.md)
-
-## Alert Modes
-
-* [Deep Work Mode](alert-modes/deep-work-mode.md)
-* [Cooldown Mode](alert-modes/cooldown-mode.md)
-* [Out of office mode](alert-modes/out-of-office-mode.md)

@@ -6,7 +6,7 @@ description: Spike's mobile app quickly gets you upto speed on ongoing incidents
 
 <figure><img src="../.gitbook/assets/mobile-alerts.png" alt=""><figcaption></figcaption></figure>
 
-Spike's mobile app offers a super convenient way to stay ahead of incidents, ensuring you’re always informed no matter where you are. With real-time notifications, you can quickly respond to critical issues, keeping your operations running smoothly. After downloading the app, make sure to log in and allow notifications to take full advantage of the alerting features.
+Spike's mobile app offers a super convenient way to stay ahead of incidents, so you’re always informed. With real-time notifications, you can quickly respond to critical issues, keeping your operations running smoothly. After downloading the app, make sure to log in and allow notifications to take full advantage of the alerting features.
 
 {% tabs %}
 {% tab title="iOS" %}
