@@ -34,6 +34,7 @@
   * [During office hours](alerts/personal-alerts-management/during-office-hours.md)
   * [During out of office](alerts/personal-alerts-management/out-of-office.md)
   * [Resolved incident alerts](alerts/personal-alerts-management/resolved-incident-alerts.md)
+  * [Deep work & Cooldown modes](alerts/personal-alerts-management/deep-work-and-cooldown-modes.md)
 * [Alert rules](alerts/alert-rules.md)
 * [Vacation mode](alerts/vacation-mode.md)
 * [Title Remapper](alerts/title-remapper.md)
@@ -197,8 +198,3 @@
 ## Additional resources
 
 * [Create a badge](additional-resources/create-a-badge.md)
-
-## Alert Modes
-
-* [Deep Work Mode](alert-modes/deep-work-mode.md)
-* [Cooldown Mode](alert-modes/cooldown-mode.md)
