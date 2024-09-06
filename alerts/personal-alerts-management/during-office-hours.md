@@ -48,17 +48,33 @@ By default, your office hours are set to Monday through Friday, 9 AM to 5 PM in 
 - [Android](https://play.google.com/store/apps/details?id=sh.spike.spike_sh_app)
 
 ### Explore
-- Auto-resolve alerts
-    - No duplication. Only one alert
-    - Who gets these alerts?
-    - Mobile app settings
-- Cooldown mode
-- Deep work mode
-- Out of office
-    - Only you can add Out of office.
-    - Duties can be offloaded
-
-
-Offloading duties?
-    What is offloaded
-    When to use?
+<table data-view="cards">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th data-hidden data-card-target data-type="content-ref"></th>
+      <th data-hidden data-card-cover data-type="files"></th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+      <td>Resolved incident alerts</td>
+      <td>Alerts when incidents are resolved</td>
+      <td><a href="resolved-incident-alerts.md">Broken link</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-resolved-alerts.png">thumbnail-resolved-alerts.png</a></td>
+    </tr>
+    <tr>
+      <td>Out of office</td>
+      <td>Step away confidently by scheduling Out of office</td>
+      <td><a href="out-of-office.md">Broken link</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-out-of-office.png">thumbnail-resolved-alerts.png</a></td>
+    </tr>
+    <tr>
+      <td>Deep work and Cooldown modes</td>
+      <td>Catch a break with our 2 modes</td>
+      <td><a href="deep-work-and-cooldown-modes.md">Broken link</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-deepwork.png">thumbnail-deepwork</a></td>
+    </tr>
+  </tbody>
+</table>

@@ -59,16 +59,36 @@ Resolved incident alerts are important, but not critical enough to wake you in t
 
 </details>
 
-### Explore
-- Cooldown mode
-- Deep work mode
-- During Office hours
-    Why?
-    Where to use it?
-        alerts during office hours
-        alerts when out of office
+---
 
-    Mobile app settings
-- Out of office
-    - Only you can add Out of office.
-    - Duties can be offloaded
+### Explore
+<table data-view="cards">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th data-hidden data-card-target data-type="content-ref"></th>
+      <th data-hidden data-card-cover data-type="files"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>During office hours</td>
+      <td>Custom routing of alerts during office hours</td>
+      <td><a href="during-office-hours.md">Broken link</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-office-hours.png">thumbnail-resolved-alerts.png</a></td>
+    </tr>
+    <tr>
+      <td>Out of office</td>
+      <td>Step away confidently by scheduling Out of office</td>
+      <td><a href="out-of-office.md">Broken link</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-out-of-office.png">thumbnail-resolved-alerts.png</a></td>
+    </tr>
+    <tr>
+      <td>Deep work and Cooldown modes</td>
+      <td>Catch a break with our 2 modes</td>
+      <td><a href="deep-work-and-cooldown-modes.md">Broken link</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-deepwork.png">thumbnail-deepwork</a></td>
+    </tr>
+  </tbody>
+</table>

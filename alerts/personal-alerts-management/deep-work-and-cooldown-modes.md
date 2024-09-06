@@ -39,3 +39,37 @@ You will receive critical incident (SEV1) alerts.
 {% endtab %}
 {% endtabs %}
 
+---
+
+### Explore
+<table data-view="cards">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th data-hidden data-card-target data-type="content-ref"></th>
+      <th data-hidden data-card-cover data-type="files"></th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+      <td>Resolved incident alerts</td>
+      <td>Alerts when incidents are resolved</td>
+      <td><a href="resolved-incident-alerts.md">Broken link</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-resolved-alerts.png">thumbnail-resolved-alerts.png</a></td>
+    </tr>
+    <tr>
+      <td>During office hours</td>
+      <td>Custom routing of alerts during office hours</td>
+      <td><a href="during-office-hours.md">Broken link</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-office-hours.png">thumbnail-resolved-alerts.png</a></td>
+    </tr>
+    <tr>
+      <td>Out of office</td>
+      <td>Step away confidently by scheduling Out of office</td>
+      <td><a href="out-of-office.md">Broken link</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-out-of-office.png">thumbnail-resolved-alerts.png</a></td>
+    </tr>
+  </tbody>
+</table>
+
