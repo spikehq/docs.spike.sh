@@ -1,7 +1,7 @@
 ---
 description: >-
   Manage your personal alert preferences to customize how, when, and where you
-  receive incident notifications, all designed a better work-life balance
+  receive incident notifications, all designed a better work-life balance.
 ---
 
 # Personal alerts management
