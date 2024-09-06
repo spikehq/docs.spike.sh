@@ -47,19 +47,19 @@ Although optional, we recommend offloading your duties to make sure incidents ar
   <tbody>
   <tr>
       <td>Resolved incident alerts</td>
-      <td>Alerts when incidents are resolved</td>
+      <td><strong>Alerts when incidents are resolved</strong></td>
       <td><a href="resolved-incident-alerts.md">Broken link</a></td>
       <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-resolved-alerts.png">thumbnail-resolved-alerts.png</a></td>
     </tr>
     <tr>
       <td>During office hours</td>
-      <td>Custom routing of alerts during office hours</td>
+      <td><strong>Custom routing of alerts during office hours</strong></td>
       <td><a href="during-office-hours.md">Broken link</a></td>
       <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-office-hours.png">thumbnail-resolved-alerts.png</a></td>
     </tr>
     <tr>
       <td>Deep work and Cooldown modes</td>
-      <td>Catch a break with our 2 modes</td>
+      <td><strong>Catch a break with our 2 modes</strong></td>
       <td><a href="deep-work-and-cooldown-modes.md">Broken link</a></td>
       <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-deepwork.png">thumbnail-deepwork</a></td>
     </tr>
