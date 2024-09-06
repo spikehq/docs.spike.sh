@@ -15,14 +15,14 @@ While these modes currently operate independently, we may consider grouping them
 
 Deep Work Mode is intended for responders who need uninterrupted time for focused work. When enabled, this mode temporarily suppresses all non-critical incident alerts (except SEV1) for either 4 or 8 hours. These options are preset and cannot be edited. During this time, you can focus on your work without the distraction of lower-severity alerts.
 
+You will receive critical incident (SEV1) alerts.
+
 {% tabs %}
 {% tab title="Setup on desktop" %}
 * Access the dropdown from the header that says `Select a mode` 
 * Enable **Deep Work Mode** for either 4 or 8 hours with a single click.
 {% endtab %}
 {% endtabs %}
-
-You will receive critical incident (SEV1) alerts.
 
 ---
 
