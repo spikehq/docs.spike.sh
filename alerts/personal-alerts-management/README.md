@@ -18,24 +18,39 @@ These configurations are especially useful if you've spent extended periods resp
 
 
 ### Explore
-- Auto-resolve alerts
-    - No duplication. Only one alert
-    - Who gets these alerts?
-    - Mobile app settings
-- Cooldown mode
-- Deep work mode
-- During Office hours
-    Why?
-    Where to use it?
-        alerts during office hours
-        alerts when out of office
-
-    Mobile app settings
-- Out of office
-    - Only you can add Out of office.
-    - Duties can be offloaded
-
-
-Offloading duties?
-    What is offloaded
-    When to use?
+<table data-view="cards">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th data-hidden data-card-target data-type="content-ref"></th>
+      <th data-hidden data-card-cover data-type="files"></th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+      <td>Resolved incident alerts</td>
+      <td>Alerts when incidents are resolved</td>
+      <td><a href="broken-reference">Broken link</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-resolved-alerts.png">thumbnail-resolved-alerts.png</a></td>
+    </tr>
+    <tr>
+      <td>During office hours</td>
+      <td>Custom routing of alerts during office hours</td>
+      <td><a href="broken-reference">Broken link</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-office-hours.png">thumbnail-resolved-alerts.png</a></td>
+    </tr>
+    <tr>
+      <td>Out of office</td>
+      <td>Step away confidently by scheduling Out of office</td>
+      <td><a href="broken-reference">Broken link</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-out-of-office.png">thumbnail-resolved-alerts.png</a></td>
+    </tr>
+    <tr>
+      <td>Deep work and Cooldown modes</td>
+      <td>Catch a break with our 2 modes</td>
+      <td><a href="broken-reference">Broken link</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-deepwork.png">thumbnail-deepwork</a></td>
+    </tr>
+  </tbody>
+</table>
