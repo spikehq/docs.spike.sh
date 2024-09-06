@@ -73,20 +73,20 @@ Resolved incident alerts are important, but not critical enough to wake you in t
   </thead>
   <tbody>
     <tr>
-      <td>During office hours</td>
-      <td><strong>Custom routing of alerts during office hours</strong></td>
+      <td><strong>During office hours</strong></td>
+      <td>Custom routing of alerts during office hours</td>
       <td><a href="during-office-hours.md">Broken link</a></td>
       <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-office-hours.png">thumbnail-resolved-alerts.png</a></td>
     </tr>
     <tr>
-      <td>Out of office</td>
-      <td><strong>Step away confidently by scheduling Out of office</strong></td>
+      <td><strong>Out of office</strong></td>
+      <td>Step away confidently by scheduling Out of office</td>
       <td><a href="out-of-office.md">Broken link</a></td>
       <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-out-of-office.png">thumbnail-resolved-alerts.png</a></td>
     </tr>
     <tr>
-      <td>Deep work and Cooldown modes</td>
-      <td><strong>Catch a break with our 2 modes</strong></td>
+      <td><strong>Deep work and Cooldown modes</strong></td>
+      <td>Catch a break with our 2 modes</td>
       <td><a href="deep-work-and-cooldown-modes.md">Broken link</a></td>
       <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-deepwork.png">thumbnail-deepwork</a></td>
     </tr>
