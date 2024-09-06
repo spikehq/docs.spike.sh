@@ -30,13 +30,13 @@
 * [Telegram](alerts/telegram.md)
 * [Pushover](alerts/pushover.md)
 * [Discord](alerts/discord.md)
+* [Alert rules](alerts/alert-rules.md)
+* [Title Remapper](alerts/title-remapper.md)
 * [Personal alerts management](alerts/personal-alerts-management/README.md)
   * [During office hours](alerts/personal-alerts-management/during-office-hours.md)
   * [During out of office](alerts/personal-alerts-management/out-of-office.md)
   * [Resolved incident alerts](alerts/personal-alerts-management/resolved-incident-alerts.md)
   * [Deep work & Cooldown modes](alerts/personal-alerts-management/deep-work-and-cooldown-modes.md)
-* [Alert rules](alerts/alert-rules.md)
-* [Title Remapper](alerts/title-remapper.md)
 
 ## Services
 
