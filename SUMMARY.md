@@ -36,7 +36,6 @@
   * [Resolved incident alerts](alerts/personal-alerts-management/resolved-incident-alerts.md)
   * [Deep work & Cooldown modes](alerts/personal-alerts-management/deep-work-and-cooldown-modes.md)
 * [Alert rules](alerts/alert-rules.md)
-* [Vacation mode](alerts/vacation-mode.md)
 * [Title Remapper](alerts/title-remapper.md)
 
 ## Services

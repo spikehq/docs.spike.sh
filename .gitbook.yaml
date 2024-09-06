@@ -2,3 +2,4 @@ redirects:
   alert-modes/out-of-office-mode: alerts/personal-alerts-management/out-of-office.md
   alert-modes/deep-work-mode: alerts/personal-alerts-management/deep-work-and-cooldown-modes.md
   alert-modes/cooldown-mode: alerts/personal-alerts-management/deep-work-and-cooldown-modes.md
+  alerts/vacation-mode: alerts/personal-alerts-management/out-of-office.md
