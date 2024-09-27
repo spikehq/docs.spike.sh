@@ -8,33 +8,29 @@ description: >-
 
 ### Status page notifications
 
-Your operations status is critical to all your users. The goal of maintaining transparency is key here. It is cumbersome for your users to keep visiting your status page to check the status. Instead, you can proactively inform them by our embed feature.&#x20;
+Your operational status is crucial to all your users, and maintaining transparency is essential. Instead of having users repeatedly visit your status page to check updates, you can proactively keep them informed using our embed feature.
 
-Our embed feature displays live notifications of status page changes on any of your websites. Below is an example of how the notification looks --
-
-{% hint style="info" %}
-Notifications are currently shown for Planned maintenance only.
-{% endhint %}
+The embed feature displays live notifications of status page updates directly on any of your websites. Below is an example of how the notification looks:
 
 ![example notification for upcoming planned maintenance](<../.gitbook/assets/image (144) (1).png>)
 
 #### Example use case:
 
-1. If you are a SAAS business, you can embed upcoming planned maintenance notifications on your dashboard. This way your users will be reminded and they can choose to take necessary actions
-2. Crypto trading platforms embed notifications for better transparency on their trading dashboards
-3. Your business home page is another great place to embed notifications.
+1. **SaaS**: Embed maintenance notifications on your dashboard to keep users informed and prepared.
+2. **Crypto Platforms**: Add notifications to trading dashboards for real-time transparency.
+3. **Home Page**: Use your homepage to display important updates for visitors.
 
 ### When do the notifications appear?
 
-Once your page load is complete, this notification appears within the next 5 seconds to your visitor. The notification is shown on the bottom left part of the screen and users have to click to hide it.&#x20;
+Once the page load is complete, the notification appears within 5 seconds to your visitor. By default, it shows up in the bottom-right corner, but you can configure its position to fit your preferences.
 
 {% hint style="success" %}
-Notifications are only shown once every visitor
+Notifications support planned maintenances and are shown once every visitor
 {% endhint %}
 
 ### Set up
 
-To set up notifications, visit the **Embed** feature from the sidebar. Copy the code or share it to embed this at the end of `<body>` tag in your HTML of every page you would like to show the notification.
+To set up notifications, visit **Widgets** section from the sidebar. Copy the code and place it at the end of the `<body>` tag on every page where you want the notification to appear.
 
 While creating or editing a planned maintenance, enable **Notify visitors.**&#x20;
 
@@ -42,6 +38,4 @@ While creating or editing a planned maintenance, enable **Notify visitors.**&#x2
 
 ### Security
 
-To ensure security, add all your domains to **Allow list.** Notifications will be only pop-up on these domains.
-
-![](<../.gitbook/assets/image (146).png>)
+Select your domains and them to allowlist for the widgets to load. Use an asterik(\*) to allow all subdomains - \*.example.com. While debugging, we suggest using a provider like [ngrok](https://ngrok.com) and temporarily adding their domains to test.&#x20;
