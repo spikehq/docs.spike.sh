@@ -80,6 +80,7 @@
 ## Status Pages
 
 * [Create Status page](status-pages/create-status-page.md)
+* [Style your status page](status-pages/style-your-status-page.md)
 * [Incidents on status page](status-pages/create-public-incident-on-status-page.md)
 * [Create Planned Maintenance on status page](status-pages/create-planned-maintenance-on-status-page.md)
 * [Edit Planned Maintenance](status-pages/edit-planned-maintenance.md)
