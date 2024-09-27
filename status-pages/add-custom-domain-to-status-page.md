@@ -10,11 +10,7 @@ In the settings for the domain you added above, add this CNAME to your DNS - `al
 
 We will add your domain to our SAN certificate so your status page gets a SSL certificate and loads correctly on HTTPS.&#x20;
 
-{% hint style="warning" %}
-If you are on **Cloudflare**, please disable the proxy.
-{% endhint %}
-
-It will take about 10 minutes for these DNS changes to propagate and start showing the status page on your domain.&#x20;
+It may take about 10 minutes for these DNS changes to propagate and start showing the status page on your domain.&#x20;
 
 #### Step 2: Add your domain to the status page on Spike.sh
 

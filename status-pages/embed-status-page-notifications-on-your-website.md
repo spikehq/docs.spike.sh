@@ -13,7 +13,7 @@ Your operations status is critical to all your users. The goal of maintaining tr
 Our embed feature displays live notifications of status page changes on any of your websites. Below is an example of how the notification looks --
 
 {% hint style="info" %}
-Notifications are currently shown for Planned maintenance only. However, we are extending this feature to display ongoing notifications as well. You can [track the progress](https://github.com/orgs/spikehq/projects/1) and [discuss it with us](https://github.com/spikehq/community/discussions) in our community.
+Notifications are currently shown for Planned maintenance only.
 {% endhint %}
 
 ![example notification for upcoming planned maintenance](<../.gitbook/assets/image (144) (1).png>)
@@ -31,8 +31,6 @@ Once your page load is complete, this notification appears within the next 5 sec
 {% hint style="success" %}
 Notifications are only shown once every visitor
 {% endhint %}
-
-
 
 ### Set up
 
