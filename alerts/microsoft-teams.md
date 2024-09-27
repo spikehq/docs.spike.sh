@@ -62,14 +62,15 @@ After running the connect command, you can use the oncall-me and oncall-now comm
 3. The ability to create new incidents directly from Teams
 4. Your on-call shift alerts
 
-## Switching Connected Teams Groups for Incident Alerts
-If you need to connect Spike.sh to a different group of channels in Microsoft Teams, follow these steps. Since our bot can only be connected to one group at a time, you'll need to disconnect the current group and then reconnect to the new one.
+## Connecting multiple groups on Teams
+~~Since our bot can only be connected to one group at a time, you'll need to disconnect the current group and then reconnect to the new one.~~
 
-1. Hit **Disconnect** under Teams in Spike's settings on this link: https://app.spike.sh/settings/general/alerts
-2. Next, go to your new group on Microsoft Teams and type @Spike.sh connect-org to connect it.
-3. Then, check your escalations page. You'll see the new channels listed in a dropdown menu in [escalations]( https://app.spike.sh/escalations)
+You can easily connect the Spike bot to multiple groups of channels in Microsoft Teams. Follow these steps:
 
-That's it! You've successfully switched the connected group.
+1. Go to the desired group in Microsoft Teams and type @Spike.sh connect-org to establish the connection.
+2. Next, visit your escalations page, and you'll see the newly connected channels listed in the dropdown menu.
+
+There is no limit on how many groups can be connected. 
 
 ![How incident alerts look on Teams](<../.gitbook/assets/all dms on teams from Spike.png>)
 
@@ -78,7 +79,7 @@ That's it! You've successfully switched the connected group.
 ## Get Teams alerts from Spike.sh using Incoming Webhook
 
 {% hint style="warning" %}
-Microsoft will deprecate all new webhook connectors on 15th September. We generally recommend using our app for all use cases.
+Microsoft will deprecate all new webhook connectors on 15th September. On Spike, we will deprecate the incoming webhook support on 8th November 2024.
 {% endhint %}
 
 The alert messages on Microsoft Teams (referred to as Teams from here on) comes with gists for you and your team to quickly learn about the incident.
