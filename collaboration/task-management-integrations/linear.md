@@ -28,28 +28,35 @@ At Spike, status changes move in one direction:
 
 ---
 
+
 ## Set up
 
 To connect [Linear](https://linear.app), go to [Settings > Organisation](https://app.spike.sh/settings/general/organisation) and find the Task Management Integrations section. From there, you'll be guided to connect Linear to Spike. Once set up, all team members across your account can create tickets in Linear directly from Spike.sh.
 
-
 <figure><img src="../../.gitbook/assets/image (2) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-You can also alternatively set it up from the Incidents table or from the incident details page. 
-## How to create an issue on Linear from Spike.sh?
+{% tabs %}
+{% tab title="Creating issues on Linear" %}
+  ## Creating an issue
 
-1. **Manually create issues**
+  1. **Manually create issues**
 
-Select the incidents, locate the Linear button, and follow the prompts to create an issue.
+  Select the incidents, locate the Linear button, and follow the prompts to create an issue.
 
-<figure><img src="../../.gitbook/assets/image (6).png" alt=""><figcaption><p>Create an issue on Linear</p></figcaption></figure>
+  <figure><img src="../../.gitbook/assets/image (6).png" alt=""><figcaption><p>Create an issue on Linear</p></figcaption></figure>
 
-2. **Automate creating issues**
+  2. **Automate creating issues**
 
-With [Playbooks](playbooks/introduction-to-playbooks), you can pre-configure and automate creating Linear issues. When creating a playbook, select Create an issue on, then Linear, and set up. 
+  With [Playbooks](playbooks/introduction-to-playbooks), you can pre-configure and automate creating Linear issues. When creating a playbook, select Create an issue on, then Linear, and set up. 
 
 
-<figure><img src="../../.gitbook/assets/task-management-integrations/Linear-playbooks-automation.png" alt=""><figcaption></figcaption></figure>
+  <figure><img src="../../.gitbook/assets/task-management-integrations/Linear-playbooks-automation.png" alt=""><figcaption></figcaption></figure>
+{% endtab %}
+{% tab title="Link existing Linear issue with Spike" %}
+  ## Linking an existing issue
+  You can link an existing issue from Linear with an incident on Spike to sync both statuses and comments. Multiple Linear issues can be linked to a single incident, and resolving the incident in Spike will automatically mark all associated issues in Linear as "Done."
+{% endtab %}
+{% endtabs %}
 
 ---
 
