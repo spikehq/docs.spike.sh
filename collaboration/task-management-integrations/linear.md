@@ -3,6 +3,8 @@ description: >-
   The Linear integration with Spike ensures your team’s incident management and task tracking are seamlessly connected.
 ---
 
+<figure><img src="../../.gitbook/assets/task-management-integrations/Linear-hero.png" alt=""><figcaption></figcaption></figure>
+
 # Linear
 The [Spike integration](https://linear.app/integrations/spike) for Linear automates the flow of incidents, status updates, and comments between both platforms, providing a centralized approach to managing incidents. It streamlines your incident response process, helping resolve incidents faster while keeping everyone in sync.
 
@@ -32,8 +34,6 @@ At Spike, status changes move in one direction:
 ## Set up
 
 To connect [Linear](https://linear.app), go to [Settings > Organisation](https://app.spike.sh/settings/general/organisation) and find the Task Management Integrations section. From there, you'll be guided to connect Linear to Spike. Once set up, all team members across your account can create tickets in Linear directly from Spike.sh.
-
-<figure><img src="../../.gitbook/assets/task-management-integrations/Linear-connect.png" alt=""><figcaption></figcaption></figure>
 
 {% tabs %}
 {% tab title="Creating issues on Linear" %}
