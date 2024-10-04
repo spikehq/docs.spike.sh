@@ -76,7 +76,7 @@ There is no limit on how many groups can be connected.
 
 ***
 
-## Get Teams alerts from Spike.sh using Incoming Webhook
+## Get Teams alerts from Spike.sh using Incoming Webhook (to be deprecated)
 
 {% hint style="warning" %}
 Microsoft will deprecate all new webhook connectors on 15th September. On Spike, we will deprecate the incoming webhook support on 8th November 2024.
@@ -121,17 +121,3 @@ A friendly name will help you identify this integration while creating escalatio
 ![Using Teams in Escalation policies](<../.gitbook/assets/image (64).png>)
 
 You can create multiple Teams integrations with different incoming webhooks configured on Teams.
-
-{% hint style="success" %}
-Our MS Team alert channel accepts inputs from you to acknowledge or resolve an incident.
-{% endhint %}
-
-#### Possible Caveats
-
-We have noticed that in some MS Teams account, **acknowledge** and the **resolve** buttons fail.
-
-![](<../.gitbook/assets/image (109).png>)
-
-It could be possible because the connector is disabled in your tenant setting access list. Another possible cause for this could be that you are using a legacy account.
-
-Refer to this [GitHub issue](https://github.com/MicrosoftDocs/msteams-docs/issues/1221) or why this might happen.
