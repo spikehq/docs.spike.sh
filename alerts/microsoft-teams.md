@@ -79,7 +79,7 @@ There is no limit on how many groups can be connected.
 ## Get Teams alerts from Spike.sh using Incoming Webhook (to be deprecated)
 
 {% hint style="warning" %}
-Microsoft will deprecate all new webhook connectors on 15th September. On Spike, we will deprecate the incoming webhook support on 8th November 2024.
+Microsoft will deprecate all new webhook connectors on 15th September. On Spike, we will deprecate the incoming webhook support on 26th November 2024.
 {% endhint %}
 
 The alert messages on Microsoft Teams (referred to as Teams from here on) comes with gists for you and your team to quickly learn about the incident.
