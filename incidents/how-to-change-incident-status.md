@@ -1,8 +1,7 @@
 ---
 description: >-
-  Responders can choose to change incident status on phone alerts, slack and on
-  the dashboard. More support for changing statuses on email and slack is coming
-  soon
+  Responders can choose to change incident status on phone alerts, Slack and on
+  the dashboard.
 ---
 
 # How to change incident status?
