@@ -17,25 +17,25 @@ layout:
 
 <figure><img src="../.gitbook/assets/Live status widget.png" alt=""><figcaption></figcaption></figure>
 
-This widget showcases the latest system health and embeds in your html by simply pasting our code.  It is traditionally placed on website's footer, contact pages, and support documentations and it is not uncommon to place it under navigation such as header dropdown or sidebars. The choice is yours.&#x20;
+This widget showcases the latest system health and embeds in your HTML by simply pasting our code.  It is traditionally placed in a website's footer, contact pages, and support documentation and it is not uncommon to place it under navigation such as header dropdown or sidebars. The choice is yours.
 
 ### Status priority order
 
-The status is displayed based on the highest priority of your component's statuses. Below is the priority list from highest to lowest.
+The status is displayed based on the highest priority of your components' statuses. Below is the priority list from highest to lowest.
 
-1. Planned Maintenances
+1. Planned Maintenance
 2. Critical Outage
 3. Partial Outage
 4. Degraded Performance
 5. Operational
 
-Consider your status page with 4 components A, B, C, and D. If components A, B, and C are in Degraded performance and D is in critical outage then widget will show Critical Outage. This is how the above priority comes to play in the embedded widget.&#x20;
+Consider your status page with 4 components A, B, C, and D. If components A, B, and C are in the _Degraded Performance_ state and D is in the _Critical Outage_ state, then the widget will show _Critical Outage_. This is how the above priority comes to play in the embedded widget.
 
 ***
 
 ### Customisation
 
-Spike offers out of the box support for Light, Dark, and System modes. You can further override our default css to modify the look and feel. All html classes are prefixed with **`spike--`** class names.
+Spike offers out of the box support for Light, Dark, and System modes. You can further override our default CSS to modify the look and feel. All HTML classes are prefixed with **`spike--`** class names.
 
 {% tabs %}
 {% tab title="How to enable?" %}
@@ -80,5 +80,5 @@ Customise it to meet your frontend stack's needs on loading and initialising the
 
 ### Security
 
-Select your domains and them to allowlist for the widgets to load. Use an asterik(\*) to allow all subdomains - \*.example.com. While debugging, we suggest using a provider like [ngrok](https://ngrok.com) and temporarily adding their domains to test.&#x20;
+Select your domains and them to allowlist for the widgets to load. Use an asterisk (\*) to allow all subdomains - \*.example.com. While debugging, we suggest using a provider like [ngrok](https://ngrok.com) and temporarily adding their domains to test.
 
