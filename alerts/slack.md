@@ -36,6 +36,7 @@ If an incident has not been resolved automatically on Slack and you decide to re
 
 <details> 
 <summary>How do find Slack channel ID?</summary>
-Click on the channel name to open the channel’s details. Within the channel details on the **About** section you can find the unique ID 
-![](<../.gitbook/assets/slack/find-slack-channel-id.png>)
+Click on the channel name to open the channel’s details. Within the channel details on the **About** section you can find the unique ID .
+
+<figure><img src="../../.gitbook/assets/slack/find-slack-channel-id.png" alt=""><figcaption></figcaption></figure>
 </details>
