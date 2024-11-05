@@ -14,8 +14,6 @@ You can choose to **acknowledge** or **resolve** an incident directly from Slack
 
 ![](<../.gitbook/assets/Actionable alerts.png>)
 
-
-
 ## Installing the app
 
 Once you have signed up, visit the [Alerts section](https://app.spike.sh/settings/general/alerts) inside your settings and click on **Add to Slack.** Our Slack app asks for some basic permissions. You can choose any channel you wish in the permissions sections.
@@ -34,5 +32,10 @@ If an incident has not been resolved automatically on Slack and you decide to re
 
 ![Reflecting the true state of incident on Slack in all cases](../.gitbook/assets/incident-was-already-resolved.png)
 
+## FAQs
 
-
+<details> 
+<summary>How do find Slack channel ID?</summary>
+Click on the channel name to open the channel’s details. Within the channel details on the **About** section you can find the unique ID 
+![](<../.gitbook/assets/slack/find-slack-channel-id.png>)
+</details>
