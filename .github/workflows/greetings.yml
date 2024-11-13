@@ -1,0 +1,15 @@
+name: Greetings
+
+on: [pull_request_target, issues]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        pr-message: "Welcome, and thanks for submitting your first pull request to improve Spike's documentation and make it more useful. Our team will review your changes and get back to you soon. Meanwhile, if you’d like to discuss any aspect of your PR, don’t hesitate to comment here. "
