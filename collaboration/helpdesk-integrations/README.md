@@ -44,7 +44,7 @@ Spike's Helpdesk integrations simplify incident management by connecting your in
 
 ---
 
-## Use Cases  
+### Use Cases  
 
 - **Syncing Data**: Sync incident statuses and notes directly with helpdesk tickets.  
 - **Ticket Automation**: Use Playbooks to automate ticket creation during incident triggers.  
@@ -53,11 +53,11 @@ Spike's Helpdesk integrations simplify incident management by connecting your in
 
 ---
 
-## Automating Ticket Creation
+### Automating Ticket Creation
 
 With Spike’s Playbooks, you can automate ticket creation on your helpdesk platforms whenever an incident is triggered. This saves time and ensures no incident goes unnoticed.
 
-## Manual Ticket Creation
+### Manual Ticket Creation
 
 Once connected, any team member can send incidents or sync them with your helpdesk platform:
 - **From the Dashboard**: Select one or more incidents and link them to tickets.
