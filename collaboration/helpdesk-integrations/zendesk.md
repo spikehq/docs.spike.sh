@@ -5,6 +5,8 @@ description: >-
 
 # Zendesk Integration
 
+<figure><img src="../.gitbook/assets/helpdesk-integrations/zendesk cover.png" alt=""><figcaption></figcaption></figure>
+
 Spike's Zendesk integration connects your incident management system with your helpdesk platform, enabling seamless collaboration between support and other teams. From automatic ticket creation to syncing statuses and notes in real-time, this integration bridges the gap between incident response and customer support.
 
 ---
@@ -18,16 +20,19 @@ Spike's Zendesk integration connects your incident management system with your h
 
 ---
 
-## Two Ways to Set Up
+## Two step set up
+Connecting Zendesk and Spike requires two setups: the API connection enables creating incidents from Spike to Zendesk, while the Spike app allows creating incidents from Zendesk to Spike with real-time syncing of statuses and notes.
 
 ### 1. API Connection  
 This method allows you to send incidents from Spike to Zendesk by connecting with an API token and email.  
 
+{% tabs %}
+{% tab title="Setup with API token" %}
 **Steps to Set Up**:  
 1. Go to [Settings > General > Helpdesk Integrations](https://app.spike.sh/settings/general/organisation#org--helpdesk-ticket-management).  
-2. Enter your Zendesk API token and the email address of your Zendesk user.  
-3. Save the configuration to start sending incidents to Zendesk.
-
+2. Enter your Zendesk API token and Zendesk subdomain.
+{% endtab %}
+{% endtabs %}
 ---
 
 ### 2. Zendesk Marketplace App  
@@ -37,13 +42,16 @@ Install the Spike app from the Zendesk Marketplace for enhanced functionality, i
 - Allowing Zendesk users (who aren’t Spike users) to trigger incidents seamlessly.
 
 **Steps to Set Up**:  
-1. Visit the [Zendesk Marketplace](https://www.zendesk.com/in/marketplace/apps/support/1084861/spike/?queryID=97f8205f39b71c03f3bb6c8512a8e67a).  
-2. Install the Spike app.  
-3. Follow the on-screen instructions to connect your Spike account.  
-
+{% tabs %}
+{% tab title="Spike app on Zendesk" %}
+1. Install the Spike app from [Zendesk Marketplace](https://www.zendesk.com/in/marketplace/apps/support/1084861/spike/?queryID=97f8205f39b71c03f3bb6c8512a8e67a)
+2. Generate and copy a new API token from the [Spike dashboard](https://app.spike.sh/api)
+3. Follow the instructions on Zendesk to connect Spike
+{% endtab %}
+{% endtabs %}
 ---
 
-## Manually Sync  
+## Manual Sync  
 
 From the Spike dashboard, users can manually select one or more incidents and create Zendesk support tickets.  
 
