@@ -7,16 +7,15 @@ description: >-
 
 <figure><img src="../.gitbook/assets/helpdesk-integrations/zendesk cover.png" alt=""><figcaption></figcaption></figure>
 
-Spike's Zendesk integration connects your incident management system with your helpdesk platform, enabling seamless collaboration between support and other teams. From automatic ticket creation to syncing statuses and notes in real-time, this integration bridges the gap between incident response and customer support.
+Spike's Zendesk integration helps with automatic ticket creation to syncing statuses and notes in real-time, this integration bridges the gap between incident response and customer support.
 
 ---
 
 ## Features
 
-- **Bi-directional Sync**: Sync incident statuses and notes between Spike and Zendesk in real time.  
-- **Automatic Ticket Creation**: Automatically create Zendesk tickets from Spike using Playbooks.  
-- **Link Existing Incidents**: Link existing Spike incidents to Zendesk tickets for unified tracking.  
-- **Real-Time Updates**: Notes and resolutions are automatically synced across platforms.
+- **Bi-directional Sync**: Sync incident statuses and notes between Spike and Zendesk in real time.
+- **Ticket Creation**: Automatically or manually create Zendesk tickets from Spike using [Playbooks](../../playbooks/introduction-to-playbooks.md).
+- **Link Existing Incidents**: Link existing Spike incidents to tickets on Zendesk.
 
 ---
 
@@ -33,7 +32,6 @@ This method allows you to send incidents from Spike to Zendesk by connecting wit
 2. Enter your Zendesk API token and Zendesk subdomain.
 {% endtab %}
 {% endtabs %}
----
 
 ### 2. Zendesk Marketplace App  
 Install the Spike app from the Zendesk Marketplace for enhanced functionality, including:  
@@ -49,9 +47,10 @@ Install the Spike app from the Zendesk Marketplace for enhanced functionality, i
 3. Follow the instructions on Zendesk to connect Spike
 {% endtab %}
 {% endtabs %}
----
 
-## Manual Sync  
+## How to use?
+
+### Manual Sync
 
 From the Spike dashboard, users can manually select one or more incidents and create Zendesk support tickets.  
 
@@ -59,15 +58,11 @@ From the Spike dashboard, users can manually select one or more incidents and cr
 - Tickets created from Spike are not synced with statuses or notes.  
 - For full syncing functionality, tickets must be created using the Spike app in Zendesk.
 
----
-
-## Sync Notes and Status  
+### Sync Notes and Status  
 
 When the Spike app is installed from the Zendesk Marketplace, syncing notes and statuses is automatic and happens in real time. Any updates made on one platform reflect immediately on the other.
 
----
-
-## Automatically Creating Tickets  
+### Automatically Creating Tickets  
 
 Spike’s **Playbooks** automate ticket creation during incident triggers. Once set up, incident details, timestamps, and other critical data are sent to Zendesk automatically.  
 
