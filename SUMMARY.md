@@ -57,6 +57,10 @@
   * [ClickUp](collaboration/task-management-integrations/clickup.md)
   * [Linear](collaboration/task-management-integrations/linear.md)
   * [Shortcut](collaboration/task-management-integrations/shortcut.md)
+* [Helpdesk integrations](collaboration/helpdesk-integrations/README.md)
+  * [Zendesk](collaboration/helpdesk-integrations/zendesk.md)
+  * [Freshdesk](collaboration/helpdesk-integrations/freshdesk.md)
+  * [Supportpal](collaboration/helpdesk-integrations/supportpal.md)
 * [War rooms](collaboration/war-rooms.md)
 
 ## On-call schedules <a href="#oncall-schedules" id="oncall-schedules"></a>
