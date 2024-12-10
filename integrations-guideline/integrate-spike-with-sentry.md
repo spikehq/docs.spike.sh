@@ -1,6 +1,8 @@
 ---
-description: Enable Sentry's webhook to integrate with Spike
+description: Connect Sentry with Spike and get incident alerts over phone calls, sms, Slack, etc to the on-call responder
 ---
+
+<figure><img src="../.gitbook/assets/integrations/sentry/Sentry cover.png" alt=""><figcaption></figcaption></figure>
 
 # Integrate Spike with Sentry
 [Sentry](https//sentry.io) is a powerful error monitoring and performance tracking platform designed for developers. It provides real-time insights into application issues, helping teams identify, troubleshoot, and resolve errors quickly. With detailed stack traces, performance metrics, and contextual data, Sentry ensures that you can proactively manage your application's health and deliver a seamless user experience.
