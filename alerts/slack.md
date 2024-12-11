@@ -96,7 +96,7 @@ Create a new incident directly from Slack. Anyone in your workspace can use this
 2. `/oncall now` or `/oncall me`
 Check who is currently on-call or view your on-call schedule.
 
-4. `/connect`
+3. `/connect`
 Connects your Slack account in the workspace with Spike.
 
 4. `/help`
@@ -109,6 +109,7 @@ Display a help message with guidance on using the Spike app in Slack.
 If a Slack alert has been sent for a new incident and it is resolved—whether automatically, via Phone, SMS, Email, or the Dashboard—the Slack message will automatically update to reflect the resolved status, eliminating any ambiguity about the incident’s state.
 
 If the incident hasn’t auto-resolved on Slack and you attempt to resolve it manually, the Slack app will notify you that the incident has already been resolved.
+
 ![Reflecting the true state of incident on Slack in all cases](../.gitbook/assets/slack/incident-was-already-resolved.png)
 
 ---
