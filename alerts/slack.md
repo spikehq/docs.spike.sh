@@ -113,23 +113,22 @@ If the incident hasn’t auto-resolved on Slack and you attempt to resolve it ma
 
 ## FAQs
 
+
 <details> 
 <summary>1. Can anyone create an incident? Is there an extra charge?</summary>
 No, anyone can create an incident, and there is no additional cost.
 </details>
+
 <details> 
 <summary>2.	User A and B are part of a private channel in the escalation policy, but B can’t see the channel name in Escalation. Why?
 </summary>
-<details>
 This happens when User B hasn’t connected their Slack account with Spike. To connect, they can:
 - Search for the Spike.sh bot in Slack and send a direct message to connect.
 - Alternatively, running any Slack slash command will prompt them to connect.
 </details>
+
 <details>
 <summary>3.	I can’t find a channel in the dropdown. What should I do?</summary>
 Click on the channel name to open the channel’s details. Within the channel details on the **About** section you can find the unique ID .
-</details>
-
 <figure><img src="../.gitbook/assets/slack/find-slack-channel-id.png" alt=""><figcaption></figcaption></figure>
 </details>
-
