@@ -111,7 +111,6 @@
 * [Integrate Spike with Healthchecks](integrations-guideline/integrate-healthchecks-with-spike.md)
 * [Integrate Spike with Pingdom](integrations-guideline/integrate-spike-with-pingdom.md)
 * [Integrate Spike.sh with Sentry](integrations-guideline/integrate-spike-with-sentry.md)
-* [Integrate Spike with Sentry webhook](integrations-guideline/integrate-spike-with-sentry-webhook.md)
 * [Integrate Spike with Apex ping](integrations-guideline/integrate-apex-ping-with-spike.md)
 * [Integrate Spike with Uptime Robot](integrations-guideline/integrate-spike-with-uptime-robot.md)
 * [Integrate Spike with Twilio](integrations-guideline/integrate-spike-with-twilio.md)
