@@ -96,7 +96,7 @@ Create a new incident directly from Slack. Anyone in your workspace can use this
 2. `/oncall now` or `/oncall me`
 Check who is currently on-call or view your on-call schedule.
 
-4. `/connect`
+3. `/connect`
 Connects your Slack account in the workspace with Spike.
 
 4. `/help`
