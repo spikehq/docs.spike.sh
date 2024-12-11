@@ -28,7 +28,7 @@ To receive notifications on your mobile device, make sure to set up phone notifi
 
 ## Critical alerts
 
-For iOS users, Spike's mobile app offers the option to receive Critical notifications (partnered with Apple) for critical incidents or for all incidents. This feature ensures that you never miss an important notification, even if your device is on Do Not Disturb mode. You can find this setting within the app under notification preferences.
+**For iOS users only**, Spike's mobile app offers the option to receive Critical notifications (partnered with Apple) for critical incidents or for all incidents. This ensures that you never miss an important notification, even if your device is on Do Not Disturb mode. Visit settings on your app to configure further.
 
 {% hint style="info" %}
 Critical notifications make sound even when your iPhone is muted
