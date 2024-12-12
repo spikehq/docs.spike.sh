@@ -4,11 +4,10 @@ description: Connect Sentry with Spike and get incident alerts over phone calls,
 
 <figure><img src="../.gitbook/assets/integrations/sentry/Sentry cover.png" alt=""><figcaption></figcaption></figure>
 
-# Integrate Spike with Sentry
 [Sentry](https//sentry.io) is a powerful error monitoring and performance tracking platform designed for developers. It provides real-time insights into application issues, helping teams identify, troubleshoot, and resolve errors quickly. With detailed stack traces, performance metrics, and contextual data, Sentry ensures that you can proactively manage your application's health and deliver a seamless user experience.
 
 
-## Overview
+# Overview
 The Spike integration with Sentry bridges error monitoring and incident response. Connect Sentry to Spike to automatically trigger real-time incident alerts for critical errors.
 
 You can setup Spike with Sentry in two ways. 
@@ -16,7 +15,7 @@ You can setup Spike with Sentry in two ways.
 1. Single-click install on Sentry
 1. Connect with Spike webhook (_paste webhook on Sentry_)
 
-### Integrating with multiple projects on Sentry
+## Integrating with multiple projects on Sentry
 ![Multiple projects on Sentry](../.gitbook/assets/integrations/sentry/sentry-multiple-projects.png)
 
 To integrate multiple projects on Sentry with Spike, you will need to use both Spike app on Sentry and the webhook integration. 
@@ -29,10 +28,12 @@ Consider you have services A,B, and C to integrate with Sentry.
 
 The 1-click app offers an effortless setup for one project, while the webhook integration allows for unrestricted application across multiple projects.
 
-## How to set up?
+---
+
+# How to set up?
 To set up, you will need a Sentry integration on Spike no matter which way you choose. So please make sure you have created one on [Spike](https//app.spike.sh/integrations)
 
-### 1. Single-click install on Sentry
+## 1. Single-click install on Sentry
 {% tabs %}
 {% tab title="Installation steps" %}
 * **Install and connect**
@@ -64,7 +65,9 @@ To set up, you will need a Sentry integration on Spike no matter which way you c
 
 * Test by generating a new error on Sentry.
 
-### 2. Integrating with Sentry's webhook
+---
+
+## 2. Integrating with Sentry's webhook
 
 {% tabs %}
 {% tab title="Set up steps" %}
@@ -120,6 +123,13 @@ Creating a Sentry integration on Spike allows you to group and suppress incident
 
 <details>
 <summary>Is there a limit on Sentry integrations?</summary>
-**Single-click install**: Only one integration is allowed per Sentry account.  
+
+**Single-click install**: Only one integration is allowed per Sentry account.
+
 **Sentry webhook integration**: Unlimited integrations are supported.
+</details>
+
+<details>
+<summary>Does resolving the incident on Spike resolve the error on Sentry?</summary>
+No. Sorry, we currently don't support bi-directional integration with Sentry.
 </details>
