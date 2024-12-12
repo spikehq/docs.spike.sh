@@ -3,6 +3,8 @@ description: >-
   The Spike app for Slack delivers alerts for incidents and on-call rotations directly to your public or private channels. It also includes slash commands to create incidents and view on-call responders.
 ---
 
+<figure><img src="../.gitbook/assets/slack/cover.png" alt=""><figcaption></figcaption></figure>
+
 # Introduction
 The Spike app for Slack keeps your team informed and responsive during incidents.
 
