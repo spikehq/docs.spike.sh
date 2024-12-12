@@ -28,13 +28,13 @@ Visit the [Alerts section](https://app.spike.sh/settings/general/alerts) in sett
 
 {% tabs %}
 
-{% tab title="Incident alerts" %}
-<figure><img src="../.gitbook/assets/slack/slack-new-incident.png" alt=""><figcaption></figcaption></figure>
+{% tab title="Setting up incident alerts" %}
+<figure><img src="../.gitbook/assets/slack/add-slack-to-escalation.png" alt=""><figcaption></figcaption></figure>
 
 Add Slack as a step in your [escalation policy](https://app.spike.sh/escalations) to get incident notifications. You can choose between public or private channels for these alerts.
 {% endtab %}
 
-{% tab title="On-call shift notifications" %}
+{% tab title="Setting On-call shift notifications" %}
 <figure><img src="../.gitbook/assets/slack/slack-oncall-alert.png" alt=""><figcaption></figcaption></figure>
 
 Visit [Settings > Alerts](https://app.spike.sh/settings/general/alerts) to select Slack channels to receive on-call shift alerts.
@@ -55,7 +55,7 @@ Spike's app cannot read any of your messages on Slack
 
 ---
 
-## Slash commands
+# Slash commands
 
 <figure><img src="../.gitbook/assets/slack/slash-commands.png" alt=""><figcaption></figcaption></figure>
 
@@ -75,7 +75,7 @@ Display a help message with guidance on using the Spike app in Slack.
 
 ---
 
-## Incident Alerts
+# Incident Alerts
 <figure><img src="../.gitbook/assets/slack/slack-incident-alert-hero.png" alt=""><figcaption></figcaption></figure>
 
 Spike's incident alerts will mention `@here` to notify everyone online on the channel. The incident contains some key details like Title, Responders, Links, and Integration.
@@ -86,7 +86,7 @@ Available Actions for Each Incident
 3. __Escalate__
 4. __Discuss in a New Channel__
 
-### Discussing in a new channel
+## Discussing in a new channel
 <figure><img src="../.gitbook/assets/slack/slack-discuss-in-new-channel.png" alt=""><figcaption></figcaption></figure>
 
 Each incident includes the option to discuss in a new channel. When this action is initiated, a dedicated channel is created for collaboration on resolving the incident. Initially, only the user who initiates the action will be added to the new channel.
@@ -117,23 +117,20 @@ Yes, anyone in your workspace can be invited to join the discussion, regardless 
 We recommend archiving the channel once the incident is resolved to prevent stale channels in your workspace.
 {% endhint %}
 
-### Auto-Updating Slack messages
+## Auto-Updating Slack messages
 
 If a Slack alert has been sent for a new incident and it is resolved—whether automatically, via Phone, SMS, Email, or the Dashboard—the Slack message will automatically update to reflect the resolved status, eliminating any ambiguity about the incident’s state.
 
-If the incident hasn’t auto-resolved on Slack and you attempt to resolve it manually, the Slack app will notify you that the incident has already been resolved.
+<details>
+<summary>Will the Slack message update if an incident is resolved automatically?</summary>
+Yes, the Slack message will automatically update to show the resolved status.
+</details>
 
-![Reflecting the true state of incident on Slack in all cases](../.gitbook/assets/slack/incident-was-already-resolved.png)
-
----
-
-## On-call alerts
-
-<figure><img src="../.gitbook/assets/slack/slack-oncall-alert.png" alt=""><figcaption></figcaption></figure>
-
-Visit [Settings > Alerts](https://app.spike.sh/settings/general/alerts) to select Slack channels to receive on-call shift alerts.
-
-You can enable notifications for both shift start and shift end.
+<details>
+<summary>What if I try to resolve an incident on Slack that has already been resolved elsewhere?</summary>
+<figure><img src="../.gitbook/assets/slack/incident-was-already-resolved.png" alt=""><figcaption></figcaption></figure>
+The Slack app will notify you that the incident has already been resolved, preventing duplicate actions.
+</details>
 
 ---
 
@@ -158,10 +155,55 @@ Once a private channel is added to an escalation, its name is visible only to us
 
 Users without these permissions will not see the private channel name, ensuring enhanced privacy.
 
+<details>
+<summary>Why can’t I see a private channel in the escalation dropdown?</summary> 
+You must be a member of the private channel and have connected your Slack account with Spike. Additionally, the `@Spike.sh` app must be added to the private channel.
+
+To connect, run the `/connect` command on Slack
+</details>
+
+<details>
+<summary>Can all team members view the private channels added to escalations?</summary> 
+No, only users who are members of the private channel and have connected their Slack account with Spike can view its name in escalations.
+</details>
+
+<details>
+<summary>How do I add the @Spike.sh app to a private channel?</summary> 
+Invite by typing `/invite @Spike.sh` in the channel.
+</details>
+
+<details>
+<summary>Can I add a private channel to escalations without connecting my Slack account?</summary> 
+No, your Slack account must be connected to Spike to add or view private channels in escalations.
+</details>
+
+<details>
+<summary>What happens if I disconnect my Slack account after adding private channels to escalations?</summary> 
+You will no longer be able to view the private channel names in escalations, even if you are a member of those channels.
+</details>
+
+<details>
+<summary>Can I see private channels added by other users in the escalation policy?</summary> 
+Only if you are a member of the same private channel and have your Slack account connected to Spike.
+</details>
+
+<details>
+<summary>What if I’m an admin on Slack but not a member of the private channel?</summary> 
+Admin privileges on Slack do not grant visibility to private channels unless you are explicitly added as a member of the channel.
+</details>
+
+---
+# On-call alerts
+
+<figure><img src="../.gitbook/assets/slack/slack-oncall-alert.png" alt=""><figcaption></figcaption></figure>
+
+Visit [Settings > Alerts](https://app.spike.sh/settings/general/alerts) to select Slack channels to receive on-call shift alerts.
+
+You can enable notifications for both shift start and shift end.
+
 ---
 
 ## FAQs
-
 
 <details> 
 <summary>Can anyone create an incident? Is there an extra charge?</summary>
