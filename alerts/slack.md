@@ -93,10 +93,6 @@ Click to create the incident. It's that simple!
 {% endstep %}
 {% endstepper %}
 
-1. __Add a Title and Details__: 
-1. __Select Integration and Escalation Policy__: 
-1. __Submit__: Click to create the incident. It's that simple!
-
 This process is straightforward and accessible to anyone in your Slack workspace.
 
 ---
