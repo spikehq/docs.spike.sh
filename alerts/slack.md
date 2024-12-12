@@ -13,7 +13,6 @@ Key features include:
 -	Create incidents directly from Slack
 -	View currently on-call responders
 
-
 {% tabs %}
 {% tab title="Quick links" %}
 * [Install Spike app on Slack](https://app.spike.sh/settings/general/alerts)
@@ -27,9 +26,10 @@ Key features include:
 Visit the [Alerts section](https://app.spike.sh/settings/general/alerts) in settings and click on **Add to Slack.**
 
 {% tabs %}
-
 {% tab title="Setting up incident alerts" %}
 <figure><img src="../.gitbook/assets/slack/add-slack-to-escalation.png" alt=""><figcaption></figcaption></figure>
+
+Visit the [Alerts section](https://app.spike.sh/settings/general/alerts) inside your settings and click on **Add to Slack.** Our Slack app asks for some basic permissions. 
 
 Add Slack as a step in your [escalation policy](https://app.spike.sh/escalations) to get incident notifications. You can choose between public or private channels for these alerts.
 {% endtab %}
@@ -72,6 +72,32 @@ Connects your Slack account in the workspace with Spike.
 
 4. `/help`
 Display a help message with guidance on using the Spike app in Slack.
+
+## Create incidents from Slack
+Using the `/create-incident` command in Slack opens an intuitive view to create incidents directly from your workspace. Here's how:
+
+{% stepper %}
+{% step %}
+### Add a Title and Details
+Provide a clear and meaningful title along with relevant details, including JSON data or links if applicable.
+{% endstep %}
+
+{% step %}
+### Select Integration and Escalation Policy
+Choose the appropriate integration and escalation policy to ensure the incident is routed correctly.
+{% endstep %}
+
+{% step %}
+### Submit
+Click to create the incident. It's that simple!
+{% endstep %}
+{% endstepper %}
+
+1. __Add a Title and Details__: 
+1. __Select Integration and Escalation Policy__: 
+1. __Submit__: Click to create the incident. It's that simple!
+
+This process is straightforward and accessible to anyone in your Slack workspace.
 
 ---
 
