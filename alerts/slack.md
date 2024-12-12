@@ -55,16 +55,87 @@ Spike's app cannot read any of your messages on Slack
 
 ---
 
+## Slash commands
+
+<figure><img src="../.gitbook/assets/slack/slash-commands.png" alt=""><figcaption></figcaption></figure>
+
+Here are all the available `/slash` commands - 
+
+1. `/create-incident`
+Create a new incident directly from Slack. Anyone in your workspace can use this command.
+
+2. `/oncall now` or `/oncall me`
+Check who is currently on-call or view your on-call schedule.
+
+4. `/connect`
+Connects your Slack account in the workspace with Spike.
+
+4. `/help`
+Display a help message with guidance on using the Spike app in Slack.
+
+---
+
 ## Incident Alerts
 <figure><img src="../.gitbook/assets/slack/slack-incident-alert-hero.png" alt=""><figcaption></figcaption></figure>
 
 Spike's incident alerts will mention `@here` to notify everyone online on the channel. The incident contains some key details like Title, Responders, Links, and Integration.
 
 Available Actions for Each Incident
-1. __Acknowledge__: Mark the incident as acknowledged to pause further alerts.
-2. __Resolve__: Resolve the incident once fixed.
-3. __Escalate__: Escalate the incident to the next level in your escalation policy.
-4. __Discuss in a New Channel__: Create a dedicated channel to collaborate on the incident. Only the user initiating this action will be added to the new channel to begin.
+1. __Acknowledge__
+2. __Resolve__
+3. __Escalate__
+4. __Discuss in a New Channel__
+
+### Discussing in a new channel
+<figure><img src="../.gitbook/assets/slack/slack-discuss-in-new-channel.png" alt=""><figcaption></figcaption></figure>
+
+Each incident includes the option to discuss in a new channel. When this action is initiated, a dedicated channel is created for collaboration on resolving the incident. Initially, only the user who initiates the action will be added to the new channel.
+
+Spike does not have access to read messages in these channels, maintaining your privacy.
+
+<details>
+<summary>Who can create these channels?</summary> 
+Anyone in your workspace can initiate this action and create new channels.
+</details>
+
+<details>
+<summary>Can the same channel be reused for multiple incidents?</summary> 
+No, a new channel is created for each incident to keep discussions organized and focused.
+</details>
+
+<details>
+<summary>What happens to the channel after the incident is resolved?</summary> 
+The channel remains in your workspace until it is manually archived. We recommend archiving the channel after resolving the incident to keep your workspace tidy.
+</details>
+
+<details>
+<summary>Can non-Spike users participate in the channel?</summary> 
+Yes, anyone in your workspace can be invited to join the discussion, regardless of their Spike account status.
+</details>
+
+{% hint style="info" %}
+We recommend archiving the channel once the incident is resolved to prevent stale channels in your workspace.
+{% endhint %}
+
+### Auto-Updating Slack messages
+
+If a Slack alert has been sent for a new incident and it is resolved—whether automatically, via Phone, SMS, Email, or the Dashboard—the Slack message will automatically update to reflect the resolved status, eliminating any ambiguity about the incident’s state.
+
+If the incident hasn’t auto-resolved on Slack and you attempt to resolve it manually, the Slack app will notify you that the incident has already been resolved.
+
+![Reflecting the true state of incident on Slack in all cases](../.gitbook/assets/slack/incident-was-already-resolved.png)
+
+---
+
+## On-call alerts
+
+<figure><img src="../.gitbook/assets/slack/slack-oncall-alert.png" alt=""><figcaption></figcaption></figure>
+
+Visit [Settings > Alerts](https://app.spike.sh/settings/general/alerts) to select Slack channels to receive on-call shift alerts.
+
+You can enable notifications for both shift start and shift end.
+
+---
 
 ## Private channels setup
 Private channels access can be configured in [Settings > Alerts](https://app.spike.sh/settings/general/alerts)
@@ -86,44 +157,6 @@ Once a private channel is added to an escalation, its name is visible only to us
 2.	Are members of the same private channel.
 
 Users without these permissions will not see the private channel name, ensuring enhanced privacy.
-
-### Auto-Updating Slack messages
-
-If a Slack alert has been sent for a new incident and it is resolved—whether automatically, via Phone, SMS, Email, or the Dashboard—the Slack message will automatically update to reflect the resolved status, eliminating any ambiguity about the incident’s state.
-
-If the incident hasn’t auto-resolved on Slack and you attempt to resolve it manually, the Slack app will notify you that the incident has already been resolved.
-
-![Reflecting the true state of incident on Slack in all cases](../.gitbook/assets/slack/incident-was-already-resolved.png)
-
----
-
-## On-call alerts
-
-<figure><img src="../.gitbook/assets/slack/slack-oncall-alert.png" alt=""><figcaption></figcaption></figure>
-
-Visit [Settings > Alerts](https://app.spike.sh/settings/general/alerts) to select Slack channels to receive on-call shift alerts.
-
-You can choose to enable shift start and shift end notifications. 
-
----
-
-## Slash commands
-
-<figure><img src="../.gitbook/assets/slack/slash-commands.png" alt=""><figcaption></figcaption></figure>
-
-Here are all the available `/slash` commands - 
-
-1. `/create-incident`
-Create a new incident directly from Slack. Anyone in your workspace can use this command.
-
-2. `/oncall now` or `/oncall me`
-Check who is currently on-call or view your on-call schedule.
-
-4. `/connect`
-Connects your Slack account in the workspace with Spike.
-
-4. `/help`
-Display a help message with guidance on using the Spike app in Slack.
 
 ---
 
