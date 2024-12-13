@@ -1,6 +1,6 @@
 ---
 description: >-
-  The Spike app for Slack delivers alerts for incidents and on-call rotations directly to your public or private channels. It also includes slash commands to create incidents and view on-call responders.
+  The Spike app for Slack sends incident and on-call alerts to your channels and offers slash commands for creating incidents and checking on-call responders.
 ---
 
 <figure><img src="../.gitbook/assets/slack/cover.png" alt=""><figcaption></figcaption></figure>
@@ -49,11 +49,7 @@ Visit [Settings > Alerts](https://app.spike.sh/settings/general/alerts) to selec
 
 {% endtabs %}
 
-Use the `/help` command on Slack for further help.
-
-{% hint style="info" %}
-Spike's app cannot read any of your messages on Slack
-{% endhint %}
+Use the `/help` command on Slack for further help. Spike app cannot read any of your messages on Slack
 
 ---
 
@@ -95,7 +91,9 @@ Click to create the incident. It's that simple!
 {% endstep %}
 {% endstepper %}
 
-This process is straightforward and accessible to anyone in your Slack workspace.
+{% hint style="info" %}
+Anyone in your Slack workspace can create incidents
+{% endhint %}
 
 ---
 
@@ -109,6 +107,12 @@ Available Actions for Each Incident
 2. __Resolve__
 3. __Escalate__
 4. __Discuss in a New Channel__
+
+{% hint style="info" }
+Visit the [Alerts section](https://app.spike.sh/settings/general/alerts) inside your settings and click on Add to Slack. Our Slack app asks for some basic permissions.
+
+Add Slack as a step in your [escalation policy](https://app.spike.sh/escalations) to get incident notifications. You can choose between public or private channels for these alerts.
+{% endhint %}
 
 ## Discussing in a new channel
 <figure><img src="../.gitbook/assets/slack/slack-discuss-in-new-channel.png" alt=""><figcaption></figcaption></figure>
@@ -180,6 +184,12 @@ Once a private channel is added to an escalation, its name is visible only to us
 Users without these permissions will not see the private channel name, ensuring enhanced privacy.
 
 <details>
+<summary>I can’t find a channel in the dropdown. What should I do?</summary>
+You can find the channel by pasting its ID from Slack. To locate the channel ID, open the channel, go to the About section, and find the unique ID.
+<figure><img src="../.gitbook/assets/slack/find-slack-channel-id.png" alt=""><figcaption></figcaption></figure>
+</details>
+
+<details>
 <summary>Why can’t I see a private channel in the escalation dropdown?</summary> 
 You must be a member of the private channel and have connected your Slack account with Spike. Additionally, the `@Spike.sh` app must be added to the private channel.
 
@@ -242,8 +252,3 @@ This happens when User B hasn’t connected their Slack account with Spike. To c
 - Run the `/connect` command to connect
 </details>
 
-<details>
-<summary>I can’t find a channel in the dropdown. What should I do?</summary>
-Click on the channel name to open the channel’s details. Within the channel details on the "About" section you can find the unique ID
-<figure><img src="../.gitbook/assets/slack/find-slack-channel-id.png" alt=""><figcaption></figcaption></figure>
-</details>
