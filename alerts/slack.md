@@ -174,6 +174,10 @@ When managing escalations, only users who have connected their Slack account wit
 
 Both the user and the `@Spike.sh` app must be part of the private channel for it to appear under escalations.
 
+{% hint style="warning" %}
+To continue to receive alerts on your private Slack channels, it is important to add the `@Spike.sh app` to those channels. __This step is mandatory__, particularly for escalations configured before 11th December 2024, as alerts will not be delivered without the bot being added.
+{% endhint %}
+
 ### Private channel visibility in escalations
 
 Once a private channel is added to an escalation, its name is visible only to users who:
