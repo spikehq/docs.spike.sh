@@ -1,7 +1,6 @@
 ---
 description: >-
-  Overriding gives you the ability to add someone on-call to cover others shift
-  for a specific period of time
+  On-call overrides allow you to assign temporary coverage for shifts without altering your entire schedule
 ---
 
 # On-call overrides
