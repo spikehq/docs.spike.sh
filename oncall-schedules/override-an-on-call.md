@@ -4,38 +4,65 @@ description: >-
   for a specific period of time
 ---
 
-# Override an on-call
+# On-call overrides
 
-## What is an on-call override?
+<figure><img src="../.gitbook/assets/oncall/override-cover.png" alt=""><figcaption></figcaption></figure>
 
-Overrides give you the ability to plan on-call coverage for the absence of members in the schedule. Have a dentist's appointment or had a rough week and don't wish to be on-call? Creating an override to get a member from your team to cover the schedule instead of editing your entire schedule. 
+## Introduction
+On-call overrides give your team flexibility by allowing temporary adjustments to your schedule without permanently changing it. Whether you're stepping out for a dentist appointment or taking a well-deserved break after a hectic week, overrides help ensure that incident coverage continues seamlessly. Overrides are non-recurring and ideal for short-term coverage.
 
 {% hint style="success" %}
-An on-call override does not repeat like your regular schedule. This makes it easier for someone to be on-call temporarily for a specific period of time
+Overrides are temporary and do not repeat like regular schedules, simplifying one-time changes to your on-call coverage.
 {% endhint %}
 
-### Adding an override
+## Adding an override
 
-To add an override, **visit your on-call schedule > settings > override**
+You can create overrides for a specific user's shift or for the entire duration between a start and end time. Here’s how to set it up:
 
-![Adding an override](<../.gitbook/assets/image (74).png>)
+{% tabs %}
+{% tab title="Set up instructions" %}
+* From your [on-call schedule](https://app.spike.sh/on-calls), press `O` or click on `Override`.
+* Add the name of the team member, the start and end time, and an optional comment for context.
+* **Save**: The override will be applied, and the selected member will temporarily take over on-call responsibilities.
+{% endtab %}
+{% endtabs %}
 
-From the above example, Jay will be on-call from 28th April midnight to 30th April midnight. Adding a comment helps give context for the override. 
 
-![On-call schedule with an override](<../.gitbook/assets/image (75).png>)
+{% tabs %}
+{% tab title="Cover a user's shift" %}
+Example: In the screenshot below, James has been assigned an override to cover Kaushik's shifts from January 14th to January 16th at midnight. The comment provides clarity about the reason for the override.
 
-### Deleting an override
+<figure><img src="../.gitbook/assets/oncall/cover-users-shift.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/oncall/james-cover-kaushik.png" alt=""><figcaption></figcaption></figure>
+{% endtab %}
+{% tab title="Cover everyone's shift" %}
+Example: In the screenshot below, James has been assigned an override to cover **everyone's** shifts from January 14th to January 16th at midnight. The comment provides clarity about the reason for the override.
 
-You can remove an override using the delete icon from within the schedule. You needn't edit the on-call schedule to delete the override layer.
+<figure><img src="../.gitbook/assets/oncall/cover-everyone-shift.png" alt=""><figcaption></figcaption></figure>
 
-### How many overrides can we add?
 
-You can choose to add as many overrides as you want. 
+<figure><img src="../.gitbook/assets/oncall/james-cover-everyone.png" alt=""><figcaption></figcaption></figure>
+{% endtab %}
+{% endtabs %}
 
-{% hint style="info" %}
-Ensure to delete the older overrides so as to avoid confusion. If two overrides overlap then the last added will take precedence. 
-{% endhint %}
 
-### Editing an on-call schedule
+## FAQs
+<details>
+<summary>Can I add multiple overrides for the same time period?</summary>
+Yes, you can. If overrides overlap, the most recently added override will take precedence.
+</details>
 
-You will not see override layers while editing an on-call schedule. This is by design as overrides don't tend to repeat.
+<details>
+<summary>Can I override the schedule for multiple team members at once?</summary>
+No, each override is specific to one user and covers their shift or a time period. Multiple overrides must be added individually.
+</details>
+
+<details>
+<summary>Are notifications sent when an override is added or removed?</summary>
+Yes, team members affected by the override will receive notifications about the change.
+</details>
+
+<details>
+<summary>Who can add or remove overrides?</summary> 
+Anyone who is not assigned a "Viewer" role in your team can add and delete overrides. This permission is fixed and cannot be customized. 
+</details>
