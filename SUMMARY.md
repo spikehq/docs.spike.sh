@@ -186,6 +186,7 @@
 * [Integrate Spike with GitHub Workflows](integrations-guideline/integrate-spike-with-github-workflows.md)
 * [Integrate Spike with Solarwinds Orion](integrations-guideline/integrate-spike-with-solarwinds-orion.md)
 * [Integrate Spike with Airbrake.io](integrations-guideline/integrate-spike-with-airbrake.md)
+* [Updown.io](integrations-guideline/updown-io.md)
 
 ## Administration
 
