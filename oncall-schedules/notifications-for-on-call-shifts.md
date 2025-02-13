@@ -76,10 +76,19 @@ Overrides only apply to the selected schedule, while your global on-call setting
 ---
 
 ## FAQs
-<details> <summary>Can I receive on-call shift notifications via multiple channels?</summary> Yes, you can enable multiple channels such as **Phone calls, SMS, WhatsApp, Telegram, and Email** for personal notifications. Team-wide notifications can be sent to **Slack, Microsoft Teams, and Discord**. </details> 
-<details> <summary>Are on-call notifications available on all plans?</summary> Yes, on-call notifications are available on all plans. </details>
-<details> <summary>Can I disable notifications for a specific on-call schedule?</summary> No, notifications apply to all on-call schedules globally. If you wish to disable them, you will need to turn off **on-call notifications** in your [personal settings](https://app.spike.sh/settings/personal-on-call). </details>
+<details> 
+<summary>Can I receive on-call shift notifications via multiple channels?</summary> 
+Yes, you can enable multiple channels such as Phone calls, SMS, WhatsApp, Telegram, and Email for personal notifications. Team-wide notifications can be sent to Slack, Microsoft Teams, and Discord.
+</details> 
+<details>
+<summary>Are on-call notifications available on all plans?</summary> 
+Yes, on-call notifications are available on all plans. 
+</details>
+<details>
+<summary>Can I disable notifications for a specific on-call schedule?</summary>
+No, notifications apply to all on-call schedules globally. If you wish to disable them, you will need to turn off **on-call notifications** in your [personal settings](https://app.spike.sh/settings/personal-on-call).
+</details>
 <details>  
 <summary>Do on-call notifications count toward my monthly alert quota?</summary>  
-Yes, for plans with limited alerts per month, **on-call shift notifications** are included in your monthly quota.  
+Yes, for plans with limited alerts per month, on-call shift notifications are included in your monthly quota.  
 </details>
