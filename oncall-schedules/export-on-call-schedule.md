@@ -22,9 +22,9 @@ An **ICS (iCalendar) file** is a standard format used to store and share calenda
 
 To export your on-call schedule:
 
-1. **Go to your on-call schedule settings**
+1. **Go to your on-call schedule settings** OR **[calendar view of on-calls](https://app.spike.sh/on-calls/calendar)**
 2. Click on **Export Calendar**
-3. Download the **ICS file**
+3. Download the **ICS file** or sync with Webcal
 
 ![Export on-call calendar](<../.gitbook/assets/oncall/export-oncall-calendar.png>)
 
