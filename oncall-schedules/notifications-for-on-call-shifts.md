@@ -86,9 +86,9 @@ Yes, on-call notifications are available on all plans.
 </details>
 <details>
 <summary>Can I disable notifications for a specific on-call schedule?</summary>
-No, notifications apply to all on-call schedules globally. If you wish to disable them, you will need to turn off **on-call notifications** in your [personal settings](https://app.spike.sh/settings/personal-on-call).
+No, notifications apply to all on-call schedules globally. If you wish to disable them, you will need to turn off on-call notifications in your personal settings → https://app.spike.sh/settings/personal-on-call.
 </details>
-<details>  
+<details>
 <summary>Do on-call notifications count toward my monthly alert quota?</summary>  
 Yes, for plans with limited alerts per month, on-call shift notifications are included in your monthly quota.  
 </details>
