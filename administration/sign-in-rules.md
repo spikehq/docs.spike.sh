@@ -8,7 +8,7 @@ As an admin, you can enforce secure sign-in methods for all members by requiring
 
 To configure, visit [Settings > Organisation](https://app.spike.sh/settings/general/organisation).  
 
-![Sign-In Rules on Spike.sh](../.gitbook/assets/enforce-login.png)  
+![Sign-In Rules on Spike](../.gitbook/assets/administration/sign-in-rules.png)  
 
 ## Enforce Google or SAML SSO  
 
