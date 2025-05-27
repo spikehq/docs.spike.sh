@@ -23,6 +23,7 @@ Notify your team when any member starts or ends their shift:
 - Slack
 - Microsoft Teams
 - Discord
+- Webhooks
 
 ---
 
