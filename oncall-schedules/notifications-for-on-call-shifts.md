@@ -104,6 +104,7 @@ The webhook payload includes detailed information about the on-call schedule and
 {% endtab %}
 
 {% tab title="Shift end payload" %}
+```
 {
   "event_type": "oncall_shift_end", <---- EVENT DIFFERS
   "organization": {
@@ -127,6 +128,7 @@ The webhook payload includes detailed information about the on-call schedule and
     }
   }
 }
+```
 {% endtab %}
 {% endtabs %}
 
