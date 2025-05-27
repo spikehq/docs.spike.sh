@@ -67,8 +67,8 @@
 
   * [Introduction to On-call schedules](oncall-schedules/introduction-to-on-call-schedules.md)
   * [Create On-call schedule](oncall-schedules/create-on-call-schedule.md)
-  * [Introduction to Slots in schedules](oncall-schedules/introduction-to-slots-in-schedules.md)
-  * [Introduction to Layers in on-call schedules](oncall-schedules/introduction-to-layers-in-on-call-schedules.md)
+  * [Slots in schedules](oncall-schedules/introduction-to-slots-in-schedules.md)
+  * [Layers in on-call schedules](oncall-schedules/introduction-to-layers-in-on-call-schedules.md)
   * [Override an on-call](oncall-schedules/override-an-on-call.md)
   * [Add on-call schedule to your calendar](oncall-schedules/export-on-call-schedule.md)
   * [Notifications for on-call shifts](oncall-schedules/notifications-for-on-call-shifts.md)
