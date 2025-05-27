@@ -28,6 +28,8 @@ Notify your team when any member starts or ends their shift:
 
 ## When Your On-Call Shift Starts/Ends
 
+![Personal On-call notifications](<../.gitbook/assets/oncall/oncall-notifications--personal--shift-start-notifications.png>)
+
 You can choose to receive alerts over **Phone calls, WhatsApp, Telegram, SMS, and Email** when your shift starts or ends. 
 
 To enable notifications:
@@ -36,42 +38,97 @@ To enable notifications:
 3. Once saved, notifications will apply to all on-call schedules you are part of.
 
 {% hint style="info" %}
-Personal on-call settings apply to all on-call schedules. However, you can override them for specific schedules by updating their individual settings.
+You can override these per schedule.
 {% endhint %}
 
 You can also customize alerts per on-call schedule in the schedule's settings.
-
-![Personal On-call notifications](<../.gitbook/assets/oncall/oncall-notifications.png>)
 
 ---
 
 ## When Any Team Member Starts/Ends Their On-Call Shift
 
+![Slack notifications for shift start and ends](<../.gitbook/assets/oncall/oncall-notifications--team--slack.png>)
+
 You can set up notifications when **anyone** in your team starts or ends an on-call shift. 
 
 To enable:
 1. Visit [Slack settings under Organisation > Alerts](https://app.spike.sh/settings/general/alerts).
-2. Select channels where notifications should be sent.
+2. Select one or more channels where notifications should be sent.
 3. Once saved, all members in the selected Slack channels will receive updates on shift start and end.
 
 Similar settings are available for **Microsoft Teams** and **Discord**.
 
-![Slack notifications for shift start and ends](<../.gitbook/assets/oncall/oncall-notifications--slack.png>)
+{% hint style="info" %}
+You can override Slack and Microsoft Teams alerts for per on-call schedule under the schedule's settings.
+{% endhint %}
 
 ---
 
-## Overriding Personal On-Call Notifications for Specific Schedules
+## Webhook trigger on On-call shift rotations
 
-If you prefer different notification settings for a **specific** on-call schedule (e.g., **Primary On-Call**), you can override your **global** settings.
+![Webhook triggers shift start and ends](<../.gitbook/assets/oncall/oncall-notifications--webhook.png>)
 
-To override:
-1. Visit the **On-Call Schedule Settings** for the specific schedule.
-2. Choose custom shift start and end alerts on different channels.
-3. Save your preferences.
+You can configure outbound webhooks to trigger using POST, PUT, or GET requests. Spike will send a webhook each time an on-call shift starts or ends, with separate requests for each event.
 
-{% hint style="info" %}
-Overrides only apply to the selected schedule, while your global on-call settings remain unchanged.
-{% endhint %}
+If one shift ends and another begins immediately, Spike will trigger both the end and start webhooks in quick succession—each with its own payload.
+
+The webhook payload includes detailed information about the on-call schedule and the shift member. Refer below:
+
+{% tabs %}
+{% tab title="Shift starts payload" %}
+```
+{
+  "event_type": "oncall_shift_start", <---- EVENT DIFFERS
+  "organization": {
+    "id": "65f15fd64171a1487c4fe666",
+    "name": "spike"
+  },
+  "user": {
+    "id": "660bb3f8324701c2f2e24c98",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "johndoe@example.com"
+  },
+  "oncall": {
+    "id": "67a20db2c9f79829b51fbf80",
+    "name": "Weekday after office hours rotation",
+    "url": "https://app.spike.sh/on-calls/67a20db2c9f79829b51fbf80", <-- permalink
+    "shift": {
+      "id": "67f3c5e9f6dd8715782cc7b2",
+      "start": "2025-05-26T10:23:20.294Z", <-- times in UTC
+      "end": "2025-05-26T18:30:00.000Z"
+    }
+  }
+}
+```
+{% endtab %}
+
+{% tab title="Shift end payload" %}
+{
+  "event_type": "oncall_shift_end", <---- EVENT DIFFERS
+  "organization": {
+    "id": "65f15fd64171a1487c4fe666",
+    "name": "spike"
+  },
+  "user": {
+    "id": "660bb3f8324701c2f2e24c98",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "johndoe@example.com"
+  },
+  "oncall": {
+    "id": "67a20db2c9f79829b51fbf80",
+    "name": "Weekday after office hours rotation",
+    "url": "https://app.spike.sh/on-calls/67a20db2c9f79829b51fbf80", <-- permalink
+    "shift": {
+      "id": "67f3c5e9f6dd8715782cc7b2",
+      "start": "2025-05-26T10:23:20.294Z", <-- times in UTC
+      "end": "2025-05-26T18:30:00.000Z"
+    }
+  }
+}
+{% endtab %}
+{% endtabs %}
 
 ---
 
