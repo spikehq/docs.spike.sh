@@ -72,9 +72,20 @@ The Spike bot allows you to connect to multiple groups of channels in Microsoft 
 There is no limit on how many groups can be connected. 
 
 ### After connecting:
-- Visit your [Escalation Policies] on Spike and add your desired channel to receive alerts.
+- Visit your [Escalation Policies](https://app.spike.sh/escalations) on Spike and add your desired channel to receive alerts.
 - You’ll see the newly connected Teams channels listed in the dropdown menu.
 
+### NOTE on Finding channels in Escalations
+Microsoft Teams shows the group (Team) name only alongside the first channel name from each group. However, the first channel name appears as "standard" instead of the actual channel name.
+
+Other channels from the same group do not display the group name. This can cause confusion if you have similarly named channels across different groups.
+
+For example:
+![Naming convention in escalations for Microsoft teams channels](../.gitbook/assets/microsoft-teams/naming-convention-issue.png)
+- **Spike.sh - standard** (this refers to the first channel in the “Spike.sh” group, even if the channel’s actual name is different)
+- **Engineering** (another channel in the same group, shown without the group name)
+- **Developer space - standard** (the first channel in “Developer space”; actual name is “dev space,” but shown as “standard”)
+- **Incidents** (another channel in the same group, shown without the group name)
 ***
 
 ## Deprecated - Get Teams alerts from Spike using Incoming Webhook
