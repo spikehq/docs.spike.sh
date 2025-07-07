@@ -76,19 +76,16 @@ There is no limit on how many groups can be connected.
 - You’ll see the newly connected Teams channels listed in the dropdown menu.
 
 ### NOTE on Finding channels in Escalations
-Note: Microsoft Teams only shows the group (Team) name alongside the first channel name from each group. Also, the first channel name is shown as _standard_ and not the actual name. 
+Microsoft Teams shows the group (Team) name only alongside the first channel name from each group. However, the first channel name appears as "standard" instead of the actual channel name.
 
-Other channel names appear without the group name, which can cause confusion if you have similarly named channels in different groups.
+Other channels from the same group do not display the group name. This can cause confusion if you have similarly named channels across different groups.
 
 For example:
 ![Naming convention in escalations for Microsoft teams channels](../.gitbook/assets/microsoft-teams/naming-convention-issue.png)
-
-**Spike.sh - standard** (first channel in “Spike.sh" group)
-**Engineering** (another channel in the same group, shown without the group name)
-
-**Developer space - standard** (first channel name is "dev space" but shows as standrd)
-**Incidents** (another channel in the same group, shown without the group name)
-
+- **Spike.sh - standard** (this refers to the first channel in the “Spike.sh” group, even if the channel’s actual name is different)
+- **Engineering** (another channel in the same group, shown without the group name)
+- **Developer space - standard** (the first channel in “Developer space”; actual name is “dev space,” but shown as “standard”)
+- **Incidents** (another channel in the same group, shown without the group name)
 ***
 
 ## Deprecated - Get Teams alerts from Spike using Incoming Webhook
