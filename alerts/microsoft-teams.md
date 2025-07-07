@@ -82,7 +82,9 @@ Other channels from the same group do not display the group name. This can cause
 
 For example:
 
+
 ![Naming convention in escalations for Microsoft teams channels](../.gitbook/assets/microsoft-teams/naming-convention-issue.png)
+
 
 - **Spike.sh - standard** (this refers to the first channel in the “Spike.sh” group, even if the channel’s actual name is different)
 - **Engineering** (another channel in the same group, shown without the group name)
