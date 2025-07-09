@@ -32,22 +32,22 @@ Spike will automatically group repeated incidents and suppress alerts while an i
 **Step 2:**&#x20;
 
 {% tabs %}
-   {% tab title="Alarms in Twilio" %}
-   **Setup:**
-      * Go to your Twilio Console and navigate to **Monitor > Alarms > Manage Alarms**.
-      * Create a new alarm, configure your metrics at the top of the page.
-      * Scroll down, enable webhook and paste your Spike webhook URL here.
-   **Save and Test:**
-      * Save the configuration and, if possible, trigger a test to verify the webhook is working.
-   {% endtab %}
-   {% tab title="Errors, Debuggers, and Usage triggers" %}
-      **Setup:**
-         * Go to your Twilio Console and navigate to **Monitor > Logs > Errors**.
-         * Create a new webhook, paste your Spike webhook URL here.
-         * Configure the threshold and parameters for the trigger in Error logs section.
-      **Save and Test:**
-         * Save the configuration and, if possible, trigger a test to verify the webhook is working.
-   {% endtab %}
+{% tab title="Alarms in Twilio" %}
+**Setup:**
+   * Go to your Twilio Console and navigate to **Monitor > Alarms > Manage Alarms**.
+   * Create a new alarm, configure your metrics at the top of the page.
+   * Scroll down, enable webhook and paste your Spike webhook URL here.
+**Save and Test:**
+   * Save the configuration and, if possible, trigger a test to verify the webhook is working.
+{% endtab %}
+{% tab title="Errors, Debuggers, and Usage triggers" %}
+**Setup:**
+   * Go to your Twilio Console and navigate to **Monitor > Logs > Errors**.
+   * Create a new webhook, paste your Spike webhook URL here.
+   * Configure the threshold and parameters for the trigger in Error logs section.
+**Save and Test:**
+   * Save the configuration and, if possible, trigger a test to verify the webhook is working.
+{% endtab %}
 {% endtabs %}
 
 ## FAQ
