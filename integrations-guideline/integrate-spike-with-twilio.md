@@ -1,40 +1,60 @@
+---
+description: >-
+   Integrate Spike with Twilio to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more for usage anomalies and debugger errors.
+---
+
 # Integrate Spike with Twilio
+<figure><img src="../.gitbook/assets/integrations/twilio/twilio-cover.png" alt=""><figcaption></figcaption></figure>
 
-### Service and integration
+## Overview
 
-Make sure to add the Twilio integration and copying the webhook.&#x20;
+[Twilio](https://twilio.com) provides cloud communication services for messaging, voice, and more. It also offers tools like Debugger and Usage Triggers to monitor usage spikes, errors, and anomalies in your Twilio account.
+
+With Spike’s integration, you can receive real-time alerts for Twilio events, such as:
+
+* **Usage Triggers:** Alerts for predefined usage thresholds (e.g., sudden spikes in API usage or spending).
+* **Debugger Alerts:** Notifications for issues identified by Twilio's Debugger tool.
+
+This integration enables your team to respond immediately to critical events and usage patterns in your Twilio services.
+
+{% hint style="info" %}
+Spike will automatically group repeated incidents and suppress alerts while an incident is open. You can set up [alert rules](https://docs.spike.sh/alerts/alert-rules) to control incident severity and customize actions. Auto-resolution is not supported.
+{% endhint %}
+
+## Set up instructions
+
+**Step 1:** Create a Twilio integration in the Spike dashboard and copy the webhook URL.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
+**Step 2:**&#x20;
 
-
-### Using the webhook on Twilio
-
-On [Twilio](https://twilio.com/console) console, setup **debugger and usage triggers**
-
-**Usage triggers**
-
-On the console, visit **Usage > Triggers**. You can setup multiple triggers with various webhooks.&#x20;
-
-![Setup Usage triggers on twilio and receive alerts on Spike.sh](../.gitbook/assets/twilio-with-spike-1.png)
-
-**Debugger alerts**
-
-On the side panel, click on **All products & services > Runtime > Debugger.** You can setup multiple triggers with a single or more webhooks.&#x20;
-
-![Upon every debugger issue caught by twilio, get an alert from Spike.sh](<../.gitbook/assets/image (17) (1).png>)
-
-
+{% tabs %}
+   {% tab title="Alarms in Twilio" %}
+      * Go to your Twilio Console and navigate to **Monitor > Alarms > Manage Alarms**.
+      * Create a new alarm, configure your metrics at the top of the page.
+      * Scroll down, enable webhook and paste your Spike webhook URL here.
+      **Save and Test:**
+      * Save the configuration and, if possible, trigger a test to verify the webhook is working.
+   {% endtab %}
+   {% tab title="Errors, Debuggers, and Usage triggers" %}
+      * Go to your Twilio Console and navigate to **Monitor > Logs > Errors**.
+      * Create a new webhook, paste your Spike webhook URL here.
+      * Configure the threshold and parameters for the trigger in Error logs section.
+      **Save and Test:**
+      * Save the configuration and, if possible, trigger a test to verify the webhook is working.
+   {% endtab %}
+{% endtabs %}
 
 ## FAQ
+<details> 
+<summary>Does Spike use this integration to make calls from my Twilio account?</summary>
+No. This integration does not allow Spike to make calls or send messages from your Twilio account.
+</details>
 
-1. **How many services and integrations can I create on Spike?**
-   * Unlimited
-2. **How many escalation policies can I have on Spike?**
-   * Unlimited
-
-At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
-
-If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
+<details> 
+<summary>What is this integration mainly used for?</summary>
+This integration is meant to notify you about issues or unusual activities in your Twilio account, such as usage spikes or debugger errors. It helps you create and track incidents related to your Twilio services in real time.
+</details>
