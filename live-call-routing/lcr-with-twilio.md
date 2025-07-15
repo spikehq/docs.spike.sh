@@ -3,7 +3,7 @@ description: Live Call Routing, a direct phone line that connects incoming calls
 ---
 <figure><img src="../.gitbook/assets/live-call-routing/twilio-banner.png" alt=""><figcaption></figcaption></figure>
 
-# Connecting Your Twilio Number for Live Call Routing
+# Configure Your Twilio Number for Live Call Routing
 During setting up your Live Call Routing in Spike, you’ll receive a unique **webhook URL**. 
 Follow these steps to connect it with Twilio:
 
