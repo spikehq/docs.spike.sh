@@ -14,11 +14,13 @@ Follow these steps:
 {% step %}
 ### 1. **Create an Application**  
 In your Plivo Console, go to **Voice → XML under Applications → New Application**.
+
 Give the application a name you can recognise later.
+
 Under the **Voice** section, select POST request and paste Spike's webhook under
-    - Primary answer URL
-    - Fallback answer URL
-    - and Hangup answer URL *(optional)*
+- Primary answer URL
+- Fallback answer URL
+- and Hangup answer URL *(optional)*
 
 Scroll down and hit **Create Application**
 <figure><img src="../.gitbook/assets/live-call-routing/plivo-settings-1.png" alt=""><figcaption></figcaption></figure>
@@ -26,10 +28,12 @@ Scroll down and hit **Create Application**
 {% step %}
 
 ### 2. **Configure Phone number**
+
 Visit **Phone Numbers → Active → Select a Number**.
+
 In the Number configuration section on the same page, 
-    - select **XML Application** under Application Type
-    - select your previously created application under **Plivo Application**
+- select **XML Application** under Application Type
+- select your previously created application under **Plivo Application**
 
 and hit Update!
 <figure><img src="../.gitbook/assets/live-call-routing/plivo-settings-2.png" alt=""><figcaption></figcaption></figure>
