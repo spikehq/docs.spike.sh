@@ -1,5 +1,5 @@
 ---
-description: Live Call Routing, a direct phone line that connects incoming calls to on-call engineers.
+description: Learn how to connect your Twilio number with Spike for Live Call Routing
 ---
 <figure><img src="../.gitbook/assets/live-call-routing/twilio-banner.png" alt=""><figcaption></figcaption></figure>
 

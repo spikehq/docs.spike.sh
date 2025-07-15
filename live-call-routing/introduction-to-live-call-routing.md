@@ -54,6 +54,7 @@ Your number stays completely private. Spike does **not** require API keys or dir
 Instead, Spike gives you a simple **webhook URL**. Paste this webhook into your Twilio or Plivo console so all incoming calls are forwarded to Spike. From there, Spike handles the routing, fallbacks, and call logging for you.
 
 {% content-ref url="lcr-with-twilio.md" %} lcr-with-twilio.md {% endcontent-ref %}
+{% content-ref url="lcr-with-plivo.md" %} lcr-with-plivo.md {% endcontent-ref %}
 
 
 > If you would like Spike to provide you with a number, contact us at [support@spike.sh](mailto:support@spike.sh).
