@@ -64,21 +64,21 @@ Instead, Spike gives you a simple **webhook URL**. Paste this webhook into your 
    Choose a clear name (e.g., *Engineering Hotline*) and enter your phone number in **full international format**, including the `+` symbol.
 {% endstep %}
 {% step %}
-### 2. Connect your Twilio or Plivo account
-Spike provides a **webhook URL**  
-Paste this webhook into your Twilio or Plivo console as per their instructions.
-{% endstep %}
-{% step %}
-### 3. Configure who receives the calls
+### 2. Configure who receives the calls
 Select an on-call schedule or a responder.  
 Optionally add up to **two fallback responders**.
 {% endstep %}
 {% step %}
-### 4. Customize your messages
+### 3. Customize your messages
    Set up three audio messages:
    - **Welcome Message** – played when someone calls.
    - **No One On‑Call Message** – played if no one is currently on call.
    - **No Answer Message** – played if all responders fail to answer.
+{% endstep %}
+{% step %}
+### 4. Connect your Twilio or Plivo account
+Spike provides a **webhook URL**  
+Paste this webhook into your Twilio or Plivo console as per their instructions.
 {% endstep %}
 {% step %}
 ### 5. Go Live !
