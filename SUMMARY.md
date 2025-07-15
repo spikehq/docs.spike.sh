@@ -74,6 +74,10 @@
   * [Notifications for on-call shifts](oncall-schedules/notifications-for-on-call-shifts.md)
   * [Change on-call rotation day](oncall-schedules/change-on-call-rotation-day.md)
 
+## Live Call Routing <a href="#live-call-routing" id="live-call-routing"></a>
+
+  * [Introduction to Live Call Routing](live-call-routing/introduction-to-live-call-routing.md)
+
 ## Playbooks
 
 * [Introduction to Playbooks](playbooks/introduction-to-playbooks.md)
