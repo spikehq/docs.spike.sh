@@ -64,13 +64,13 @@ Instead, Spike gives you a simple **webhook URL**. Paste this webhook into your 
 {% endstep %}
 {% step %}
 ### 2. Connect your Twilio or Plivo account
-    Spike provides a **webhook URL**  
-    Paste this webhook into your Twilio or Plivo console as per their instructions.
+Spike provides a **webhook URL**  
+Paste this webhook into your Twilio or Plivo console as per their instructions.
 {% endstep %}
 {% step %}
 ### 3. Configure who receives the calls
-    Select an on-call schedule or a responder.  
-    Optionally add up to **two fallback responders**.
+Select an on-call schedule or a responder.  
+Optionally add up to **two fallback responders**.
 {% endstep %}
 {% step %}
 ### 4. Customize your messages
@@ -94,23 +94,27 @@ Instead, Spike gives you a simple **webhook URL**. Paste this webhook into your 
 You can make every call feel unique by customizing the messages callers hear.  
 Spike lets you set up three types of audio messages, giving you full control over how you greet and guide callers:
 
-1. **Welcome Message**  
-   Played as soon as the call begins.  
-   Use this to greet callers and let them know they’re being connected to your on‑call team.  
-   *Example:*
-   *“Hi, thanks for calling the Engineering Hotline. Please hold while we connect you to the on‑call engineer.”*
-
-2. **No-one Answered Message**  
-   Played when no one answers after trying the primary and fallback responders.  
-   You can ask the caller to leave a voicemail after the beep.  
-   *Example:*  
-   *“Sorry, no one is available to take your call right now. Please leave a message after the tone and we’ll get back to you as soon as possible.”*
-
-3. **No-one On‑Call Message**  
-   Played when there is no on‑call responder at the moment.  
-   You can customize this to explain your schedule or provide next steps, while still letting them leave a message.  
-   *Example:*  
-   *“Our on‑call team is currently offline. Please leave a message with your name and number, and we’ll return your call as soon as we’re back on shift.”*
+<details>
+<summary>1. **Welcome Message** </summary>
+Played as soon as the call begins.  
+Use this to greet callers and let them know they’re being connected to your on‑call team.  
+*Example:*
+*“Hi, thanks for calling the Engineering Hotline. Please hold while we connect you to the on‑call engineer.”*
+</details>
+<details>
+<summary>2. **No-one Answered Message** </summary>
+Played when no one answers after trying the primary and fallback responders.  
+You can ask the caller to leave a voicemail after the beep.  
+*Example:*  
+*“Sorry, no one is available to take your call right now. Please leave a message and we’ll get back to you as soon as possible.”*
+</details>
+<details>
+<summary>3. **No-one On‑Call Message** </summary>
+Played when there is no on‑call responder at the moment.  
+You can customize this to explain your schedule or provide next steps, while still letting them leave a message.  
+*Example:*  
+*“Our on‑call team is currently offline. Please leave a message with your name and number, and we’ll return your call as soon as we’re back on shift.”*
+</details>
 
 These options let you create a professional, branded experience for anyone calling your number—whether it’s during an incident or off‑hours.
 
