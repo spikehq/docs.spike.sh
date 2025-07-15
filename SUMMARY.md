@@ -77,6 +77,7 @@
 ## Live Call Routing <a href="#live-call-routing" id="live-call-routing"></a>
 
   * [Introduction to Live Call Routing](live-call-routing/introduction-to-live-call-routing.md)
+  * [Configure Your Twilio Number for Live Call Routing](live-call-routing/lcr-with-twilio.md)
 
 ## Playbooks
 
