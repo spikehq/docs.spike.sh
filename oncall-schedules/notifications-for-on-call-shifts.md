@@ -39,10 +39,8 @@ To enable notifications:
 3. Once saved, notifications will apply to all on-call schedules you are part of.
 
 {% hint style="info" %}
-You can override these per schedule.
+You can override these per schedule. Visit **On-call > Settings > My alerts**
 {% endhint %}
-
-You can also customize alerts per on-call schedule in the schedule's settings.
 
 ---
 
