@@ -63,6 +63,12 @@ Instead, Spike gives you a simple **webhook URL**. Paste this webhook into your 
 {% step %}
 ### 1. Add and name your phone number
    Choose a clear name (e.g., *Engineering Hotline*) and enter your phone number in **full international format**, including the `+` symbol.
+
+   > On Twilio, find your number on **Console → Develop → Phone numbers → Active numbers**.
+   >
+   > On Plivo, you can find your number on **Plivo's console → Numbers → Active**.
+
+   {%endhint%}
 {% endstep %}
 {% step %}
 ### 2. Configure who receives the calls
