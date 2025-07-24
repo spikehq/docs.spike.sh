@@ -12,7 +12,7 @@ Follow these steps:
 
 {% stepper %}
 {% step %}
-### 1. **Create an Application**  
+### Create an Application
 In your Plivo Console, go to **Voice → XML under Applications → New Application**.
 
 Give the application a name you can recognise later.
@@ -27,7 +27,7 @@ Scroll down and hit **Create Application**
 {% endstep %}
 {% step %}
 
-### 2. **Configure Phone number**
+### Configure Phone number
 
 Visit **Phone Numbers → Active → Select a Number**.
 
@@ -41,7 +41,7 @@ and hit Update!
 {% endstep %}
 
 {% step %}
-### 5. **To access call recordings**
+### To access call recordings
    When call recording is enabled, Spike retrieves the recordings directly from your Plivo account.
 
    - In your Plivo Console, go to **Voice → Settings → Other Settings**.  
@@ -56,4 +56,4 @@ Spike will handle the routing, fallbacks, and call logging automatically.
 
 ---
 
-*If you need help configuring Live Call Routing or integrating your Plivo/Plivo account, reach out to [support@spike.sh](mailto:support@spike.sh).*
+*If you need help configuring Live Call Routing or integrating your Plivo account, reach out to [support@spike.sh](mailto:support@spike.sh).*
