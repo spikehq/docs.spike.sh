@@ -39,6 +39,16 @@ and hit Update!
 <figure><img src="../.gitbook/assets/live-call-routing/plivo-settings-2.png" alt=""><figcaption></figcaption></figure>
 
 {% endstep %}
+
+{% step %}
+### 5. **To access call recordings**
+   When call recording is enabled, Spike retrieves the recordings directly from your Plivo account.
+
+   - In your Plivo Console, go to **Voice → Settings → Other Settings**.  
+   - Under **HTTP Basic Authentication for media access**, select **Disable**.
+
+{% endstep %}
+
 {% endstepper %}
 
 That’s it. Once saved, your Plivo number will forward all incoming calls to Spike.  

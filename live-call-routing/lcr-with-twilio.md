@@ -31,6 +31,14 @@ Choose the number you want to use with Live Call Routing.
    - Paste the **same Spike webhook URL**.  
    - Set the HTTP method to **HTTP POST**.
    - *Don't forget to save by scrolling down on the same page*
+
+{% endstep %}
+{% step %}
+### 5. **To access call recordings**
+   When call recording is enabled, Spike retrieves the recordings directly from your Twilio account.
+
+   - In your Twilio Console, go to **Develop → Voice → Settings → General**.  
+   - Under **HTTP Basic Authentication for media access**, select **Disable**.
 {% endstep %}
 {% endstepper %}
 

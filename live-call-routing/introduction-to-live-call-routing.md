@@ -93,6 +93,23 @@ Paste this webhook into your Twilio or Plivo console as per their instructions.
 {% endstep %}
 {% endstepper %}
 
+### Important Note About Call Recordings
+
+When call recording is enabled, Spike retrieves the recordings directly from your Twilio or Plivo account.
+To play these recordings inside Spike, you must turn off **HTTP Basic Authentication for media access** in your provider’s settings.
+
+{% tabs %}
+{% tab title="Twilio Settings" %}
+In your Twilio Console, go to **Develop → Voice → Settings → General**.  
+Under **HTTP Basic Authentication for media access**, select **Disable**.
+{% endtab %}
+
+{% tab title="Plivo Settings" %}
+In your Plivo Console, go to **Voice → Settings → Other Settings**.  
+Under **HTTP Basic Authentication for media access**, select **Disable**.
+{% endtab %}
+{% endtabs %}
+
 ---
 
 ## Personalise Messaging
