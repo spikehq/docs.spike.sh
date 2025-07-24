@@ -9,28 +9,36 @@ Follow these steps to connect it with Twilio:
 
 {% stepper %}
 {% step %}
-### 1. **Sign in to Twilio**  
+### **Sign in to Twilio**  
 In your Twilio Console, go to **Develop → Phone Numbers → Manage → Active Numbers**.
 If you don't have a phone number, please buy one on Twilio's dashboard.
 {% endstep %}
 {% step %}
-### 2. **Select your phone number**  
+### **Select your phone number**  
 Choose the number you want to use with Live Call Routing.
 {% endstep %}
 {% step %}
-### 3. **Configure incoming call settings**  
+### **Configure incoming call settings**  
    Scroll down to the **Voice** section.  
    - For **When a call comes in**, select **Webhook** from the dropdown.  
    - Paste your **Spike webhook URL** in the field.  
    - Set the HTTP method to **HTTP POST**.
 {% endstep %}
 {% step %}
-### 4. **Configure the fallback handler (optional)**  
+### **Configure the fallback handler (optional)**  
    In the same section, find **If primary handler fails**.  
    - Select **Webhook** from the dropdown.  
    - Paste the **same Spike webhook URL**.  
    - Set the HTTP method to **HTTP POST**.
    - *Don't forget to save by scrolling down on the same page*
+
+{% endstep %}
+{% step %}
+### 5. **To access call recordings**
+   When call recording is enabled, Spike retrieves the recordings directly from your Twilio account.
+
+   - In your Twilio Console, go to **Develop → Voice → Settings → General**.  
+   - Under **HTTP Basic Authentication for media access**, select **Disable**.
 {% endstep %}
 {% endstepper %}
 
@@ -41,4 +49,4 @@ Spike will handle the routing, fallbacks, and call logging automatically.
 
 ---
 
-*If you need help configuring Live Call Routing or integrating your Twilio/Plivo account, reach out to [support@spike.sh](mailto:support@spike.sh).*
+*If you need help configuring Live Call Routing or integrating your Twilio account, reach out to [support@spike.sh](mailto:support@spike.sh).*
