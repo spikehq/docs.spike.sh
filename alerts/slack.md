@@ -92,7 +92,7 @@ Click to create the incident. It's that simple!
 {% endstepper %}
 
 {% hint style="info" %}
-Anyone in your Slack workspace can create incidents
+Anyone in your Slack workspace can create incidents. This makes it easier for your entire team to report issues, even if they are not part of your Spike account.
 {% endhint %}
 
 ---
