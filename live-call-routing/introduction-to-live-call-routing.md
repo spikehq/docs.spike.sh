@@ -147,6 +147,8 @@ These options let you create a professional, branded experience for anyone calli
 
 ## Call Logs and Recordings
 
+![Call Log example](<../.gitbook/assets/live-call-routing/call-log.png>)
+
 All calls appear in the **Call Logs** section of your dashboard.  
 Each log entry includes:
 - Caller information
@@ -154,6 +156,8 @@ Each log entry includes:
 - Fallback activity (e.g., “Primary did not answer → routed to Secondary”)
 - Duration of the call
 - A link to the audio recording
+- Detailed activity log
+- Link to incidents
 
 You can:
 - Review the call for post‑incident analysis
