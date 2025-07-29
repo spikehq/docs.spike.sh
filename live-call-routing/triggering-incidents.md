@@ -2,7 +2,7 @@
 description: Automatically trigger incidents from incoming calls using Live Call Routing.
 ---
 
-!(<../.gitbook/assets/live-call-routing/incidents.png>)
+![](<../.gitbook/assets/live-call-routing/incidents.png>)
 
 # How to Trigger Incidents
 
