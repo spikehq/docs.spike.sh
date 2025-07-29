@@ -89,6 +89,7 @@ Spike includes detailed metadata with each auto-triggered incident, so you can a
   "teams": ["devops", "backend"],
   "title": "On-call hotline: Call from Mitchell Starc (+14156040016) (33s)"
 }
+```
 
 You can use this payload to view who answered or missed the call, Track escalation behavior, Access the call recording, and Run follow-up automation using Spike or external tools.
 
