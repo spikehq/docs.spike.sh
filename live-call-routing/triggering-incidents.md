@@ -26,7 +26,7 @@ A call is considered **complete** if:
 
 To set up automatic incident creation:
 
-1. Go to **Settings → Incidents**
+1. From [Live Call Routing](https://app.spike.sh/lcr), visit **Settings → Incidents**
 2. Enable **Auto-trigger incident for Live Call Routing**
 3. Choose:
    - The **integration** the incident should be triggered under
