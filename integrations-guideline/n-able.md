@@ -7,7 +7,7 @@ description: >-
 <figure><img src="../.gitbook/assets/n-able-integration.png" alt="N-able N-central integration with Spike"><figcaption></figcaption></figure>
 
 ## Overview
-[N-able N-central](https://www.n-able.com/products/n-central) is a remote monitoring and management (RMM) platform used by MSPs and IT teams to monitor servers, networks, endpoints, and applications. It provides proactive monitoring, patch management, and alerting to keep infrastructure running smoothly.
+[N-able N-central](https://www.n-able.com) is a remote monitoring and management (RMM) platform used by MSPs and IT teams to monitor servers, networks, endpoints, and applications. It provides proactive monitoring, patch management, and alerting to keep infrastructure running smoothly.
 
 With Spike’s integration, you can receive real-time alerts whenever N-central detects issues, including:
 
@@ -19,7 +19,11 @@ With Spike’s integration, you can receive real-time alerts whenever N-central 
 This integration ensures that your operations or on-call teams are instantly informed of N-central incidents, enabling faster response and reduced downtime.
 
 {% hint style="info" %}
-Spike will automatically group repeated incidents and suppress duplicate alerts while an incident is open. You can configure [alert rules](https://docs.spike.sh/alerts/alert-rules) to define severity levels, escalation policies, and auto-resolve behavior.
+Spike will automatically group repeated incidents and suppress duplicate alerts while an incident is open. You can configure [alert rules](https://docs.spike.sh/alerts/alert-rules) to define severity levels, change escalation policies, and trigger outbound scripts.
+{% endhint %}
+
+{% hint style="success" %}
+When configured, Spike will automatically resolve the same incident.
 {% endhint %}
 
 ---

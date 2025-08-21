@@ -195,6 +195,7 @@
 * [Integrate Spike with Airbrake.io](integrations-guideline/integrate-spike-with-airbrake.md)
 * [Updown.io](integrations-guideline/updown-io.md)
 * [N-Able / N-Central](integrations-guideline/n-able.md)
+* [Paessler PRTG](integrations-guideline/paessler-prtg.md)
 
 ## Administration
 
