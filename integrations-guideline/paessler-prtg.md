@@ -57,10 +57,10 @@ Spike automatically **groups repeated incidents** from the same PRTG sensor, and
    colorofstate=%colorofstate&company=%company&comments=%comments&commentssensor=%commentssensor&commentsdevice=%commentsdevice&commentsgroup=%commentsgroup&commentsprobe=%commentsprobe&coverage=%coverage&cumsince=%cumsince&date=%date&datetime=%datetime&device=%device&deviceid=%deviceid&down=%down&downtime=%downtime&elapsed_lastcheck=%elapsed_lastcheck&elapsed_lastdown=%elapsed_lastdown&elapsed_lastup=%elapsed_lastup&group=%group&groupid=%groupid&history=%history&home=%home&host=%host&iconofstate=%iconofstate&lastcheck=%lastcheck&lastdown=%lastdown&lastmessage=%lastmessage&laststatus=%laststatus&lastup=%lastup&lastvalue=%lastvalue&linkprobe=%linkprobe&linkgroup=%linkgroup&linkdevice=%linkdevice&linksensor=%linksensor&location=%location&message=%message&name=%name&nodename=%nodename&objecttags=%objecttags&parenttags=%parenttags&prio=%prio&priority=%priority&probe=%probe&probeid=%probeid&programname=%programname&programversion=%programversion&sensor=%sensor&sensorid=%sensorid&server=%server&serviceurl=%serviceurl&settings=%settings&shortname=%shortname&since=%since&sitename=%sitename&statesince=%statesince&status=%status&systemdatetime=%systemdatetime&tags=%tags&time=%time&timezone=%timezone&uptime=%uptime
    ```
     This payload automatically generates meaningful incident titles in Spike and supports auto-resolution when PRTG reports recovery.
-5. Assign the Notification Template:
+5. **Assign the Notification Template:**
     - Go to a device, group, or sensor in PRTG.
     - Click **Notifications** and assign the Spike template for When sensor state is Warning/Error/Down and also for When sensor recovers.
-6. Save and Test:
+6. **Save and Test:**
     - Save the template and assignment.
     - Trigger a test (e.g., pause/unpause a sensor, simulate threshold breach) to confirm alerts appear in Spike.
 {% endtab %}
