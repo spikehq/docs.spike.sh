@@ -1,4 +1,10 @@
+---
+description: >-
+   Integrate Spike with Datadog to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more when your monitored systems or devices encounter issues.
+---
+
 # Integrate Spike with Datadog
+<figure><img src="../.gitbook/assets/datadog-integration.png" alt="Datadog integration with Spike"><figcaption></figcaption></figure>
 
 ## Service and Integration Setup
 
