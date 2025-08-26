@@ -61,8 +61,7 @@ Use this method when you want every incident from a specific integration to auto
 - **Time unit**: Hours
 - **Result**: All incidents from this integration will automatically resolve after 24 hours
 
-<img src="../.gitbook/assets/setup resolve timer (integration).png" style="border-radius: 6px; width: 100%;" alt="How to configure resolve timer in alert rules">
-
+![How to configure resolve timer in alert rules](../.gitbook/assets/setup%20resolve%20timer%20(integration).png)
 
 ### Method 2: Alert Rule-based Resolve Timer
 
@@ -92,7 +91,7 @@ Use this method when you want to resolve incidents that match specific condition
 - **Action**: Resolve After 2 hours
 - **Result**: Database incidents automatically resolve after 2 hours if not manually handled
 
-<img src="../.gitbook/assets/Setup resovle timer (alert rules).png" style="border-radius: 6px; width: 100%" alt="How to configure resolve timer in alert rules">
+![How to configure resolve timer in alert rules](../.gitbook/assets/Setup%20resovle%20timer%20(alert%20rules).png)
 
 ## Configuration Options
 
