@@ -1,14 +1,10 @@
----
-description: Automatically resolve incidents after a specified time to keep your dashboard clean and focused.
----
-
 # Resolve Timer
 
 ## Introduction
 Resolve Timer automatically resolves incidents after a specified time period. Timer starts when the incident is triggered. When it reaches your configured duration, the incident is automatically marked as resolved.
 
 {% hint style="info" %}
-Resolve Timer is available on **all paid plans**.
+Resolve Timer is available on **all plans**.
 {% endhint %}
 
 ---
