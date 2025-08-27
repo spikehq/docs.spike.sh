@@ -10,7 +10,7 @@ description: >-
 
 You’ll see a badge on the incident row and incident page, along with a visual indicator showing the timer. You can cancel the timer at any point from the incident view.
 
-<figure><img src="../.gitbook/assets/resolve-timer/resolve-badge.png" alt=""><figcaption></figcaption></figure>
+![The badge makes it clear how the incident was resolved](../.gitbook/assets/resolve-timer/resolve-badge.png)
 
 Resolve Timer can be set up in multiple ways:
 
@@ -29,7 +29,7 @@ Resolve Timer is available on **all plans**.
 
 ## How it works?
 
-![Incident with resolve timer](../.gitbook/assets/resolve-timer/timer-different-states.png)
+![Timer in motion](../.gitbook/assets/resolve-timer/timer-different-states.png)
 
 When an incident is triggered, a countdown begins automatically. This timer runs in the background while the incident behaves like any other — it can be acknowledged, updated with notes, or manually resolved at any time.
 
