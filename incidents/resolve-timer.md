@@ -51,7 +51,7 @@ Toggle **Resolve Timer** to **ON**, enter your time value, select the unit (**Mi
 
 Example: Setting 24 hours will automatically resolve all incidents from this integration after 24 hours.
 
-![How to setup resolve timer with integration](../.gitbook/assets/setup%20resolve%20timer%20(integration).png)
+![How to setup resolve timer with integration](../.gitbook/assets/resolve-timer/in-integration.png)
 
 ## Setup Alert Rule-based Resolve timer
 Use this for granular control over which incidents to set a timer for.
@@ -67,7 +67,7 @@ In **Actions** select **Resolve After**. Enter the time value, select the unit, 
 
 Example: Database incidents automatically resolve after 2 hours if not manually handled.
 
-![How to setup resolve timer with Alert rules](../.gitbook/assets/setup%20resovle%20timer%20(alert%20rules).png)
+![How to setup resolve timer with Alert rules](../.gitbook/assets/resolve-timer/in-alert-rules.png)
 
 ## Setup Resolve timer in Playbooks
 Use this to set timer as part of your response playbook
@@ -81,7 +81,7 @@ You can choose when the timer should start — for example, immediately on trigg
 {% endstep %}
 {% endstepper %}
 
-![How to setup resolve timer with Alert rules](../.gitbook/assets/setup%20resovle%20timer%20(alert%20rules).png)
+![How to setup resolve timer with Playbooks](../.gitbook/assets/resolve-timer/in-playbooks.png)
 
 ---
 
