@@ -71,9 +71,13 @@
   * [Slots in schedules](oncall-schedules/introduction-to-slots-in-schedules.md)
   * [Layers in on-call schedules](oncall-schedules/introduction-to-layers-in-on-call-schedules.md)
   * [Override an on-call](oncall-schedules/override-an-on-call.md)
-  * [Add on-call schedule to your calendar](oncall-schedules/export-on-call-schedule.md)
   * [Notifications for on-call shifts](oncall-schedules/notifications-for-on-call-shifts.md)
   * [Change on-call rotation day](oncall-schedules/change-on-call-rotation-day.md)
+  * [Add on-call schedule to your calendar](oncall-schedules/export-on-call-schedule.md)
+  * [Sync with your calendar](oncall-schedules/calendar-sync-for-oncall/README.md)
+    * [Google Calendar](oncall-schedules/calendar-sync-for-oncall/google-calendar-sync.md)
+    * [Apple Calendar](oncall-schedules/calendar-sync-for-oncall/apple-calendar-sync.md)
+    * [Microsoft Outlook](oncall-schedules/calendar-sync-for-oncall/microsoft-outlook-sync.md)
 
 ## Live Call Routing <a href="#live-call-routing" id="live-call-routing"></a>
 
