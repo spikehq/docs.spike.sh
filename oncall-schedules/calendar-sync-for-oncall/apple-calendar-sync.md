@@ -39,7 +39,7 @@ If you use iCloud Calendar, subscribing from your Mac will sync the on-call cale
 
 ---
 
-<table data-view="cards">
+<table data-card-size="large" data-view="cards">
   <thead>
     <tr>
       <th></th>

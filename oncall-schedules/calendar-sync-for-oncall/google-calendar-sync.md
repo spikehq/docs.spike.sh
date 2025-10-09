@@ -25,7 +25,7 @@ If you are logged into your Google account, you can also click the calendar link
 
 ---
 
-<table data-view="cards">
+<table data-card-size="large" data-view="cards">
   <thead>
     <tr>
       <th></th>

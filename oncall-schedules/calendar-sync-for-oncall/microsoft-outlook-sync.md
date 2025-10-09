@@ -44,7 +44,7 @@ Outlook checks for calendar updates automatically. You’ll always see the lates
 
 ---
 
-<table data-view="cards">
+<table data-card-size="large" data-view="cards">
   <thead>
     <tr>
       <th></th>
