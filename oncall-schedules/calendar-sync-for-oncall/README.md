@@ -3,7 +3,7 @@ description: >-
   Add your on-call schedule to your personal calendars like Google Calendar, Apple, and more.
 ---
 
-<figure><img src="../.gitbook/assets/oncall/export-oncall-calendar--cover.png" alt="Export on-call schedule to your calendar"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/oncall/export-oncall-calendar--cover.png" alt="Export on-call schedule to your calendar"><figcaption></figcaption></figure>
 
 # Add On-call schedule to your calendar
 
@@ -36,7 +36,7 @@ To export your on-call schedule:
 2. Click on **Calendar sync**
 3. Copy the subscription link or click it directly if your browser offers to open it in your calendar app.
 
-![Export on-call calendar](<../.gitbook/assets/oncall/export-oncall-calendar.png>)
+![Export on-call calendar](<../../.gitbook/assets/oncall/export-oncall-calendar.png>)
 
 
 ---
@@ -49,20 +49,6 @@ The Spike on-call calendar link follows the iCalendar (Webcal) standard.
 You can use it with any calendar app that supports subscriptions — including Notion, Proton Calendar, Zoho Calendar, or your preferred calendar tool.
 
 ---
-<!-- 
-## Set up with your calendar
-
-Follow the official instructions to import your on-call schedule into your preferred calendar:
-
-- [Google Calendar](https://support.google.com/calendar/answer/37118?hl=en\&co=GENIE.Platform%3DDesktop)
-- [Apple Calendar](https://support.apple.com/en-in/guide/calendar/icl1023/mac)
-- [Outlook Calendar](https://support.microsoft.com/en-us/office/import-calendars-into-outlook-8e8364e1-400e-4c0f-a573-fe76b5a2d379)
-
-{% hint style="info" %}
-For Google Calendar, **Webcal** provides the best experience. If you are logged into your Google account, clicking the Webcal link will open your calendar and sync your schedule instantly.
-{% endhint %}
-
---- -->
 
 ## FAQs
 

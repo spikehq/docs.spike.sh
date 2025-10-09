@@ -73,7 +73,6 @@
   * [Override an on-call](oncall-schedules/override-an-on-call.md)
   * [Notifications for on-call shifts](oncall-schedules/notifications-for-on-call-shifts.md)
   * [Change on-call rotation day](oncall-schedules/change-on-call-rotation-day.md)
-  * [Add on-call schedule to your calendar](oncall-schedules/export-on-call-schedule.md)
   * [Sync with your calendar](oncall-schedules/calendar-sync-for-oncall/README.md)
     * [Google Calendar](oncall-schedules/calendar-sync-for-oncall/google-calendar-sync.md)
     * [Apple Calendar](oncall-schedules/calendar-sync-for-oncall/apple-calendar-sync.md)
