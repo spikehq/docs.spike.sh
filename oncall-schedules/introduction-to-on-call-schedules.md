@@ -2,7 +2,7 @@
 description: What is On-call? What are schedules? Get started with the basics.
 ---
 
-# Introduction to On-call schedules
+# Introduction
 
 ## What is On-call?
 

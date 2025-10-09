@@ -4,7 +4,7 @@ description: >-
   one has to be on-call
 ---
 
-# Introduction to Slots in schedules
+# Slots in schedules
 
 ## What are Slots?
 
