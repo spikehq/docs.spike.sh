@@ -4,7 +4,7 @@ description: >-
   bring flexibility into scheduling
 ---
 
-# Introduction to Layers in on-call schedules
+# Layers in on-call schedules
 
 ## What are Layers in on-call schedules?
 

@@ -5,3 +5,4 @@ redirects:
   alerts/vacation-mode: alerts/personal-alerts-management/out-of-office.md
   administration/enforce-login: administration/sign-in-rules.md
   integrations-guideline/integrate-spike-with-sentry-webhook: integrations-guideline/integrate-spike-with-sentry.md
+  oncall-schedules/export-on-call-schedule: oncall-schedules/calendar-sync-for-oncall/README.md
