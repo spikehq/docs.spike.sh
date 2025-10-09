@@ -1,12 +1,11 @@
 ---
 description: >-
-  Add your on-call schedule to your personal calendar. It helps you keep track
-  of your shifts from iCalendar, Google Calendar, and more.
+  Add your on-call schedule to your personal calendars like Google Calendar, Apple, and more.
 ---
 
 <figure><img src="../.gitbook/assets/oncall/export-oncall-calendar--cover.png" alt="Export on-call schedule to your calendar"><figcaption></figcaption></figure>
 
-# Sync your On-call calendar
+# Add On-call schedule to your calendar
 
 Keep track of your on-call shifts from your favorite calendar app. Spike provides a live subscription link that you can add to Google Calendar, Apple Calendar, Outlook, or any other calendar service that supports calendar subscriptions.
 
@@ -39,8 +38,18 @@ To export your on-call schedule:
 
 ![Export on-call calendar](<../.gitbook/assets/oncall/export-oncall-calendar.png>)
 
+
 ---
 
+
+
+#### Works with Any Calendar
+
+The Spike on-call calendar link follows the iCalendar (Webcal) standard.
+You can use it with any calendar app that supports subscriptions — including Notion, Proton Calendar, Zoho Calendar, or your preferred calendar tool.
+
+---
+<!-- 
 ## Set up with your calendar
 
 Follow the official instructions to import your on-call schedule into your preferred calendar:
@@ -53,7 +62,7 @@ Follow the official instructions to import your on-call schedule into your prefe
 For Google Calendar, **Webcal** provides the best experience. If you are logged into your Google account, clicking the Webcal link will open your calendar and sync your schedule instantly.
 {% endhint %}
 
----
+--- -->
 
 ## FAQs
 
