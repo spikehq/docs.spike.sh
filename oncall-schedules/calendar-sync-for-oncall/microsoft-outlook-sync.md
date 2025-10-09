@@ -3,6 +3,8 @@ description: >-
   Sync your on-call schedule with your Microsoft Outlook
 ---
 
+<figure><img src="../../.gitbook/assets/oncall/calendar-sync/Microsoft outlook cover.png" alt="Export on-call schedule to your calendar"><figcaption></figcaption></figure>
+
 # Add On-Call Schedule to Outlook Calendar
 Stay updated on your Spike on-call shifts from Outlook on the browser or desktop. By subscribing to your on-call calendar, any changes made in Spike will appear automatically in Outlook.
 
@@ -39,3 +41,30 @@ The calendar will appear under Other Calendars in Outlook and update automatical
 {% hint style="info" %}
 Outlook checks for calendar updates automatically. You’ll always see the latest schedule provided by Spike whenever Outlook refreshes your subscription.
 {% endhint %}
+
+---
+
+<table data-view="cards">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th data-hidden data-card-target data-type="content-ref"></th>
+      <th data-hidden data-card-cover data-type="files"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Google Calendar</strong></td>
+      <td></td>
+      <td><a href="google-calendar-sync.md">google-calendar-sync.md</a></td>
+      <td><a href="../../.gitbook/assets/oncall/calendar-sync/Google Calendar tile.png">Google Calendar tile.png</a></td>
+    </tr>
+    <tr>
+      <td><strong>Apple Calendar</strong></td>
+      <td></td>
+      <td><a href="apple-calendar-sync.md">apple-calendar-sync.md</a></td>
+      <td><a href="../../.gitbook/assets/oncall/calendar-sync/Apple Calendar tile.png">Apple Calendar tile.png</a></td>
+    </tr>
+  </tbody>
+</table>

@@ -3,6 +3,8 @@ description: >-
   Sync your on-call schedule with your Apple Calendar
 ---
 
+<figure><img src="../../.gitbook/assets/oncall/calendar-sync/Apple calendar cover.png" alt="Export on-call schedule to your calendar"><figcaption></figcaption></figure>
+
 # Add On-call schedule to Apple Calendar
 
 View your Spike on-call shifts directly from the Calendar app on your Mac, iPhone, or iPad. By subscribing to your on-call calendar, updates will appear automatically whenever your calendar refreshes.
@@ -34,3 +36,30 @@ Your on-call schedule will now appear in the Calendar app and stay updated autom
 {% hint style="info" %}
 If you use iCloud Calendar, subscribing from your Mac will sync the on-call calendar across all your Apple devices automatically.
 {% endhint %}
+
+---
+
+<table data-view="cards">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th data-hidden data-card-target data-type="content-ref"></th>
+      <th data-hidden data-card-cover data-type="files"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Google Calendar</strong></td>
+      <td></td>
+      <td><a href="google-calendar-sync.md">google-calendar-sync.md</a></td>
+      <td><a href="../../.gitbook/assets/oncall/calendar-sync/Google Calendar tile.png">Google Calendar tile.png</a></td>
+    </tr>
+    <tr>
+      <td><strong>Microsoft Outlook</strong></td>
+      <td></td>
+      <td><a href="microsoft-outlook-sync.md">microsoft-outlook-sync.md</a></td>
+      <td><a href="../../.gitbook/assets/oncall/calendar-sync/Outlook Calendar tile.png">Google Calendar tile.png</a></td>
+    </tr>
+  </tbody>
+</table>
