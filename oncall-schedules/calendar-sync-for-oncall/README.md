@@ -55,21 +55,21 @@ To export your on-call schedule:
   <tbody>
     <tr>
       <td><strong>Google Calendar</strong></td>
-      <!-- <td>Example description 1.</td> -->
+      <td>Example description 1.</td>
       <td><a href="google-calendar-sync.md">google-calendar-sync.md</a></td>
       <td><a href="../../.gitbook/assets/oncall/calendar-sync/Google Calendar tile.png">Google Calendar tile.png</a></td>
     </tr>
     <tr>
       <td><strong>Apple Calendar</strong></td>
-      <!-- <td>Example description 1.</td> -->
+      <td>Example description 1.</td>
       <td><a href="apple-calendar-sync.md">apple-calendar-sync.md</a></td>
       <td><a href="../../.gitbook/assets/oncall/calendar-sync/Apple Calendar tile.png">Apple Calendar tile.png</a></td>
     </tr>
     <tr>
       <td><strong>Microsoft Outlook</strong></td>
-      <!-- <td>Example description 1.</td> -->
+      <td>Example description 1.</td>
       <td><a href="microsoft-outlook-sync.md">microsoft-outlook-sync.md</a></td>
-      <td><a href="../../.gitbook/assets/oncall/calendar-sync/Outlook Calendar tile.png">Outlook Calendar tile.png</a></td>
+      <td><a href="../../.gitbook/assets/oncall/calendar-sync/Outlook Calendar tile.png">Google Calendar tile.png</a></td>
     </tr>
   </tbody>
 </table>
