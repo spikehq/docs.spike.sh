@@ -71,5 +71,5 @@ Make sure to add a LibreNMS integration and copy the webhook URL.
 }
 ```
 
-![LibreNMS configuration](image.png)
+![LibreNMS configuration](<../.gitbook/assets/integrations/librenms/config.png>)
 
