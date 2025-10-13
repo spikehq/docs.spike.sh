@@ -26,7 +26,7 @@ Make sure to add a LibreNMS integration and copy the webhook URL.
 * **Default alert** is toggled to `ON`
 * Choose the **API Method** as `POST`
 * Paste the Spike webhook URL
-* In **Options**, paste the following template given below.
+* In **Body**, paste the following template given below.
 
 ```
 {
