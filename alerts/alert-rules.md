@@ -50,7 +50,11 @@ Evaluates to True if incident has a given severity. [Learn more about severity](
 
 ### 7. Time of day
 
-Evaluates to True if incident is triggered between the timestamps you have selected in any timezone.
+Evaluates to True if incident is triggered between the timestamps you have selected in any timezone. 
+
+### 8. All incidents
+
+Evaluates to True for all incidents.
 
 ---
 
