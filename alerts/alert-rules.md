@@ -47,6 +47,13 @@ Evaluates to True if incident has a given priority. [Learn more about priority](
 
 Evaluates to True if incident has a given severity. [Learn more about severity](https://docs.spike.sh/incidents/priority-and-severity#severity)
 
+
+### 7. Time of day
+
+Evaluates to True if incident is triggered between the timestamps you have selected in any timezone.
+
+---
+
 ## Actions
 
 You can set one or more actions to execute
