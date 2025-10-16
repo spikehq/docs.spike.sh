@@ -200,6 +200,7 @@
 * [Updown.io](integrations-guideline/updown-io.md)
 * [N-Able / N-Central](integrations-guideline/n-able.md)
 * [Paessler PRTG](integrations-guideline/paessler-prtg.md)
+* [MongoDB Atlas](integrations-guideline/mongodb-atlas.md)
 
 ## Administration
 
