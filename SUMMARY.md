@@ -77,6 +77,7 @@
     * [Google Calendar](oncall-schedules/calendar-sync-for-oncall/google-calendar-sync.md)
     * [Apple Calendar](oncall-schedules/calendar-sync-for-oncall/apple-calendar-sync.md)
     * [Microsoft Outlook](oncall-schedules/calendar-sync-for-oncall/microsoft-outlook-sync.md)
+  * [Linked calendars](oncall-schedules/linked-calendars.md)
 
 ## Live Call Routing <a href="#live-call-routing" id="live-call-routing"></a>
 
