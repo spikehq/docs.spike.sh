@@ -11,6 +11,8 @@ description: >-
 
 Linked calendars are for reference only. They **do not** modify, offset, or affect any existing on-call shifts.
 
+<figure><img src="../.gitbook/assets/oncall/linked-calendars/christmas-example.png" alt="Holiday calendars in oncall example"><figcaption></figcaption></figure>
+
 {% hint style="info" %}
 You can link calendars from Google Calendar, Outlook, or any calendar that provides a public ICS link. You can also upload an `.ics` file directly.
 {% endhint %}
