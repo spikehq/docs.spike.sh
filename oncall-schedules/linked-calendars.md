@@ -28,6 +28,8 @@ You can add calendars from different sources depending on what your team uses. L
 
 To bring, visit the [Linked Calendars](https://app.spike.sh/oncalls/linked-calendars) section on your dashboard.
 
+<figure><img src="../.gitbook/assets/oncall/linked-calendars/upload-modal.png" alt="Link calendars on Spike.sh"><figcaption></figcaption></figure>
+
 {% tabs %}
 {% tab title="Upload ICS File" %}
 * **Export your calendar**
