@@ -198,6 +198,7 @@
 * [Integrate Spike with GitHub Workflows](integrations-guideline/integrate-spike-with-github-workflows.md)
 * [Integrate Spike with Solarwinds Orion](integrations-guideline/integrate-spike-with-solarwinds-orion.md)
 * [Integrate Spike with Airbrake.io](integrations-guideline/integrate-spike-with-airbrake.md)
+* [Integrate Spike with Render](integrations-guideline/integrate-spike-with-render.md)
 * [Updown.io](integrations-guideline/updown-io.md)
 * [N-Able / N-Central](integrations-guideline/n-able.md)
 * [Paessler PRTG](integrations-guideline/paessler-prtg.md)
