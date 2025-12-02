@@ -157,3 +157,7 @@ Render sends webhook notifications as JSON payloads with the following structure
 * Check your email for notifications from Render about webhook failures
 * Verify Spike's webhook endpoint is accessible and responding with 2xx status codes
 * After resolving issues, re-enable the webhook from the webhook Settings page in Render Dashboard
+
+{% hint style="success" %}
+This integration auto resolves
+{% endhint %}
