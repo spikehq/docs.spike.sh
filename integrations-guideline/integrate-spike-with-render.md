@@ -23,7 +23,7 @@ Spike will automatically group repeated incidents and also suppress alerts while
 
 **Step 1:** Create a Render integration in the Spike dashboard and copy the webhook URL.
 
-{% content-ref url="create-integration-and-service-on-dashboard" %}
+{% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
