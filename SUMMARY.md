@@ -199,11 +199,11 @@
 * [Integrate Spike with Solarwinds Orion](integrations-guideline/integrate-spike-with-solarwinds-orion.md)
 * [Integrate Spike with Airbrake.io](integrations-guideline/integrate-spike-with-airbrake.md)
 * [Integrate Spike with Render](integrations-guideline/integrate-spike-with-render.md)
-* [Updown.io](integrations-guideline/updown-io.md)
+* [Integrate Spike with Updown.io](integrations-guideline/updown-io.md)
 * [Integrate Spike with NinjaOne](integrations-guideline/integrate-spike-with-ninjaone.md)
-* [N-Able / N-Central](integrations-guideline/n-able.md)
-* [Paessler PRTG](integrations-guideline/paessler-prtg.md)
-* [MongoDB Atlas](integrations-guideline/mongodb-atlas.md)
+* [Integrate Spike with N-Able / N-Central](integrations-guideline/n-able.md)
+* [Integrate Spike with Paessler PRTG](integrations-guideline/paessler-prtg.md)
+* [Integrate Spike with MongoDB Atlas](integrations-guideline/mongodb-atlas.md)
 
 ## Administration
 
