@@ -204,6 +204,7 @@
 * [Integrate Spike with N-Able / N-Central](integrations-guideline/n-able.md)
 * [Integrate Spike with Paessler PRTG](integrations-guideline/paessler-prtg.md)
 * [Integrate Spike with MongoDB Atlas](integrations-guideline/mongodb-atlas.md)
+* [Integrate Spike with Jira](integrations-guideline/integrate-spike-with-jira.md)
 
 ## Administration
 
