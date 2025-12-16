@@ -1,4 +1,5 @@
 # NinjaOne
+<figure><img src="https://cdn.spike.sh/changelog/images/ninjaone-wide.png" alt="NinjaOne Cover"><figcaption></figcaption></figure>
 
 ## Overview
 
