@@ -1,4 +1,5 @@
 # Jira
+<figure><img src="https://cdn.spike.sh/changelog/images/jira-inbound-wide.png" alt="Jira Integration Cover"><figcaption></figcaption></figure>
 
 ## Overview
 
