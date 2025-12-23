@@ -205,6 +205,7 @@
 * [Integrate Spike with Paessler PRTG](integrations-guideline/paessler-prtg.md)
 * [Integrate Spike with MongoDB Atlas](integrations-guideline/mongodb-atlas.md)
 * [Integrate Spike with Jira](integrations-guideline/integrate-spike-with-jira.md)
+* [Integrate Spike with Jenkins](integrations-guideline/integrate-spike-with-jenkins.md)
 
 ## Administration
 
