@@ -68,7 +68,7 @@ Select alarms and then create alarm
 
 ![](<../.gitbook/assets/select metrics.png>)
 
-We recommend you select an alarm which is BAD. This will trigger and actually register a new incident. Spike is soon bringing in support for OK and GOOD state.
+We recommend you select an alarm which is BAD. This will trigger and actually register a new incident. 
 
 **Make sure to choose the newly created service at the bottom in the ACTIONS section.**
 
