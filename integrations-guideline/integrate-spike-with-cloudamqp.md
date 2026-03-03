@@ -4,8 +4,8 @@ description: >-
 ---
 
 # How Spike Integrates with CloudAMQP
+<figure><img src="../.gitbook/assets/integrations/cloudamqp/cloudamqp-integration.png" alt=""><figcaption></figcaption></figure>
 
-## Intro
 [CloudAMQP](https://www.cloudamqp.com) is a managed RabbitMQ platform that helps teams run, monitor, and scale message brokers without managing infrastructure directly.
 
 Teams commonly use CloudAMQP alerts for queue depth spikes, node health issues, connection surges, and broker-related availability problems.
