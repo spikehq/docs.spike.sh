@@ -136,6 +136,7 @@
 * [Integrate Spike with Needle.sh](integrations-guideline/integrate-spike-with-needle.sh.md)
 * [Integrate Spike with Cronitor](integrations-guideline/integrate-spike-with-cronitor.md)
 * [Integrate Spike with Cronicle](integrations-guideline/integrate-spike-with-cronicle.md)
+* [Integrate Spike with CloudAMQP](integrations-guideline/integrate-spike-with-cloudamqp.md)
 * [Integrate Spike with Bugsnag](integrations-guideline/integrate-spike-with-bugsnag.md)
 * [Integrate Spike with Grafana](integrations-guideline/integrate-spike-with-grafana.md)
 * [Integrate Spike with Prometheus](integrations-guideline/integrate-spike-with-prometheus.md)
