@@ -56,34 +56,3 @@ Spike processes CloudAMQP events using the integration finder and resolver logic
 * `metadata.resolved` set incorrectly: if `metadata.resolved === true`, Spike will not create a new incident.
 * Outbound network blocked: confirm CloudAMQP can reach `hooks.spike.sh` from your network.
 * Alert/resolution timing mismatch: ensure the resolved payload is sent for the same `message` and after the alert event.
-
-## Sample Payload (Anonymized)
-### Alert payload
-```json
-{
-  "message": "Queue depth exceeded threshold on queue orders",
-  "resolved": false,
-  "metadata": {
-    "resolved": false,
-    "queue": "orders",
-    "vhost": "/",
-    "instance": "example-instance",
-    "environment": "production"
-  }
-}
-```
-
-### Resolved payload
-```json
-{
-  "message": "Queue depth exceeded threshold on queue orders",
-  "resolved": true,
-  "metadata": {
-    "resolved": true,
-    "queue": "orders",
-    "vhost": "/",
-    "instance": "example-instance",
-    "environment": "production"
-  }
-}
-```
