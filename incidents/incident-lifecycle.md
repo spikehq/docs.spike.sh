@@ -1,45 +1,36 @@
 ---
-description: Lifecycle of an incident.
+description: The incident lifecycle covers the stages an incident moves through, from the moment it's triggered to when it's resolved.
 ---
 
 # Incident lifecycle
 
-## Incident lifecycle
+Every incident on Spike moves through a defined set of stages. Understanding this flow helps you configure escalation policies, acknowledge timeouts, and alert channels to match how your team actually responds.
 
-Incidents can have one of these statuses -
+<figure><img src="../.gitbook/assets/Incident lifecycle.png" alt="Incident lifecycle on Spike"><figcaption><p>The stages of an incident on Spike.</p></figcaption></figure>
 
-1. **Triggered**
-2. **Acknowledged**
-3. **Resolved**
+## 1. Incident creation
 
-_Learn more about what these states in the next page_
+An incident is created when a connected integration sends a webhook to Spike. Before creating a new incident, Spike checks whether an open incident already exists for that integration.
 
-![](<../.gitbook/assets/Incident lifecycle.png>)
-
-### 1. Triggering incidents
-
-Your added integrations will create an incident on Spike. Every integration on one or more services are treated uniquely. This would mean that you can have multiple AWS integrations and they will all be treated uniquely to make sure that incidents are triggered.
-
-Before the incident is created, Spike checks for similar incidents for this integration. If it exists then _a new incident is not created but an event is logged for the same incident which is not resolved._
+- If one exists, Spike logs the new event under the existing incident instead of creating a duplicate.
+- If no open incident exists, Spike creates a new one and starts the escalation process.
 
 {% hint style="info" %}
-**Avoiding duplication of incidents**.
-
-Similar incidents in resolved state are ignored. Only the incidents which are **open (acknowledged or triggered state)** will be checked.
+Only open incidents (triggered or acknowledged) are checked for duplicates. Resolved incidents are ignored.
 {% endhint %}
 
-### 2. Automatic escalations
+## 2. Incident escalation
 
-On Spike, you have the freedom to assign a separate escalation policy to each of your integration. This gives you the flexibility to operate with ease knowing which alerts to prioritise over others.
+Once an incident is created, Spike works through the [escalation policy](../escalations/introduction-to-escalations.md) attached to that integration. Alerts go out to the first set of responders in the policy. Spike waits for the duration configured in the escalation policy. If no one acknowledges or resolves the incident in that time, Spike moves to the next level and alerts the next set of responders.
 
-![Example escalation policy on spike.sh](<../.gitbook/assets/screenshot-2020-06-24-at-10.48.37-am (1).png>)
+Each integration can have its own escalation policy. This lets you set different alert priorities across services.
 
-Spike alerts based on the escalation policy. For the newly created incident, the first alert is sent in the order of responders in the policy. In the above example, the first alert is being sent to the **Slack channel #incidents** along with alerting dev member Kaushik and email to another member.
+## 3. Incident acknowledgment
 
-Spike waits for 5 minutes for the any of the responders to acknowledge or resolve the incident. If there is no action taken, spike automatically escalates and alerts the responders on the next level.
+When a responder acknowledges the incident, Spike pauses the escalation policy and stops sending alerts. You can set an [acknowledge timeout](acknowledge-timeout.md) for each integration: a time limit that moves the incident back to triggered and resumes alerting if it hasn't been resolved in time.
 
-In the above examples, there are 2 responders who will be alerted via phone, also at the same time we alert to **Slack channel #dev-team**.
+## 4. Incident resolution
 
-### 3. Acknowledge timeout
+Once the issue is fixed, mark the incident as resolved. Spike stops all alerts and resets the escalation policy. If a new incident comes in for the same integration, the process starts again from the beginning.
 
-For every integration, you can choose a set a timeout for incidents acknowledged but not resolved. After this timeout, Spike resumes the escalations and start sending alerts to the next escalation level. If it's the end of escalation then it's repeated automatically.
+See [incident statuses](incident-statuses.md) for a full reference on each status.
