@@ -1,50 +1,25 @@
 ---
-description: >-
-  A status would determine the state of the incident among acknowledged or
-  resolved
+description: Every incident on Spike has one of three statuses: triggered, acknowledged, or resolved. The status determines what Spike does next.
 ---
 
 # Incident statuses
 
-## What are different Incident statuses?
+Every incident on Spike moves through three statuses: triggered, acknowledged, and resolved. The current status determines whether Spike is actively alerting, paused while someone works on a fix, or closed.
 
-There are mainly 3 states -&#x20;
+## Triggered
 
-1. **Triggered 🔥**
-2. **Acknowledged** 👩‍💻
-3. **Resolved** ✅
+An incident enters the triggered state the moment it's created. This means no one has looked at it yet and the problem is unresolved.
 
-### **1. Triggered 🔥**
+In this state, Spike works through the [escalation policy](../escalations/introduction-to-escalations.md) attached to the integration and sends alerts to the designated responders. Alerts continue until someone acknowledges or resolves the incident. Repeat incidents from the same integration are suppressed and logged rather than creating new ones.
 
-Every incident which comes to Spike will be first in the **triggered** state. It would mean that someone will need to look into this and address the problem.
+## Acknowledged
 
-Alerts are sent to members as long as an incident remains in this state.&#x20;
+An acknowledged incident means someone is actively working on a fix. Spike pauses the escalation policy and stops sending alerts.
 
-### 2. Acknowledged 👩‍💻
+Repeat incidents remain suppressed in this state to reduce [alert fatigue](../alerts/personal-alerts-management/README.md). You can set an [acknowledge timeout](acknowledge-timeout.md) for each integration. If the incident isn't resolved within that window, Spike moves it back to triggered and resumes alerting.
 
-An **acknowledged** state of the incident would mean that you have begun to look into the incident. Alternatively, this also means that work to resolve this incident has begun.&#x20;
+## Resolved
 
-In this state, repeat incidents are automatically suppressed and logged reducing alert fatigue.
+A resolved incident means the issue is fixed. Spike stops all alerts and resets the escalation policy.
 
-{% hint style="info" %}
-We highly recommend setting an acknowledge timeout for all your incidents.&#x20;
-{% endhint %}
-
-{% content-ref url="acknowledge-timeout.md" %}
-[acknowledge-timeout.md](acknowledge-timeout.md)
-{% endcontent-ref %}
-
-### 3. Resolved ✅
-
-Once an incident is fixed, you mark it as **resolved**. This is the end state for all incidents.&#x20;
-
-If a similar incident is triggered then a new incident is created.
-
-
-
-
-
-
-
-
-
+If the same integration triggers a new incident after resolution, Spike treats it as a fresh incident and starts the process from the beginning. See [incident lifecycle](incident-lifecycle.md) for the full flow.
