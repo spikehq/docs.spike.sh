@@ -1,10 +1,10 @@
 ---
-description: You can change an incident's status from the dashboard, a phone call, Slack, email, SMS, or mobile.
+description: You can change an incident's status from all alerting channels without having to come to Spike.
 ---
 
 # How to change incident status
 
-You can change an incident's status from multiple places: the dashboard, a phone call, Slack, email, SMS, or mobile.
+You can change an incident's status from all alerting channels without having to come to Spike.
 
 ## From the dashboard
 

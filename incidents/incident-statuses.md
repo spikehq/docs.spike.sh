@@ -8,7 +8,7 @@ Every incident on Spike moves through three statuses: triggered, acknowledged, a
 
 ## Triggered
 
-An incident enters the triggered state the moment it's created. This means no one has looked at it yet and the problem is unresolved.
+An incident enters the triggered state the moment it's triggered. This means no one has looked at it yet and the problem is unresolved.
 
 In this state, Spike works through the [escalation policy](../escalations/introduction-to-escalations.md) attached to the integration and sends alerts to the designated responders. Alerts continue until someone acknowledges or resolves the incident. Repeat incidents from the same integration are suppressed and logged rather than creating new ones.
 
