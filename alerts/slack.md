@@ -1,19 +1,20 @@
 ---
-description: >-
-  The Spike app for Slack sends incident and on-call alerts to your channels and offers slash commands for creating incidents and checking on-call responders.
+description: The Spike app for Slack sends incident and on-call alerts to your channels. Use slash commands to create incidents and check on-call responders.
 ---
 
-<figure><img src="../.gitbook/assets/slack/cover.png" alt=""><figcaption></figcaption></figure>
+# Slack alerts
 
-# Introduction
+<figure><img src="../.gitbook/assets/slack/cover.png" alt="Spike app for Slack"><figcaption><p>Spike app for Slack.</p></figcaption></figure>
+
 The Spike app for Slack keeps your team informed and responsive during incidents.
 
-Key features include:
--	Incident alerts and acknowledge / resolve / escalate them
--	On-Call shift notifications
--	Private channel support
--	Create incidents directly from Slack
--	View currently on-call responders
+Key features:
+
+- Incident alerts with acknowledge, resolve, and escalate actions
+- On-call shift notifications
+- Private channel support
+- Create incidents directly from Slack
+- View current on-call responders
 
 {% tabs %}
 {% tab title="Quick links" %}
@@ -24,235 +25,160 @@ Key features include:
 {% endtab %}
 {% endtabs %}
 
-# How to set up
-Visit the [Alerts section](https://app.spike.sh/settings/general/alerts) in settings and click on **Add to Slack.**
+## How to set up
+
+Visit the [Alerts section](https://app.spike.sh/settings/general/alerts) in settings and click **Add to Slack**.
 
 {% tabs %}
 {% tab title="Setting up incident alerts" %}
-<figure><img src="../.gitbook/assets/slack/add-slack-to-escalation.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/slack/add-slack-to-escalation.png" alt="Adding Slack to an escalation policy"><figcaption><p>Adding Slack to an escalation policy.</p></figcaption></figure>
 
-Visit the [Alerts section](https://app.spike.sh/settings/general/alerts) inside your settings and click on **Add to Slack.** Our Slack app asks for some basic permissions. 
+Visit the [Alerts section](https://app.spike.sh/settings/general/alerts) in settings and click **Add to Slack**. The Spike app requests some basic permissions.
 
-Add Slack as a step in your [escalation policy](https://app.spike.sh/escalations) to get incident notifications. You can choose between public or private channels for these alerts.
+Add Slack as a step in your [escalation policy](https://app.spike.sh/escalations) to receive incident alerts. You can choose between public or private channels.
 {% endtab %}
 
 {% tab title="Setting On-call shift notifications" %}
-<figure><img src="../.gitbook/assets/slack/slack-oncall-alert.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/slack/slack-oncall-alert.png" alt="On-call shift notifications on Slack"><figcaption><p>On-call shift notifications on Slack.</p></figcaption></figure>
 
 Visit [Settings > Alerts](https://app.spike.sh/settings/general/alerts) to select Slack channels to receive on-call shift alerts.
 {% endtab %}
 
 {% tab title="Connect for DMs" %}
-* Other team members can also link their Slack accounts to receive direct messages for important updates.
-* Run the `/connect` command to connect
+* Other team members can link their Slack accounts to receive direct messages for important updates.
+* Run the `/connect` command to connect.
 {% endtab %}
-
 {% endtabs %}
 
-Use the `/help` command on Slack for further help. Spike app cannot read any of your messages on Slack
+Use the `/help` command in Slack for further help. The Spike app cannot read any of your messages.
 
----
+## Slash commands
 
-# Slash commands
+<figure><img src="../.gitbook/assets/slack/slash-commands.png" alt="Slash commands for the Spike app on Slack"><figcaption><p>Slash commands available in the Spike app.</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/slack/slash-commands.png" alt=""><figcaption></figcaption></figure>
+1. `/create-incident`: Create a new incident directly from Slack. Anyone in your workspace can use this.
+2. `/oncall now` or `/oncall me`: Check who is currently on-call or view your on-call schedule.
+3. `/connect`: Connect your Slack account with Spike.
+4. `/help`: Display a help message with guidance on using the Spike app.
 
-Here are all the available `/slash` commands - 
+### Create incidents from Slack
 
-1. `/create-incident`
-Create a new incident directly from Slack. Anyone in your workspace can use this command.
-
-2. `/oncall now` or `/oncall me`
-Check who is currently on-call or view your on-call schedule.
-
-3. `/connect`
-Connects your Slack account in the workspace with Spike.
-
-4. `/help`
-Display a help message with guidance on using the Spike app in Slack.
-
-## Create incidents from Slack
-Using the `/create-incident` command in Slack opens an intuitive view to create incidents directly from your workspace. Here's how:
+Using `/create-incident` opens a form to create incidents directly from Slack.
 
 {% stepper %}
 {% step %}
-### Add a Title and Details
-Provide a clear and meaningful title along with relevant details, including JSON data or links if applicable.
+### Add a title and details
+Provide a clear title and relevant details, including JSON data or links if applicable.
 {% endstep %}
-
 {% step %}
-### Select Integration and Escalation Policy
-Choose the appropriate integration and escalation policy to ensure the incident is routed correctly.
+### Select integration and escalation policy
+Choose the integration and escalation policy to route the incident correctly.
 {% endstep %}
-
 {% step %}
 ### Submit
-Click to create the incident. It's that simple!
+Click to create the incident.
 {% endstep %}
 {% endstepper %}
 
 {% hint style="info" %}
-Anyone in your Slack workspace can create incidents. This makes it easier for your entire team to report issues, even if they are not part of your Spike account.
+Anyone in your Slack workspace can create incidents, even if they are not part of your Spike account.
 {% endhint %}
 
----
+## Incident alerts
 
-# Incident Alerts
-<figure><img src="../.gitbook/assets/slack/slack-incident-alert-hero.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/slack/slack-incident-alert-hero.png" alt="Incident alert on Slack"><figcaption><p>Incident alert on Slack.</p></figcaption></figure>
 
-Spike's incident alerts will mention `@here` to notify everyone online on the channel. The incident contains some key details like Title, Responders, Links, and Integration.
+Spike's incident alerts mention `@here` to notify everyone online in the channel. Each alert includes the title, responders, links, and integration.
 
-Available Actions for Each Incident
-1. __Acknowledge__
-2. __Resolve__
-3. __Escalate__
-4. __Discuss in a New Channel__
+### Available actions
 
-{% hint style="info" }
-Visit the [Alerts section](https://app.spike.sh/settings/general/alerts) inside your settings and click on Add to Slack. Our Slack app asks for some basic permissions.
+- **Acknowledge**
+- **Resolve**
+- **Escalate**
+- **Discuss in a new channel**
 
-Add Slack as a step in your [escalation policy](https://app.spike.sh/escalations) to get incident notifications. You can choose between public or private channels for these alerts.
-{% endhint %}
+### Discuss in a new channel
 
-## Discussing in a new channel
-<figure><img src="../.gitbook/assets/slack/slack-discuss-in-new-channel.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/slack/slack-discuss-in-new-channel.png" alt="Discuss incident in a new Slack channel"><figcaption><p>Discuss an incident in a dedicated Slack channel.</p></figcaption></figure>
 
-Each incident includes the option to discuss in a new channel. When this action is initiated, a dedicated channel is created for collaboration on resolving the incident. Initially, only the user who initiates the action will be added to the new channel.
+Each incident includes the option to discuss in a new channel. When triggered, a dedicated channel is created for the incident. Only the user who initiates the action is added initially. Spike cannot read messages in these channels.
 
-Spike does not have access to read messages in these channels, maintaining your privacy.
+### Auto-updating Slack messages
 
-<details>
-<summary>Who can create these channels?</summary> 
-Anyone in your workspace can initiate this action and create new channels.
-</details>
+When an incident is resolved via phone, SMS, email, or the dashboard, the Slack message updates automatically to reflect the resolved status.
 
-<details>
-<summary>Can the same channel be reused for multiple incidents?</summary> 
-No, a new channel is created for each incident to keep discussions organized and focused.
-</details>
+<figure><img src="../.gitbook/assets/slack/incident-was-already-resolved.png" alt="Slack message showing incident already resolved"><figcaption><p>The Spike app notifies you if the incident was already resolved elsewhere.</p></figcaption></figure>
 
-<details>
-<summary>What happens to the channel after the incident is resolved?</summary> 
-The channel remains in your workspace until it is manually archived. We recommend archiving the channel after resolving the incident to keep your workspace tidy.
-</details>
+If you try to resolve an incident on Slack that has already been resolved elsewhere, the app notifies you.
 
-<details>
-<summary>Can non-Spike users participate in the channel?</summary> 
-Yes, anyone in your workspace can be invited to join the discussion, regardless of their Spike account status.
-</details>
+## Private channels
 
-{% hint style="info" %}
-We recommend archiving the channel once the incident is resolved to prevent stale channels in your workspace.
-{% endhint %}
-
-## Auto-Updating Slack messages
-
-If a Slack alert has been sent for a new incident and it is resolved—whether automatically, via Phone, SMS, Email, or the Dashboard—the Slack message will automatically update to reflect the resolved status, eliminating any ambiguity about the incident’s state.
-
-<details>
-<summary>Will the Slack message update if an incident is resolved automatically?</summary>
-Yes, the Slack message will automatically update to show the resolved status.
-</details>
-
-<details>
-<summary>What if I try to resolve an incident on Slack that has already been resolved elsewhere?</summary>
-<figure><img src="../.gitbook/assets/slack/incident-was-already-resolved.png" alt=""><figcaption></figcaption></figure>
-The Slack app will notify you that the incident has already been resolved, preventing duplicate actions.
-</details>
-
----
-
-## Private channels setup
-Private channels access can be configured in [Settings > Alerts](https://app.spike.sh/settings/general/alerts)
+Private channel access can be configured in [Settings > Alerts](https://app.spike.sh/settings/general/alerts).
 
 ### Adding private channels to escalations
 
-When managing escalations, only users who have connected their Slack account with Spike can view private channels. However, they can only access private channels that:
+Only users who have connected their Slack account with Spike can view private channels in escalations. They can only see channels where:
 
-1.	They are a member of.
-2.	The `@Spike.sh` app has been added to.
-
-Both the user and the `@Spike.sh` app must be part of the private channel for it to appear under escalations.
+1. They are a member.
+2. The `@Spike.sh` app has been added.
 
 {% hint style="warning" %}
-To continue to receive alerts on your private Slack channels, it is important to add the `@Spike.sh app` to those channels. __This step is mandatory__, particularly for escalations configured before 11th December 2024, as alerts will not be delivered without the bot being added.
+Add the `@Spike.sh` app to your private channels to continue receiving alerts. This is mandatory for escalations configured before 11th December 2024.
 {% endhint %}
 
-### Private channel visibility in escalations
+### Private channel visibility
 
 Once a private channel is added to an escalation, its name is visible only to users who:
 
-1.	Have connected their Slack account with Spike.
-2.	Are members of the same private channel.
+1. Have connected their Slack account with Spike.
+2. Are members of the same private channel.
 
-Users without these permissions will not see the private channel name, ensuring enhanced privacy.
+## On-call alerts
 
-<details>
-<summary>I can’t find a channel in the dropdown. What should I do?</summary>
-You can find the channel by pasting its ID from Slack. To locate the channel ID, open the channel, go to the About section, and find the unique ID.
-<figure><img src="../.gitbook/assets/slack/find-slack-channel-id.png" alt=""><figcaption></figcaption></figure>
-</details>
+<figure><img src="../.gitbook/assets/slack/slack-oncall-alert.png" alt="On-call shift alerts on Slack"><figcaption><p>On-call shift alerts on Slack.</p></figcaption></figure>
 
-<details>
-<summary>Why can’t I see a private channel in the escalation dropdown?</summary> 
-You must be a member of the private channel and have connected your Slack account with Spike. Additionally, the `@Spike.sh` app must be added to the private channel.
-
-To connect, run the `/connect` command on Slack
-</details>
-
-<details>
-<summary>Can all team members view the private channels added to escalations?</summary> 
-No, only users who are members of the private channel and have connected their Slack account with Spike can view its name in escalations.
-</details>
-
-<details>
-<summary>How do I add the @Spike.sh app to a private channel?</summary> 
-Invite by typing `/invite @Spike.sh` in the channel.
-</details>
-
-<details>
-<summary>Can I add a private channel to escalations without connecting my Slack account?</summary> 
-No, your Slack account must be connected to Spike to add or view private channels in escalations.
-</details>
-
-<details>
-<summary>What happens if I disconnect my Slack account after adding private channels to escalations?</summary> 
-You will no longer be able to view the private channel names in escalations, even if you are a member of those channels.
-</details>
-
-<details>
-<summary>Can I see private channels added by other users in the escalation policy?</summary> 
-Only if you are a member of the same private channel and have your Slack account connected to Spike.
-</details>
-
-<details>
-<summary>What if I’m an admin on Slack but not a member of the private channel?</summary> 
-Admin privileges on Slack do not grant visibility to private channels unless you are explicitly added as a member of the channel.
-</details>
-
----
-# On-call alerts
-
-<figure><img src="../.gitbook/assets/slack/slack-oncall-alert.png" alt=""><figcaption></figcaption></figure>
-
-Visit [Settings > Alerts](https://app.spike.sh/settings/general/alerts) to select Slack channels to receive on-call shift alerts.
-
-You can enable notifications for both shift start and shift end.
-
----
+Visit [Settings > Alerts](https://app.spike.sh/settings/general/alerts) to select Slack channels to receive on-call shift alerts. You can enable notifications for both shift start and shift end.
 
 ## FAQs
 
-<details> 
-<summary>Can anyone create an incident? Is there an extra charge?</summary>
-No, anyone can create an incident, and there is no additional cost.
-</details>
+### Can anyone create an incident from Slack? Is there an extra charge?
 
-<details> 
-<summary>User A and B are part of a private channel in the escalation policy, but B can’t see the channel name in Escalation. Why?
-</summary>
-This happens when User B hasn’t connected their Slack account with Spike. To connect, they can:
-- Search for the Spike.sh bot in Slack and send a direct message to connect.
-- Run the `/connect` command to connect
-</details>
+No. Anyone in your workspace can create an incident and there is no additional cost.
 
+### I can't find a channel in the dropdown. What should I do?
+
+Paste the channel ID from Slack. To find it, open the channel, go to the **About** section, and copy the unique ID.
+
+<figure><img src="../.gitbook/assets/slack/find-slack-channel-id.png" alt="Finding a Slack channel ID"><figcaption><p>Find the channel ID in the About section.</p></figcaption></figure>
+
+### Why can't I see a private channel in the escalation dropdown?
+
+You must be a member of the private channel, have connected your Slack account with Spike, and the `@Spike.sh` app must be added to that channel. Run `/connect` on Slack to connect your account.
+
+### How do I add the @Spike.sh app to a private channel?
+
+Type `/invite @Spike.sh` in the channel.
+
+### Can all team members view private channels added to escalations?
+
+No. Only users who are members of the private channel and have connected their Slack account with Spike can see it in escalations.
+
+### Can the same discussion channel be reused for multiple incidents?
+
+No. A new channel is created for each incident to keep discussions separate.
+
+### What happens to a discussion channel after the incident is resolved?
+
+The channel stays in your workspace until manually archived. Archive it after the incident is resolved to keep your workspace tidy.
+
+### Can non-Spike users join a discussion channel?
+
+Yes. Anyone in your workspace can be invited to join, regardless of their Spike account status.
+
+### What happens if I disconnect my Slack account after adding private channels to escalations?
+
+You will no longer see the private channel names in escalations, even if you are still a member of those channels.
+
+### User A and B are in a private channel in the escalation policy, but B can't see the channel name. Why?
+
+User B hasn't connected their Slack account with Spike. They can run `/connect` in Slack or send a direct message to the Spike bot to connect.
