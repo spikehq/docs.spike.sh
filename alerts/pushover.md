@@ -1,39 +1,49 @@
 ---
-description: >-
-  Our Pushover integration enables you to receive phone notification via
-  Pushover app‌
+description: Spike sends incident and on-call alerts to your phone via Pushover.
 ---
 
 # Pushover
 
-## Mobile push notifications
+[Pushover](https://pushover.net) delivers Spike alerts as mobile push notifications. Add Pushover to your escalation policies to start receiving alerts.
 
-With [Pushover](https://pushover.net), you can get alerts via Mobile push notifications by connecting and add Pushover to your escalation policy
+You can receive Pushover alerts for:
 
-You can get Pushover alerts for - 
-1. Incidents & escalations
-2. On-call shift start and end
+- Incidents
+- On-call shift start
+- On-call shift end
 
 {% hint style="info" %}
-Spike triggers Pushover alerts are "high" priority so they bypass your Do not disturb settings.
+For high-priority incidents, you can configure to get Pushover notifications even in Do Not Disturb (DND) mode.
 {% endhint %}
 
-**Connect Pushover**
+## Connect Pushover
 
-![Connect Pushover in account settings](<../.gitbook/assets/Group 2 (4).png>)
-‌
-Alert via Pushover at the time of creating an escalation policy.
+{% stepper %}
+{% step %}
+Visit [Settings > Alerts](https://app.spike.sh/settings/personal-alerts) and connect your Pushover account.
+{% endstep %}
+{% step %}
+Select **Pushover** in your escalation step.
+{% endstep %}
+{% step %}
+Choose a team member to alert.
+{% endstep %}
+{% endstepper %}
 
-![Alert Via Pushover](<../.gitbook/assets/Group 3 (3).png>)
+<figure><img src="../.gitbook/assets/Group 2 (4).png" alt="Connect Pushover in account settings"><figcaption><p>Connect Pushover in account settings.</p></figcaption></figure>
 
-**​How do I disconnect Pushover?**
+<figure><img src="../.gitbook/assets/Group 3 (3).png" alt="Add Pushover to an escalation policy"><figcaption><p>Add Pushover as a step in your escalation policy.</p></figcaption></figure>
 
-Visit [Settings](https://app.spike.sh/settings/personal-alerts) on Spike.sh to disconnect Pushover. Once disconnected, you will not get any push notification from us.
+## Disconnect Pushover
 
-**Can I assign Pushover to Oncall?**
+Visit [Settings](https://app.spike.sh/settings/personal-alerts) to disconnect Pushover. Once disconnected, Pushover alerts will stop.
 
-You can but we don't recommend it since every on-call person now and in the future must have Pushover connected to Spike.sh
+## FAQs
 
-**Is there a limit to a number of push notifications?**
+### Can I use Pushover for on-call alerts?
 
-None.&#x20;
+You can, but every on-call team member must have Pushover connected to Spike for it to work reliably.
+
+### Is there a limit on push notifications?
+
+No.
