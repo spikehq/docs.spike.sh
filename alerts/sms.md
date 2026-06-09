@@ -4,7 +4,7 @@ description: SMS alerts keep you informed of incidents without a phone call.
 
 # SMS alerts
 
-Spike sends an SMS when an incident triggers. SMS alerts are supported for all regions.
+Spike sends an SMS when an incident triggers.
 
 <figure><img src="../.gitbook/assets/SMS-on-Spike-sh.png" alt="SMS alerts from Spike"><figcaption><p>SMS alerts from Spike.</p></figcaption></figure>
 
