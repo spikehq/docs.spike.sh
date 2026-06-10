@@ -1,27 +1,19 @@
 ---
-description: >-
-  Spike calls you on your phone to report an incident. On the phone call, you
-  can choose to acknowledge, resolve or escalate
+description: Spike calls your phone when an incident triggers. During the call, you can acknowledge, resolve, or escalate.
 ---
 
-# Phone
+# Phone alerts
 
-## Get phone alerts from Spike
+When an incident triggers, Spike calls your phone. During the call, press a key to take action:
 
-We always recommend using the phone alerts from Spike. This lets you know immediately when a serious issue might be affecting your customer. No matter the size of your business, incidents affect each customer the same. \
-\
-Never miss out with selecting the Phone option in your escalation policies.&#x20;
-
-When you get a phone, you can choose to take actions against an incident.&#x20;
-
-1. Press **4** to acknowledge&#x20;
-2. Press **6** to resolve&#x20;
+1. Press **4** to acknowledge
+2. Press **6** to resolve
 3. Press **9** to escalate
 
+<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt="Phone alerts from Spike"><figcaption><p>Phone alerts from Spike.</p></figcaption></figure>
+
+Check if your country or region supports phone calls on the [geo permissions page](https://app.spike.sh/geo-permissions).
+
 {% hint style="info" %}
-Make sure to verify your phone number. You can also change the phone number in settings
+Make sure to verify your phone number before setting up phone alerts. You can update it in your [profile settings](https://app.spike.sh/settings/profile).
 {% endhint %}
-
-![Phone alerts from Spike](<../.gitbook/assets/image (2) (1) (1).png>)
-
-Check if your country/region supports phone calls and SMS [on this page](https://app.spike.sh/geo-permissions).
