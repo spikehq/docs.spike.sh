@@ -1,66 +1,38 @@
 ---
-description: >
-  Integrate Spike with Supportpal to seamlessly create support tickets from incidents.
+description: Connect Supportpal to Spike and create support tickets directly from incidents.
 ---
 
-# Supportpal Integration
+<figure><img src="../../.gitbook/assets/helpdesk-integrations/supportpal-cover.png" alt="Supportpal integration with Spike"><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/helpdesk-integrations/supportpal-cover.png" alt=""><figcaption></figcaption></figure>
+# Supportpal
 
-Spike’s Supportpal integration is a simple, one-way setup that allows you to create Supportpal tickets from incidents on Spike. Whether done manually or automatically via Playbooks, this integration ensures incident details are captured in your helpdesk system efficiently.
+Spike's Supportpal integration creates support tickets from incidents. It's a one-way sync, and incident data flows from Spike to Supportpal.
 
----
+## Set up
 
-## Features
+1. Go to [Settings > General > Helpdesk Integrations](https://app.spike.sh/settings/general/organisation#org--helpdesk-ticket-management)
+2. Enter your Supportpal API token and subdomain
 
-- **One-Way Integration**: Create tickets in Supportpal from Spike incidents.  
-- **Automated Ticket Creation**: Use [Playbooks](../../playbooks/introduction-to-playbooks.md) to automate ticket creation.  
-- **Manual Ticket Creation**: Select one or more incidents from the Spike dashboard and create tickets in Supportpal.  
+## How to use
 
----
+### Create tickets manually
 
-## One-Step Setup
+From the incidents table, select one or more incidents and create a Supportpal ticket.
 
-This straightforward setup connects Spike to Supportpal using an API token.
+### Automate ticket creation with Playbooks
 
-**Steps to Set Up**:  
-{% tabs %}
-{% tab title="Setup with API token" %}
-1. Go to [Settings > General > Helpdesk Integrations](https://app.spike.sh/settings/general/organisation#org--helpdesk-ticket-management).  
-2. Enter your Supportpal API token and subdomain.  
-3. Save the configuration to start sending incidents to Supportpal.  
-{% endtab %}
-{% endtabs %}
+Use [Playbooks](../../playbooks/introduction-to-playbooks.md) to automate ticket creation when an incident triggers. Incident details and timestamps are sent to Supportpal automatically.
 
----
+## FAQs
 
-## How to Use?
+### Who can set up the integration and create tickets?
 
-### Manual Ticket Creation  
-
-From the Spike dashboard, select one or more incidents and create Supportpal tickets.  
-
-### Automatically Creating Tickets  
-
-Use Spike’s **Playbooks** to automate ticket creation during incident triggers. Incident details, timestamps, and other critical data are sent to Supportpal automatically.
-
----
-
-## FAQs  
-
-<details>
-<summary> Who can set up and create tickets? </summary>
 Anyone in your organization can set up the integration and create tickets. No special permissions are required.
-</details>
-<details>
-<summary> Are there any extra permissions needed for Playbooks? </summary>
-Once the integration is set up, no additional permissions are needed for Playbooks. Users can define whether to create tickets with an "Open" or "New" status.
-</details>
-<details>
-<summary> Can Supportpal users create incidents on Spike? </summary>
-Not yet. Currently, this is a one-way integration from Spike to Supportpal. Bi-directional sync is under development.
-</details>
-<details>
-<summary> Can I link multiple incidents to one Supportpal ticket? </summary>
-No, each incident is linked to a unique Supportpal ticket for better traceability.
-</details>
+
+### Can Supportpal users create incidents on Spike?
+
+No. This is a one-way integration from Spike to Supportpal.
+
+### Can I link multiple incidents to one Supportpal ticket?
+
+Yes. Multiple incidents can be linked to a single Supportpal ticket.
