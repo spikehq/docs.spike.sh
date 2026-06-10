@@ -1,38 +1,45 @@
 ---
-description: Creating an escalation policy on Spike.sh is super simple and intuitive.
+description: Create an escalation policy to define who gets alerted and when during an incident.
 ---
 
-# How to create an escalation policy?
-
-Here's how to create an escalation policy on Spike.sh.
-
-**Step 1:** Head over the [escalations section](https://app.spike.sh/escalations) on the dashboard and click on new escalation
-
-![Select escalations from sidebar](../.gitbook/assets/howto-1.png)
-
-**Step 2:**
-
-1. Make sure to give a good identifiable name based on the team members in it.
-2. Add multiple escalation levels
-3. Add a **time to wait** before automatically escalating if incident is open (not acknowledged or resolved)
-4. Save
+# How to create an escalation policy
 
 {% hint style="info" %}
-
+Not sure where to start? Spike offers [escalation policy templates](https://spike.sh/templates/escalation-templates) with pre-built configurations.
 {% endhint %}
 
-![An example escalation policy ](<../.gitbook/assets/howto-2 (1).png>)
+{% stepper %}
+{% step %}
+### Go to Escalations
+
+Navigate to the [Escalations section](https://app.spike.sh/escalations) on the dashboard and click **New escalation**.
+
+<figure><img src="../.gitbook/assets/howto-1.png" alt="Escalations section on the Spike dashboard"><figcaption><p>Select Escalations from the sidebar.</p></figcaption></figure>
+{% endstep %}
+{% step %}
+### Configure the policy
+
+1. Give the policy a clear, identifiable name.
+2. Add one or more escalation levels.
+3. Set a timeout for each level. This is how long Spike waits before escalating to the next level if the incident isn't acknowledged or resolved.
+
+<figure><img src="../.gitbook/assets/howto-2 (1).png" alt="An example escalation policy in Spike"><figcaption><p>An example escalation policy with two levels.</p></figcaption></figure>
 
 {% hint style="info" %}
-Avoid adding any time interval for the last step where escalation ends.&#x20;
+Leave the time interval blank on the last escalation step.
 {% endhint %}
+{% endstep %}
+{% step %}
+### Save
 
-## Caveats
+Click **Save** to activate the policy.
+{% endstep %}
+{% endstepper %}
 
-### Simultaneous alerts
+## Simultaneous alerts
 
-If you would like to receive simultaneous alerts for either you, your team or Slack, Teams, etc then we highly recommend adding multiple alerts in one escalation step vs creating another step with 0 minutes as interval.&#x20;
+To alert multiple people or channels at the same time, add them as separate alerts within the same escalation level. Avoid creating a new escalation level with a 0-minute interval. This is not the same as simultaneous alerting.
 
-![Avoid 0 minutes interval](../.gitbook/assets/simultaneous-alerts-wrong.png)
+<figure><img src="../.gitbook/assets/simultaneous-alerts-wrong.png" alt="Incorrect: separate escalation level with 0-minute interval"><figcaption><p>Incorrect: a separate level with 0-minute interval.</p></figcaption></figure>
 
-![](../.gitbook/assets/simultaneous-alerts-right.png)
+<figure><img src="../.gitbook/assets/simultaneous-alerts-right.png" alt="Correct: multiple alerts within the same escalation level"><figcaption><p>Correct: multiple alerts within one escalation level.</p></figcaption></figure>
