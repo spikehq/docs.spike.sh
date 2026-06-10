@@ -20,7 +20,7 @@ Anyone on your team can create tickets from incidents. Access is not restricted 
 
 ### Are these integrations bi-directional?
 
-No. Spike sends incident data to your project management tool. Updates made in that tool don't sync back to Spike.
+It depends on the integration. Linear syncs both ways. Jira, ClickUp, and Shortcut are one-way. Spike sends incident data out, but updates in those tools don't sync back to Spike.
 
 ### Privacy
 
