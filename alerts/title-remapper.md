@@ -1,87 +1,73 @@
 ---
-description: >-
-  Title Remapper empowers you to programmatically change incident title in
-  real-time for better context.
+description: Title Remapper programmatically rewrites incident titles in real-time using payload data from your integrations.
 ---
 
 # Title Remapper
 
-Title Remapper empowers you to programmatically change incident title in real-time for better context. More context in alerts means it's easier and faster for responders to understand the incident better.
+Title Remapper programmatically rewrites incident titles using HandlebarsJS templates and the payload your integration sends. Use it to add context like a project name or environment, so responders immediately understand what's happening.
 
-### Example
-
-Let's take Sentry as an example. The incident title is clear but it will do us as incident responders better if we add the project name. Just makes it tad bit clear.
-
-**Without Title remapper**
+**Without Title Remapper**
 
 ```
 var temp is not defined
 ```
 
-**With Title remappe**r
+**With Title Remapper**
 
 ```
 var temp is not defined for Notification service
 ```
 
-See the difference? it immediately adds more context. So much nicer to get this additional info especially on phone call and sms alerts.
+## How to set up
 
-This was achieved by creating a Title remapper with the code below and simply templating your message from the payload your integration sends.&#x20;
+{% stepper %}
+{% step %}
+### Create a new remapper
 
-_You can read our_ [_detailed blog_](https://spike.sh/blog/title-remapper/) _on how we came about building this feature alongside the decision for HandlebarsJS._
+From the Alerts menu, go to **Title Remapper** and create a new remapper.
 
-### Getting started
+<figure><img src="../.gitbook/assets/image (142).png" alt="Creating a new Title Remapper"><figcaption><p>Create a new Title Remapper.</p></figcaption></figure>
+{% endstep %}
+{% step %}
+### Name your remapper
 
-You can write parsing logic using HandlebarsJS syntax and formulate incident titles accordingly. Read more [here](https://handlebarsjs.com/guide/#what-is-handlebars) (it's extremely simple to get started)\
+Provide a name and description for the remapper.
 
+<figure><img src="../.gitbook/assets/image (150).png" alt="Naming the Title Remapper"><figcaption><p>Name and describe your remapper.</p></figcaption></figure>
+{% endstep %}
+{% step %}
+### Select an integration
 
-#### Step 1
+Choose the integration whose payload you want to parse.
 
-From the Alerts menu, go to title remapper and create a new remapper.
+<figure><img src="../.gitbook/assets/image (143).png" alt="Selecting an integration for Title Remapper"><figcaption><p>Select an integration to see its payload.</p></figcaption></figure>
 
-![](<../.gitbook/assets/image (142).png>)
-
-#### Step 2
-
-Provide a suitable name and description for your title remapper.
-
-![](<../.gitbook/assets/image (150).png>)
-
-
-
-#### Step 3
-
-Select an integration for which you want to parse the title.
-
-![](<../.gitbook/assets/image (143).png>)
-
-Once you select an integration, a JSON body will be displayed in the preview section.
-
-This payload is the metadata which we receive from the selected integration. Using this payload, you can now write a custom parser in the code editor provided on the left.
-
-Once you have written the parser, press `Try Now` to check if the parser works and if the parsed incident title is meeting your requirements. Hit save to continue.
+Spike displays the integration's JSON payload in the preview section. Write your HandlebarsJS parser in the code editor on the left. Press **Try Now** to test the output, then hit **Save**.
 
 {% hint style="danger" %}
-Avoid #each and #unless or basically all for.. loops
+Avoid `#each`, `#unless`, and any other loop constructs in your parser.
 {% endhint %}
+{% endstep %}
+{% step %}
+### Connect integrations
 
-#### Step 4
+Select all integrations to link with this remapper.
 
-Select all the integrations to be connected with the title remapper.
+<figure><img src="../.gitbook/assets/image (144).png" alt="Connecting integrations to the Title Remapper"><figcaption><p>Connect integrations to your remapper.</p></figcaption></figure>
+{% endstep %}
+{% endstepper %}
 
-![](<../.gitbook/assets/image (144).png>)
+## Caveats
 
-### Caveats
+1. One Title Remapper can be linked to multiple integrations.
+2. Link a remapper only to integrations it was built for. Linking a remapper built for AWS to a non-AWS integration can cause errors and missing titles.
+3. If multiple Title Remappers are linked to the same integration, only the last linked remapper applies.
 
-1. One Title remapper can be linked to multiple integrations.
-2. Ensure to link a remapper created for, say AWS, to only be linked with other AWS integrations. If not, there could be errors and your title will be missing
-3. If you link multiple Title remappers to an integration, only the last linked remapper will be taken into consideration.
+## Examples
 
-### Examples
+All below examples use this payload:
 
-All examples below are showcased with the below payload.
-
-```
+```json
 data: {
   "body": {
     "event_definition_id": "this-is-a-test-notification",
@@ -122,42 +108,37 @@ data: {
 }
 ```
 
+### Basic
 
-
-#### For basic control
-
-1. **Just the message**
+**Just the message**
 
 ```
 {{data.message}}
 ```
 
-_output_ - Notification test message triggered from user \<richard>
+Output: `Notification test message triggered from user <richard>`
 
-
-
-2\. **Get event**
+**Get event title**
 
 ```
 {{data.body.event_definition_title}}
 ```
 
-_output -_ Event Definition Test Title
+Output: `Event Definition Test Title`
 
-\
-3\. **Get mode details about the event**
+**Get more details about the event**
 
 ```
-[{{data.body.event_definition_type}}] has incident => {{data.body.event_definition_title}}output - 
+[{{data.body.event_definition_type}}] has incident => {{data.body.event_definition_title}}
 ```
 
-_output -_ \[test-dummy-v1] has incident => Event Definition Test Title
+Output: `[test-dummy-v1] has incident => Event Definition Test Title`
 
+### Advanced
 
+Use built-in HandlebarsJS helpers or the additional helpers from Spike's [Swag fork](https://github.com/spikehq/swag).
 
-#### For advanced control
-
-You can use in-built helpers provided by Handlebars JS. Alongside, we also support a number of helpful helpers on our [own fork of Swag.](https://github.com/spikehq/swag)
+**Conditional title**
 
 ```
 {{#if data.body.event_definition_desc}}
@@ -169,17 +150,14 @@ You can use in-built helpers provided by Handlebars JS. Alongside, we also suppo
 {{/if}}
 ```
 
-_output -_ Message: \[testkey] - Notification test message triggered from user \<richard>
+Output: `Message: [testkey] - Notification test message triggered from user <richard>`
 
-#### &#x20;Swag helpers example
+**Swag helpers**
 
 ```
 {{uppercase data.message}} with priority {{add data.body.event.priority 1}}
 ```
 
-_Output_\
-NOTIFICATION TEST MESSAGE TRIGGERED FROM USER \<RICHARD> with priority 3
+Output: `NOTIFICATION TEST MESSAGE TRIGGERED FROM USER <RICHARD> with priority 3`
 
-
-
-Visit our [GitHub repo](https://github.com/spikehq/swag) for more examples of Swag.\
+Visit the [Swag GitHub repo](https://github.com/spikehq/swag) for more examples.
