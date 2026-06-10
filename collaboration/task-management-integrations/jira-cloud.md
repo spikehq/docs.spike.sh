@@ -1,35 +1,33 @@
 ---
-description: >-
-  Send your incident data to JIRA to plan, collaborate, and add to your next
-  spring
+description: Connect Jira Cloud to Spike and create Jira tickets directly from incidents.
 ---
 
 # JIRA Cloud
 
-### How to set up JIRA Cloud?
+## How to set up
 
-Head up to [Settings > Organization](https://app.spike.sh/settings/general/organisation) and find the Task management integrations section. The connect will take you to JIRA to safely authenticate and grant us permission to create tasks on JIRA.
+Go to [Settings > Organisation](https://app.spike.sh/settings/general/organisation) and find the **Task management integrations** section. Click **Connect** to authenticate with Jira and grant Spike permission to create tickets.
 
-You can also alternatively set up from the Incidents table or from the incident details page
+You can also set up the integration from the incidents table or the incident details page.
 
-<figure><img src="../../.gitbook/assets/image (5) (1) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (5) (1) (2).png" alt="Jira Cloud setup in Spike settings"><figcaption><p>Jira Cloud setup in organisation settings.</p></figcaption></figure>
 
 {% hint style="info" %}
-Once setup, every member across every team from your account will have access to create tickets on JIRA from Spike.sh
+Once set up, every team member in your account can create Jira tickets from Spike.
 {% endhint %}
 
-### How to create a ticket on JIRA from Spike.sh?
+## How to create a ticket
 
-There are 2 ways.
+There are two ways to create a Jira ticket from an incident:
 
-1. From the incidents table.
+1. From the incidents table
 
-<figure><img src="../../.gitbook/assets/image (7).png" alt=""><figcaption><p>Create a ticket from the incidents table</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (7).png" alt="Create a Jira ticket from the incidents table"><figcaption><p>Create a ticket from the incidents table.</p></figcaption></figure>
 
-2\. From the incident details page
+2. From the incident details page
 
-<figure><img src="../../.gitbook/assets/jira-2.png" alt=""><figcaption><p>Use the actions section on incident page to create ticket on JIRA</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/jira-2.png" alt="Create a Jira ticket from the incident details page"><figcaption><p>Use the actions section on the incident page to create a ticket.</p></figcaption></figure>
 
-You will need to fill in some details to create the ticket like the example below
+Fill in the required details and submit.
 
-<figure><img src="../../.gitbook/assets/image (8) (1).png" alt=""><figcaption><p>Fill in the details to create ticket on JIRA from Spike.sh</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (8) (1).png" alt="Fill in ticket details to create a Jira ticket from Spike"><figcaption><p>Fill in the details to create a ticket on Jira.</p></figcaption></figure>

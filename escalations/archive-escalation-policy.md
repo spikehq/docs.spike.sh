@@ -1,35 +1,33 @@
 ---
-description: Guide to archiving escalation policies on Spike.sh
+description: Archive an escalation policy when it's no longer in use.
 ---
 
 # Archive escalation policy
 
-## How to archive an escalation policy?
+You can archive an escalation policy when it's no longer associated with any integration. Visit your [escalations page](https://app.spike.sh/escalations), select a policy, click the settings icon, and select **Archive**.
 
-You can choose to archive an escalation policy given that the policy is not associated with any existing integration. 
+<figure><img src="../.gitbook/assets/archive-escalation-1.png" alt="Archive option under escalation policy settings"><figcaption><p>Select Archive under the policy settings.</p></figcaption></figure>
 
-Visit your [escalations page](https://app.spike.sh/escalations) and select a policy. Click on the settings icon and select archive. 
+## Restrictions
 
-![Select archive under settings](../.gitbook/assets/archive-escalation-1.png)
-
-### Restrictions on archiving 
-
-If your escalation policy is already in use on other integrations then you won't be able to archive. Edit your integrations to associate with another escalation. 
+If the policy is in use on one or more integrations, archiving is not available. Update those integrations to use a different escalation policy first.
 
 {% hint style="success" %}
-Once the escalation is not in use with any integration, you would be allowed to archive.
+Once the policy is no longer associated with any integration, you can archive it.
 {% endhint %}
 
-### Does this affect on-call schedules?
+## FAQs
 
-No
+### Does archiving affect on-call schedules?
 
-### Does this affected existing incidents?
+No. Archiving an escalation policy does not affect on-call schedules.
 
-No. In fact, the existing incidents will prompt you about archived policy to avoid misinformation
+### Does archiving affect existing incidents?
 
-![archived policy in existing incident](../.gitbook/assets/archive-escalations-3.png)
+No. Existing incidents retain a reference to the archived policy. Spike displays a notice on those incidents to flag that the policy has been archived.
 
-### How to restore an archived policy?
+<figure><img src="../.gitbook/assets/archive-escalations-3.png" alt="Archived policy notice on an existing incident"><figcaption><p>Spike flags archived policies on existing incidents.</p></figcaption></figure>
 
-There is no automated process. If you certain about restoring talk to us via chat from the dashboard or email us at [support@spike.sh](mailto:support@spike.sh)
+### How do I restore an archived policy?
+
+There's no self-serve restore option. Contact support via chat from the dashboard or email [support@spike.sh](mailto:support@spike.sh).
