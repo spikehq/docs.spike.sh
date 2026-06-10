@@ -4,6 +4,10 @@ description: Create an escalation policy to define who gets alerted and when dur
 
 # How to create an escalation policy
 
+{% hint style="info" %}
+Not sure where to start? Spike offers [escalation policy templates](https://spike.sh/templates/escalation-templates) with pre-built configurations.
+{% endhint %}
+
 {% stepper %}
 {% step %}
 ### Go to Escalations
