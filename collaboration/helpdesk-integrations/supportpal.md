@@ -29,10 +29,6 @@ Use [Playbooks](../../playbooks/introduction-to-playbooks.md) to automate ticket
 
 Anyone in your organization can set up the integration and create tickets. No special permissions are required.
 
-### Can Supportpal users create incidents on Spike?
-
-No. This is a one-way integration from Spike to Supportpal.
-
 ### Can I link multiple incidents to one Supportpal ticket?
 
 Yes. Multiple incidents can be linked to a single Supportpal ticket.
