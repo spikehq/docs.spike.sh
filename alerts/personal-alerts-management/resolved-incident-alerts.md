@@ -1,67 +1,54 @@
 ---
-description: "Customize how and when you receive notifications for resolved incidents, keeping you informed without unnecessary alerts."
+description: Customize how and when you receive alerts for resolved incidents.
 ---
-<figure><img src="../../.gitbook/assets/personal-alerts-management/resolved incidents - configuration.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/personal-alerts-management/resolved incidents - configuration.png" alt="Resolved incident alerts configuration in Spike"><figcaption><p>Resolved incident alerts configuration.</p></figcaption></figure>
 
 # Resolved incident alerts
-Spike notifies you when incidents are automatically resolved or resolved by a responder. This helps provide closure and peace of mind, ensuring you’re informed that an incident you were alerted to has been resolved. It completes the alert cycle effectively.
 
-By default, only current responders and members who were alerted when the incident was triggered will receive a resolved incident alert.
+Spike notifies you when an incident you were alerted to has been resolved. By default, only current responders and members who were alerted when incident was triggered receive resolved alerts. You can customize the channels and configure different [preferences for office hours](during-office-hours.md).
 
-You can customize how you receive resolved incident alerts, including different mediums during office hours.
-
-{% hint style="info" %} 
-The Spike mobile app is ideal for instant notifications when incidents are resolved. 
+{% hint style="info" %}
+The Spike mobile app is ideal for instant notifications when incidents are resolved.
 {% endhint %}
 
-### Set up
+## Set up
+
 {% tabs %}
 {% tab title="Mobile app" %}
-* Go to `Settings`
-* Tap on `Resolved alerts`
+* Go to **Settings**
+* Tap **Resolved alerts**
 * Configure your alerts
 
-**Download Spike mobile app**
+**Download the Spike mobile app**
 - [iOS](https://apps.apple.com/au/app/spike-sh/id1586777789)
 - [Android](https://play.google.com/store/apps/details?id=sh.spike.spike_sh_app)
-
 {% endtab %}
 {% tab title="Desktop" %}
-  * Navigate to `Your account settings` ([Dashboard link](https://app.spike.sh/settings/personal-modes#resolved-alerts))
-  * Scroll down to `Resolved alerts`
-  * Congiure your alerts and click `Save`
+* Navigate to [Your account settings](https://app.spike.sh/settings/personal-modes#resolved-alerts)
+* Scroll down to **Resolved alerts**
+* Configure your alerts and click **Save**
 {% endtab %}
 {% endtabs %}
 
 ## FAQs
-<details> 
 
-<summary>Can I get notifications for all incidents?</summary>
-No, by design, Spike only alerts current responders and members who were previously notified of the incident. This prevents alert fatigue and ensures that those who were not involved are not disturbed unnecessarily.
+### Do all team members receive resolved incident alerts?
 
-</details>
+No. Spike only sends resolved alerts to current responders and members who were notified when the incident triggered. This prevents alert fatigue and avoids notifying people who weren't involved.
 
-<details>
+### Will I receive another alert on Slack, Microsoft Teams, or Discord?
 
-<details> <summary>Will I receive another alert on Slack, Microsoft Teams, or Discord?</summary>
+**Slack and Microsoft Teams:** No new alert is sent. The original message in your channel updates automatically to show the resolved status.
 
-**Slack and Microsoft Teams:** There will be no new alert, but the original alert message in your Slack or Teams channels will automatically refresh to indicate the resolved status.
+**Discord:** No additional alert is sent.
 
-**Discord:** No additional alert will be sent.
+### Why can't I receive a phone call for a resolved incident alert?
 
-</details>
+Resolved alerts don't warrant a phone call. Keeping phone calls reserved for newly triggered incidents avoids confusion. When Spike calls you, it will always be for a new incident.
 
-<details>
+## Explore
 
-<summary>Why can't I receive a phone call for a resolved incident alert?</summary>
-
-Resolved incident alerts are important, but not critical enough to wake you in the middle of the night with a phone call. This avoids confusion—when you receive a phone call from Spike, it will always be for a newly triggered incident, so there’s no need to guess whether it’s for a new or resolved alert.
-
-</details>
-
----
-
-### Explore
 <table data-view="cards">
   <thead>
     <tr>
@@ -75,20 +62,20 @@ Resolved incident alerts are important, but not critical enough to wake you in t
     <tr>
       <td><strong>During office hours</strong></td>
       <td>Custom routing of alerts during office hours</td>
-      <td><a href="during-office-hours.md">Broken link</a></td>
-      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-office-hours.png">thumbnail-resolved-alerts.png</a></td>
+      <td><a href="during-office-hours.md">during-office-hours.md</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-office-hours.png">thumbnail-office-hours.png</a></td>
     </tr>
     <tr>
       <td><strong>Out of office</strong></td>
       <td>Step away confidently by scheduling Out of office</td>
-      <td><a href="out-of-office.md">Broken link</a></td>
-      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-out-of-office.png">thumbnail-resolved-alerts.png</a></td>
+      <td><a href="out-of-office.md">out-of-office.md</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-out-of-office.png">thumbnail-out-of-office.png</a></td>
     </tr>
     <tr>
       <td><strong>Deep work and Cooldown modes</strong></td>
       <td>Catch a break with our 2 modes</td>
-      <td><a href="deep-work-and-cooldown-modes.md">Broken link</a></td>
-      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-deepwork.png">thumbnail-deepwork</a></td>
+      <td><a href="deep-work-and-cooldown-modes.md">deep-work-and-cooldown-modes.md</a></td>
+      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-deepwork.png">thumbnail-deepwork.png</a></td>
     </tr>
   </tbody>
 </table>
