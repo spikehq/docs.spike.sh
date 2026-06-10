@@ -56,9 +56,9 @@ Use [Playbooks](../../playbooks/introduction-to-playbooks.md) to automate ticket
 
 ### Are these integrations bi-directional?
 
-Zendesk offers bi-directional sync. Incidents, notes, and statuses flow between both platforms.
+Zendesk and Freshdesk both have a Spike app available in their respective marketplaces. The app allows users on those platforms to check incidents and take action from their helpdesk side.
 
-Freshdesk and Supportpal are one-way integrations. Changes made in those tools don't sync back to Spike.
+Supportpal is one-way only. Spike sends incident data to Supportpal, but there is no app and no sync back.
 
 ### Does Spike access data from my helpdesk platform?
 
