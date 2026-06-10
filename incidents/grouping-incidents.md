@@ -1,15 +1,18 @@
 ---
-description: Repeated incidents will be grouped together.
+description: Spike automatically groups repeated incidents so you can see how often an issue recurs and when it first appeared.
 ---
 
 # Grouping incidents
 
-## Group repeated incidents
+When the same incident fires multiple times, Spike groups them under the original incident rather than creating new ones. This keeps your dashboard clean and gives you a clear picture of how often an issue is recurring.
 
-Spike supports automatic grouping of incidents which will be repeated. It helps give you perspective on how many times has this incident been repeated. Below is an example -
+<figure><img src="../.gitbook/assets/image (14) (1) (1).png" alt="Grouped incidents on Spike"><figcaption><p>Repeated incidents are grouped under the original with a repeat count.</p></figcaption></figure>
 
-![This "Parallel write .." has been grouped to give you some insights](<../.gitbook/assets/image (14) (1) (1).png>)
+Each grouped incident shows:
 
-### Use cases
+- How many times it has repeated
+- When it first occurred
+- When it last occurred
+- When each recurrence happened
 
-Grouping incidents gives your context. It gives you insights of how many times it has repeated along with it's first occurrence and the last occurrence of this incident. This will help you identify if this is an incident that is truly affecting your customers and how many times it has affected in the past too. Given these stats, you should be able to prioritise this incident and work on it.
+This helps you judge whether an issue is a one-off or a pattern. If an incident has repeated dozens of times, it's likely affecting your customers and worth prioritizing over something that fired once.

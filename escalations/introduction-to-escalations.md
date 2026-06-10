@@ -1,28 +1,25 @@
-# Introduction to escalations
+---
+description: Escalation policies define who gets alerted and when, so incidents don't go unacknowledged.
+---
 
-## What is an escalation policy?
+# Escalation policies
 
-An escalation policy is a simple set of rules to alert the right person at the right time using the right channel such as phone, slack or email. If that person misses out then the incident gets escalated to the next person.
+An escalation policy defines who gets alerted, through which channel, and in what order. When an incident triggers, Spike follows the policy until someone acknowledges or resolves it.
 
-![](<../.gitbook/assets/escalations-list (2).png>)
+<figure><img src="../.gitbook/assets/escalations-list (2).png" alt="Escalation policies list in Spike"><figcaption><p>Escalation policies in Spike.</p></figcaption></figure>
 
-## Basics
+## How escalation policies work
 
-When an incident is triggered an escalation policy comes into affect to send alerts. Spike continues to send alerts according to the policy until someone acknowledges an incident.
+Each policy has one or more levels. After Spike sends alerts at the first level, it waits for a configured timeout before moving to the next. If no one acknowledges within that window, the incident escalates to the next level automatically.
 
-{% hint style="info" %}
-You can create unlimited escalation policies with multiple levels of escalations
-{% endhint %}
+You can alert multiple people at the same level, across different channels or the same one. You can configure the timeout between levels and create as many levels as you need.
 
-![](<../.gitbook/assets/Screenshot 2020-06-24 at 10.48.37 AM.png>)
-
-As per the above example, we have 2 levels of escalations. After the alert is sent via the first level, Spike will wait for only 5 minutes for someone to **acknowledge or resolve** the incident before automatically escalating to the next level. 
-
-You can configure the timeout (in this case, 5 minutes) between escalation levels. You can create as many escalation levels as you want. **You can choose to alert multiple people via different (or same) alert channels simultaneously**. 
+<figure><img src="../.gitbook/assets/Screenshot 2020-06-24 at 10.48.37 AM.png" alt="Escalation policy with two levels in Spike"><figcaption><p>An escalation policy with two levels and a 5-minute timeout.</p></figcaption></figure>
 
 {% hint style="info" %}
-~~At the end of escalation, they are automatically repeated.~~ 
-
-Escalations are no more repeated automatically. You will need to configure this in the integration settings. [Learn more](https://docs.spike.sh/escalations/repeat-escalations)
+Escalations don't repeat automatically. Configure repeat escalations in your integration settings. [Learn more](repeat-escalations.md)
 {% endhint %}
 
+{% hint style="info" %}
+You can create unlimited escalation policies with multiple levels.
+{% endhint %}
