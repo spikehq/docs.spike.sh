@@ -1,26 +1,27 @@
 ---
-description: List of numbers and emails you will get alerts from.
+description: Add Spike as a contact to receive alerts without interruption. Check whether your country supports calls and SMS.
 ---
 
-# Our notification numbers
+# Notification numbers
 
 ## Bypass Do Not Disturb
 
-Download this vCard and add Spike to your contacts. To bypass **Do Not Distrub** on your phone, add Spike to your favorites.
+Download Spike's contact card and add it to your contacts. To bypass Do Not Disturb on your phone, add Spike to your favorites.
 
-Works with -
+Works with:
 
-1. iOS
-2. Android
-3. All email clients
-4. MacOS
-5. Windows
+- iOS
+- Android
+- All email clients
+- macOS
+- Windows
 
 {% file src="../.gitbook/assets/Spike.sh-contact-card.vcf" %}
-Download our vCard and store our number in favorites
+Download Spike's contact card and save the number to your favorites.
 {% endfile %}
 
-OR Scan below to add Spike as a contact:
-<img src="../.gitbook/assets/administration/qr-code-numbers-download.png" alt="Scan to add Spike as contact" width="400" height="400">
+Or scan the QR code below to add Spike as a contact:
 
-Check if your country/region supports phone calls and SMS [on this page](https://app.spike.sh/geo-permissions).
+<figure><img src="../.gitbook/assets/administration/qr-code-numbers-download.png" alt="Scan to add Spike as contact"><figcaption></figcaption></figure>
+
+Check the [supported countries and regions](https://app.spike.sh/geo-permissions) for phone calls and SMS.
