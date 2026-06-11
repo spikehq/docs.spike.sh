@@ -2,28 +2,26 @@
 description: >-
   Sync your on-call schedule with your Google Calendar
 ---
+
 <figure><img src="../../.gitbook/assets/oncall/calendar-sync/Google calendar cover.png" alt="Export on-call schedule to your calendar"><figcaption></figcaption></figure>
 
-# Add On-call schedule to Google Calendar
+# Add on-call schedule to Google Calendar
+
 Keep your on-call shifts visible alongside your regular meetings in Google Calendar. By subscribing to your Spike on-call calendar, any updates to your schedule will appear automatically without needing to reimport anything.
 
-## Subscribe to your On-Call Calendar
+## Subscribe to your on-call calendar
 
-1. Copy your **calendar subscription link** from Spike.
-    1. Go to the Settings page for your on-call schedule.
-    1. Click Sync Calendar and copy the provided link.
-2. Go to [Google Calendar](https://calendar.google.com/)
-3. In the left sidebar, find “Other calendars” and click the “+” icon.
-4. Select `From URL`.
-5. Paste your Spike calendar link and click Add calendar.
+1. Go to the settings page for your on-call schedule.
+2. Click **Calendar sync** and copy the subscription link.
+3. Go to [Google Calendar](https://calendar.google.com/).
+4. In the left sidebar, find **Other calendars** and click the **+** icon.
+5. Select **From URL**, paste your Spike calendar link, and click **Add calendar**.
 
-Your on-call shifts will now appear in Google Calendar. The calendar will refresh automatically based on Google’s update interval.
+Your on-call shifts will now appear in Google Calendar. The calendar refreshes automatically based on Google's update interval.
 
 {% hint style="info" %}
 If you are logged into your Google account, you can also click the calendar link directly from Spike. It will open Google Calendar and subscribe automatically.
 {% endhint %}
-
----
 
 <table data-card-size="large" data-view="cards">
   <thead>
