@@ -105,11 +105,6 @@
 * [Embed status page notifications on your website](status-pages/embed-status-page-notifications-on-your-website.md)
 * [Live status widget](status-pages/live-status-widget.md)
 
-## Uptime
-
-* [Create Uptime monitor](uptime/create-uptime-monitor.md)
-* [Link uptime to Status Page](uptime/link-uptime-to-status-page.md)
-
 ## Integrations guidelines <a href="#integrations-guideline" id="integrations-guideline"></a>
 
 * [Create integration and service on our dashboard](integrations-guideline/create-integration-and-service-on-dashboard.md)
@@ -220,6 +215,3 @@
 * [Check if team is getting alerts](administration/check-if-team-is-getting-alerts.md)
 * [Removing team members](administration/removing-team-members.md)
 
-## Additional resources
-
-* [Create a badge](additional-resources/create-a-badge.md)
