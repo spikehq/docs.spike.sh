@@ -76,9 +76,11 @@ Replaces the default escalation policy with one you specify. Useful for routing 
 
 ### Change integration
 
-Changes the incident's integration.
+Routes the incident to a different integration based on conditions you define. Use this to automatically move incidents to the right integration and team without manual intervention.
 
-This helps you set up a single webhook URL across multiple integrations, use conditions like incident title, and change the integration automatically.
+For example, an incident arrives under the API integration. If the title contains "payments", Spike moves it to the Payments integration and alerts the payments team instead.
+
+Pair this with the **Incident suppressed** or **Incident suppressed within** conditions to switch integrations when an incident is being suppressed too frequently.
 
 ### Ignore incident
 
