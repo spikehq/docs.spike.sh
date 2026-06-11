@@ -2,6 +2,10 @@
 description: "Spike offers two modes, Cooldown and Deep Work, to give responders much-needed breaks and focused work time without unnecessary alerts. These modes help balance alert fatigue while ensuring that critical incidents still get the attention they need."
 ---
 
+{% hint style="warning" %}
+Cooldown and Deep Work modes have been deprecated and are no longer available in Spike.
+{% endhint %}
+
 <figure><img src="../../.gitbook/assets/personal-alerts-management/deepwork and cooldown mode.png" alt=""><figcaption></figcaption></figure>
 
 # Cooldown & Deep work mode

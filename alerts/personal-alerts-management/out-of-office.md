@@ -57,11 +57,5 @@ Although optional, we recommend offloading your duties to make sure incidents ar
       <td><a href="during-office-hours.md">Broken link</a></td>
       <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-office-hours.png">thumbnail-resolved-alerts.png</a></td>
     </tr>
-    <tr>
-      <td><strong>Deep work and Cooldown modes</strong></td>
-      <td>Catch a break with our 2 modes</td>
-      <td><a href="deep-work-and-cooldown-modes.md">Broken link</a></td>
-      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-deepwork.png">thumbnail-deepwork</a></td>
-    </tr>
   </tbody>
 </table>
