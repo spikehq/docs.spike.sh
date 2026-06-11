@@ -1,72 +1,60 @@
 ---
-description: Configure SAML Single Sign-On on Spike.sh
+description: Configure SAML Single Sign-On (SSO) for your Spike organisation.
 ---
 
-# SSO
+# Single Sign-On (SSO)
 
-This guide explains the settings you’d need to use to configure SAML with your Identity Provider. Once this is set up you should get an XML metadata file which you can provide to Spike.sh and start using SSO. 
+Spike supports SAML SSO for the incident management dashboard and the status page dashboard. Configure SAML with your Identity Provider (IdP), then paste the XML metadata into Spike to activate SSO.
 
-Guides for setting up SAML with other IdPs
+## Set up SAML with your IdP
 
-1. [How to setup SAML on Microsoft Azure AD](https://docs.microsoft.com/en-us/power-apps/maker/portals/configure/configure-saml2-settings-azure-ad)
-2. [How to setup SAML on Google Workspace](https://support.google.com/a/answer/6087519?hl=en)
-3. [How to setup SAML on Onelogin](https://www.onelogin.com/blog/saml-configuration)
-4. [How to setup SAML on Centrify](https://docs.centrify.com/Content/Applications/AppsCustom/AddConfigSAML.htm)
+Guides for common identity providers:
 
-### Step 1
+1. [Set up SAML on Microsoft Azure AD](https://docs.microsoft.com/en-us/power-apps/maker/portals/configure/configure-saml2-settings-azure-ad)
+2. [Set up SAML on Google Workspace](https://support.google.com/a/answer/6087519?hl=en)
+3. [Set up SAML on OneLogin](https://www.onelogin.com/blog/saml-configuration)
+4. [Set up SAML on Centrify](https://docs.centrify.com/Content/Applications/AppsCustom/AddConfigSAML.htm)
 
-Follow the configurations given below while configuring your SAML with your IdP. You can configure SAML SSO for Incident Management and Status Page products individually.
+## Step 1: Configure SAML in your IdP
 
-{% hint style="info" %}
-The below values will be the same for Okta, Microsoft Azure AD, Google, and other IdPs.
-{% endhint %}
+Use the values below when configuring SAML. These values apply to Okta, Microsoft Azure AD, Google, and other providers.
 
-#### For our Incident management dashboard
-* Assertion consumer service URL / Single Sign-On URL / Destination URL: `https://app.spike.sh/sso/oauth/saml`
-* Entity ID / Identifier / Audience URI / Audience Restriction: `https://app.spike.sh`
-* Response: `Signed`
-* Assertion Signature: `Signed`
-* Signature Algorithm: `RSA-SHA256`
-* Assertion Encryption: `Unencrypted`
+### Incident management dashboard
 
-#### For our Status page dashboard
-* Assertion consumer service URL / Single Sign-On URL / Destination URL: `https://statuspage.spike.sh/sso/status-page/oauth/saml`
-* Entity ID / Identifier / Audience URI / Audience Restriction: `https://statuspage.spike.sh`
-* Response: `Signed`
-* Assertion Signature: `Signed`
-* Signature Algorithm: `RSA-SHA256`
-* Assertion Encryption: `Unencrypted`
+- **Assertion consumer service URL / Single Sign-On URL / Destination URL:** `https://app.spike.sh/sso/oauth/saml`
+- **Entity ID / Identifier / Audience URI / Audience Restriction:** `https://app.spike.sh`
+- **Response:** `Signed`
+- **Assertion Signature:** `Signed`
+- **Signature Algorithm:** `RSA-SHA256`
+- **Assertion Encryption:** `Unencrypted`
 
+### Status page dashboard
 
-For example, in the case of Okta users, this is how the configuration looks
+- **Assertion consumer service URL / Single Sign-On URL / Destination URL:** `https://statuspage.spike.sh/sso/status-page/oauth/saml`
+- **Entity ID / Identifier / Audience URI / Audience Restriction:** `https://statuspage.spike.sh`
+- **Response:** `Signed`
+- **Assertion Signature:** `Signed`
+- **Signature Algorithm:** `RSA-SHA256`
+- **Assertion Encryption:** `Unencrypted`
 
-![SAML configurations](<../.gitbook/assets/image (140) (2).png>)
+<figure><img src="../.gitbook/assets/image (140) (2).png" alt="SAML configuration example in Okta"><figcaption><p>Example SAML configuration in Okta.</p></figcaption></figure>
 
-### Step 2
+## Step 2: Add user attribute mappings
 
-Add user mappings as shown below. Note that `email` , `firstName` and `lastName` are mandatory.
+Add the user attribute mappings as shown below. `email`, `firstName`, and `lastName` are required.
 
-![Mappings](<../.gitbook/assets/image (141).png>)
+<figure><img src="../.gitbook/assets/image (141).png" alt="User attribute mappings for SAML SSO"><figcaption></figcaption></figure>
 
+## Step 3: Paste the XML metadata in Spike
 
+Open [organisation settings](https://app.spike.sh/settings/general/organisation), paste the IdP XML metadata, and save.
 
-### Step 3
+<figure><img src="../.gitbook/assets/enter-sso-xml.png" alt="Paste IdP XML metadata in Spike organisation settings"><figcaption></figcaption></figure>
 
-Once the SAML is configured, head over to Spike.sh and open [organisation settings.](https://app.spike.sh/settings/general/organisation)
+## Step 4: Sign in using your organisation slug
 
-Paste the IdP XML Metadata and save.
+Find your organisation slug in [organisation settings](https://app.spike.sh/settings/general/organisation) and use it at the login screen to sign in via SSO.
 
-![Enter sso for spike.sh in settings](<../.gitbook/assets/enter-sso-xml.png>)
+<figure><img src="../.gitbook/assets/sso-slug.png" alt="Organisation slug in Spike settings"><figcaption></figcaption></figure>
 
-
-
-### Step 4
-
-Once configured, you can find the organisation slug from [organisation settings.](https://app.spike.sh/settings/general/organisation)
-
-<img src="../.gitbook/assets/sso-slug.png" alt="" data-size="original">![](<../.gitbook/assets/image (147).png>)
-
-Use that slug at the time of login.&#x20;
-
-
-
+<figure><img src="../.gitbook/assets/image (147).png" alt="SSO login screen with organisation slug"><figcaption></figcaption></figure>
