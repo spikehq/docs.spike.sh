@@ -1,24 +1,23 @@
 ---
-description: >-
-  Playbooks can be run manually by a click of a button with progress on each step's execution
+description: Trigger any Playbook manually from the dashboard or an incident page.
 ---
 
-# Run Playbooks Manually
+# Run Playbooks manually
 
-## User Interaction
+Click the **Playbooks** button on the dashboard or any incident detail page to trigger a Playbook. A progress modal shows the status of each action as it runs.
 
-Users can manually trigger Playbooks directly from the dashboard or any incident detail page. You will find a dedicated "Playbooks" button on each page. When a Playbook is run, a modal will appear to show the progress of each action step by step. 
+## Run on multiple incidents
 
-## Multiple incidents
-A Playbook can be executed for either a single incident or multiple incidents at once. This is handy in case you wish the same response actions across different incidents concurrently.
+A Playbook can run on a single incident or multiple incidents at once. This is useful when you want the same response actions applied across different incidents at the same time.
 
 ## Permissions
-Default settings permit all users to trigger Playbooks, with admin capabilities to adjust access and control execution rights as needed.
 
+All team members can trigger Playbooks by default. Admins can adjust execution rights as needed.
 
-## Customization Before Triggering
-At present, Playbooks do not offer the option for users to customize actions or settings prior to execution. The steps set within a Playbook proceed as predefined without alterations.
+## Customization
 
-## Notifications and Logging
-The manual initiation of a Playbook is logged within Spike.sh for record-keeping; however, no direct notifications are sent out to team members regarding the Playbook run.
+Playbooks run exactly as configured. There is no option to adjust actions at the time of triggering.
 
+## Notifications and logging
+
+Manual Playbook runs are logged in Spike. No notifications are sent to team members when a Playbook is triggered manually.
