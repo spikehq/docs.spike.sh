@@ -84,11 +84,5 @@ Resolved incident alerts are important, but not critical enough to wake you in t
       <td><a href="out-of-office.md">Broken link</a></td>
       <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-out-of-office.png">thumbnail-resolved-alerts.png</a></td>
     </tr>
-    <tr>
-      <td><strong>Deep work and Cooldown modes</strong></td>
-      <td>Catch a break with our 2 modes</td>
-      <td><a href="deep-work-and-cooldown-modes.md">Broken link</a></td>
-      <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-deepwork.png">thumbnail-deepwork</a></td>
-    </tr>
   </tbody>
 </table>
