@@ -1,17 +1,17 @@
 ---
-description: How to add team members on Spike?
+description: Invite team members to your Spike organisation.
 ---
 
 # Adding team members
 
-Adding team members on Spike is very easy. Click on the **Add team** link on the header to invite your team.
+Click **Add team** in the top navigation to send an invite. Any team member can invite others.
 
-Anyone on Spike.sh can add a team member. Your organisation will also have a **unique invite link** which can be shared with your other teammates to join you.
+Spike also generates a unique invite link for your organisation. Share it with teammates to let them join directly.
 
-![](../.gitbook/assets/invite.png)
+<figure><img src="../.gitbook/assets/invite.png" alt="Invite team members on Spike"><figcaption></figcaption></figure>
 
-### Security with unique link
+## Restrict signups by domain
 
-Signups with your unique link is absolutely safe. For added security, we recommend only allowing signups with emails of your work domain. You can edit the domain in [**settings > organisation**](https://app.spike.sh/settings/general/organisation)****
+Signups via the unique invite link are open to anyone with the link. To restrict access, configure an approved email domain in [Settings > Organisation](https://app.spike.sh/settings/general/organisation). Only members with that domain can then join.
 
-![Configure your domain](../.gitbook/assets/configuring-domains.png)
+<figure><img src="../.gitbook/assets/configuring-domains.png" alt="Configure domain restrictions in Spike organisation settings"><figcaption></figcaption></figure>
