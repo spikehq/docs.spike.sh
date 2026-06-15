@@ -22,13 +22,13 @@ Don't see an integration you need? Email [integrations@spike.sh](mailto:integrat
 
 ### Services
 
-<figure><img src=".gitbook/assets/affected services.png" alt="Services on Spike"><figcaption><p>Services map to components in your infrastructure.</p></figcaption></figure>
+<figure><img src=".gitbook/assets/overview/overview-what-is-spike-services-1.png" alt="Services on Spike"><figcaption><p>Services map to components in your infrastructure.</p></figcaption></figure>
 
 Services map to components in your infrastructure: a backend API, a payment service, a worker queue. Each service holds multiple integrations. When an incident fires, Spike shows which service is affected and its current health status based on open incidents. You can create as many services as you need to reflect your full architecture.
 
 ### Escalations
 
-<figure><img src=".gitbook/assets/escalations-list.png" alt="Escalation policies on Spike"><figcaption><p>Create separate escalation policies for teams, services, or situations.</p></figcaption></figure>
+<figure><img src=".gitbook/assets/overview/overview-what-is-spike-escalations-1.png" alt="Escalation policies on Spike"><figcaption><p>Create separate escalation policies for teams, services, or situations.</p></figcaption></figure>
 
 An [escalation policy](escalations/introduction-to-escalations.md) defines who gets paged and in what order. You can build separate policies for different teams or services. If the first person doesn't acknowledge in time, Spike moves down the policy until someone responds.
 
