@@ -22,13 +22,13 @@ Resolve by Timer is available on all plans.
 
 ## How it works
 
-<figure><img src="../.gitbook/assets/resolve-timer/timer-different-states.png" alt="Timer in different states on an incident"><figcaption><p>The timer countdown visible on an incident.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/resolve-timer/resolve-timer-timer-states-1.png" alt="Timer in different states on an incident"><figcaption><p>The timer countdown visible on an incident.</p></figcaption></figure>
 
 When an incident triggers, a countdown begins automatically. The incident behaves normally during this time. It can be acknowledged, updated with notes, or manually resolved at any time.
 
 If the countdown ends and the incident is still open, Spike marks it as **Resolved by Timer**. A badge and countdown indicator appear on the incident row and detail page.
 
-<figure><img src="../.gitbook/assets/resolve-timer/resolve-badge.png" alt="Badge showing incident was resolved by timer"><figcaption><p>The badge shows the incident was resolved by timer.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/resolve-timer/resolve-timer-badge-1.png" alt="Badge showing incident was resolved by timer"><figcaption><p>The badge shows the incident was resolved by timer.</p></figcaption></figure>
 
 ## How to set up Resolve by Timer on an integration
 
@@ -43,7 +43,7 @@ Toggle **Resolve by Timer** on, enter your time value, select the unit (**Minute
 {% endstep %}
 {% endstepper %}
 
-<figure><img src="../.gitbook/assets/resolve-timer/in-integration.png" alt="Resolve by Timer setup in integration settings"><figcaption><p>Setting Resolve by Timer at the integration level.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/resolve-timer/resolve-timer-in-integration-1.png" alt="Resolve by Timer setup in integration settings"><figcaption><p>Setting Resolve by Timer at the integration level.</p></figcaption></figure>
 
 ## How to set up Resolve by Timer with alert rules
 
@@ -58,7 +58,7 @@ In **Actions**, select **Resolve by Timer**. Enter the time value and select the
 {% endstep %}
 {% endstepper %}
 
-<figure><img src="../.gitbook/assets/resolve-timer/in-alert-rules.png" alt="Resolve by Timer setup in alert rules"><figcaption><p>Setting Resolve by Timer via alert rules.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/resolve-timer/resolve-timer-in-alert-rules-1.png" alt="Resolve by Timer setup in alert rules"><figcaption><p>Setting Resolve by Timer via alert rules.</p></figcaption></figure>
 
 ## How to set up Resolve by Timer in playbooks
 
@@ -73,7 +73,7 @@ Choose when the timer should start: immediately on trigger, or when the incident
 {% endstep %}
 {% endstepper %}
 
-<figure><img src="../.gitbook/assets/resolve-timer/in-playbooks.png" alt="Resolve by Timer setup in playbooks"><figcaption><p>Setting Resolve by Timer via playbooks.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/resolve-timer/resolve-timer-in-playbooks-1.png" alt="Resolve by Timer setup in playbooks"><figcaption><p>Setting Resolve by Timer via playbooks.</p></figcaption></figure>
 
 ## FAQs
 
