@@ -26,6 +26,8 @@ You can also create incidents directly from your code using a [webhook integrati
 
 Every incident has one of three statuses. See [incident statuses](incident-statuses.md) for the full breakdown.
 
+<figure><img src="../.gitbook/assets/incidents/incidents-what-is-an-incident-statuses-1.png" alt="Incident statuses on Spike"><figcaption><p>The three incident statuses: Triggered, Acknowledged, and Resolved.</p></figcaption></figure>
+
 ### Triggered
 
 A triggered incident means Spike has detected a problem and is actively alerting. Spike works through the escalation policy, sending alerts until someone acknowledges or resolves the incident. Repeat incidents are automatically suppressed to reduce [alert fatigue](../alerts/personal-alerts-management/README.md).
