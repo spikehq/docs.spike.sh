@@ -1,34 +1,23 @@
 ---
-description: >-
-  Set a timeout for when an incident is acknowledged but not resolved in the
-  given time frame. Acknowledge timeout helps your team by reminding you of
-  incidents in non-resolved state
+description: Acknowledge timeout automatically moves an acknowledged incident back to triggered state if it isn't resolved within a set time.
 ---
 
 # Acknowledge timeout
 
-## What is acknowledge timeout?
+Acknowledge timeout is a time limit you set on an integration. If an acknowledged incident isn't resolved within that window, Spike moves it back to triggered state and resumes alerting. This is useful when someone acknowledges an incident but gets pulled into other work before resolving it.
 
-After acknowledging the incident, if it is not resolved in given amount of time then it will return to **triggered state**. Escalations and alerts will resume again.
+<figure><img src="../.gitbook/assets/incidents/incidents-acknowledge-timeout-1.png" alt="Acknowledge timeout setting"><figcaption><p>Set acknowledge timeout in minutes on any integration.</p></figcaption></figure>
 
-Many-a-times, you or your team-mate would acknowledge an incident but never get around to resolving it for multitude of reasons. This is where the **acknowledge timeout** feature comes in handy.&#x20;
+## What timeout should you set?
 
-You can set acknowledge timeout **in minutes** to all of your new and existing integrations by editing a service or adding a new service.&#x20;
+It depends on how critical the integration is. A shorter timeout means faster re-alerting on unresolved incidents.
 
-![Acknowledge timeout](../.gitbook/assets/ack-timeout.png)
+- **Critical integrations** — 20 minutes
+- **Severe but non-critical integrations** — 60 minutes
+- **Non-critical integrations** — leave it blank
 
-### What is an ideal Acknowledge timeout?
+You don't need a timeout on every integration.
 
-This really depends on the integration. The more critical it is the shorter the timeout should be.&#x20;
-
-_Here's what we recommend -_
-
-1. Critical integration - **20 minutes**
-2. Severe but not critical integration - **60 minutes**
-3. Non-severe and non-critical integration - **Leave it blank.**
-
-You don't need an Acknowledge timeout for _every integration._&#x20;
-
-{% hint style="info" %}
-Please make sure to keep a generous timeout and **avoid keeping short times like 5 or 10 minutes**. Keeping short timeouts will end up in way too many alerts you did rather ignore.
+{% hint style="warning" %}
+Avoid short timeouts like 5 or 10 minutes. They generate more alerts than your team can act on and increase alert fatigue.
 {% endhint %}
