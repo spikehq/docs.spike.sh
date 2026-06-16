@@ -1,36 +1,25 @@
 ---
-description: Get incident alerts and on-call shifts alerts in your DM on Telegram
+description: Get incident alerts and on-call shift notifications on Telegram. Acknowledge or resolve incidents with a simple command.
 ---
 
 # Telegram
 
-## Telegram notifications
+Spike's Telegram bot is [@SpikeHQ\_bot](https://t.me/SpikeHQ\_bot). Run `/connect` to link your Spike account and start receiving alerts.
 
-Telegram bots are super nice with great control to it's users. The convenience factor has driven us to build a Telegram bot too.
+You can receive alerts for:
 
-[We are @SpikedHQ\_bot on Telegram](https://t.me/SpikeHQ\_bot)
+- New incidents
+- On-call shift start
+- On-call shift end
 
-You can instantly start a conversation with our bot to connect and start receiving alerts. You can use our Telegram bot to -
+<figure><img src="../.gitbook/assets/Screenshot from 2022-07-22 12-34-47.png" alt="Incident alert on Telegram from Spike"><figcaption><p>Incident alert on Telegram.</p></figcaption></figure>
 
-1. Receive alerts for&#x20;
-   1. Incidents. You can now add Telegram in escalation policies.
-   2. On-call shifts. Get shift start and end alerts in your account settings
-2. Acknowledge and resolve any of your incidents
-
-
-
-Use `/connect` command to connect Telegram with your Spike.sh account.
+Add Telegram to your [escalation policies](https://app.spike.sh/escalations) to receive incident alerts. For on-call shift alerts, visit [On-call settings](https://app.spike.sh/settings/personal-on-call).
 
 {% hint style="success" %}
-Use `/ack` or `/acknowledge` to acknowledge any incident. Similarly, you can use `/res` or `/resolve` to resolve any incident.
+Use `/ack` or `/acknowledge` to acknowledge an incident. Use `/res` or `/resolve` to resolve one.
 {% endhint %}
 
-
-
-![Just a taste of how incident alerts on Telegram look like](<../.gitbook/assets/Screenshot from 2022-07-22 12-34-47.png>)
-
-To start receiving on-call shift alerts, visit Settings > Account > On-call notifications or [click here](https://app.spike.sh/settings/personal-on-call)
-
-__
-
-_ps: You can connect Telegram to only one Spike.sh account_
+{% hint style="info" %}
+Telegram can only be connected to one Spike account at a time.
+{% endhint %}

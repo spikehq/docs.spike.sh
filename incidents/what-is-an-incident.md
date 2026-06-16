@@ -1,44 +1,41 @@
 ---
-description: Learn the basics of an incident.
+description: An incident is any issue that needs to be investigated and resolved, often one that affects your customers.
 ---
 
 # What is an incident?
 
-Incident is any issue that needs to be worked upon and resolved. Many a times, these incidents often affects your customers. When we get an incident, we alert and assign the incident to the right person using escalation policy attached to that integration.
+An incident is any issue that needs to be investigated and resolved. When a connected monitoring tool detects a problem, Spike creates an incident and alerts the right person based on the [escalation policy](../escalations/introduction-to-escalations.md) attached to that integration.
 
 ## Examples
 
-1. Monitoring CPU utilization - alerts at high utilization at say, 80%
-2. Monitoring Memory consumption - alerts at high consumption at say, 90%
-3. DB monitoring alerts&#x20;
-4. DB backup fails
-5. Billing fails
-6. Sending notification fails
-7. Errors on loading dashboard
-8. Website down monitored with uptime monitoring
+Common examples of incidents include:
 
-_and many more ...._
+- CPU or memory utilization crossing a critical threshold
+- Database monitoring alerts
+- Database backup failures
+- Billing process failures
+- Notification delivery failures
+- Dashboard loading errors
+- Website downtime
 
 {% hint style="info" %}
-You can use a simple webhook integration and create incidents from your code too. [Know more here.](https://docs.spike.sh/integrations-guideline/integrating-with-webhooks)
+You can also create incidents directly from your code using a [webhook integration](../integrations-guideline/integrating-with-webhooks.md).
 {% endhint %}
 
-## Understanding incident statuses
+## Incident statuses
 
-Incidents can have one of the below statuses -&#x20;
+Every incident has one of three statuses. See [incident statuses](incident-statuses.md) for the full breakdown.
 
-1. **Triggered**
-2. **Acknowledged**
-3. **Resolved**
+<figure><img src="../.gitbook/assets/incidents/incidents-what-is-an-incident-statuses-1.png" alt="Incident statuses on Spike"><figcaption><p>The three incident statuses: Triggered, Acknowledged, and Resolved.</p></figcaption></figure>
 
 ### Triggered
 
-When an incident is **triggered**, Spike loads the escalation policy attached to the integration and sends an alert. _We continue to send automated alerts based on the escalation policy until the incident is acknowledged_. Once the person has received the alert, they choose to acknowledge or resolve. We do not send alerts when incidents are acknowledged and resolved. In this state, repeat incidents are automatically suppressed and logged reducing alert fatigue.
+A triggered incident means Spike has detected a problem and is actively alerting. Spike works through the escalation policy, sending alerts until someone acknowledges or resolves the incident. Repeat incidents are automatically suppressed to reduce [alert fatigue](../alerts/personal-alerts-management/README.md).
 
 ### Acknowledged
 
-An **acknowledged** incident would mean that the work for the resolution of incident is ongoing. In this state, we **do not** send any alerts and stop the escalation policy to where it stands. You can customise the settings to have a timeout for amount of time the incident remains in acknowledged state and does not get resolved. Once this timeout reaches, we change the status to triggered and start sending alerts again. _The acknowledge timeout setting is optional._ In this state, repeat incidents are automatically suppressed and logged reducing alert fatigue
+An acknowledged incident means someone is working on a fix. Spike stops alerting and pauses the escalation policy. You can optionally set an [acknowledge timeout](acknowledge-timeout.md): a time limit after which Spike moves the incident back to triggered and resumes alerting if it hasn't been resolved.
 
 ### Resolved
 
-Once incident has been fixed, you can mark it as **resolved**. In this case, no alerts are sent and escalation policy resets in case if there is a new incident again.
+A resolved incident means the issue is fixed. Spike stops all alerts and resets the escalation policy for any future incidents on that integration.
