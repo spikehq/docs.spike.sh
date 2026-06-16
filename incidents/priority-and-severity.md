@@ -34,17 +34,17 @@ Once you set priority and severity on an incident, Spike remembers them for futu
 
 ## Setting priority and severity
 
-### From the dashboard
+### From the incidents list
 
-Select one or more incidents. The priority, severity, and mute options appear at the top of the list.
+Open **Incidents** from the sidebar. Hover over an incident to reveal the **Priority** and **Severity** options inline.
 
-<figure><img src="../.gitbook/assets/Priority on dashboard.png" alt="Set priority on multiple incidents from the dashboard"><figcaption><p>Select incidents from the dashboard to set priority and severity in bulk.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/incidents/incidents-priority-severity-list-1.png" alt="Set priority and severity from the incidents list"><figcaption><p>Hover over an incident to set priority and severity inline.</p></figcaption></figure>
 
 ### From the incident page
 
-Open any incident to find the priority and severity options on the incident detail page.
+Open any incident and find **Priority** and **Severity** under the **Properties** section.
 
-<figure><img src="../.gitbook/assets/image (81).png" alt="Set priority from the incident page"><figcaption><p>Set priority and severity directly from the incident page.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/incidents/incidents-priority-severity-detail-1.png" alt="Set priority and severity from the incident page"><figcaption><p>Set priority and severity from the Properties section on the incident page.</p></figcaption></figure>
 
 ### From integrations
 
