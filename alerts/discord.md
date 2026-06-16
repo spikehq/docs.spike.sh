@@ -42,6 +42,8 @@ Once saved, Spike sends a test message to your Discord channel.
 ### Add Discord to your escalation policy
 
 Select Discord as a step in your [escalation policy](https://app.spike.sh/escalations).
+
+<figure><img src="../.gitbook/assets/discord/discord-escalation-policy-1.png" alt="Discord as a step in an escalation policy"><figcaption><p>Adding Discord to an escalation policy.</p></figcaption></figure>
 {% endstep %}
 {% endstepper %}
 
