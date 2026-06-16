@@ -8,7 +8,7 @@ You can change an incident's status from all alerting channels without having to
 
 ## From the dashboard
 
-<figure><img src="../.gitbook/assets/incident-status-change-new.png" alt="Select one or more incidents on the dashboard"><figcaption><p>Select incidents and change their status from the dashboard.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/incidents/incidents-change-status-dashboard-1.png" alt="Select one or more incidents on the dashboard"><figcaption><p>Select incidents and change their status from the dashboard.</p></figcaption></figure>
 
 Open the [dashboard](https://app.spike.sh) to see all open incidents. Select an incident using the checkbox on the left, then click **Acknowledge** or **Resolve** at the top.
 
@@ -17,8 +17,6 @@ Open the [dashboard](https://app.spike.sh) to see all open incidents. Select an 
 Select multiple incidents using the checkboxes, or use the dropdown to select all incidents matching a specific criteria. Then apply the status change in bulk.
 
 ## From a phone call
-
-<figure><img src="../.gitbook/assets/phone.png" alt="Take actions on incidents from a phone call"><figcaption><p>Use keypresses during a phone alert to change incident status.</p></figcaption></figure>
 
 During a [phone alert](../alerts/phone.md), press a key to take action immediately:
 
@@ -30,7 +28,7 @@ You'll hear a voice confirmation on the same call once the status changes.
 
 ## From Slack
 
-<figure><img src="../.gitbook/assets/slack-gif.gif" alt="Acknowledge and resolve incidents from Slack"><figcaption><p>Slack alerts include Acknowledge and Resolve buttons.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/incidents/incidents-change-status-slack-1.png" alt="Acknowledge and resolve incidents from Slack"><figcaption><p>Slack alerts include Acknowledge and Resolve buttons.</p></figcaption></figure>
 
 Every [Slack alert](../alerts/slack.md) includes **Acknowledge** and **Resolve** buttons. When you change the status, all related Slack messages update to reflect it. This applies regardless of whether the change was made via phone, email, SMS, or the dashboard.
 
@@ -55,5 +53,3 @@ This works even if [SMS](../alerts/sms.md) is not in your escalation policy. Spi
 ## From mobile
 
 The dashboard and incident detail pages are mobile-compatible. Visit [app.spike.sh](https://app.spike.sh) on your mobile browser to view open incidents and change their status.
-
-<figure><img src="../.gitbook/assets/image (73).png" alt="Incident page on mobile"><figcaption><p>View and manage incidents from your mobile browser.</p></figcaption></figure>
