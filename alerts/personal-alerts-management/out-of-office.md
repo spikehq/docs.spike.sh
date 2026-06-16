@@ -1,7 +1,7 @@
 ---
 description: "Set up Out of Office mode to temporarily pause alerts, schedule time off, and seamlessly offload duties to team members."
 ---
-<figure><img src="../../.gitbook/assets/personal-alerts-management/out of office - example.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/alerts/alerts-out-of-office-cover-1.png" alt="Out of office mode in Spike"><figcaption><p>Schedule Out of office and offload duties to a teammate.</p></figcaption></figure>
 
 # Out of office
 Heading out of the office? You can schedule or instantly set up **Out of Office**, so your duties including on-call responsibilities and incident alerts are covered by a colleague.

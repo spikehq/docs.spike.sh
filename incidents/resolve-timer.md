@@ -1,112 +1,94 @@
 ---
-description: >-
-  Resolved by Timer resolves incidents after a specified time period.
+description: Resolve by Timer automatically resolves incidents after a set duration if they haven't been manually resolved.
 ---
 
-<figure><img src="../.gitbook/assets/resolve-timer/cover.png" alt=""><figcaption></figcaption></figure>
+# Resolve by Timer
 
-## Introduction
-**Resolved by Timer** lets you automatically resolve incidents after a fixed duration. Once an incident is triggered, a countdown starts. If the incident hasn’t been manually resolved by the time the countdown ends, Spike will mark it as Resolved with Timer.
+<figure><img src="../.gitbook/assets/resolve-timer/cover.png" alt="Resolve by Timer feature on Spike"><figcaption><p>Resolve by Timer on Spike.</p></figcaption></figure>
 
-You’ll see a badge on the incident row and incident page, along with a visual indicator showing the timer. You can cancel the timer at any point from the incident view.
+## What is Resolve by Timer?
 
-![The badge makes it clear how the incident was resolved](../.gitbook/assets/resolve-timer/resolve-badge.png)
+Resolve by Timer automatically resolves an incident after a set duration. When an incident triggers, a countdown starts. If the incident isn't resolved before the countdown ends, Spike marks it as **Resolved by Timer**. You can cancel the timer at any point from the incident view.
 
-Resolve Timer can be set up in multiple ways:
+You can set up Resolve by Timer in three ways:
 
-**Integration-level**: apply the same timer to all incidents from an integration.
-
-**Alert rules**: apply timers only when certain conditions are met (e.g., based on severity or service).
-
-**Playbooks**: apply timers as part of your playbook.
-
+- **Integration level**: applies to all incidents from an integration
+- **Alert rules**: applies only when certain conditions are met
+- **Playbooks**: applies as part of your response playbook
 
 {% hint style="success" %}
-Resolve Timer is available on **all plans**.
+Resolve by Timer is available on all plans.
 {% endhint %}
 
----
+## How it works
 
-## How it works?
+<figure><img src="../.gitbook/assets/resolve-timer/resolve-timer-timer-states-1.png" alt="Timer in different states on an incident"><figcaption><p>The timer countdown visible on an incident.</p></figcaption></figure>
 
-![Timer in motion](../.gitbook/assets/resolve-timer/timer-different-states.png)
+When an incident triggers, a countdown begins automatically. The incident behaves normally during this time. It can be acknowledged, updated with notes, or manually resolved at any time.
 
-When an incident is triggered, a countdown begins automatically. This timer runs in the background while the incident behaves like any other — it can be acknowledged, updated with notes, or manually resolved at any time.
+If the countdown ends and the incident is still open, Spike marks it as **Resolved by Timer**. A badge and countdown indicator appear on the incident row and detail page.
 
-If the countdown finishes and the incident is still open, Spike marks it as Resolved with Timer. A badge and countdown indicator appear on the incident row and detail page, making it clear when and how the resolution happened.
+<figure><img src="../.gitbook/assets/resolve-timer/resolve-timer-badge-1.png" alt="Badge showing incident was resolved by timer"><figcaption><p>The badge shows the incident was resolved by timer.</p></figcaption></figure>
 
----
+## How to set up Resolve by Timer on an integration
 
-## Setup Resolve timer on integration level
-Use this when you want every incident from a specific integration to resolve after a set time.
-
-{% stepper %}
-{% step %}
-When **Editing**/**Creating** your integration scroll to **Advanced Configuration** and locate the **Resolve Timer** toggle.
-{% endstep %}
-{% step %}
-Toggle **Resolve Timer** to **ON**, enter your time value, select the unit (**Minutes**, **Hours**, or **Days**), and click **Save**.
-{% endstep %}
-{% endstepper %}
-
-Example: Setting 24 hours will automatically resolve all incidents from this integration after 24 hours.
-
-![How to setup resolve timer with integration](../.gitbook/assets/resolve-timer/in-integration.png)
-
-## Setup Alert Rule-based Resolve timer
-Use this for granular control over which incidents to set a timer for.
+**Best for:** Applying the same timer to all incidents from a specific integration.
 
 {% stepper %}
 {% step %}
-While **Editing**/**Creating** an alert rule, set up your alert conditions to define which incidents should trigger this rule.
+When editing or creating your integration, scroll to **Advanced Configuration** and locate the **Resolve by Timer** toggle.
 {% endstep %}
 {% step %}
-In **Actions** select **Resolve After**. Enter the time value, select the unit, then **Save** or **Update** the rule.
+Toggle **Resolve by Timer** on, enter your time value, select the unit (**Minutes**, **Hours**, or **Days**), and click **Save**.
 {% endstep %}
 {% endstepper %}
 
-Example: Database incidents automatically resolve after 2 hours if not manually handled.
+<figure><img src="../.gitbook/assets/resolve-timer/resolve-timer-in-integration-1.png" alt="Resolve by Timer setup in integration settings"><figcaption><p>Setting Resolve by Timer at the integration level.</p></figcaption></figure>
 
-![How to setup resolve timer with Alert rules](../.gitbook/assets/resolve-timer/in-alert-rules.png)
+## How to set up Resolve by Timer with alert rules
 
-## Setup Resolve timer in Playbooks
-Use this to set timer as part of your response playbook
+**Best for:** Applying timers only to incidents that meet specific conditions.
 
 {% stepper %}
 {% step %}
-While **editing** or **creating** a playbook, add an action to apply a Resolve Timer.  
+While editing or creating an alert rule, set up your conditions to define which incidents the rule applies to.
 {% endstep %}
 {% step %}
-You can choose when the timer should start — for example, immediately on trigger or when the incident status changes (e.g., to **Acknowledged**).  
+In **Actions**, select **Resolve by Timer**. Enter the time value and select the unit (**Minutes**, **Hours**, or **Days**), then save or update the rule.
 {% endstep %}
 {% endstepper %}
 
-![How to setup resolve timer with Playbooks](../.gitbook/assets/resolve-timer/in-playbooks.png)
+<figure><img src="../.gitbook/assets/resolve-timer/resolve-timer-in-alert-rules-1.png" alt="Resolve by Timer setup in alert rules"><figcaption><p>Setting Resolve by Timer via alert rules.</p></figcaption></figure>
 
----
+## How to set up Resolve by Timer in playbooks
 
-## FAQ
+**Best for:** Including a timer in your incident response workflow.
 
-<details>
-<summary>Can I Remove Timer for specific incidents?</summary>
-Yes, You can remove it from the incident by clicking on the remove timer button.
-</details>
+{% stepper %}
+{% step %}
+While editing or creating a playbook, add an action to apply Resolve by Timer.
+{% endstep %}
+{% step %}
+Choose when the timer should start: immediately on trigger, or when the incident status changes to **Acknowledged**.
+{% endstep %}
+{% endstepper %}
 
-<details>
-<summary>Can I set different times for different severity levels?</summary>
-Yes, using alert rules you can create different configurations based on incident severity, service, or other conditions.
-</details>
+<figure><img src="../.gitbook/assets/resolve-timer/resolve-timer-in-playbooks-1.png" alt="Resolve by Timer setup in playbooks"><figcaption><p>Setting Resolve by Timer via playbooks.</p></figcaption></figure>
 
-<details>
-<summary>What's the minimum resolution time?</summary>
-1 minute, though we recommend at least 15-30 minutes for most use cases.
-</details>
+## FAQs
 
-<details>
-<summary>Will I get notified when incidents resolve by timer?</summary>
-This depends on your notification settings. You can configure to get alerts on resolve incidents
-</details>
+### Can I remove the timer for a specific incident?
 
----
+Yes. Click the remove timer button on the incident to cancel it.
 
-*If you need help setting up Resolve Timer, reach out to [support@spike.sh](mailto:support@spike.sh).*
+### Can I set different times for different severity levels?
+
+Yes. Use alert rules to apply different timers based on incident severity.
+
+### What is the minimum resolution time?
+
+1 minute. For most use cases, 15 to 30 minutes is a more practical minimum.
+
+### Will I be notified when an incident resolves by timer?
+
+This depends on your notification settings. You can configure alerts for resolved incidents.

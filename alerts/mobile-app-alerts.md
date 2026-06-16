@@ -1,39 +1,46 @@
 ---
-description: Spike's mobile app quickly gets you upto speed on ongoing incidents.
+description: Spike's mobile app delivers real-time incident alerts to your phone, with support for critical notifications on iOS and Android.
 ---
 
 # Mobile app alerts
 
-<figure><img src="../.gitbook/assets/mobile-alerts.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/mobile-alerts.png" alt="Spike mobile app showing incident alerts"><figcaption><p>Spike mobile app alerts.</p></figcaption></figure>
 
-Spike's mobile app offers a super convenient way to stay ahead of incidents, so you’re always informed. With real-time notifications, you can quickly respond to critical issues, keeping your operations running smoothly. After downloading the app, make sure to log in and allow notifications to take full advantage of the alerting features.
+Spike's mobile app sends real-time incident alerts to your phone. Download the app, log in, and allow notifications to start receiving alerts.
 
 {% tabs %}
 {% tab title="iOS" %}
-<figure><img src="../.gitbook/assets/AppStore.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/AppStore.png" alt="Download on the App Store"><figcaption></figcaption></figure>
 
-[Download the iOS app](https://apps.apple.com/au/app/spike-sh/id1586777789) from the AppStore
+[Download the iOS app](https://apps.apple.com/au/app/spike-sh/id1586777789) from the App Store.
 {% endtab %}
-
 {% tab title="Android" %}
-<figure><img src="../.gitbook/assets/PlayStore.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/PlayStore.png" alt="Get it on Google Play"><figcaption></figcaption></figure>
 
-[Download the Android app](https://play.google.com/store/apps/details?id=sh.spike.spike\_sh\_app) from the PlayStore
+[Download the Android app](https://play.google.com/store/apps/details?id=sh.spike.spike\_sh\_app) from the Play Store.
 {% endtab %}
 {% endtabs %}
 
 ## Setup
 
-To receive notifications on your mobile device, make sure to set up phone notifications within your escalation policies. This will trigger mobile app alerts delivered directly to your phone, enabling you to respond promptly to incidents.
+To receive mobile alerts, add phone notifications to your escalation policies. Spike will then deliver alerts directly to your device.
 
 ## Critical alerts
 
-**For iOS users**, Spike's mobile app offers the option to receive Critical notifications (partnered with Apple) for critical incidents or for all incidents. This ensures that you never miss an important notification, even if your device is on Do Not Disturb mode. Visit settings on your app to configure further.
+Critical alerts reach you even when your device is on Do Not Disturb.
+
+### iOS
+
+Spike supports Apple's critical notifications. Configure this in the app settings to apply to critical incidents only, or all incidents.
 
 {% hint style="info" %}
-Critical notifications make sound even when your iPhone is muted
+Critical notifications make sound even when your iPhone is on mute.
 {% endhint %}
 
-**For Android users**, Spike offers high-priority notification channels that can alert you even when your device is on Do Not Disturb (DnD) mode. You'll be prompted to grant permission when you first receive critical notifications. You can also manage this anytime in your device's notification settings.
+### Android
 
-{% hint style="info" %} Spike creates a critical alerts channel on Android. When you sign in, you'll be prompted to allow these alerts to bypass Do Not Disturb. {% endhint %}
+Spike supports Android's critical notifications. Configure this in the app settings to apply to critical incidents only, or all incidents.
+
+{% hint style="info" %}
+Critical notifications make sound even when your Android device is on mute.
+{% endhint %}
