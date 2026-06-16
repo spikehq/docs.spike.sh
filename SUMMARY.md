@@ -29,7 +29,6 @@
 * [Microsoft Teams](alerts/microsoft-teams.md)
 * [WhatsApp](alerts/whatsapp.md)
 * [Telegram](alerts/telegram.md)
-* [Pushover](alerts/pushover.md)
 * [Discord](alerts/discord.md)
 * [Alert routing rules](alerts/alert-rules.md)
 * [Title Remapper](alerts/title-remapper.md)
