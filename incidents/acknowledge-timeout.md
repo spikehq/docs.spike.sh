@@ -6,7 +6,7 @@ description: Acknowledge timeout automatically moves an acknowledged incident ba
 
 Acknowledge timeout is a time limit you set on an integration. If an acknowledged incident isn't resolved within that window, Spike moves it back to triggered state and resumes alerting. This is useful when someone acknowledges an incident but gets pulled into other work before resolving it.
 
-<figure><img src="../.gitbook/assets/ack-timeout.png" alt="Acknowledge timeout setting"><figcaption><p>Set acknowledge timeout in minutes on any integration.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/incidents/incidents-acknowledge-timeout-1.png" alt="Acknowledge timeout setting"><figcaption><p>Set acknowledge timeout in minutes on any integration.</p></figcaption></figure>
 
 ## What timeout should you set?
 
