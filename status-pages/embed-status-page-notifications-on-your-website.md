@@ -1,41 +1,29 @@
 ---
-description: >-
-  To keep your visitors and/or users informed, you can choose to embed
-  notifications for incidents and planned maintenance on your website
+description: Embed live status notifications on your website to keep visitors informed about incidents and maintenance.
 ---
 
 # Embed status page notifications on your website
 
-### Status page notifications
+The embed feature displays live status notifications directly on your website. Visitors see updates without having to visit your status page separately.
 
-Your operational status is crucial to all your users, and maintaining transparency is essential. Instead of having users repeatedly visit your status page to check updates, you can proactively keep them informed using our embed feature.
+<figure><img src="../.gitbook/assets/image (144) (1).png" alt="Example status page notification embedded on a website"><figcaption></figcaption></figure>
 
-The embed feature displays live notifications of status page updates directly on any of your websites. Below is an example of how the notification looks:
+## When notifications appear
 
-![example notification for upcoming planned maintenance](<../.gitbook/assets/image (144) (1).png>)
+After page load completes, the notification appears within 5 seconds. By default, it shows in the bottom-right corner. You can configure the position in your widget settings.
 
-#### Example use case:
-
-1. **SaaS**: Embed maintenance notifications on your dashboard to keep users informed and prepared.
-2. **Crypto Platforms**: Add notifications to trading dashboards for real-time transparency.
-3. **Home Page**: Use your homepage to display important updates for visitors.
-
-### When do the notifications appear?
-
-Once the page load is complete, the notification appears within 5 seconds to your visitor. By default, it shows up in the bottom-right corner, but you can configure its position to fit your preferences.
-
-{% hint style="success" %}
-Notifications support planned maintenances and are shown once every visitor
+{% hint style="info" %}
+Notifications support planned maintenance events and are shown once per visitor.
 {% endhint %}
 
-### Set up
+## Set up
 
-To set up notifications, visit **Widgets** section from the sidebar. Copy the code and place it at the end of the `<body>` tag on every page where you want the notification to appear.
+Visit the **Widgets** section from the sidebar. Copy the code snippet and paste it before the closing `</body>` tag on every page where you want the notification to appear.
 
-While creating or editing a planned maintenance, enable **Notify visitors.**&#x20;
+When creating or editing a planned maintenance event, enable **Notify visitors**.
 
-![](<../.gitbook/assets/Image 2022-05-12 17-21-38.png>)
+<figure><img src="../.gitbook/assets/Image 2022-05-12 17-21-38.png" alt="Enable Notify visitors option for planned maintenance in Spike"><figcaption></figcaption></figure>
 
-### Security
+## Security
 
-Select your domains and them to allowlist for the widgets to load. Use an asterik(\*) to allow all subdomains - \*.example.com. While debugging, we suggest using a provider like [ngrok](https://ngrok.com) and temporarily adding their domains to test.&#x20;
+Add your domains to the allowlist so the widget loads correctly. Use `*.example.com` to allow all subdomains. For local testing, add your testing domain (such as an [ngrok](https://ngrok.com) URL) to the allowlist temporarily.
