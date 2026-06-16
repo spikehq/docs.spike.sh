@@ -24,8 +24,6 @@ Evaluates to true for every incident. Use this when an action should run uncondi
 
 Evaluates to true if the incident title contains, does not contain, equals, or does not equal a specific text or phrase.
 
-<figure><img src="../.gitbook/assets/alert-rules-conditions-1.png" alt="Incident title condition"><figcaption><p>Incident title condition.</p></figcaption></figure>
-
 ### Incident details
 
 Evaluates to true if a specific key in the incident details contains, does not contain, equals, or does not equal a specific value. Enter a key or nested key to compare against.
@@ -118,9 +116,7 @@ Enable the **Route to other team** toggle in the Actions section to send an inci
 
 Multiple alert routing rulesets can apply to a single incident. For example:
 
-<figure><img src="../.gitbook/assets/image (82).png" alt="Alert routing ruleset example 1"><figcaption><p>Ruleset 1: mark as P5 if title contains "syslog".</p></figcaption></figure>
-
-<figure><img src="../.gitbook/assets/image (83).png" alt="Alert routing ruleset example 2"><figcaption><p>Ruleset 2: change escalation policy if title contains "syslog".</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/alerts/alerts-alert-routing-rules-example-1.png" alt="Alert routing ruleset example"><figcaption><p>Ruleset 1: mark as P5 if title contains "syslog".</p></figcaption></figure>
 
 If an incident title contains "syslog", both rulesets apply: the incident is marked P5 and the escalation policy changes to Slack dev.
 
