@@ -17,7 +17,7 @@ You can receive alerts for:
 
 WhatsApp is enabled by default for all phone numbers. Add it to your escalation policies or configure on-call notifications in [On-call settings](https://app.spike.sh/settings/personal-on-call).
 
-<figure><img src="../.gitbook/assets/escalation-policy-with-whatsapp-and-telegram.png" alt="WhatsApp in an escalation policy"><figcaption><p>Adding WhatsApp to an escalation policy.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/alerts/alerts-whatsapp-escalation-policy-1.png" alt="WhatsApp in an escalation policy"><figcaption><p>Adding WhatsApp to an escalation policy.</p></figcaption></figure>
 
 {% hint style="success" %}
 To acknowledge or resolve an incident, reply to the Spike WhatsApp bot with `ack test-123` or `res test-123`, where `test-123` is the incident ID.
