@@ -22,7 +22,7 @@ Don't see an integration you need? Email [integrations@spike.sh](mailto:integrat
 
 ### Services
 
-<figure><img src=".gitbook/assets/overview/overview-what-is-spike-services-1.png" alt="Services on Spike"><figcaption><p>Services map to components in your infrastructure.</p></figcaption></figure>
+<figure><img src=".gitbook/assets/overview/overview-services-1.png" alt="Services on Spike"><figcaption><p>Services map to components in your infrastructure.</p></figcaption></figure>
 
 Services map to components in your infrastructure: a backend API, a payment service, a worker queue. Each service holds multiple integrations. When an incident fires, Spike shows which service is affected and its current health status based on open incidents. You can create as many services as you need to reflect your full architecture.
 
