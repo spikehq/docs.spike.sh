@@ -27,13 +27,13 @@ Key features:
 
 ## How to set up
 
-Visit the [Alerts section](https://app.spike.sh/settings/general/alerts) in settings and click **Add to Slack**.
+Go to **Integrations** and click **Add to Slack**.
 
 {% tabs %}
 {% tab title="Setting up incident alerts" %}
 <figure><img src="../.gitbook/assets/slack/add-slack-to-escalation.png" alt="Adding Slack to an escalation policy"><figcaption><p>Adding Slack to an escalation policy.</p></figcaption></figure>
 
-Visit the [Alerts section](https://app.spike.sh/settings/general/alerts) in settings and click **Add to Slack**. The Spike app requests some basic permissions.
+Go to **Integrations** and click **Add to Slack**. The Spike app requests some basic permissions.
 
 Add Slack as a step in your [escalation policy](https://app.spike.sh/escalations) to receive incident alerts. You can choose between public or private channels.
 {% endtab %}
@@ -41,7 +41,7 @@ Add Slack as a step in your [escalation policy](https://app.spike.sh/escalations
 {% tab title="Setting On-call shift notifications" %}
 <figure><img src="../.gitbook/assets/slack/slack-oncall-alert.png" alt="On-call shift notifications on Slack"><figcaption><p>On-call shift notifications on Slack.</p></figcaption></figure>
 
-Visit [Settings > Alerts](https://app.spike.sh/settings/general/alerts) to select Slack channels to receive on-call shift alerts.
+Go to **Integrations** to select Slack channels to receive on-call shift alerts.
 {% endtab %}
 
 {% tab title="Connect for DMs" %}
@@ -113,7 +113,7 @@ If you try to resolve an incident on Slack that has already been resolved elsewh
 
 ## Private channels
 
-Private channel access can be configured in [Settings > Alerts](https://app.spike.sh/settings/general/alerts).
+Private channel access can be configured in **Integrations**.
 
 ### Adding private channels to escalations
 
@@ -137,7 +137,7 @@ Once a private channel is added to an escalation, its name is visible only to us
 
 <figure><img src="../.gitbook/assets/slack/slack-oncall-alert.png" alt="On-call shift alerts on Slack"><figcaption><p>On-call shift alerts on Slack.</p></figcaption></figure>
 
-Visit [Settings > Alerts](https://app.spike.sh/settings/general/alerts) to select Slack channels to receive on-call shift alerts. You can enable notifications for both shift start and shift end.
+Go to **Integrations** to select Slack channels to receive on-call shift alerts. You can enable notifications for both shift start and shift end.
 
 ## FAQs
 
