@@ -8,7 +8,7 @@ Muting stops all alerts for an incident and its repeated occurrences for a set p
 
 This is useful for low-priority incidents you're aware of but don't need to act on immediately. Instead of getting alerted repeatedly, you mute it and come back when you're ready.
 
-<figure><img src="../.gitbook/assets/image (15) (1) (1).png" alt="Mute alerts on an incident"><figcaption><p>Mute alerts on an incident for a set duration.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/incidents/incidents-mute-alerts-1.png" alt="Mute alerts on an incident"><figcaption><p>Mute alerts on an incident for a set duration.</p></figcaption></figure>
 
 ## Mute duration options
 
