@@ -1,5 +1,5 @@
 ---
-description: Showcase live status with the embedded widget
+description: Embed a live status widget on your website to show real-time system health.
 layout:
   title:
     visible: true
@@ -15,13 +15,13 @@ layout:
 
 # Live status widget
 
-<figure><img src="../.gitbook/assets/Live status widget.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Live status widget.png" alt="Live status widget embedded on a website"><figcaption></figcaption></figure>
 
-This widget showcases the latest system health and embeds in your HTML by simply pasting our code.  It is traditionally placed in a website's footer, contact pages, and support documentation and it is not uncommon to place it under navigation such as header dropdown or sidebars. The choice is yours.
+The live status widget displays your system's current health directly on your website. Paste the code snippet into any page: footer, contact page, support docs, header dropdown, or sidebar.
 
-### Status priority order
+## Status priority order
 
-The status is displayed based on the highest priority of your components' statuses. Below is the priority list from highest to lowest.
+The widget shows the highest-priority status across all your components:
 
 1. Planned Maintenance
 2. Critical Outage
@@ -29,26 +29,20 @@ The status is displayed based on the highest priority of your components' status
 4. Degraded Performance
 5. Operational
 
-Consider your status page with 4 components A, B, C, and D. If components A, B, and C are in the _Degraded Performance_ state and D is in the _Critical Outage_ state, then the widget will show _Critical Outage_. This is how the above priority comes to play in the embedded widget.
+For example, if components A, B, and C are in _Degraded Performance_ and component D is in _Critical Outage_, the widget shows _Critical Outage_.
 
-***
+## Customisation
 
-### Customisation
+Spike supports Light, Dark, and System themes out of the box. You can override Spike's default CSS to modify the look and feel. All HTML classes use the **`spike--`** prefix.
 
-Spike offers out of the box support for Light, Dark, and System modes. You can further override our default CSS to modify the look and feel. All HTML classes are prefixed with **`spike--`** class names.
+### How to enable
 
-{% tabs %}
-{% tab title="How to enable?" %}
 1. Visit your status page dashboard at [https://statuspage.spike.sh](https://statuspage.spike.sh)
 2. Navigate to **Widget** from the sidebar
-3. Enable Embed Live Status Page Widget <img src="../.gitbook/assets/enable-icon-for-docs.png" alt="" data-size="line">
+3. Enable **Embed Live Status Page Widget** <img src="../.gitbook/assets/enable-icon-for-docs.png" alt="" data-size="line">
 4. Click **Get code** and paste it in your `<body>` tag
-{% endtab %}
-{% endtabs %}
 
-
-
-Below is an example of snippet on initialising with configuration options.&#x20;
+You can initialise the widget with configuration options:
 
 ```javascript
 <script>
@@ -63,22 +57,19 @@ Below is an example of snippet on initialising with configuration options.&#x20;
 ```
 
 {% hint style="info" %}
-Customise it to meet your frontend stack's needs on loading and initialising the snippet.
+Adjust the loading and initialisation to fit your frontend stack.
 {% endhint %}
 
 {% tabs %}
 {% tab title="Large rounded corners" %}
-<figure><img src="../.gitbook/assets/Live status widget rounded.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Live status widget rounded.png" alt="Live status widget with large rounded corners"><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Small rounded corners" %}
-<figure><img src="../.gitbook/assets/Live status widget square.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Live status widget square.png" alt="Live status widget with small rounded corners"><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
 
-***
+## Security
 
-### Security
-
-Select your domains and them to allowlist for the widgets to load. Use an asterisk (\*) to allow all subdomains - \*.example.com. While debugging, we suggest using a provider like [ngrok](https://ngrok.com) and temporarily adding their domains to test.
-
+Add your domains to the allowlist so the widget loads correctly. Use `*.example.com` to allow all subdomains. For local testing, add your testing domain (such as an [ngrok](https://ngrok.com) URL) to the allowlist temporarily.
