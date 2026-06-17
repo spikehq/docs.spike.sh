@@ -1,7 +1,7 @@
 ---
 description: "Customize how and when you receive notifications for resolved incidents, keeping you informed without unnecessary alerts."
 ---
-<figure><img src="../../.gitbook/assets/personal-alerts-management/resolved incidents - configuration.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/alerts/alerts-resolved-incident-alerts-cover-1.png" alt="Resolved incident alerts configuration in Spike"><figcaption><p>Configure how you receive resolved incident alerts.</p></figcaption></figure>
 
 # Resolved incident alerts
 Spike notifies you when incidents are automatically resolved or resolved by a responder. This helps provide closure and peace of mind, ensuring you’re informed that an incident you were alerted to has been resolved. It completes the alert cycle effectively.
