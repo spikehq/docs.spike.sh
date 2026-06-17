@@ -1,53 +1,46 @@
 ---
-description: >-
-  Admins can configure roles and permissions minutely at Spike. This doc will
-  guide you through how to create roles and assign different permissions and
-  secure access to critical integrations, on-call p
+description: Manage team roles and permissions to define what each member can do in Spike.
 ---
 
 # Roles and access
 
+Every team member is assigned a role. Each role comes with a predefined set of permissions that admins can edit. Manage roles and access under [Organisation > Team](https://app.spike.sh/settings/general/team).
+
 ## Roles
 
-Checkour roles and access under [Organisation > Team](https://app.spike.sh/settings/general/team). Every member in your team will be assigned a role and every role will have a pre-defined set of permissions that admins can edit.
+By default, four roles are available:
 
-By default, these are the different roles available:
-
-| Role      | Desc                                                                                                    |
+| Role      | Description                                                                                             |
 | --------- | ------------------------------------------------------------------------------------------------------- |
-| Admin     | Admins have full access to manage this account with the added ability to remove people as well          |
-| Manager   | Managers can manage all entities on this account. They can change people's permissions and roles        |
-| Responder | Deals with incidents, integrations, automation, on-calls, etc but they cannot archive/delete any entity |
-| Viewer    | Viewers have read-only permissions across the spectrum on Spike. They can't create, update, or delete   |
+| Admin     | Full access to manage the account, including the ability to remove members                              |
+| Manager   | Can manage all entities on the account and change members' permissions and roles                        |
+| Responder | Can work with incidents, integrations, automation, and on-calls, but cannot archive or delete entities  |
+| Viewer    | Read-only access across Spike. Cannot create, update, or delete anything                                |
 
-![Access control](../.gitbook/assets/access-control-1.png)
+<figure><img src="../.gitbook/assets/administration/administration-roles-access-1.png" alt="Roles and access on Spike"><figcaption></figcaption></figure>
 
-Click on the roles above to see who has a given role.
+Click a role to see the members assigned to it.
 
 ## Access control
 
-Access control mainly revolves around who can create, edit, delete or archive integrations, incidents, on-call schedules and so on.
+Access control defines what each team member can do in Spike.
 
-You can click on `View & edit permissions` to see and alter each member's permission.
+Click **View & edit permissions** on any member to see and change their permissions.
 
-![View and edit permissions for users on Spike.sh](../.gitbook/assets/access-control-2.gif)
+<figure><img src="../.gitbook/assets/administration/administration-roles-edit-permissions-1.png" alt="View and edit permissions for team members on Spike"><figcaption></figcaption></figure>
 
 ## FAQs
 
-### How to edit control for a user?
+### What if no existing role fits a user?
 
-Click on `View & edit permissions` for a user and then change the role for what seems fit.
+Create a custom role. On the Team page, click **Create role**, configure the permissions you need, and assign the new role to the user.
 
-### I don't see a role fit a user, what should I do?
-
-Best to create a new role. Yes, that's possible. On the teams page, click on Create role. In this section, create a new role with whatever permissions you would like to give and then assign the user the newly created role.
-
-![create a new role on Spike.sh](../.gitbook/assets/access-control-create-a-role.png)
+<figure><img src="../.gitbook/assets/administration/administration-roles-create-role-1.png" alt="Create a custom role on Spike"><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-Status page roles and access works similarly but without the responder role.
+Status pages have their own access settings. The same roles apply, except the Responder role is not available there.
 {% endhint %}
 
 ### How do I remove a user?
 
-Click on the remove icon next to the user's info in the table to remove a user. However, make sure that you replace them from escalation policies and on-call schedules too.
+Click the remove icon next to the user in the table. Make sure to also replace them in any escalation policies and on-call schedules.

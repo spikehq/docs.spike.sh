@@ -1,46 +1,27 @@
 ---
-description: >-
-  We parse the data integrations send in JSON to human readable format.
-  Sometimes it fails. What does it mean and why does it happen?
+description: Message parsing fails when Spike cannot convert an integration's JSON payload into a readable format.
 ---
 
 # Why does message parsing fail?
 
-## Message parsing failed
+When an integration triggers an incident, Spike parses the JSON payload into a readable format. Some integrations send payloads in formats the parser doesn't recognise, and that's when it fails.
 
-After you setup integrations on Spike.sh, these integrations send us payload of JSON data for every new incident. We convert this JSON data into a human-readable format which is then used on the [incidents table](https://app.spike.sh/incidents) and in phone calls, emails, Slack etc. 
+<figure><img src="../.gitbook/assets/image (40).png" alt="Example of incident message parsing fail"><figcaption><p>An incident with a failed message parse in the incidents table.</p></figcaption></figure>
 
-Sometimes, this parsing fails and your table might see an entry like below - 
+## Does it affect alerts?
 
-![Example of incident message parsing fail](<../.gitbook/assets/image (40).png>)
+Yes. Alerts still go out, but the incident message won't be included.
 
-### Report with a single click
+## Does it affect the incident?
 
-When you see this, please report this issue to us so we can start looking into this. The more you report the better this parsing gets.
+No. The incident is still created and all details are available. Click the incident ID to view the full details.
 
-![Report with a single click](../.gitbook/assets/spike-incident-parsing-fail-report.gif)
+## Report a parsing failure
 
-### Why does this happen?
+When you see a parsing failure, report it with a single click. Each report helps improve the parser for future incidents.
 
-We try our best to parse all the payloads and convert it into a gist you can actually read and get a sense of the incident. Each integration has tons of cases and our parser fails to understand it and that's what causes Incident message parsing fail. 
-
-### Does it affect my alerts?
-
-Yes, your alerts will not have the message. 
-
-### Would I still receive alerts?
-
-Yes. Alerts will still be sent however the exact incident message will not be available. 
-
-### Is the incident affected?
-
-No. The details of your incident are still available. You can click on the #ID of the incident and see all the details as you do with other incidents.
-
-### Should we take any action?
-
-We would love it if you can please report the incident. 
+<figure><img src="../.gitbook/assets/spike-incident-parsing-fail-report.gif" alt="Report a parsing failure with a single click"><figcaption><p>Report a parsing failure directly from the incidents table.</p></figcaption></figure>
 
 {% hint style="warning" %}
-Once the parser is fixed, it will not change the message for existing incidents but it will surely pave the way for future incidents
+Once the parser is fixed, existing incidents won't be updated. The fix applies to new incidents only.
 {% endhint %}
-
