@@ -1,30 +1,27 @@
 ---
-description: 'Host status page on your sub-domain - ex: status.example.com'
+description: Host your status page on a custom subdomain like status.example.com.
 ---
 
-# Add custom domain to status page
+# Add a custom domain to your status page
 
-#### Step 1: Make changes in your domain settings
+## Step 1: Add your domain in Spike
 
-In the settings for the domain you added above, add this CNAME to your DNS - `alias.spike.sh`.&#x20;
+Click **Host** in the top-right menu on your status page.
 
-We will add your domain to our SAN certificate so your status page gets a SSL certificate and loads correctly on HTTPS.&#x20;
+<figure><img src="../.gitbook/assets/add custom domain 1 (1).png" alt="Host option in Spike status page settings"><figcaption></figcaption></figure>
 
-It may take about 10 minutes for these DNS changes to propagate and start showing the status page on your domain.&#x20;
+Enter your custom domain, for example `status.example.com`.
 
-#### Step 2: Add your domain to the status page on Spike.sh
+<figure><img src="../.gitbook/assets/add custom domain 2.png" alt="Add custom domain to Spike status page"><figcaption></figcaption></figure>
+
+## Step 2: Update your DNS settings
+
+In your domain's DNS settings, add a CNAME record pointing to `alias.spike.sh`.
+
+Spike adds your domain to its SAN certificate so your status page loads correctly over HTTPS.
+
+DNS changes can take up to 10 minutes to propagate.
 
 {% hint style="info" %}
-Ensure you have implemented changes in your domains settings (step 1) before proceeding
+If your status page does not appear on your custom domain after 30 minutes, contact [support@spike.sh](mailto:support@spike.sh).
 {% endhint %}
-
-Click on the "**Host**" option in the top-right menu for your status page.
-
-![](<../.gitbook/assets/add custom domain 1 (1).png>)
-
-Add your custom domain (e.g. "status.apple.com") that should show your status page.&#x20;
-
-![](<../.gitbook/assets/add custom domain 2.png>)
-
-If your custom domain does not show your status page after 30 minutes, email us at [support@spike.sh](mailto:support@spike.sh) and we will help you set this up.
-
