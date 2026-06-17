@@ -1,82 +1,50 @@
 ---
-description: >-
-  Understand the basics of Layers in on-call scheduling and how it helps you
-  bring flexibility into scheduling
+description: Layers let you stack multiple on-call configurations within a single schedule. When two layers overlap, the higher-numbered layer takes over.
 ---
 
 # Layers in on-call schedules
 
-## What are Layers in on-call schedules?
+Each on-call schedule can have one or more layers. Every layer has its own members, rotation, handoff times, and slots. When two layers overlap, the higher-numbered layer takes over.
 
-In Spike.sh's on-call scheduling, 'Layers' add a dynamic dimension to your planning. Each layer encompasses essential elements like members, handoff times, rotations, and slots. The flexibility of adding multiple layers to a single schedule empowers you to customize timings and team involvement with precision.
+## Example: weekday and weekend coverage
 
-Layers are meticulously organized in a sequential, ascending order. This design means that in instances of overlapping schedules, the higher layer takes precedence. For example, if Layer 2's timing intersects with that of Layer 1, Layer 2 will be the active layer, overriding Layer 1. Similarly, in a configuration with three layers, Layer 3 would supersede both Layers 1 and 2 in overlapping scenarios.
+This example has two layers:
 
-This layered approach ensures a seamless, well-coordinated on-call schedule, allowing for nuanced control over who is on-call and when..&#x20;
+- **Layer 1:** Daily rotation among 2 members, covering all days
+- **Layer 2:** One person on-call each weekend, rotating weekly from Friday 6 PM to Monday 9 AM
 
-{% hint style="warning" %}
-Every on-call schedule will have at least one layer.
-{% endhint %}
+Layer 1 is the base. One of the two members is on-call every day of the week.
 
-### What does overlapping mean?
+<figure><img src="../.gitbook/assets/oncall/oncall-layers-layer1-setup-1.png" alt="Single layer on-call schedule with daily rotation"><figcaption><p>Layer 1: daily rotation among 2 members.</p></figcaption></figure>
 
-'Overlapping' in layered scheduling is straightforward: when two layers share common times, the higher layer takes precedence. To illustrate, if Layer 1 and Layer 2 have overlapping schedules, Layer 2 will be the active one, effectively overriding the schedules set in Layer 1.
+<figure><img src="../.gitbook/assets/oncall/oncall-layers-layer1-calendar-1.png" alt="Calendar view of a single-layer on-call schedule"><figcaption><p>Calendar view with Layer 1 only.</p></figcaption></figure>
 
-### Understand layers with an example
+Layer 2 covers weekends only. It runs from Friday 6 PM to Monday 9 AM with a weekly rotation.
 
-Here is a simple on-call schedule with 2 members rotating each day. This means one of the members is on-call every day covering for the entire week.&#x20;
+<figure><img src="../.gitbook/assets/oncall/oncall-layers-layer2-setup-1.png" alt="Layer 2 on-call schedule for weekend coverage"><figcaption><p>Layer 2: weekend coverage from Friday 6 PM to Monday 9 AM.</p></figcaption></figure>
 
-**All days -** Daily rotation among 2 members&#x20;
+<figure><img src="../.gitbook/assets/oncall/oncall-layers-two-layer-calendar-1.png" alt="Calendar view with two layers showing weekday and weekend coverage"><figcaption><p>Calendar with both layers: weekday and weekend coverage.</p></figcaption></figure>
 
-![Just one layer to our schedule](../.gitbook/assets/layer-1.png)
+Layer 2 was added so the members rotating on Layer 1 get a break over the weekend. Layer 2 overrides Layer 1 from Friday 6 PM to Monday 9 AM.
 
-This is how the calendar looks like with just the above layer in our on-call schedule
+## How layers work
 
-![Calendar for above on-call schedule with just one layer](<../.gitbook/assets/oncall-update-after-another-layer-e.png>)
-
-### Adding the weekend layer to override
-
-Now, this could be too much to handle. How about we give them a break over the weekend and ask other members to help out.&#x20;
-
-To enable this, we can add another layer with weekly rotation among members who only need to be on-call **from Friday 6 PM to Monday 9 AM**
-
-**Weekdays -** Daily rotation among 2 members \
-**Weekends** - One person for the entire weekend rotating weekly
-
-![2 separate layers, one for weekday and another for weekend](../.gitbook/assets/weekday-weekend-desc.png)
-
-Members from Layer 1 will be on-call every alternate day, on all weekdays and members from Layer 2 will be on-call for the entire alternate weekend (since weekly rotation has been applied).&#x20;
-
-This is how the calendar looks with both layers.&#x20;
-
-![Calendar with 2 layers, one set of members for weekdays and another for weekend](<../.gitbook/assets/image (68).png>)
-
-### **How did overlapping work here?**
-
-Members from Layer 2 will overlap the scheduled on-call from Friday 6 PM to Monday 9 AM.&#x20;
+Layers are ordered sequentially. When two layers share overlapping time windows, the higher layer overrides the lower one. If Layer 1 and Layer 2 overlap, Layer 2 is active during that window. In a three-layer schedule, Layer 3 overrides both Layer 1 and Layer 2 wherever they overlap.
 
 {% hint style="info" %}
-If the weekend layer was Layer 1 and the weekday layer was Layer 2 then the weekend layer would have never come to effect. **There are no limits on number of layers to be added on a single on-call schedule**
+Layer order matters. If your weekend layer is Layer 1 and your weekday layer is Layer 2, the weekend layer will never take effect because Layer 2 always takes precedence. There is no limit on the number of layers in a single schedule.
 {% endhint %}
 
-You can start experimenting with layers by editing the same schedule as many times as you want.&#x20;
+## FAQs
 
-### FAQs on Layers
+### Can I add a layer temporarily?
 
-* **Can I add a layer temporarily?**
-  * Yes, you can. Alternatively, also check out [On-call overrides](https://docs.spike.sh/oncall-schedules/override-an-on-call).&#x20;
-* **How many layers can I add?**
-  * There is no limitation. Our recommendation is to avoid adding too many layers. It could get confusing how the schedule works and as a result teams usually hesitate to delete any layer.&#x20;
-* **How many members can be added in one layer?**
-  * There is no limit here either.&#x20;
+Yes. You can also use [on-call overrides](override-an-on-call.md) for short-term coverage changes.
 
+### How many layers can I add?
 
+There is no limit. That said, too many layers can make the schedule hard to follow.
 
+### How many members can be added in one layer?
 
-
-
-
-
-
-
-
+There is no limit.

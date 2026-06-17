@@ -1,41 +1,29 @@
 ---
-description: >-
-  Get incident alerts and on-call shifts alerts in your DM on WhatsApp. You can
-  also Acknowledge and Resolve an incident without ever leaving WhatsApp
+description: Get incident alerts and on-call shift notifications on WhatsApp. Acknowledge or resolve incidents without leaving WhatsApp.
 ---
 
 # WhatsApp
 
-## WhatsApp alerts
+You can receive alerts for:
 
-![](<../.gitbook/assets/WhatsApp alerts.png>)
+- New incidents
+- Acknowledge timeout
+- On-call shift start
+- On-call shift end
 
-In the changing times, SMS has gotten full of **spam**. Getting important alerts on SMS is becoming cumbersome as well. Yikes ! who wants that?!!
+<figure><img src="../.gitbook/assets/WhatsApp alerts.png" alt="WhatsApp alerts from Spike"><figcaption><p>WhatsApp alerts from Spike.</p></figcaption></figure>
 
-Our new WhatsApp bot takes away the pain of SMS and lets you take quick actions without ever leaving WhatsApp.
+## How to set up
 
-You can receive alerts for -
+WhatsApp is enabled by default for all phone numbers. Add it to your escalation policies or configure on-call notifications in [On-call settings](https://app.spike.sh/settings/personal-on-call).
 
-* New incidents
-* Acknowledge timeout
-* When your on-call shift starts
-* When your on-call shift ends
-
-You can add WhatsApp to your escalation policies and setup on-call notifications in [On-call settings](https://app.spike.sh/settings/personal-on-call)
+<figure><img src="../.gitbook/assets/alerts/alerts-whatsapp-escalation-policy-1.png" alt="WhatsApp in an escalation policy"><figcaption><p>Adding WhatsApp to an escalation policy.</p></figcaption></figure>
 
 {% hint style="success" %}
-To acknowledge or resolve, you reply to our WhatsApp bot with `ack test-123` and `res test-123`
+To acknowledge or resolve an incident, reply to the Spike WhatsApp bot with `ack test-123` or `res test-123`, where `test-123` is the incident ID.
 {% endhint %}
 
-![](../.gitbook/assets/escalation-policy-with-whatsapp-and-telegram.png)
-
-
-
-### How to setup?
-
-By default, WhatsApp is enabled for all phone numbers. You can directly add it in escalation policies and voila!
-
-If WhatsApp isn't your preferred bot, may we recommend trying out our Telegram bot?!&#x20;
+If you prefer a different messaging bot, Spike also has a Telegram integration:
 
 {% content-ref url="telegram.md" %}
 [telegram.md](telegram.md)
