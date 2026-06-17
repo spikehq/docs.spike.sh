@@ -214,6 +214,3 @@
 * [Check if team is getting alerts](administration/check-if-team-is-getting-alerts.md)
 * [Removing team members](administration/removing-team-members.md)
 
-## Additional resources
-
-* [Create a badge](additional-resources/create-a-badge.md)
