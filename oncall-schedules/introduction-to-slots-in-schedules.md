@@ -1,53 +1,46 @@
 ---
-description: >-
-  Slots can bring relief to your team by restricting what parts of the day/week
-  one has to be on-call
+description: Slots restrict on-call coverage to specific hours or days, so team members aren't on-call around the clock.
 ---
 
 # Slots in schedules
 
-## What are Slots?
+Slots define specific windows within an on-call shift. Members are only alerted during the hours you configure. You can apply different slots to different layers.
 
-Slots are easy, flexible way to make sure your team is only on-call during specific times of day or week. This helps avoid alert fatigue since a member doesn't have to be on-call 24 \* 7.&#x20;
+There are two types:
 
-You can choose one of the 2 types of slots to add - Slots for day and for week. You can configure them while creating or editing an on-call schedule. Different slots can be applied to different layers.
+- **Time of day**: limit on-call to certain hours each day
+- **Days of week**: limit on-call to specific days and hours
 
-We will learn how to add slots but before that let's look at some examples of different slots.&#x20;
+## Slots for specific times of day
 
-### Slots for specific times of day
+Members are on-call only during the hours you set. In the example below, the member is on-call from 6 PM to 9 AM every day for Layer 1.
 
-If your team members don't wish to be on-call 24 hours of the day then you can add a slot like below wherein the person will only be on-call from **6 PM to 9 AM everyday for Layer 1**
+<figure><img src="../.gitbook/assets/oncall/oncall-slots-time-of-day-1.png" alt="On-call slot from 6 PM to 9 AM every day"><figcaption><p>On-call from 6 PM to 9 AM every day.</p></figcaption></figure>
 
-![On-call every from 6 PM to 9 AM](<../.gitbook/assets/image (69).png>)
+## Slots for specific times and days of week
 
-### Slots for specific times and days of week
+Members are on-call only on the days and hours you set. In the example below, members are on-call every Monday 6 PM to Tuesday 9 AM, and Thursday 6 PM to Friday 6 PM, for Layer 1.
 
-Alternatively, you can choose for your team members to be on-call on specific times and days of week. In the example below, we have chosen for members to be on-call every **Monday 6 PM to Tuesday 9 AM and then Thursday 6 PM to Friday 6 PM for Layer 1**
+<figure><img src="../.gitbook/assets/oncall/oncall-slots-days-of-week-1.png" alt="On-call slot for specific days and times of the week"><figcaption><p>On-call Monday 6 PM to Tuesday 9 AM, and Thursday 6 PM to Friday 6 PM.</p></figcaption></figure>
 
-![On-call every Monday 6 PM to Tuesday 9 AM and then Thursday 6 PM to Friday 6 PM](<../.gitbook/assets/image (70).png>)
+## How to add slots
 
-### How to add slots?
+While creating or editing an on-call schedule, find the option to add slots in each layer. Slots added to a layer affect the entire on-call schedule.
 
-While creating or editing an on-call schedule, you will find the option to add slots in every layer.&#x20;
+<figure><img src="../.gitbook/assets/oncall/oncall-slots-add-slots-1.png" alt="Add slots to each layer in an on-call schedule"><figcaption><p>Add slots on each layer.</p></figcaption></figure>
 
-![Add slots on each layer](<../.gitbook/assets/image (71).png>)
+## Use cases
 
-While slots can be added to each layer, please bear in mind that it will affect the entire on-call schedule.&#x20;
+**Time of day slots:**
 
-### Use cases
+- Non-office hours coverage: e.g. 6 PM to 9 AM daily.
+- Split coverage across layers: 12 AM to 8 AM for Layer 1, 8 AM to 4 PM for Layer 2, 4 PM to 12 AM for Layer 3. This rotates 8-hour duties across members daily or weekly.
 
-Here are some use cases you might helpful.&#x20;
+**Days of week slots:**
 
-**Slots for specific times of day**
-
-1. Slots for non-office hours, like the one above.&#x20;
-2. Different slots for each layer like 12 AM to 8 AM in Layer 1, 8 AM to 4 PM for Layer 2 and then 4 PM to 12 AM for Layer 3. This ensures rotation among your members with 8 hour duties to be rotated on a weekly or daily basis.
-
-**Slots for specific times and days of week**
-
-1. Slots to be on-call only for weekdays i.e. Monday 9 AM to Friday 6 PM.
-2. Let's assume we have maintenance scheduled for the entire day on Thursday and want no-one to be on-call. Here's how you could do it -  multiple slots across the week - Monday 9 AM to Thursday 12 AM and then Friday 12 AM to Monday 9 AM.&#x20;
+- Weekdays only: Monday 9 AM to Friday 6 PM.
+- Skip a maintenance day: use multiple slots to exclude a specific day. To exclude Thursday, set Monday 9 AM to Thursday 12 AM, then Friday 12 AM to Monday 9 AM.
 
 {% hint style="danger" %}
-Avoid overlapping when selecting days and times of week. For ex: Monday 9 AM to Thursday 9 AM and then another condition for Tuesday 9 AM to Friday 9 AM. **In this case, you are overlapping both conditions for Tuesday and Wednesday**. **Please avoid this.**&#x20;
+Avoid overlapping time windows across slots. If one slot runs Monday 9 AM to Thursday 9 AM and another runs Tuesday 9 AM to Friday 9 AM, Tuesday and Wednesday are covered by both. This causes unexpected behavior.
 {% endhint %}

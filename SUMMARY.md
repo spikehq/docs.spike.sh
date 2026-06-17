@@ -17,7 +17,7 @@
 * [Sharing incidents](incidents/sharing-incidents.md)
 * [Why does message parsing fail?](incidents/why-does-message-parsing-fail.md)
 * [Rate limiting on duplicate incidents](incidents/rate-limiting-on-duplicate-incidents.md)
-* [Resolved by Timer](incidents/resolve-timer.md)
+* [Resolve by Timer](incidents/resolve-timer.md)
 
 ## Alerts
 
@@ -29,15 +29,13 @@
 * [Microsoft Teams](alerts/microsoft-teams.md)
 * [WhatsApp](alerts/whatsapp.md)
 * [Telegram](alerts/telegram.md)
-* [Pushover](alerts/pushover.md)
 * [Discord](alerts/discord.md)
-* [Alert rules](alerts/alert-rules.md)
+* [Alert routing rules](alerts/alert-rules.md)
 * [Title Remapper](alerts/title-remapper.md)
 * [Personal alerts management](alerts/personal-alerts-management/README.md)
   * [During office hours](alerts/personal-alerts-management/during-office-hours.md)
   * [Out of office](alerts/personal-alerts-management/out-of-office.md)
   * [Resolved incident alerts](alerts/personal-alerts-management/resolved-incident-alerts.md)
-  * [Deep work & Cooldown modes](alerts/personal-alerts-management/deep-work-and-cooldown-modes.md)
 
 ## Services
 
@@ -105,10 +103,6 @@
 * [Embed status page notifications on your website](status-pages/embed-status-page-notifications-on-your-website.md)
 * [Live status widget](status-pages/live-status-widget.md)
 
-## Uptime
-
-* [Create Uptime monitor](uptime/create-uptime-monitor.md)
-* [Link uptime to Status Page](uptime/link-uptime-to-status-page.md)
 
 ## Integrations guidelines <a href="#integrations-guideline" id="integrations-guideline"></a>
 
