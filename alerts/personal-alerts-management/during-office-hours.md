@@ -2,7 +2,7 @@
 description: "Customize how alerts are routed during office hours to fit your work preferences."
 ---
 
-<figure><img src="../../.gitbook/assets/personal-alerts-management/Alerts during office hours - example.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/alerts/alerts-office-hours-cover-1.png" alt="Alerts during office hours settings in Spike"><figcaption><p>Configure alert preferences for office hours.</p></figcaption></figure>
 
 # Alerts during office hours
 Customize how you receive alerts during office hours, whether for incident triggers or resolutions. If you’re working at your desk, you might prefer to route all SMS alerts to the [mobile app](../mobile-app-alerts.md) for better accessibility. Field engineers may prefer to continue receiving alerts via [SMS](../sms.md).

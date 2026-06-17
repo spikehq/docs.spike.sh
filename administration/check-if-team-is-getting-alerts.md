@@ -1,13 +1,13 @@
 ---
-description: Make sure your team members have verified their phone and emails.
+description: Check whether your teammates have verified their phone and email to receive alerts.
 ---
 
-# Check if team is getting alerts
+# Check if your team is getting alerts
 
-It is paramount that your team members have verified their account's phone number and email. As a member or an admin, you can check individual status for each of your team mates status on verification. You can then choose to send a reminder to them as well.
+Team members must verify their phone number and email to receive alerts on those channels. As a member or admin, you can check the verification status of each teammate and send them a reminder if needed.
 
-![Easily send reminders to verify your team member's account](<../.gitbook/assets/remind-users-verification (1).gif>)
+<figure><img src="../.gitbook/assets/administration/administration-check-team-alerts-1.png" alt="Check teammate verification status and send reminders on Spike"><figcaption></figcaption></figure>
 
 {% hint style="warning" %}
-Note that a team member who has not verified their email and/or phone will not receive alerts on those channels from us
+A team member who has not verified their email or phone will not receive alerts on those channels.
 {% endhint %}
