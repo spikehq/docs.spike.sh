@@ -1,29 +1,27 @@
 ---
-description: Share your incidents with the world, embed in your docs and more.
+description: Share any incident as a public link with customers, stakeholders, or your team.
 ---
 
 # Sharing incidents
 
-### Global settings to allow sharing
+You can share any incident as a public link. This is useful for communicating outages to customers or embedding status updates in your docs.
 
-To share incidents publicly,  you will first need to allow sharing of incidents for your entire organisation globally.&#x20;
+## Enable public sharing
 
-Head over to [Alerts under organisation settings](https://app.spike.sh/settings/general/alerts) and select your choice to enable or disable your team from sharing incidents publicly.
+Public sharing is off by default. To turn it on, go to [Alerts under organisation settings](https://app.spike.sh/settings/general/alerts) and enable it for your organisation.
 
-![Enable public sharing from organisation settings](<../.gitbook/assets/image (46).png>)
+<figure><img src="../.gitbook/assets/incidents/incidents-sharing-enable-public-1.png" alt="Enable public sharing from organisation settings"><figcaption><p>Enable public sharing from organisation settings.</p></figcaption></figure>
 
 {% hint style="info" %}
-If public incidents are disabled in organisation settings then all public incident links will be private instantly.&#x20;
+If you disable public sharing in organisation settings, all existing public incident links become private immediately.
 {% endhint %}
 
-### Sharing a single incident
+## How to share an incident
 
-To share an incident, you will need to click on the **Share** button on the right-hand side of the incident details page.&#x20;
+Open an incident and click the **Share** button on the right-hand side of the incident details page.
 
-![Share as public page](<../.gitbook/assets/image (47).png>)
-
-The link for the public page will **not be unique** for each time to decide to share or not. However, the public page link is unique to each incident.
+<figure><img src="../.gitbook/assets/incidents/incidents-sharing-modal-1.png" alt="Share an incident as a public link"><figcaption><p>Click Share on the incident details page to get a public link.</p></figcaption></figure>
 
 {% hint style="info" %}
-You will not see the share button if public incidents are disabled in organisation settings as mentioned in the above section
+Each incident has a unique public link. The link stays the same regardless of how many times you toggle sharing on or off.
 {% endhint %}
