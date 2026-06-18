@@ -15,3 +15,13 @@ Public sharing is off by default. To turn it on, go to [Alerts under organisatio
 {% hint style="info" %}
 If you disable public sharing in organisation settings, all existing public incident links become private immediately.
 {% endhint %}
+
+## How to share an incident
+
+Open an incident and click the **Share** button on the right-hand side of the incident details page.
+
+<figure><img src="../.gitbook/assets/incidents/incidents-sharing-modal-1.png" alt="Share an incident as a public link"><figcaption><p>Click Share on the incident details page to get a public link.</p></figcaption></figure>
+
+{% hint style="info" %}
+Each incident has a unique public link. The link stays the same regardless of how many times you toggle sharing on or off.
+{% endhint %}
