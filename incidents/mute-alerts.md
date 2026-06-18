@@ -1,24 +1,24 @@
 ---
-description: >-
-  Mute all alerts 🚨  (or switch off all alarms) for an incident so you can
-  continue your work fixing it.
+description: Mute alerts on an incident to stop notifications for a set period without resolving it.
 ---
 
 # Mute alerts
 
-## Mute alerts
+Muting stops all alerts for an incident and its repeated occurrences for a set period. The incident stays open and logged. Spike just stops notifying your team about it.
 
-For every **incident** **and it's repeated incidents**, you can choose to mute all alerts for a specific period of time. Following are the time options currently available -
+This is useful for low-priority incidents you're aware of but don't need to act on immediately. Instead of getting alerted repeatedly, you mute it and come back when you're ready.
 
-1. An hour
-2. 10 hours
-3. A day
-4. A week
-5. A month
-6. **Forever** - (_note: be careful with this_)
+<figure><img src="../.gitbook/assets/incidents/incidents-mute-alerts-1.png" alt="Mute alerts on an incident"><figcaption><p>Mute alerts on an incident for a set duration.</p></figcaption></figure>
 
-![Mute alerts or switch off alarms](<../.gitbook/assets/image (15) (1) (1).png>)
+## Mute duration options
 
-### Use cases
+- 1 hour
+- 10 hours
+- 1 day
+- 1 week
+- 1 month
+- Forever
 
-Not all incidents are critical, also, not all incidents need to be worked upon instantly. For all those low handing fruits, you can now mute the alerts and just log these incidents on Spike.
+{% hint style="warning" %}
+Use **Forever** carefully. Muting an incident permanently means your team will never be alerted about it again, even if it keeps recurring.
+{% endhint %}
