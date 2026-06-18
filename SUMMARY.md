@@ -17,7 +17,7 @@
 * [Sharing incidents](incidents/sharing-incidents.md)
 * [Why does message parsing fail?](incidents/why-does-message-parsing-fail.md)
 * [Rate limiting on duplicate incidents](incidents/rate-limiting-on-duplicate-incidents.md)
-* [Resolved by Timer](incidents/resolve-timer.md)
+* [Resolve by Timer](incidents/resolve-timer.md)
 
 ## Alerts
 
@@ -31,7 +31,7 @@
 * [Telegram](alerts/telegram.md)
 * [Pushover](alerts/pushover.md)
 * [Discord](alerts/discord.md)
-* [Alert rules](alerts/alert-rules.md)
+* [Alert routing rules](alerts/alert-rules.md)
 * [Title Remapper](alerts/title-remapper.md)
 * [Personal alerts management](alerts/personal-alerts-management/README.md)
   * [During office hours](alerts/personal-alerts-management/during-office-hours.md)
