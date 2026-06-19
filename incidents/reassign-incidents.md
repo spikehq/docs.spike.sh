@@ -1,33 +1,29 @@
 ---
-description: Reassign the incident to any of your team mates
+description: Reassign an incident to any team member directly from the dashboard, incident page, or service view.
 ---
 
 # Reassign incidents
 
-### How to reassign incidents?
+You can reassign any incident to a team member. Once reassigned, they receive an email notification.
 
-Select any number of incidents and click on **reassign** on the header of the incidents table. 
+## How to reassign
 
-![Reassign button on incidents table](../.gitbook/assets/reassign-button.png)
+Select one or more incidents and click **Reassign** in the incidents table header.
 
-You can reassign an incident to a team member. Not all incidents will have assignee to it, especially when you have Slack app notifying you on channels.
+<figure><img src="../.gitbook/assets/reassign-button.png" alt="Reassign button on the incidents table"><figcaption><p>The Reassign button appears in the incidents table header after selecting an incident.</p></figcaption></figure>
 
-![Reassigned incident](<../.gitbook/assets/image (39).png>)
+<figure><img src="../.gitbook/assets/image (39).png" alt="Reassigned incident"><figcaption><p>A reassigned incident shows the new assignee.</p></figcaption></figure>
 
-Once reassigned, the user will get an email notifying them about it. 
+The reassign option is available from:
 
-### What happens to escalations?
-
-Your escalation policy for the incident _will NOT be affected_. It will continue as is. 
-
-### Where do I reassign incident(s)?
-
-You will see the reassign incident option on every incident table. More particularly it can be found on -
-
-1. Dashboard
-2. Incident details page
-3. Incidents listed for a service
+- Dashboard
+- Incident details page
+- Incidents listed for a service
 
 {% hint style="danger" %}
-You cannot assign an incident to a team member with **Support role**
+You cannot reassign an incident to a team member with the **Support** role.
 {% endhint %}
+
+## Effect on escalations
+
+Reassigning an incident does not affect the escalation policy. The policy continues running as configured.
