@@ -16,7 +16,9 @@ Spike supports:
 
 ## Set up
 
-Go to [Settings > Profile > War rooms](https://app.spike.sh/settings/personal-alerts#video-conferencing-block) and connect Google Meet or add a personal room link. For a personal room, paste the link and it's ready to use.
+Go to **Organization Settings > Video Conferencing** and connect Google Meet or add a personal room link. For a personal room, paste the link and it's ready to use.
+
+<figure><img src="../.gitbook/assets/collaboration/collaboration-war-rooms-setup-1.png" alt="Video Conferencing settings in Spike Organization Settings"><figcaption><p>Video Conferencing in Organization Settings.</p></figcaption></figure>
 
 ### How Google Meet links work
 
@@ -28,27 +30,15 @@ Spike does not read your calendar events or store them. It only creates a calend
 
 ## Create a war room
 
-There are two ways to create a war room:
+Open the incident page and click **Start Google Meet** from the Quick Actions menu.
 
-1. **From the incidents table.** Select one or more incidents and click the Google Meet icon.
-
-<figure><img src="../.gitbook/assets/image (2) (2).png" alt="Create a war room from the incidents table"><figcaption><p>Create a war room from the incidents table.</p></figcaption></figure>
-
-2. **From the incident page.** Click the Meet icon to create a war room for that incident.
-
-<figure><img src="../.gitbook/assets/meet-2.png" alt="Create a war room from the incident page"><figcaption><p>Create a war room from the incident page.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/collaboration/collaboration-war-rooms-create-1.png" alt="Start Google Meet from the incident page Quick Actions menu"><figcaption><p>Start a war room from the incident page.</p></figcaption></figure>
 
 ## Invite others to join
 
-There are two ways for other responders to join:
+When creating the war room, you can invite current responders, escalation members, or the entire team. You can also search for specific teammates to add.
 
-1. **Invite while creating.** Add members when creating the war room.
-
-<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt="Invite members while creating a war room"><figcaption></figcaption></figure>
-
-2. **From the dashboard header.** Active war rooms appear in the dashboard header automatically. All team members can see and join ongoing war rooms from there.
-
-<figure><img src="../.gitbook/assets/image (9) (2).png" alt="Access ongoing war rooms from the dashboard header"><figcaption><p>Access ongoing war rooms from the dashboard header.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/collaboration/collaboration-war-rooms-invite-1.png" alt="Invite members while creating a war room in Spike"><figcaption><p>Invite members while creating the war room.</p></figcaption></figure>
 
 {% hint style="warning" %}
 Spike's Google App is currently pending verification for extended access to calendar scopes.
