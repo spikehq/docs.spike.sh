@@ -1,51 +1,52 @@
 ---
-description: Share real time updates with your users about ongoing incidents.
+description: Create public incidents on your status page and post updates as the situation evolves.
 ---
 
-# Incidents on status page
+# Incidents on your status page
 
-#### Step 1: Create new incident
+Use the status page dashboard to create public incidents and keep customers informed as the situation develops.
 
-On the [Status Page dashboard](https://statuspage.spike.sh), click on 'Incidents' in the left sidebar. Then click on 'New incident' button on the Incidents page.
+## Declare an incident
 
-![](<../.gitbook/assets/create incident 2.png>)
+On your status page, click **Incidents** in the left sidebar, then click **Declare incident**.
 
-In the 'Create incident' form, add details about your incident. Add a **title** and a **description** to describe the tech issue.
+<figure><img src="../.gitbook/assets/status-pages/status-pages-incidents-declare-form-1.png" alt="Declare incident form on Spike status page"><figcaption></figcaption></figure>
 
-Select the **affected components** - these are system components that are impacted by the incident. For example, if it is a problem with mobile app only, choose that from the component list. Then select the current state for that component. Here is what the different component states mean -
+Fill in the **title** and **description** to describe the issue.
 
-* **Operational** - This component is functioning correctly.
-* **Degraded performance** - The component is functioning, but at a less than optimal performance e.g. longer response times with APIs.
-* **Partial outage** - This component is not working for some users and/or in some situations.
-* **Critical outage** - This component is not functioning correctly for a majority of the users.
-* **Planned maintenance** - This state is used when you have scheduled maintenance activity on some components. You can create a Planned Maintenance event in such cases.
+Set the **impact** based on your assessment. You can update this as the situation develops.
 
-You can specify the **date and time** at which the incident was identified. This will also be used to calculate the outage time for your components.
+Set the **date and time** the incident was identified. Spike uses this to calculate outage duration for affected components.
 
-You can choose the **Incident impact** value based on your assessment of the situation. You can change this as you get more information about the incident.
+Select the **affected components** impacted by the incident. For each component, set its current state:
 
-Finally, you can choose whether to **notify your status page subscribers** via email about this incident. If you select this option, an email will be sent to all subscribers of the status page.
+- **Operational**: The component is functioning correctly.
+- **Degraded performance**: The component is working but below normal performance.
+- **Partial outage**: The component is not working for some users or in some situations.
+- **Critical outage**: The component is not functioning for most users.
+- **Planned maintenance**: The component has scheduled maintenance. Consider creating a [Planned Maintenance event](create-planned-maintenance-on-status-page.md) instead.
 
-![](<../.gitbook/assets/create incident 3.png>)
+To **notify subscribers** by email, toggle on the notification option. Spike sends an email to all status page subscribers.
 
-You should
+## Add updates to an incident
 
-#### Step 2: Add updates to an incident
+Once the incident is created, it appears on your status page. Click into the incident to open it.
 
-![](<../.gitbook/assets/create incident 4.png>)
+<figure><img src="../.gitbook/assets/status-pages/status-pages-incidents-incident-page-1.png" alt="Incident page on Spike status page dashboard"><figcaption></figcaption></figure>
 
-As you get more information about the incident, you can **add updates** to the incident. Click on 'Add status update' on the incident page in your dashboard.
+As you learn more, post updates to keep subscribers informed. Click **Send an update**.
 
-![](<../.gitbook/assets/create incident 5.png>)
+<figure><img src="../.gitbook/assets/status-pages/status-pages-incidents-send-update-1.png" alt="Send an update button on incident page"><figcaption></figcaption></figure>
 
-For each update, you can choose the current Incident status. This can be one of -
+<figure><img src="../.gitbook/assets/status-pages/status-pages-incidents-update-form-1.png" alt="Send an update form on Spike status page"><figcaption></figcaption></figure>
 
-* **Investigating** - You are looking into the issue.
-* **Identified** - You have identified the cause of the issue and/or the fix to solve it.
-* **Resolved** - You have fixed the problem and will most likely move the affected components back to Operational state.
-* **Postmortem** - This update is after the issue is resolved and meant to communicate your findings and steps you will take to prevent the issue in the future.
-* **Update** - This is a generic update to the incident that can be used when any of the above statuses don't apply.
+For each update, select the current incident status:
 
-![](<../.gitbook/assets/create incident 6.png>)
+- **Identified**: You have identified the cause or the fix.
+- **Resolved**: The issue is fixed. Move affected components back to Operational.
+- **Postmortem**: The issue is resolved. Use this to share findings and steps to prevent recurrence.
+- **Update**: A general update when none of the above statuses apply.
 
-You can see the incident updates on your public status page.
+<figure><img src="../.gitbook/assets/status-pages/status-pages-incidents-updates-timeline-1.png" alt="Incident updates timeline on Spike status page"><figcaption></figcaption></figure>
+
+Updates appear on your public status page immediately after posting.
