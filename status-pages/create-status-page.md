@@ -1,37 +1,35 @@
 ---
-description: Create status page to show the status of your system components.
+description: Create a status page to communicate the health of your system components to customers.
 ---
 
-# Create Status page
+# Create a status page
 
-![](<../.gitbook/assets/create status page 1.png>)
+A status page is a public-facing page that shows the current status of your system components: website, API, mobile app, or any service your customers depend on.
 
-Inside the Status Pages dashboard, click on the dropdown in the top navbar. You will see the list of status pages that you have created. Click on 'Create status page' link.
+To create one, open the Status Pages dashboard and click **New status page** from the dropdown in the top navigation.
 
-#### Step 1: Add status page details
+<figure><img src="../.gitbook/assets/status-pages/status-pages-create-status-page-dropdown-1.png" alt="Create status page dropdown in Spike"><figcaption></figcaption></figure>
 
-![](<../.gitbook/assets/create status page 2 - 1.png>)
+## Fill in the details
 
-Add Status page details like name and description.&#x20;
+<figure><img src="../.gitbook/assets/status-pages/status-pages-create-status-page-form-1.png" alt="Status page creation form in Spike"><figcaption></figcaption></figure>
 
-The subdomain will be used for the URL at which your status page will be visible.
+Fill in the name and description. The slug you set here becomes the URL where your status page is publicly accessible at `https://statuspage.spike.sh/your-slug`.
 
-You should upload a logo so your customers can identify your status page.&#x20;
+Upload a logo so customers can identify the page as yours.
 
-Select the status as 'Public' to make the status page visible to anyone with the link to the status page. &#x20;
+Set the visibility to **Public** to make the page accessible to anyone with the link.
 
-#### Step 2: Add components to the status page
+## Add components
 
-![](<../.gitbook/assets/create status page 2 - 2.png>)
+Components represent the parts of your system you want to display status for — website, API, mobile app, or individual microservices. Enter them as a comma-separated list.
 
-In the same form, you can add the different components of your system that you want to show the status for. For example, components can be website, web app dashboard, mobile app, API, important microservices and so on.&#x20;
+<figure><img src="../.gitbook/assets/status-pages/status-pages-create-status-page-components-1.png" alt="Add components to status page in Spike"><figcaption></figcaption></figure>
 
-For each component, add the name and description.&#x20;
+Once created, your status page appears in the dashboard with uptime history for each component.
 
-You can choose a start date which is the start time from which the historical stats for the component will be shown. &#x20;
+<figure><img src="../.gitbook/assets/status-pages/status-pages-create-status-page-dashboard-1.png" alt="New status page in the Spike dashboard"><figcaption><p>Your status page in the dashboard.</p></figcaption></figure>
 
-Finally, choose the status for the component. At any time, a component can be in the following states - Operational, Degraded performance, Partial outage, Critical outage and Planned maintenance.&#x20;
-
-![](<../.gitbook/assets/create status page 3.png>)
-
-You should be able to see your new status page in the dashboard.&#x20;
+{% hint style="info" %}
+Next, [style your status page](style-your-status-page.md) with your brand colors, or [add a custom domain](add-custom-domain-to-status-page.md).
+{% endhint %}
