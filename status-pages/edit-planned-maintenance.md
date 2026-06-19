@@ -1,15 +1,13 @@
 ---
-description: You can edit or archive your upcoming planned maintenance activities.
+description: Edit or archive upcoming planned maintenance activities on your status page.
 ---
 
-# Edit Planned Maintenance
+# Edit planned maintenance
 
-#### Edit Planned Maintenance
+On the planned maintenance details page, click **Edit** in the top-right corner.
 
-![](<../.gitbook/assets/edit maintenance 1.png>)
+<figure><img src="../.gitbook/assets/status-pages/status-pages-edit-planned-maintenance-details-1.png" alt="Planned maintenance details page with Edit button highlighted"><figcaption></figcaption></figure>
 
-On the planned maintenance details page, click on **Edit** in the options menu at the top right. &#x20;
+You can update any field — title, description, affected components, start and end time.
 
-![](<../.gitbook/assets/edit maintenance 2.png>)
-
-You can change any of the fields for a planned maintenance including start and end date/time.&#x20;
+<figure><img src="../.gitbook/assets/status-pages/status-pages-edit-planned-maintenance-form-1.png" alt="Edit planned maintenance form in Spike"><figcaption></figcaption></figure>
