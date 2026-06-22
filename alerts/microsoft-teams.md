@@ -1,66 +1,100 @@
 ---
-description: Get alerts on your Microsoft Teams from Spike.sh
+description: The Spike app for Microsoft Teams sends incident alerts to your channels. Acknowledge, resolve, or escalate incidents directly from Teams.
 ---
 
 # Microsoft Teams
 
-## Get Teams alerts from Spike.sh
+The Spike app for Microsoft Teams delivers incident alerts to your channels and on-call notifications to your DMs.
 
-The alert messages on Microsoft Teams (referred to as Teams from here on) comes with gists for you and your team to quickly learn about the incident.&#x20;
+Key features:
 
-![How alerts look on Teams](<../.gitbook/assets/image (59).png>)
+- Real-time incident alerts in Teams channels
+- Acknowledge, resolve, or escalate incidents from Teams
+- Create incidents directly from Teams
+- On-call shift notifications via DMs
+- Check who is currently on-call
 
-## How to set up Teams?
+[Install the Teams app](https://teams.microsoft.com/l/app/aea2c271-cfd3-4360-86bb-4a16998b2bde?source=app-details-dialog) directly or search for "Spike" in the Teams Apps section. Contact your Teams admin if you need help with installation due to permission restrictions.
 
-**Step 1 - Setup incoming webhook**
+{% embed url="https://www.youtube.com/watch?v=aLuMQXcaJEk" %}
 
-Go to the Apps section in your teams account and install the **Incoming Webhook** app (created by Microsoft).
+## Getting started
 
-![Install the Incoming Webhook app](<../.gitbook/assets/Screenshot 2021-03-04 at 5.41.41 PM.png>)
+After installing the app, you'll receive a message with instructions on how to connect your Spike account. Run both the `connect` and `connect-org` commands for full functionality.
 
-Select a channel of your choice and click **setup connector**
+{% hint style="info" %}
+- The `connect` command links your personal Spike account with Teams, enabling direct messages for on-call shift notifications and comment mentions.
+- The `connect-org` command links your organisation's Spike account with Teams, enabling incident alerts in channels.
 
-![](../.gitbook/assets/setup-connector.png)
+Run both commands for the best experience.
+{% endhint %}
 
-****
+## Available commands
 
-Name your connector and upload our Spike.sh logo so as to easily identify alerts coming from us. [You can download our logo here.](https://drive.google.com/drive/u/1/folders/1o1JwoMXVY9uYUb8v12wZOMUhaaxVLHnH)
+{% tabs %}
+{% tab title="Commands in Microsoft Teams" %}
+* **New incident** (`/create-new-incident`): Create a new incident from Teams.
+* **Am I on-call?** (`/oncall-me`): Check if you are on-call and when your shift ends.
+* **Who is on-call?** (`/oncall-now`): See who is currently on-call.
+* **Disconnect** (`/disconnect`): Disconnects your personal Spike account from Teams. Incident alerts in channels continue.
+{% endtab %}
+{% endtabs %}
 
-![Submit the form and then copy the unique URL](../.gitbook/assets/teams-url.png)
+## Setting up incident alerts
 
-**Step 2 - Paste the URL on Spike.sh**
+Once connected, add any Teams channel to an escalation policy. Select **Teams** in the escalation policy and your available channels appear on the right.
 
-Head over to Spike.sh dashboard and visit [settings > organisation > alerts](https://app.spike.sh/settings/general/alerts) and create a Teams integration by giving a friendly name along with the URL you copied from step 1.
+<figure><img src="../.gitbook/assets/microsoft-teams-app-incident-alerts.png" alt="Incident alerts on Microsoft Teams"><figcaption><p>Incident alerts in a Teams channel.</p></figcaption></figure>
+
+Any team member can take action on an incident directly from Teams. Creating a dedicated channel for responders is a good practice.
+
+If an incident is acknowledged or resolved via the Spike dashboard, phone, email, or any other channel, the Teams message updates automatically with the latest status, including suppressed and repeat counts.
+
+## Direct messages
+
+<figure><img src="../.gitbook/assets/all dms on teams from Spike.png" alt="Direct messages from Spike on Microsoft Teams"><figcaption><p>Direct messages from Spike in Teams.</p></figcaption></figure>
+
+After running the `connect` command, Spike sends direct messages for:
+
+1. War room invites
+2. Comment mentions
+3. On-call shift alerts
+
+Use `/oncall-me` and `/oncall-now` to check on-call schedules directly in Teams.
+
+## Connecting multiple groups
+
+The Spike bot connects to multiple groups of channels in Teams. This is useful for organisations with several teams.
+
+### How to connect
+
+1. In Teams, go to the channel of the group you want to connect.
+2. Type `@Spike.sh connect-org` to connect with Spike.
+
+There is no limit on how many groups can be connected.
+
+### After connecting
+
+- Visit your [Escalation Policies](https://app.spike.sh/escalations) and add the desired channel to receive alerts.
+- The newly connected Teams channels appear in the dropdown.
+
+### Finding channels in escalations
+
+Teams shows the group name only alongside the first channel from each group. The first channel appears as "standard" instead of the actual channel name. Other channels from the same group don't show the group name. This can cause confusion if you have similarly named channels across different groups.
+
+<figure><img src="../.gitbook/assets/microsoft-teams/naming-convention-issue.png" alt="Naming convention for Microsoft Teams channels in escalations"><figcaption><p>How Teams channel names appear in escalation policies.</p></figcaption></figure>
+
+For example:
+
+- **Spike.sh - standard**: the first channel in the "Spike.sh" group, even if the channel's actual name is different
+- **Engineering**: another channel in the same group, shown without the group name
+- **Developer space - standard**: the first channel in "Developer space"; actual name is "dev space"
+- **Incidents**: another channel in the same group, shown without the group name
+
+## Deprecated: incoming webhook
 
 {% hint style="warning" %}
-Make sure to paste the exact URL from above. Any changes in the URL might result in missing alerts
+Microsoft deprecated all new webhook connectors on 15th September 2024. Spike deprecated incoming webhook support on 26th November 2024.
 {% endhint %}
 
-![](<../.gitbook/assets/image (62).png>)
-
-{% hint style="success" %}
-Once integrated, we will send a sample alert to your configured Teams channel
-{% endhint %}
-
-A friendly name will help you identify this integration while creating escalation policies. Like below -&#x20;
-
-![Using Teams in Escalation policies](<../.gitbook/assets/image (64).png>)
-
-You can create multiple Teams integrations with different incoming webhooks configured on Teams.&#x20;
-
-{% hint style="success" %}
-Our MS Team alert channel accepts inputs from you to acknowledge or resolve an incident.
-{% endhint %}
-
-
-
-### Possible Caveats
-
-We have noticed that in some MS Teams account, **acknowledge** and the **resolve** buttons fail.
-
-![](<../.gitbook/assets/image (109).png>)
-
-It could be possible because the connector is disabled in your tenant setting access list. Another possible cause for this could be that you are using a legacy account.
-
-Refer to this [GitHub issue](https://github.com/MicrosoftDocs/msteams-docs/issues/1221) or why this might happen.
-
+<figure><img src="../.gitbook/assets/image (59).png" alt="Incident alert via incoming webhook on Teams"><figcaption><p>Incident alert via the deprecated incoming webhook method.</p></figcaption></figure>

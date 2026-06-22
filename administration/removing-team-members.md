@@ -1,31 +1,33 @@
+---
+description: Remove a team member and handle reassignment of their duties.
+---
+
 # Removing team members
 
-## How to remove team members?
+Only admins can remove a team member. In [team settings](https://app.spike.sh/settings/general/team), click the remove icon next to the member. Spike shows the number of escalation policies they're part of and any open incidents assigned to them. Once removed, the member stops receiving alerts.
 
-Only admins can remove a team member. On your [team settings panel](https://app.spike.sh/settings/team), you will have the option to remove any **member** from your organization. Removing them would affect the escalation policies they are part of. You will be shown the number of escalations that could get affected along with the open incidents that the member is assigned to right now. Once removed, no alerts will be sent to this member.
+## Transfer duties before removing
 
-![A snapshot of escalations and current incidents assigned that might get affected](<../.gitbook/assets/image (12) (1).png>)
+Before removing a member, transfer their responsibilities in on-call schedules, escalation policies, and any incidents they're responding to. This ensures a smooth transition and prevents the removed member from inadvertently going on-call again.
 
-### How are escalation policies affected?
+<figure><img src="../.gitbook/assets/administration/administration-removing-team-member-1.png" alt="Escalation policies and open incidents assigned to the member being removed"><figcaption></figcaption></figure>
 
-The user gets automatically removed from all escalations policies they are part of. So, if a escalation has two users A and B wherein the first alert goes to A and 20 minutes later the second alert goes to B; if you choose to remove A then the escalation policy will always send only one alert immediately to B.
+## Effect on escalation policies
+
+When a member is removed, Spike automatically excludes them from all escalation policies they were part of. For example, if a policy alerts User A first and User B after 20 minutes, removing User A means the policy skips directly to User B without delay.
 
 {% hint style="warning" %}
-If the escalation policy only has only this team member then that policy will never come into affect. We recommend you edit that policy by adding alerts to other team members instead of creating a new one.
+If the escalation policy only included this member, that policy will no longer trigger. Transfer their duties or update the escalation policy before removing them.
 {% endhint %}
 
-### How are assigned open incidents affected?
+## Effect on open incidents
 
-Incidents which are not resolved are open incidents. If there are any open incidents assigned then we recommend you assign them to someone else from your team. Alerts about only these incidents are sent to the user after they are removed too. _So, we suggest you reassign them soon as this member is removed._
+Open incidents assigned to the removed member remain unassigned. Add another responder or transfer those responsibilities during the removal process.
 
 {% hint style="info" %}
-Billing is adjusted from the next month cycle based on number of max team members from your organization using Spike.
+Billing is adjusted in the next month's cycle, based on the highest number of team members in your organisation during that period.
 {% endhint %}
 
-## Can I add the same member back again?
+## Can I add the same member back?
 
-Yes, we give you the option to add this same member back again. However, you will have to add them again to escalation policies and re-assign them incidents.
-
-_Remember that this is not the same as undo-ing the removal of a member_
-
-![Add removed team members](<../.gitbook/assets/Screenshot 2020-09-25 at 12.54.15 PM.png>)
+Yes. But you'll need to re-add them to the relevant escalation policies and reassign any incidents they were handling. [Find removed members here](https://app.spike.sh/settings/general/team/invites-and-deactivated).

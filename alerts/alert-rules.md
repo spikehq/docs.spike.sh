@@ -1,102 +1,125 @@
 ---
-description: >-
-  Alert rules allows you to define a set of actions to perform based on simple
-  conditions.
+description: Alert routing rules apply automated actions to incidents based on conditions you define.
 ---
 
-# Alert rules
+# Alert routing rules
 
-## What are Alert rules?
+Alert routing rules evaluate conditions on every incoming incident and execute actions when those conditions are met. You can chain multiple conditions with AND/OR logic and apply multiple rulesets to a single incident.
 
-Alert rules help you route alerts efficiently and correctly for every incident. Setup specific conditions to either ignore an incident or assign it to a different member / escalation policy. One that's right for the incident.
-
-Visit the Alerts section from the sidebar and create a new alert rule.&#x20;
+<figure><img src="../.gitbook/assets/alert_config.svg" alt="Example alert routing rule in Spike"><figcaption><p>An example alert routing rule with conditions and actions.</p></figcaption></figure>
 
 {% hint style="info" %}
-Don’t see this option? Contact us and we will enable it on your account.
+Not sure where to start? Spike offers [alert routing rule templates](https://spike.sh/templates/alert-rule-templates) with pre-built configurations.
 {% endhint %}
 
-![Example alert rule](../.gitbook/assets/alert\_config.svg)
+## Conditions
 
-## **Conditions**
+Each condition evaluates to true or false. If any condition block evaluates to true, Spike executes the configured actions.
 
-You can create a group of conditions with an AND/OR clause. If any single block of condition(s) evaluates to True then we will execute the actions. But first, let's take a look at all the conditions -
+### Apply to all incidents
 
-### 1. Incident title
+Evaluates to true for every incident. Use this when an action should run unconditionally.
 
-Evaluates to True if an incident title **contain/does not contain/equals/does not equal** a specific text or phrase
+### Incident title
 
-![Incident title](../.gitbook/assets/alert-rules-conditions-1.png)
+Evaluates to true if the incident title contains, does not contain, equals, or does not equal a specific text or phrase.
 
+### Incident details
 
+Evaluates to true if a specific key in the incident details contains, does not contain, equals, or does not equal a specific value. Enter a key or nested key to compare against.
 
-### 2. Incident details&#x20;
+### Incident has repeated
 
-Evaluates to True if a specific key in incident details **contain/does not contain/equals/does not equal** a specific text or phrase. You will need to enter a specific key or nested key to compare with the text/phrase.
+Evaluates to true if the total number of incident occurrences crosses a threshold you set.
 
-### 3. Occurrence
+### Incident has repeated within
 
-Evaluates to True if the total incident occurrences crossed a specific threshold.
+Evaluates to true if incident occurrences cross a threshold within a given timeframe.
 
-### 4. Occurrences within a timeframe
+### Incident suppressed
 
-Evaluates to True if incident occurrences cross a specific threshold in a given timeframe
+Evaluates to true if the incident has been suppressed at least a minimum number of times.
 
-### 5. Priority
+### Incident suppressed within
 
-Evaluates to True if incident has a given priority. [Learn more about priority](https://docs.spike.sh/incidents/priority-and-severity#priority)
+Evaluates to true if the incident has been suppressed at least a minimum number of times within a given timeframe.
 
-### 6. Severity
+### Priority
 
-Evaluates to True if incident has a given severity. [Learn more about severity](https://docs.spike.sh/incidents/priority-and-severity#severity)
+Evaluates to true if the incident has a given priority. [Learn more about priority](https://docs.spike.sh/incidents/priority-and-severity#priority)
+
+### Severity
+
+Evaluates to true if the incident has a given severity. [Learn more about severity](https://docs.spike.sh/incidents/priority-and-severity#severity)
+
+### Time of day
+
+Evaluates to true if the incident triggers between timestamps you set, in any timezone.
+
+### Days of week
+
+Evaluates to true if the incident triggers on specific days of the week.
 
 ## Actions
 
-You can set one or more actions to execute
+Set one or more actions to execute when conditions are met.
 
-### 1. Reassign incident
+### Reassign incident to
 
-to anyone from your team on Spike.sh. An email is sent to the assignee.
+Assigns the incident to a team member. An email notification is sent to the assignee.
 
-### 2. Change escalation policy
+### Load escalation policy
 
-Instead of having to load the default escalation policy, you can change it dynamically with this action. For High severity incidents, load an escalation policy with everyone in it and for low priority incidents redirect them to Slack or MS Teams.
+Replaces the default escalation policy with one you specify. Useful for routing high-severity incidents to a more comprehensive policy.
 
-### 3. Do not create an incident
+### Change integration
 
-Not all incidents are major. Some are just not worth ending up on the dashboard or any alert channel.
+Routes the incident to a different integration based on conditions you define. Use this to automatically move incidents to the right integration and team without manual intervention.
 
-### 4. Priority
+For example, an incident arrives under the API integration. If the title contains "payments", Spike moves it to the Payments integration and alerts the payments team instead.
 
-Assign the incident a Priority. [Learn more about priority](https://docs.spike.sh/incidents/priority-and-severity#priority)
+Pair this with the **Incident suppressed** or **Incident suppressed within** conditions to switch integrations when an incident is being suppressed too frequently.
 
-### 5. Severity
+### Ignore incident
 
-Assign the incident a Severity. [Learn more about severity](https://docs.spike.sh/incidents/priority-and-severity#severity)
+Prevents the incident from being created. No alerts are sent and the incident doesn't appear on the dashboard.
 
-### 6. Auto acknowledge incidents
+### Mark priority as
 
-Create the incident but in the acknowledged state rather than the triggered state. Be mindful because this won't send any alerts but responders will see this as open incident on their dashboard.&#x20;
+Sets the incident's priority. [Learn more about priority](https://docs.spike.sh/incidents/priority-and-severity#priority)
 
-### 7. Auto resolve incidents
+### Mark severity as
 
-Create the incident but in resolved state rather than the triggered state. Be mindful because this won't send any alerts and responders will _not_ see them as open incidents on their dashboard.
+Sets the incident's severity. [Learn more about severity](https://docs.spike.sh/incidents/priority-and-severity#severity)
+
+### Trigger outbound webhook
+
+Sends a webhook to a URL you specify when the conditions are met.
+
+### Acknowledge incident
+
+Creates the incident in the acknowledged state. No alerts are sent, but the incident appears as open on the dashboard.
+
+### Resolve incident
+
+Creates the incident in the resolved state. No alerts are sent and the incident doesn't appear as open on the dashboard.
+
+### Resolve by Timer
+
+Automatically resolves the incident after a set duration. [Learn more about Resolve by Timer](resolve-timer.md)
+
+## Route to other team
+
+Enable the **Route to other team** toggle in the Actions section to send an incident from one team to another. Select the source team, destination team, and destination integration.
 
 ## Applying multiple rulesets
 
-For an incident, multiple alert rulesets can also be applied. Consider the below example -
+Multiple alert routing rulesets can apply to a single incident. For example:
 
-![Alert ruleset 1](<../.gitbook/assets/image (82).png>)
+<figure><img src="../.gitbook/assets/alerts/alerts-alert-routing-rules-example-1.png" alt="Alert routing ruleset example"><figcaption><p>Ruleset 1: mark as P5 if title contains "syslog".</p></figcaption></figure>
 
-![Alert ruleset 2](<../.gitbook/assets/image (83).png>)
-
-According the above two alert rulesets, If an incident title contains **syslog** in it then the incident will be marked as **P5 priority** and subsequently, the escalation policy will also change to **Slack dev** (ref: Alert ruleset 2)
+If an incident title contains "syslog", both rulesets apply: the incident is marked P5 and the escalation policy changes to Slack dev.
 
 {% hint style="info" %}
-No more than 5 alert configs will be applied to a single incident to avoid infinite looping
+No more than 5 alert routing rulesets apply to a single incident.
 {% endhint %}
-
-
-
-
-

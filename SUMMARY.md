@@ -16,21 +16,26 @@
 * [Reassign incidents](incidents/reassign-incidents.md)
 * [Sharing incidents](incidents/sharing-incidents.md)
 * [Why does message parsing fail?](incidents/why-does-message-parsing-fail.md)
+* [Rate limiting on duplicate incidents](incidents/rate-limiting-on-duplicate-incidents.md)
+* [Resolve by Timer](incidents/resolve-timer.md)
 
 ## Alerts
 
 * [Phone](alerts/phone.md)
 * [SMS](alerts/sms.md)
+* [Mobile app alerts](alerts/mobile-app-alerts.md)
 * [E-mail](alerts/email.md)
 * [Slack](alerts/slack.md)
 * [Microsoft Teams](alerts/microsoft-teams.md)
 * [WhatsApp](alerts/whatsapp.md)
 * [Telegram](alerts/telegram.md)
-* [Pushover](alerts/pushover.md)
 * [Discord](alerts/discord.md)
-* [Alert rules](alerts/alert-rules.md)
-* [Vacation mode](alerts/vacation-mode.md)
+* [Alert routing rules](alerts/alert-rules.md)
 * [Title Remapper](alerts/title-remapper.md)
+* [Personal alerts management](alerts/personal-alerts-management/README.md)
+  * [During office hours](alerts/personal-alerts-management/during-office-hours.md)
+  * [Out of office](alerts/personal-alerts-management/out-of-office.md)
+  * [Resolved incident alerts](alerts/personal-alerts-management/resolved-incident-alerts.md)
 
 ## Services
 
@@ -50,32 +55,54 @@
   * [JIRA server (self-hosted)](collaboration/task-management-integrations/jira-server-self-hosted.md)
   * [ClickUp](collaboration/task-management-integrations/clickup.md)
   * [Linear](collaboration/task-management-integrations/linear.md)
+  * [Shortcut](collaboration/task-management-integrations/shortcut.md)
+* [Helpdesk integrations](collaboration/helpdesk-integrations/README.md)
+  * [Zendesk](collaboration/helpdesk-integrations/zendesk.md)
+  * [Freshdesk](collaboration/helpdesk-integrations/freshdesk.md)
+  * [Supportpal](collaboration/helpdesk-integrations/supportpal.md)
 * [War rooms](collaboration/war-rooms.md)
 
 ## On-call schedules <a href="#oncall-schedules" id="oncall-schedules"></a>
 
-* [Introduction to On-call schedules](oncall-schedules/introduction-to-on-call-schedules.md)
-* [Create On-call schedule](oncall-schedules/create-on-call-schedule.md)
-* [Introduction to Slots in schedules](oncall-schedules/introduction-to-slots-in-schedules.md)
-* [Introduction to Layers in on-call schedules](oncall-schedules/introduction-to-layers-in-on-call-schedules.md)
-* [Override an on-call](oncall-schedules/override-an-on-call.md)
-* [Add on-call schedule to your calendar](oncall-schedules/export-on-call-schedule.md)
-* [Notifications for on-call shifts](oncall-schedules/notifications-for-on-call-shifts.md)
+  * [Introduction to On-call schedules](oncall-schedules/introduction-to-on-call-schedules.md)
+  * [Create On-call schedule](oncall-schedules/create-on-call-schedule.md)
+  * [Slots in schedules](oncall-schedules/introduction-to-slots-in-schedules.md)
+  * [Layers in on-call schedules](oncall-schedules/introduction-to-layers-in-on-call-schedules.md)
+  * [Override an on-call](oncall-schedules/override-an-on-call.md)
+  * [Notifications for on-call shifts](oncall-schedules/notifications-for-on-call-shifts.md)
+  * [Change on-call rotation day](oncall-schedules/change-on-call-rotation-day.md)
+  * [Sync with your calendar](oncall-schedules/calendar-sync-for-oncall/README.md)
+    * [Google Calendar](oncall-schedules/calendar-sync-for-oncall/google-calendar-sync.md)
+    * [Apple Calendar](oncall-schedules/calendar-sync-for-oncall/apple-calendar-sync.md)
+    * [Microsoft Outlook](oncall-schedules/calendar-sync-for-oncall/microsoft-outlook-sync.md)
+  * [Linked calendars](oncall-schedules/linked-calendars.md)
+
+## Live Call Routing <a href="#live-call-routing" id="live-call-routing"></a>
+
+  * [Introduction to Live Call Routing](live-call-routing/introduction-to-live-call-routing.md)
+  * [Triggering incidents](live-call-routing/triggering-incidents.md)
+  * [Configuring with Twilio](live-call-routing/lcr-with-twilio.md)
+  * [Configuring with Plivo](live-call-routing/lcr-with-plivo.md)
+
+## Playbooks
+
+* [Introduction to Playbooks](playbooks/introduction-to-playbooks.md)
+* [Actions in Playbooks](playbooks/actions-in-playbooks.md)
+* [Automating your Playbooks](playbooks/automating-your-playbooks.md)
+* [Run Playbooks manually](playbooks/run-playbooks-manually.md)
 
 ## Status Pages
 
 * [Create Status page](status-pages/create-status-page.md)
-* [Create public Incident on status page](status-pages/create-public-incident-on-status-page.md)
+* [Style your status page](status-pages/style-your-status-page.md)
+* [Incidents on status page](status-pages/create-public-incident-on-status-page.md)
 * [Create Planned Maintenance on status page](status-pages/create-planned-maintenance-on-status-page.md)
 * [Edit Planned Maintenance](status-pages/edit-planned-maintenance.md)
 * [Add custom domain to status page](status-pages/add-custom-domain-to-status-page.md)
 * [Manage your subscribers](status-pages/manage-your-subscribers.md)
 * [Embed status page notifications on your website](status-pages/embed-status-page-notifications-on-your-website.md)
+* [Live status widget](status-pages/live-status-widget.md)
 
-## Uptime
-
-* [Create Uptime monitor](uptime/create-uptime-monitor.md)
-* [Link uptime to Status Page](uptime/link-uptime-to-status-page.md)
 
 ## Integrations guidelines <a href="#integrations-guideline" id="integrations-guideline"></a>
 
@@ -90,7 +117,6 @@
 * [Integrate Spike with Healthchecks](integrations-guideline/integrate-healthchecks-with-spike.md)
 * [Integrate Spike with Pingdom](integrations-guideline/integrate-spike-with-pingdom.md)
 * [Integrate Spike.sh with Sentry](integrations-guideline/integrate-spike-with-sentry.md)
-* [Integrate Spike with Sentry webhook](integrations-guideline/integrate-spike-with-sentry-webhook.md)
 * [Integrate Spike with Apex ping](integrations-guideline/integrate-apex-ping-with-spike.md)
 * [Integrate Spike with Uptime Robot](integrations-guideline/integrate-spike-with-uptime-robot.md)
 * [Integrate Spike with Twilio](integrations-guideline/integrate-spike-with-twilio.md)
@@ -100,8 +126,11 @@
 * [Integrate Spike with Travis CI](integrations-guideline/integrate-spike-with-travis-ci.md)
 * [Integrate Spike with Heroku](integrations-guideline/integrate-spike-with-heroku.md)
 * [Integrate Spike with Datadog](integrations-guideline/integrate-spike-with-datadog.md)
+* [Integrate Spike with Axiom](integrations-guideline/integrate-spike-with-axiom.md)
 * [Integrate Spike with Needle.sh](integrations-guideline/integrate-spike-with-needle.sh.md)
 * [Integrate Spike with Cronitor](integrations-guideline/integrate-spike-with-cronitor.md)
+* [Integrate Spike with Cronicle](integrations-guideline/integrate-spike-with-cronicle.md)
+* [Integrate Spike with CloudAMQP](integrations-guideline/integrate-spike-with-cloudamqp.md)
 * [Integrate Spike with Bugsnag](integrations-guideline/integrate-spike-with-bugsnag.md)
 * [Integrate Spike with Grafana](integrations-guideline/integrate-spike-with-grafana.md)
 * [Integrate Spike with Prometheus](integrations-guideline/integrate-spike-with-prometheus.md)
@@ -159,23 +188,29 @@
 * [Integrate Spike with PM2](integrations-guideline/integrate-spike-with-pm2.md)
 * [Integrate Spike with Cloudflare](integrations-guideline/integrate-spike-with-cloudflare.md)
 * [Integrate Spike with Zabbix](integrations-guideline/integrate-spike-with-zabbix.md)
+* [Integrate Spike with Tenderly](integrations-guideline/integrate-spike-with-tenderly.md)
+* [Integrate Spike with Xitoring](integrations-guideline/integrate-spike-with-xitoring.md)
+* [Integrate Spike with Crowdstrike](integrations-guideline/integrate-spike-with-crowdstrike.md)
+* [Integrate Spike with GitHub Workflows](integrations-guideline/integrate-spike-with-github-workflows.md)
+* [Integrate Spike with Solarwinds Orion](integrations-guideline/integrate-spike-with-solarwinds-orion.md)
+* [Integrate Spike with Airbrake.io](integrations-guideline/integrate-spike-with-airbrake.md)
+* [Integrate Spike with Render](integrations-guideline/integrate-spike-with-render.md)
+* [Integrate Spike with Updown.io](integrations-guideline/updown-io.md)
+* [Integrate Spike with NinjaOne](integrations-guideline/integrate-spike-with-ninjaone.md)
+* [Integrate Spike with N-Able / N-Central](integrations-guideline/n-able.md)
+* [Integrate Spike with Paessler PRTG](integrations-guideline/paessler-prtg.md)
+* [Integrate Spike with MongoDB Atlas](integrations-guideline/mongodb-atlas.md)
+* [Integrate Spike with Jira](integrations-guideline/integrate-spike-with-jira.md)
+* [Integrate Spike with Jenkins](integrations-guideline/integrate-spike-with-jenkins.md)
 
 ## Administration
 
 * [Roles and access](administration/roles-and-access.md)
 * [SSO](administration/sso.md)
+* [Sign-in rules](administration/sign-in-rules.md)
 * [Our notification numbers](administration/our-notification-numbers.md)
 * [Contact the support team](administration/contact-the-support-team.md)
 * [Adding team members](administration/adding-team-members.md)
 * [Check if team is getting alerts](administration/check-if-team-is-getting-alerts.md)
 * [Removing team members](administration/removing-team-members.md)
 
-## Additional resources
-
-* [Create a badge](additional-resources/create-a-badge.md)
-
-## Alert Modes
-
-* [Deep Work Mode](alert-modes/deep-work-mode.md)
-* [Cooldown Mode](alert-modes/cooldown-mode.md)
-* [Out of office mode](alert-modes/out-of-office-mode.md)

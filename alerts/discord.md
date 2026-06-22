@@ -1,66 +1,56 @@
 ---
-description: >-
-  Our Discord integration enables you to receive notification on a Discord
-  channel
+description: Spike sends incident alerts to Discord channels. Set it up using a webhook.
 ---
 
 # Discord
 
-## Get Discord notifications from Spike.sh
+<figure><img src="../.gitbook/assets/discord/discord-alert-1.png" alt="Incident alert on Discord from Spike"><figcaption><p>Incident alert on Discord.</p></figcaption></figure>
 
-Our Discord alert channel is incredibly simple yet informative. Once you add Discord alert channel, you will get a neat hello from us. On every new incident, you will get Incident details along with the link to navigate and take action.&#x20;
+## How to set up
 
-![Discord alerts from Spike.sh](<../.gitbook/assets/image (78).png>)
+{% stepper %}
+{% step %}
+### Create a webhook in Discord
 
-## How to setup?
+Navigate to your channel's **Settings** > **Integrations** and select **Webhooks**.
 
-With Discord, you can get alerts on your Discord workspace using the channel webhooks, by setting up and adding Discord to your escalation policy.
+<figure><img src="../.gitbook/assets/discord/discord-create-webhook-1.png" alt="Webhook settings in a Discord channel"><figcaption><p>Webhook settings in a Discord channel.</p></figcaption></figure>
+{% endstep %}
+{% step %}
+### Name and copy the webhook URL
 
-**Step 1**
-
-Navigate to any channel's **settings** > **integrations.** Select the webhook integration on the integrations page.
-
-![](../.gitbook/assets/discord-1.png)
-
-
-
-**Step 2**
-
-Name the integration Spike.sh and copy the webhook URL. Download the below badge to use it as the avatar.&#x20;
+Name the webhook **Spike** and copy the URL. You can use the badge below as the avatar.
 
 {% file src="../.gitbook/assets/spike-badge-400.png" %}
-Spike.sh badge for Discord
+Spike badge for Discord
 {% endfile %}
 
-![](../.gitbook/assets/discord-2.png)
+<figure><img src="../.gitbook/assets/discord/discord-name-copy-webhook-1.png" alt="Naming the webhook and copying the URL"><figcaption><p>Name the webhook and copy the URL.</p></figcaption></figure>
+{% endstep %}
+{% step %}
+### Paste the URL in Spike
 
+Go to **Integrations**, paste the webhook URL in the Discord setup, and save.
 
-
-**Step 3**
-
-On Spike dashboard, navigate to [**settings >** **organisation > alerts**](https://app.spike.sh/settings/general/alerts)**.** Paste the copied webhook URL in the Discord setup and save.
-
-![Save the copied webhook url](../.gitbook/assets/discord-3.png)
+<figure><img src="../.gitbook/assets/discord/discord-paste-url-in-spike-1.png" alt="Saving the Discord webhook URL in Spike"><figcaption><p>Paste the webhook URL in Spike integrations.</p></figcaption></figure>
 
 {% hint style="success" %}
-Once saved, we will send an example message to your new Discord alert channel
+Once saved, Spike sends a test message to your Discord channel.
 {% endhint %}
+{% endstep %}
+{% step %}
+### Add Discord to your escalation policy
 
-**Step 4**
+Select Discord as a step in your [escalation policy](https://app.spike.sh/escalations).
 
-You should be able to find Discord option enabled in your escalation policy like so -
+<figure><img src="../.gitbook/assets/discord/discord-escalation-policy-1.png" alt="Discord as a step in an escalation policy"><figcaption><p>Adding Discord to an escalation policy.</p></figcaption></figure>
+{% endstep %}
+{% endstepper %}
 
-![Our new Discord alert channel is enabled in escalation policy](<../.gitbook/assets/image (79).png>)
+## Remove a Discord channel
 
-****
-
-### Deleting Discord alert channel
-
-You can always delete this channel on Spike.sh but you must ensure that it's not part of any escalation policy.
+You can remove a Discord channel from Spike, but make sure it's not part of any active escalation policy before doing so.
 
 {% hint style="info" %}
-Our Discord bot currently does not accept inputs for you to acknowledge or resolve an incident.
+Discord doesn't support acknowledging or resolving incidents from the channel. Use the Spike dashboard, phone, SMS, or other alert channels to take action.
 {% endhint %}
-
-
-

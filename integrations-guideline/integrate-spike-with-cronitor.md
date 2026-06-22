@@ -1,8 +1,31 @@
+---
+description: >-
+   Integrate Spike with Cronitor.io to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more for uptime monitoring, cron job monitoring, and heartbeat checks.
+---
+
 # Integrate Spike with Cronitor
+<figure><img src="../.gitbook/assets/Cronitor integration.png" alt=""><figcaption></figcaption></figure>
 
-### Service and integration
+## Overview
+[Cronitor.io](https://cronitor.io) is a monitoring tool designed to track the health and performance of your scheduled jobs, uptime, and heartbeat signals. Set up this integration to get instantly phone call and other alerts when things go wrong.
 
-Make sure to add the Cronhub integration and copy the webhook. 
+### Incident Alerts from Cronitor.io
+
+With Spike’s integration, you can receive real-time alerts for various incidents monitored by Cronitor.io, including:
+
+* **Uptime Monitoring**: Alerts when your websites or services go down, ensuring prompt response to minimize downtime.
+* **Cron Job Monitoring**: Notifications when scheduled jobs fail to run, take too long, or run at unexpected times.
+* **Heartbeat Monitoring**: Alerts when expected heartbeat signals from your services or applications are missed, indicating potential failures or issues.
+
+This integration allows you to stay on top of any disruptions in your scheduled jobs, uptime, and heartbeat signals, ensuring quick action and resolution.
+
+{% hint style="success" %}
+Auto-resolution is supported for this integration. Spike will also automatically group repeated incidents and suppress alerts while incident is open.
+{% endhint %}
+
+## Set up instructions
+
+**Step 1**: To start, add a Cronitor integration in Spike and copy the webhook URL.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -10,39 +33,15 @@ Make sure to add the Cronhub integration and copy the webhook.
 
 
 
-### Using the Webhook with Cronitor
-
-### Step 1
-
-From the [dashboard](https://cronitor.io/dashboard), choose the monitor
-
-![Select a Monitor](../.gitbook/assets/cronitor-1.png)
-
-### Step 2
-
-Configure the monitor according to the needs.
-
-![](../.gitbook/assets/cronitor-2.png)
-
-
-
-
-
-### Step 3
-
-In the **Alert Reciepients** pannel, choose Webhook and paste the spike hooks URL here.
-
-![Paste the Webhook URL](../.gitbook/assets/cronitor-3.png)
-
-
-
-## FAQ
-
-1. **How many services and integrations can I create on Spike?**
-   * Unlimited
-2. **How many escalation policies can I have on Spike?**
-   * Unlimited
-
-At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
-
-If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
+{% tabs %}
+{% tab title="Setup on Cronitor" %}
+* **Select a Monitor:**
+  * From the Cronitor dashboard, choose the monitor you want to configure.
+* **Configure the Monitor:**
+  * Adjust the monitor settings according to your requirements
+* **Set Up the Webhook:**
+  * In the Alert Recipients panel, select the **Webhook option**.
+  * Paste the Spike.sh webhook URL into the provided field.
+  * If available, set the `Content-Type` header to `application/json` for proper data formatting.
+{% endtab %}
+{% endtabs %}

@@ -1,3 +1,8 @@
+---
+description: >-
+   Integrate Spike with Hyperping to receive real-time alerts via Phone calls, SMS, Slack, MS Teams for uptime monitoring alerts
+---
+
 # Integrate Spike with Hyperping
 
 ### Service and integration <a href="service-and-integration" id="service-and-integration"></a>

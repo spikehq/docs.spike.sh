@@ -1,48 +1,46 @@
+---
+description: >-
+   Integrate Spike with Grafana to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more for your app's metrics, logs, and traces. 
+---
+
 # Integrate Spike with Grafana
+<figure><img src="../.gitbook/assets/Grafana integration.png" alt=""><figcaption></figcaption></figure>
+
+## Overview
+[Grafana](https://grafana.com) is a popular open-source platform for monitoring and observability. It allows you to visualize metrics, logs, and traces from various data sources. It provides rich, interactive dashboards and alerting capabilities that help teams monitor the health and performance of their systems and infrastructure in real-time.
 
 ### Service and integration
+By integrating Grafana with Spike, you can receive real-time alerts for various incidents, including:
 
-Make sure to add the Grafana integration and copy the webhook.&#x20;
+* **Threshold Breaches**: Alerts when metrics exceed defined thresholds, helping you respond to potential issues before they escalate.
+* **Query Failures**: Notifications when Grafana queries fail, indicating possible issues with data sources or infrastructure.
+* **No Data Alerts**: Alerts when expected data is missing, which could signify disruptions in data collection or connectivity issues.
+
+This integration ensures you’re immediately informed about critical system and infrastructure issues, enabling quick and effective responses.
+
+{% hint style="success" %}
+Auto-resolution is supported for this integration. Spike will also automatically group repeated incidents and suppress alerts while incident is open.
+{% endhint %}
+
+## Set up instructions
+
+**Step 1:** Add the Grafana integration in Spike and copy the webhook.&#x20;
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-### Using the Webhook with Grafana
+**Step 2:**
 
-### Step 1
+{% tabs %}
+{% tab title="Setup on Grafana" %}
 
-Select **Notification Channel** from the menu.
-
-![Select Notification channels](../.gitbook/assets/grafana-1.png)
-
-### Step 2
-
-Click **Add Channel** to create a new Alerting rule.
-
-![Add Channel](../.gitbook/assets/grafana-2.png)
-
-
-
-### Step 3
-
-Choose a Name for the channel and type to be **Webhook**.&#x20;
-
-Paste the webhook URL under **Webhook Settings**.
-
-![Configure the channel](../.gitbook/assets/grafana-3.png)
-
-{% hint style="success" %}
-This integration automatically resolves it's incidents. You will, however, need to set up the [**Ok** state in Grafana](https://grafana.com/docs/grafana/latest/alerting/create-alerts/#no-data--error-handling)
-{% endhint %}
-
-## FAQ
-
-1. **How many services and integrations can I create on Spike?**
-   * Unlimited
-2. **How many escalation policies can I have on Spike?**
-   * Unlimited
-
-At Spike, we are working hard to integrate with all the tools your business uses. We are on a mission to help **you** identify incidents/crashes/spikes before your customers do.
-
-If you have any integration in mind and would like us to build it for you then contact us at [support@spike.sh.](mailto:support@spike.sh)
+* **Access Alerting Settings:**
+  * From your Grafana dashboard, navigate to the Alerting section and select Notification Channels.
+  * Click on Add channel to create a new notification channel.
+* **Configure the Webhook:**
+  * Set the type to Webhook and paste the Spike.sh webhook URL into the URL field.
+  * Set the content type to application/json.
+  * Select the alert conditions and events that should trigger notifications, such as threshold breaches or data loss.
+{% endtab %}
+{% endtabs %}

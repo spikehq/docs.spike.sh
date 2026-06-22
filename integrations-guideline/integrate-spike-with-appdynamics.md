@@ -8,21 +8,19 @@ Make sure to add the AppDynamics integration and copying the webhook.
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-
-
 ### Using webhooks with AppDynamics
 
 #### Step 1
 
-From the dashboard,  go to the Alert & Respond menu.
+From the dashboard, go to the Alert & Respond menu.
 
-![](<../.gitbook/assets/image (98).png>)
+![](<../.gitbook/assets/image (98) (1).png>)
 
 ####
 
 #### Step 2
 
- Select HTTP Request Templates.
+Select HTTP Request Templates.
 
 ![](<../.gitbook/assets/image (94).png>)
 
@@ -63,8 +61,6 @@ Paste the webhook provided below and add success criteria
     }
 }
 ```
-
-
 
 {% hint style="success" %}
 This integration auto resolves

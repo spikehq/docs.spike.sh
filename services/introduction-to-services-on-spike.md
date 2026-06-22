@@ -1,23 +1,23 @@
-# Introduction to services on Spike
+---
+description: Services scope your infrastructure in Spike. Each service can hold multiple integrations and map to a microservice, product area, or team.
+---
 
-## **What is a service?**
+# Introduction to services
 
-**You can think of services as a microservice.** Services are a way to scope your internal services from your architecture. Each of your service can have multiple integrations and you can create unlimited number of services. We highly encourage you to create different services for each of your different modules.
+A service in Spike represents a distinct part of your infrastructure — a backend API, a payments module, a worker queue. Every integration belongs to a service, and every incident is tied to one.
 
-## Why create a service?
+## Why services matter
 
-We ask users to create services to easily scope and track incidents, monitor platform health better and visualise reports segregated by every service.
+Services give you a clean way to track incidents by area. When something breaks, you can see exactly which service is involved, who owns it, and what's happening across your stack.
 
-{% hint style="danger" %}
-Services are mandatory on Spike.
-{% endhint %}
+## Affected services
+
+When an incident is triggered, its service is marked as affected. If multiple integrations fire at once, Spike surfaces all the involved services in one view — so responders know where to focus.
+
+## Create a service
+
+<figure><img src="../.gitbook/assets/overview/overview-services-1.png" alt="Services in Spike"><figcaption><p>Services in Spike.</p></figcaption></figure>
 
 {% content-ref url="../integrations-guideline/create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](../integrations-guideline/create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
-
-## Affected services
-
-When an incident is triggered, a service gets affected. Many a times, other integrations also get affected adding up to more incidents. The **Affected services section** on the dashboard brings you transparency on which services needs to be worked upon.
-
-![Affected services on Spike](<../.gitbook/assets/Screenshot 2020-06-24 at 10.37.32 AM.png>)

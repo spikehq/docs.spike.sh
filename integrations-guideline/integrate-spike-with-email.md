@@ -39,5 +39,5 @@ You can choose to send an email to your unique email address to test if an incid
 ![](../.gitbook/assets/email-integration-example-incident.png)
 
 {% hint style="warning" %}
-Email integration does not auto-resolve incidents
+Email integration does not auto-resolve incidents and there is a 30 MB payload limit. 
 {% endhint %}
