@@ -18,4 +18,6 @@ Once set up, every team member in your account can create ClickUp tasks from Spi
 
 Open the incident details page and use the actions section to create a ClickUp task.
 
-<figure><img src="../../.gitbook/assets/clickup.png" alt="Create a ClickUp task from the incident details page"><figcaption><p>Use the actions section on the incident page to create a task on ClickUp.</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/collaboration/collaboration-clickup-create-task-1.png" alt="Create a ClickUp task from the incident details page"><figcaption><p>Use the actions section on the incident page to create a task on ClickUp.</p></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/collaboration/collaboration-clickup-create-task-2.png" alt="ClickUp task creation form in Spike"><figcaption><p>Fill in the details and create the task.</p></figcaption></figure>

@@ -1,31 +1,35 @@
 ---
-description: Create planned maintenance events on your status page to inform customers about upcoming service impact.
+description: Create a planned maintenance event to notify subscribers about upcoming service impact.
 ---
 
 # Create planned maintenance on your status page
 
-Planned maintenance events let you communicate scheduled downtime or service impacts to your customers before they happen.
+Planned maintenance events appear on your public status page and notify subscribers before and after the maintenance window.
 
-## Create a maintenance event
+## Create a planned maintenance event
 
-Click **Planned maintenance** from the left sidebar.
+<figure><img src="../.gitbook/assets/create maintenance 1.png" alt="Planned maintenance section in Spike status page dashboard"><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/status-pages/status-pages-planned-maintenance-sidebar-1.png" alt="Planned maintenance in the status page sidebar"><figcaption></figcaption></figure>
+Click **Maintenance** in the left sidebar, then click **New planned maintenance**.
 
-Click **Schedule maintenance** and fill in the details.
+<figure><img src="../.gitbook/assets/create maintenance 2.png" alt="Create planned maintenance form in Spike"><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/status-pages/status-pages-planned-maintenance-form-1.png" alt="Schedule maintenance form in Spike"><figcaption></figcaption></figure>
+Fill in the **title** and **description** to explain the maintenance.
 
-Add a **title** and **description** to explain the maintenance. Select the **affected components** — for example, a database maintenance may affect the API but not the website. Set the **start** and **end** date and time.
+Select the **components** the maintenance will affect. For example, mobile app maintenance may not affect backend APIs.
 
-You can set **reminders** to notify subscribers before maintenance starts, and configure **notifications** to alert them when it begins and ends.
+Set the **start** and **end** date and time for the maintenance window.
 
-## View upcoming maintenance
+To email subscribers, check **Notify subscribers**. Spike sends notifications at the start and end of the maintenance window.
 
-Once scheduled, the event appears in the **Upcoming** section.
+## View planned maintenance
 
-<figure><img src="../.gitbook/assets/status-pages/status-pages-planned-maintenance-upcoming-1.png" alt="Upcoming maintenance in Spike status page"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/create maintenance 3.png" alt="Upcoming planned maintenance in Spike status page dashboard"><figcaption></figcaption></figure>
 
-Click the event to see its full details.
+The event appears in the **Upcoming** section on the Planned maintenance page. Click it to see full details.
 
-<figure><img src="../.gitbook/assets/status-pages/status-pages-planned-maintenance-details-1.png" alt="Planned maintenance details in Spike"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/create maintenance 4.png" alt="Planned maintenance details in Spike"><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/create maintenance 5.png" alt="Planned maintenance visible on public status page"><figcaption></figcaption></figure>
+
+Subscribers see the planned maintenance on your public status page. To make changes after creating it, see [Edit planned maintenance](edit-planned-maintenance.md).
