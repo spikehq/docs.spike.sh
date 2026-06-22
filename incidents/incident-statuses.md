@@ -1,7 +1,6 @@
 ---
 description: >-
-  A status would determine the state of the incident among acknowledged or
-  resolved
+  A status would determine the state of the incident among acknowledged or resolved
 ---
 
 # Incident statuses
