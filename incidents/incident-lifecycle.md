@@ -27,7 +27,7 @@ Each integration can have its own escalation policy. This lets you set different
 
 ## 3. Incident acknowledgment
 
-When a responder acknowledges the incident, Spike pauses the escalation policy and stops escalating alerts. You can set an [acknowledge timeout](acknowledge-timeout.md) for each integration: a time limit that moves the incident back to triggered and resumes alerting if it hasn't been resolved in time.
+When a responder acknowledges the incident, Spike pauses the escalation policy and stops escalating alerts. You can set an [acknowledge timeout](acknowledge-timeout.md) for each integration: a time limit that moves the incident back to triggered and resumes alerting if it hasn't been resolved in time. You can also manually move an acknowledged incident back to triggered at any time.
 
 ## 4. Incident resolution
 
