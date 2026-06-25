@@ -20,9 +20,9 @@ Notifications support planned maintenance events and are shown once per visitor.
 
 Visit the **Widgets** section from the sidebar. Copy the code snippet and paste it before the closing `</body>` tag on every page where you want the notification to appear.
 
-When creating or editing a planned maintenance event, enable **Notify visitors**.
+When creating or editing a planned maintenance event, enable **Show a banner to status page visitors**.
 
-<figure><img src="../.gitbook/assets/Image 2022-05-12 17-21-38.png" alt="Enable Notify visitors option for planned maintenance in Spike"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/status-pages/status-pages-embed-notifications-notify-visitors-1.png" alt="Enable Notify visitors option for planned maintenance in Spike"><figcaption></figcaption></figure>
 
 ## Security
 

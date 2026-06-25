@@ -16,7 +16,7 @@ In this state, Spike works through the [escalation policy](../escalations/introd
 
 An acknowledged incident means someone is actively working on a fix. Spike pauses the escalation policy and stops escalating alerts.
 
-Repeat incidents remain suppressed in this state to reduce [alert fatigue](../alerts/personal-alerts-management/README.md). You can set an [acknowledge timeout](acknowledge-timeout.md) for each integration. If the incident isn't resolved within that window, Spike moves it back to triggered and resumes alerting.
+Repeat incidents remain suppressed in this state to reduce [alert fatigue](../alerts/personal-alerts-management/README.md). You can set an [acknowledge timeout](acknowledge-timeout.md) for each integration. If the incident isn't resolved within that window, Spike moves it back to triggered and resumes alerting. You can also manually move an acknowledged incident back to triggered at any time.
 
 ## Resolved
 

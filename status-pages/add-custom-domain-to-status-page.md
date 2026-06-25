@@ -6,13 +6,13 @@ description: Host your status page on a custom subdomain like status.example.com
 
 ## Step 1: Add your domain in Spike
 
-Click **Host** in the top-right menu on your status page.
+Click **Host** in the top-right corner of your status page.
 
-<figure><img src="../.gitbook/assets/add custom domain 1 (1).png" alt="Host option in Spike status page settings"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/status-pages/status-pages-custom-domain-host-1.png" alt="Host option in Spike status page settings"><figcaption></figcaption></figure>
 
-Enter your custom domain, for example `status.example.com`.
+Enter your custom domain, for example `status.acme.com`.
 
-<figure><img src="../.gitbook/assets/add custom domain 2.png" alt="Add custom domain to Spike status page"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/status-pages/status-pages-custom-domain-form-1.png" alt="Add custom domain to Spike status page"><figcaption></figcaption></figure>
 
 ## Step 2: Update your DNS settings
 

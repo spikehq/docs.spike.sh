@@ -2,19 +2,23 @@
 description: Automatically trigger incidents from incoming calls using Live Call Routing.
 ---
 
-![](<../.gitbook/assets/live-call-routing/incidents.png>)
+<figure><img src="../.gitbook/assets/live-call-routing/incidents.png" alt="Triggering incidents from Live Call Routing"><figcaption></figcaption></figure>
 
-# How to Trigger Incidents
+# How to trigger incidents
 
-Spike allows you to manually or automatically trigger incidents from incoming calls using Live Call Routing.
+There are two ways to trigger incidents from Live Call Routing calls: manually from the call log, or automatically after each completed call.
 
-You can:
-- Manually trigger an incident by filling in the title, integration, escalation, and optional fields like priority and severity.
-- Automatically trigger incidents for every call received, based on your configuration.
+## Manual incident creation
 
----
+Open any call in the [call log](https://app.spike.sh/lcr) and click **Create incident**. Fill in:
 
-## Auto-Triggering Incidents
+- **Title**
+- **Integration**
+- **Escalation policy**
+- **Priority** (optional)
+- **Severity** (optional)
+
+## Auto-trigger incidents
 
 You can configure Spike to automatically trigger an incident after each incoming call is completed.
 
@@ -29,15 +33,12 @@ To set up automatic incident creation:
 1. From [Live Call Routing](https://app.spike.sh/lcr), visit **Settings → Incidents**
 2. Enable **Auto-trigger incident for Live Call Routing**
 3. Choose:
-   - The **integration** the incident should be triggered under
-   - The **escalation policy** to be used  
-     > You can choose to default to the escalation policy set on the selected integration. If the policy is updated on the integration later, it will automatically reflect here.
-
+   - The **integration** to use for this incident
+   - The **escalation policy** to use.
+     You can default to the escalation policy set on the selected integration. If the policy is updated on the integration later, the change applies automatically.
 4. (Optional) Set a default **priority** and **severity** to help with alert routing or analytics.
 
----
-
-### Auto-Generated Incident Titles
+## Auto-generated incident titles
 
 Each automatically triggered incident will have a title in this format:
 
@@ -49,9 +50,7 @@ This includes:
 - Phone number
 - Duration of the call
 
----
-
-### Incident Payload Example
+## Incident payload
 
 Spike includes detailed metadata with each auto-triggered incident, so you can automate follow-up actions or run outbound scripts.
 
@@ -91,25 +90,26 @@ Spike includes detailed metadata with each auto-triggered incident, so you can a
 }
 ```
 
-You can use this payload to view who answered or missed the call, Track escalation behavior, Access the call recording, and Run follow-up automation using Spike or external tools.
-
----
+Use this payload to:
+- View who answered or missed the call
+- Track escalation behavior
+- Access the call recording
+- Run follow-up automation using Spike or external tools
 
 ## FAQs
-<details> 
-<summary>Can I trigger incidents for missed calls only?</summary>
+
+### Can I trigger incidents for missed calls only?
+
 Yes.
-</details> 
-<details> 
-<summary>Can I customize the incident title?</summary> 
-Not yet. The incident title is auto-generated using the routing name, caller name/number, and call duration to ensure uniqueness. 
-</details> 
-<details>
-<summary>Will changing the escalation policy on the integration affect auto-triggering?</summary>
-Yes but on ff you’ve selected to `sync escalation with integration`. Any updates to the integration’s escalation will automatically apply here.
-</details>
-<details>
-<details>
-<summary>Can I use this with webhooks or automation tools?</summary>
+
+### Can I customize the incident title?
+
+Not yet. The incident title is auto-generated using the routing name, caller name/number, and call duration to ensure uniqueness.
+
+### Will changing the escalation policy on the integration affect auto-triggering?
+
+Yes, but only if you've selected to sync escalation with the integration. Any updates to the integration's escalation will automatically apply here.
+
+### Can I use this with webhooks or automation tools?
+
 Yes. The incident payload contains detailed metadata (call ID, responder info, timestamps, etc.), which you can use in Spike's outbound webhooks or alert rules.
-</details>

@@ -12,6 +12,8 @@ Select one or more incidents and click **Reassign** in the incidents table heade
 
 <figure><img src="../.gitbook/assets/incidents/incidents-reassign-1.png" alt="Reassign button on the incidents table"><figcaption><p>The Reassign button appears in the incidents table header after selecting an incident.</p></figcaption></figure>
 
+<figure><img src="../.gitbook/assets/incidents/incidents-reassign-2.png" alt="Reassign responders modal"><figcaption><p>Add or remove responders from the reassign modal.</p></figcaption></figure>
+
 The reassign option is available from:
 
 - Incidents page
