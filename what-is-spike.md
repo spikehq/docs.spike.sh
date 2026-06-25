@@ -1,14 +1,14 @@
 ---
-description: Spike is an incident management platform that pages the right person when something breaks in your infrastructure.
+description: Spike is an on-call and incident management platform that alerts the right person when something breaks in your infrastructure.
 ---
 
-# What is Spike.sh?
+# What is Spike?
 
-Spike is an incident management platform. Connect your monitoring tools, define who gets paged and how, and Spike handles alerting when incidents fire.
+Spike is an on-call and incident management platform. When a monitoring tool detects an issue, Spike creates an incident. Then, it alerts the right person and escalates until someone responds.
 
 ## How Spike works
 
-Every incident starts with an integration. When a connected monitoring tool detects a problem, it sends a signal to Spike. Spike creates an incident and triggers your escalation policy, which determines who gets notified and through which channel. If no one responds in time, Spike moves to the next person in line. Once resolved, reports capture the data so your team can track patterns over time.
+Every incident starts with an integration. When a connected monitoring tool detects a problem, it sends a signal to Spike. Spike creates an incident and triggers your escalation policy, which determines who gets alerted and through which channel. If no one responds in time, Spike moves to the next person in line. Once resolved, reports capture the data so your team can track patterns over time.
 
 ## Core modules
 
@@ -30,7 +30,7 @@ Services map to components in your infrastructure: a backend API, a payment serv
 
 <figure><img src=".gitbook/assets/overview/overview-what-is-spike-escalations-1.png" alt="Escalation policies on Spike"><figcaption><p>Create separate escalation policies for teams, services, or situations.</p></figcaption></figure>
 
-An [escalation policy](escalations/introduction-to-escalations.md) defines who gets paged and in what order. You can build separate policies for different teams or services. If the first person doesn't acknowledge in time, Spike moves down the policy until someone responds.
+An [escalation policy](escalations/introduction-to-escalations.md) defines who gets alerted and in what order. You can build separate policies for different teams or services. If the first person doesn't acknowledge in time, Spike moves down the policy until someone responds.
 
 ### Alerts
 
