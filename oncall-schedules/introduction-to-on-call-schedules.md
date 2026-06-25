@@ -1,38 +1,23 @@
 ---
-description: What is On-call? What are schedules? Get started with the basics.
+description: On-call schedules define who is on-call and when. Members rotate automatically on daily, weekly, or custom intervals.
 ---
 
-# Introduction
+# On-call schedules
 
-## What is On-call?
+On-call schedules define who responds to incidents and when. Spike rotates your team automatically on daily, weekly, or custom intervals you set.
 
-On-call is making sure there are one or more persons responsible to be alerted on all incidents and outages. A person will be on-call for a period of time who sole responsibility to listen to alerts and respond to incidents. This is relatively an old concept, we are getting inspired from doctors and firefighters.&#x20;
+<figure><img src="../.gitbook/assets/On-call calendar.gif" alt="Example of daily rotation among 2 members on Spike"><figcaption><p>Example of daily rotation among 2 members.</p></figcaption></figure>
 
-**Example:** At any given point in time, there will be one or more doctors at the Emergency room in a hospital when the patient arrives. These doctors are "on-call". For a critical patient, a doctor can help instantly and if need be, they can escalate to others to attend to the patient.&#x20;
+## FAQs
 
-Similarly, your team can have at least one person on-call for a set period of time to respond to critical incidents, to say the least.&#x20;
+### Who should use on-call schedules?
 
-{% hint style="info" %}
-A person will either be on-call or not. You cannot "create" on-call. You will create schedules for who will be on-call.
-{% endhint %}
+Any team with more than one member. Schedules distribute on-call responsibility so no single person is always on call.
 
-### What is an On-call schedule?
+### Who can create schedules?
 
-Schedules determine who is/will be on-call. You can create a flexible schedule, one that works for everyone and add team members to it. Schedules will make sure to rotate the members on daily, weekly or even custom time intervals.&#x20;
+Admins and members can both create and edit schedules. Use fine-grained access control to manage on-call permissions.
 
-![Example of Daily rotation among 2 members](../.gitbook/assets/On-call calendar.gif)
+### Does being on-call mean I receive all alerts?
 
-### 1. Who should use on-call?
-
-Anyone with more than one team member.&#x20;
-
-### 2. Who can create schedules?
-
-Admins and members can both create and edit schedules. Use fine-grained access control to manage on-call permissions
-
-### **3. Does being on-call mean ALL the alerts will come to me?**
-
-No, you can choose which escalation policy alerts an on-call user would receive.&#x20;
-
-
-
+No. You receive alerts only from escalation policies that include you. Being on-call doesn't automatically route all incidents to you.
