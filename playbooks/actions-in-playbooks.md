@@ -1,77 +1,60 @@
 ---
-description: Learn about all the actions you can automate with Playbooks
+description: All actions available in Spike Playbooks, with examples of how to use them.
 ---
 
 # Actions in Playbooks
 
-Playbooks comes up with an ever-growing range of actions to automate your incident response process. Below is a comprehensive list of these actions, each designed to streamline different aspects of your incident response.
+Each Playbook can include one or more of the following actions. Actions run in the order you define.
 
-## List of Actions
+## Actions
 
-1. Add one or more responders
-2. Set priority
-3. Set severity
-4. Change title of an incident with Title remapper
-5. Setup war room (video conference)
-6. Create an issue on JIRA, Linear, or ClickUp
-7. Create a support ticket on Zendesk, Freshdesk, and Supportpal
-8. Trigger external scripts using outbound webhook
-9. Resolve incident(s)
-10. Acknowledge incident(s)
-11. Create an incident on status page and notify subscribers
-12. Resolve an incident on status page
-13. Add links to incident
+- **Add responder** — Add one or more team members to the incident.
+- **Mark priority as** — Set the incident priority from P1 to P5.
+- **Mark severity as** — Set the incident severity from SEV1 to SEV3.
+- **Trigger outbound webhook** — Send the incident payload to an external endpoint to trigger scripts or workflows.
+- **Use Title remapper** — Rewrite the incident title using a predefined template.
+- **Execute playbook** — Trigger another Playbook as part of this one.
+- **Create a War room** — Start a video conference on Google Meet or Zoom for team collaboration.
+- **Create a task on** — Log the incident as a task in Jira, Linear, or ClickUp.
+- **Create a support ticket on** — Open a ticket in Zendesk, Freshdesk, or Supportpal.
+- **Resolve incident** — Mark the incident as resolved.
+- **Acknowledge incident** — Mark the incident as acknowledged.
+- **Add links** — Attach static links to the incident, such as runbooks, PRs, or deploy pipelines.
+- **Create incident on status page** — Publish the incident to your status page and notify subscribers.
+- **Resolve incidents on status page** — Mark the status page incident as resolved.
+- **Resolve by timer after** — Automatically resolve the incident after a set duration.
 
-## Learn more about Playbook actions
+## Examples
 
-1. **Add One or More Responders** Automatically involves team members in the response process, ensuring the right expertise is engaged from the start.
-2. **Set Priority** Assigns a predefined urgency level (P1 to P5) to the incident, helping to prioritize response efforts based on impact and urgency.
-3. **Set Severity** Marks the incident with a severity level (SEV1 to SEV3), indicating the extent of impact and guiding the response strategy.
-4. **Change Title of an Incident with Title Remapper** Utilizes predefined templates or rules to dynamically adjust incident titles for clarity and context.
-5. **Setup War Room (Video Conference)** Initiates a virtual meeting space on supported platforms like Google Meet or Zoom, facilitating immediate team collaboration.
-6. **Create an Issue on JIRA, Linear, or ClickUp** Logs the incident as an issue within popular project management tools, using the incident's title for seamless integration and tracking.
-7. **Create a Support Ticket on Zendesk, Freshdesk, and Supportpal** Opens a ticket in customer support platforms to manage and respond to user-impacting issues effectively.
-8. **Trigger External Scripts Using Outbound Webhook** Executes custom scripts or processes through specified endpoints, enabling integration with external systems or workflows.
-9. **Resolve Incident(s)** Marks incidents as resolved, signaling the successful mitigation or correction of the issue.
-10. **Acknowledge Incident(s)** Indicates that an incident has been noticed and is being addressed, informing team members of ongoing response actions.
-11. **Create an Incident on Status Page and Notify Subscribers** Publicizes the incident on a status page and alerts subscribed users, maintaining transparency and communication with stakeholders.
-12. **Resolve an Incident on Status Page** Updates the status page to reflect the resolution of an incident, informing subscribers and users of the return to normal operations.
-13. **Add links to incident** adds static links to your incident. Use cases include adding internal documentations, Pull requests, Deploy pipelines, customer support, etc.&#x20;
+### Critical incident response
 
-Each of these actions plays a vital role to help you automate as effectively as possible. This will enable your teams to focus on fast resolution and minimizing impact.
+**Conditions:** Payload contains high severity indicators, or the incident has occurred more than `x` times in the last `y` minutes.
 
-## How to use?
+1. Add responder — bring in senior engineers
+2. Mark priority as P1
+3. Mark severity as SEV1
+4. Create a War room — start a Google Meet for immediate discussion
+5. Create a task on Jira — log the incident for tracking
 
-Here are the examples illustrated in the form of actions.
+### Low severity auto-resolution
 
-#### Comprehensive Response to Critical Incidents
+**Conditions:** Payload contains low severity indicators.
 
-**Action 1:** Add one or more responders -- Automatically brings in senior engineering team members. **Action 2:** Set priority -- Assigns the incident a P1 urgency level. **Action 3:** Set severity -- Marks the incident as SEV1. **Action 4:** Setup war room (video conference) -- Creates a Google Meet for immediate discussion. **Action 5:** Create an issue on JIRA -- Logs the incident for tracking and further action.
+1. Mark severity as SEV3
+2. Mark priority as P5
+3. Resolve incident
 
-**Conditions:** Analyze the payload for severity indicators and/or look for number of times an incident has occured in the past `x` minutes.
+### Status page update
 
-#### Automated Low Severity Incidents
+1. Create incident on status page — notify subscribers
+2. Resolve incidents on status page — update subscribers on resolution
 
-**Action 1:** Set severity -- Marks the incident as SEV3, indicating low severity. **Action 2:** Set priority -- Assigns a P5 priority, reflecting lower urgency. **Action 3:** Resolve incidents -- Automatically marks the incident as resolved.
+### Payment system glitch
 
-**Conditions:** Analyse the payload for low severity indicators using specific key/value pairs.
+1. Resolve incident
+2. Create a support ticket on Zendesk — document the issue for customer outreach
 
-#### Automated Status Page Communications
+### Auto-resolve with external trigger
 
-**Action 1:** Create an incident on status page and notify subscribers **Action 2:** Resolve an incident on status page -- Updates subscribers on resolution status.
-
-#### Nudge for Repeated Incident Occurrences
-
-**Action 1:** Set Severity (SEV2) **Action 2:** Create an alert rule to change escalation policy to alert responders.
-
-**Conditions:** If incident has occurred `x number of times in the last y minutes` (_5 times in the last 30 minutes_)
-
-#### Payment System Glitch
-
-**Action 1:** Resolve incident **Action 2:** Auto-create a Support ticket detailing the issue for proactive customer outreach
-
-#### Automated Resolution of Incidents
-
-**Action 1:** Trigger external scripts using outbound webhook -- Initiates custom analysis or alerts external systems for further action. **Action 2:** Resolve the incident
-
-These examples clearly illustrate how Playbooks can be configured to automate responses to a variety of incidents, showcasing the flexibility and power of Playbooks in Spike.sh. By breaking down each response into actionable steps, we demonstrate the practical application of Playbooks in streamlining incident management processes, ensuring teams can respond swiftly and effectively to any situation.
+1. Trigger outbound webhook — run custom analysis or alert external systems
+2. Resolve incident
