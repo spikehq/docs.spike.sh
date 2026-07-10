@@ -9,8 +9,6 @@ description: >-
 
 <figure><img src="../.gitbook/assets/slack/cover.png" alt="Spike app for Slack"><figcaption><p>Spike app for Slack.</p></figcaption></figure>
 
-{% embed url="https://www.youtube.com/watch?v=K1_-bNpz7Bo" %}
-
 ## Overview
 
 The Spike app for Slack delivers incident and on-call alerts to the channels you choose and lets responders act on them in place: acknowledge, resolve, add notes, spin up an incident channel, pull the activity log, inspect the full payload, and open a linked Statuspage incident. It unfurls Spike incident links into an editable preview and includes `@Spike`, an AI assistant that declares incidents, manages responders and on-call overrides, and answers questions about your account from a mention. This page covers:
