@@ -203,6 +203,10 @@
 * [Integrate Spike with Jira](integrations-guideline/integrate-spike-with-jira.md)
 * [Integrate Spike with Jenkins](integrations-guideline/integrate-spike-with-jenkins.md)
 
+## AI features <a href="#mcp" id="mcp"></a>
+
+* [Remote MCP server](mcp/remote-mcp-server.md)
+
 ## Administration
 
 * [Roles and access](administration/roles-and-access.md)
