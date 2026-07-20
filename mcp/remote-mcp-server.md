@@ -6,12 +6,12 @@ description: >-
 
 # Remote MCP server
 
-The Spike MCP server lets you connect any AI assistant that supports the Model Context Protocol directly to your Spike data. Query incidents, analyse alerts, check who's on call, acknowledge pages, and manage your on-call configuration — all from the AI tools you already use.
+The Spike MCP server lets you connect any AI assistant that supports the Model Context Protocol directly to your Spike data. Query incidents, analyse alerts, check who's on call, acknowledge pages, and manage your on-call configuration, all from the AI tools you already use.
 
-It's a hosted, remote server available at `https://mcp.spike.sh/mcp`. There's nothing to install and nothing to run — point your assistant at the URL and authenticate.
+It's a hosted, remote server available at `https://mcp.spike.sh/mcp`. There's nothing to install and nothing to run. Point your assistant at the URL and authenticate.
 
 {% hint style="info" %}
-The server is a stateless bridge to the Spike API. It stores no data and keeps no credentials — every request forwards your own key or token to Spike and reshapes the response for the assistant. It can create and update, but it **cannot delete, archive, or restore** anything. Irreversible actions stay in the dashboard by design.
+The server is a stateless bridge to the Spike API. It stores no data and keeps no credentials. Every request forwards your own key or token to Spike and reshapes the response for the assistant. It can create and update, but it **cannot delete, archive, or restore** anything. Irreversible actions stay in the dashboard by design.
 {% endhint %}
 
 ## What you can do
@@ -48,7 +48,7 @@ Check schedules, see who's carrying the pager, and set up rotations:
 >
 > "Who would get paged if payments goes down?"
 >
-> "Set up a day/night on-call: Ada & Ben 9am–9pm, Cy & Dana overnight."
+> "Set up a day/night on-call: Ada & Ben 9am-9pm, Cy & Dana overnight."
 >
 > "Override tomorrow's morning shift with me."
 
@@ -66,7 +66,7 @@ Inspect and tune how alerts turn into incidents, and where Spike forwards events
 
 ### Configuration and setup
 
-Manage the building blocks of your Spike account — services, escalation policies, integrations, and schedules:
+Manage the building blocks of your Spike account: services, escalation policies, integrations, and schedules:
 
 > "Create a service for the billing team with a new escalation policy."
 >
@@ -94,7 +94,7 @@ Or jump straight there: [https://app.spike.sh/integrations/apps/mcp](https://app
 
 ### For interactive use (OAuth)
 
-If you're a human connecting through an AI assistant like Claude, ChatGPT, or Cursor, authenticate with your Spike account via OAuth. The MCP client handles the flow — you just approve access in your browser when prompted. Actions are attributed to your user account, run with your role's permissions, and show you the same data you'd see in the dashboard.
+If you're a human connecting through an AI assistant like Claude, ChatGPT, or Cursor, authenticate with your Spike account via OAuth. The MCP client handles the flow. You just approve access in your browser when prompted. Actions are attributed to your user account, run with your role's permissions, and show you the same data you'd see in the dashboard.
 
 Spike isn't in the connector directories yet, so add it as a **custom connector** using the URL below.
 
@@ -165,7 +165,7 @@ args = ["-y", "mcp-remote", "https://mcp.spike.sh/mcp"]
 If you're connecting programmatic agents, custom workflows, or automation pipelines, use an API key. It authenticates as your organisation rather than a specific user and doesn't expire until you delete it.
 
 1. Get your API key from **Settings → API** in the Spike dashboard.
-2. Find your team ID (`x-team-id`) — the team's `_id`, visible in the dashboard URL, or returned by the `list_teams` tool.
+2. Find your team ID (`x-team-id`), the team's `_id`, visible in the dashboard URL, or returned by the `list_teams` tool.
 3. Pass both as headers when connecting your MCP client to `https://mcp.spike.sh/mcp`:
 
 ```json
@@ -183,7 +183,7 @@ If you're connecting programmatic agents, custom workflows, or automation pipeli
 }
 ```
 
-To test connectivity, send the MCP `initialize` request — every MCP client opens a session with this call, and a successful response confirms the endpoint is reachable, your key is valid, and the protocol version is compatible:
+To test connectivity, send the MCP `initialize` request. Every MCP client opens a session with this call, and a successful response confirms the endpoint is reachable, your key is valid, and the protocol version is compatible:
 
 ```bash
 curl -X POST https://mcp.spike.sh/mcp \
@@ -204,18 +204,18 @@ curl -X POST https://mcp.spike.sh/mcp \
 ```
 
 {% hint style="warning" %}
-`x-team-id` is **required** for the incident write tools — without it, the request isn't scoped to your organisation and the server refuses to make it. Eight write tools (reassign, add/remove responders, add note, mute/unmute) are **OAuth only** and won't appear on an API-key connection, because they must be attributed to a real person.
+`x-team-id` is **required** for the incident write tools; the server uses it to route each action to the right team. Eight write tools (reassign, add/remove responders, add note, mute/unmute) are **OAuth only** and won't appear on an API-key connection, because they must be attributed to a real person.
 {% endhint %}
 
 ## Getting the most out of it
 
 ### Read your configuration first
 
-Before filtering, routing, or creating anything, ask the discovery tools for what already exists — `list_teams`, `list_services`, `list_integrations`, and `list_escalation_policies` give you the IDs and names you'll need for everything else.
+Before filtering, routing, or creating anything, ask the discovery tools for what already exists. `list_teams`, `list_services`, `list_integrations`, and `list_escalation_policies` give you the IDs and names you'll need for everything else.
 
 ### Get the full briefing with `get_incident`
 
-`get_incident` returns an eight-part briefing rather than a raw record — a one-line assessment, the raw alert payload, the execution timeline, who it routes to, blast radius, repeat pattern, and suggested next tools. Reach for it when you want the AI to actually reason about an incident, not just list its fields.
+`get_incident` returns an eight-part briefing rather than a raw record: a one-line assessment, the raw alert payload, the execution timeline, who it routes to, blast radius, repeat pattern, and suggested next tools. Reach for it when you want the AI to actually reason about an incident, not just list its fields.
 
 ### Start with stats, then drill in
 
@@ -229,7 +229,7 @@ This is far more efficient than paginating through incidents one by one.
 
 ### Use the right identifier
 
-Identifiers in Spike are **not interchangeable** — the single commonest cause of a failed tool call. Each tool's description says where its IDs come from; the rules are:
+Identifiers in Spike are **not interchangeable**. This is the single commonest cause of a failed tool call. Each tool's description says where its IDs come from; the rules are:
 
 | You want | Use this identifier |
 |---|---|
@@ -243,9 +243,9 @@ Identifiers in Spike are **not interchangeable** — the single commonest cause 
 ## Security and privacy
 
 * **No storage, no secrets.** The server keeps no database and no copy of your credentials. Each request forwards your key or token to Spike and forgets it.
-* **Nothing destructive.** There are no tools to archive, delete, or restore. The one deletion — removing an on-call override — is reversible by re-creating it. An assistant acting on a bad prompt can't wipe your escalation policies.
+* **Nothing destructive.** There are no tools to archive, delete, or restore. The one deletion, removing an on-call override, is reversible by re-creating it.
 * **OAuth respects your role.** Signed-in actions run as you, are limited by your Spike permissions, and are attributed to you in the incident timeline.
-* **Team scoping is enforced.** Incident write tools refuse to run without a team ID, so a request is always scoped to your organisation.
+* **Scoped to your team.** The team ID you connect with scopes every action, so tools act only within that team's data.
 
 ## Available tools
 
@@ -270,7 +270,7 @@ Identifiers in Spike are **not interchangeable** — the single commonest cause 
 | Tool | Description |
 |---|---|
 | `list_incidents` | Search and browse incidents with filters |
-| `get_incident` | Full incident briefing — assessment, timeline, routing, blast radius |
+| `get_incident` | Full incident briefing: assessment, timeline, routing, blast radius |
 | `incident_overview` | What needs attention right now |
 | `incident_stats` | Totals, MTTA/MTTR, and top offenders over a window |
 | `get_incident_activity` | Activity log for an incident |
@@ -281,8 +281,8 @@ Identifiers in Spike are **not interchangeable** — the single commonest cause 
 | `resolve_incidents` | Resolve one or more incidents |
 | `unacknowledge_incidents` | Move incidents back to open |
 | `escalate_incidents` | Escalate to the next level |
-| `set_incident_priority` | Set priority (p1–p5) |
-| `set_incident_severity` | Set severity (sev1–sev3) |
+| `set_incident_priority` | Set priority (p1 to p5) |
+| `set_incident_severity` | Set severity (sev1 to sev3) |
 | `reassign_incidents` *(OAuth only)* | Reassign to another responder |
 | `add_responders` *(OAuth only)* | Add responders to an incident |
 | `remove_responders` *(OAuth only)* | Remove responders |
