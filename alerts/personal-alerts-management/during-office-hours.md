@@ -61,13 +61,13 @@ By default, your office hours are set to Monday through Friday, 9 AM to 5 PM in 
   <tr>
       <td><strong>Resolved incident alerts</strong></td>
       <td>Alerts when incidents are resolved</td>
-      <td><a href="resolved-incident-alerts.md">Broken link</a></td>
+      <td><a href="resolved-incident-alerts.md">Resolved incident alerts</a></td>
       <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-resolved-alerts.png">thumbnail-resolved-alerts.png</a></td>
     </tr>
     <tr>
       <td><strong>Out of office</td>
       <td>Step away confidently by scheduling Out of office</strong></td>
-      <td><a href="out-of-office.md">Broken link</a></td>
+      <td><a href="out-of-office.md">Out of office</a></td>
       <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-out-of-office.png">thumbnail-resolved-alerts.png</a></td>
     </tr>
   </tbody>

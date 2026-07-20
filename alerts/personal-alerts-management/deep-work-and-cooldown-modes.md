@@ -59,19 +59,19 @@ You will receive critical incident (SEV1) alerts.
   <tr>
       <td><strong>Resolved incident alerts</strong></td>
       <td>Alerts when incidents are resolved</td>
-      <td><a href="resolved-incident-alerts.md">Broken link</a></td>
+      <td><a href="resolved-incident-alerts.md">Resolved incident alerts</a></td>
       <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-resolved-alerts.png">thumbnail-resolved-alerts.png</a></td>
     </tr>
     <tr>
       <td><strong>During office hours</strong></td>
       <td>Custom routing of alerts during office hours</td>
-      <td><a href="during-office-hours.md">Broken link</a></td>
+      <td><a href="during-office-hours.md">During office hours</a></td>
       <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-office-hours.png">thumbnail-resolved-alerts.png</a></td>
     </tr>
     <tr>
       <td><strong>Out of office</strong></td>
       <td>Step away confidently by scheduling Out of office</td>
-      <td><a href="out-of-office.md">Broken link</a></td>
+      <td><a href="out-of-office.md">Out of office</a></td>
       <td><a href="../../.gitbook/assets/personal-alerts-management/thumbnail-out-of-office.png">thumbnail-resolved-alerts.png</a></td>
     </tr>
   </tbody>
