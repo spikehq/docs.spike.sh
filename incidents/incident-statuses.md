@@ -1,5 +1,5 @@
 ---
-description: Every incident on Spike has one of three statuses: triggered, acknowledged, or resolved. The status determines what Spike does next.
+description: "Every incident on Spike has one of three statuses: triggered, acknowledged, or resolved. The status determines what Spike does next."
 ---
 
 # Incident statuses
