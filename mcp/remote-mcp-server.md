@@ -84,6 +84,14 @@ See what exists and how it's wired together:
 
 The remote MCP server is available at `https://mcp.spike.sh/mcp`. There are two ways to authenticate, depending on your use case.
 
+### Find MCP in your dashboard
+
+1. Go to **Integrations** in the Spike dashboard.
+2. Click **New**.
+3. Search for **MCP** — or hit `Cmd + K` anywhere in the dashboard and search for MCP.
+
+Or jump straight there: [https://app.spike.sh/integrations/apps/mcp](https://app.spike.sh/integrations/apps/mcp)
+
 ### For interactive use (OAuth)
 
 If you're a human connecting through an AI assistant like Claude, ChatGPT, or Cursor, authenticate with your Spike account via OAuth. The MCP client handles the flow — you just approve access in your browser when prompted. Actions are attributed to your user account, run with your role's permissions, and show you the same data you'd see in the dashboard.
