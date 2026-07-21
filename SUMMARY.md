@@ -8,10 +8,10 @@
 * [What is an incident?](incidents/what-is-an-incident.md)
 * [Incident lifecycle](incidents/incident-lifecycle.md)
 * [Incident statuses](incidents/incident-statuses.md)
-* [How to change incident status?](incidents/how-to-change-incident-status.md)
+* [How to change incident status](incidents/how-to-change-incident-status.md)
 * [Acknowledge timeout](incidents/acknowledge-timeout.md)
 * [Grouping incidents](incidents/grouping-incidents.md)
-* [Priority and Severity](incidents/priority-and-severity.md)
+* [Priority and severity](incidents/priority-and-severity.md)
 * [Mute alerts](incidents/mute-alerts.md)
 * [Reassign incidents](incidents/reassign-incidents.md)
 * [Sharing incidents](incidents/sharing-incidents.md)
@@ -21,10 +21,10 @@
 
 ## Alerts
 
-* [Phone](alerts/phone.md)
-* [SMS](alerts/sms.md)
+* [Phone alerts](alerts/phone.md)
+* [SMS alerts](alerts/sms.md)
 * [Mobile app alerts](alerts/mobile-app-alerts.md)
-* [E-mail](alerts/email.md)
+* [Email alerts](alerts/email.md)
 * [Slack](alerts/slack.md)
 * [Microsoft Teams](alerts/microsoft-teams.md)
 * [WhatsApp](alerts/whatsapp.md)
@@ -39,12 +39,12 @@
 
 ## Services
 
-* [Introduction to services on Spike](services/introduction-to-services-on-spike.md)
+* [Introduction to services](services/introduction-to-services-on-spike.md)
 
 ## Escalations
 
-* [Introduction to escalations](escalations/introduction-to-escalations.md)
-* [How to create an escalation policy?](escalations/how-to-create-an-escalation-policy.md)
+* [Escalation policies](escalations/introduction-to-escalations.md)
+* [How to create an escalation policy](escalations/how-to-create-an-escalation-policy.md)
 * [Repeat escalations](escalations/repeat-escalations.md)
 * [Archive escalation policy](escalations/archive-escalation-policy.md)
 
@@ -86,19 +86,19 @@
 
 ## Playbooks
 
-* [Introduction to Playbooks](playbooks/introduction-to-playbooks.md)
+* [Playbooks](playbooks/introduction-to-playbooks.md)
 * [Actions in Playbooks](playbooks/actions-in-playbooks.md)
-* [Automating your Playbooks](playbooks/automating-your-playbooks.md)
+* [Automating Playbooks](playbooks/automating-your-playbooks.md)
 * [Run Playbooks manually](playbooks/run-playbooks-manually.md)
 
 ## Status Pages
 
-* [Create Status page](status-pages/create-status-page.md)
+* [Create a status page](status-pages/create-status-page.md)
 * [Style your status page](status-pages/style-your-status-page.md)
-* [Incidents on status page](status-pages/create-public-incident-on-status-page.md)
-* [Create Planned Maintenance on status page](status-pages/create-planned-maintenance-on-status-page.md)
-* [Edit Planned Maintenance](status-pages/edit-planned-maintenance.md)
-* [Add custom domain to status page](status-pages/add-custom-domain-to-status-page.md)
+* [Incidents on your status page](status-pages/create-public-incident-on-status-page.md)
+* [Create planned maintenance on your status page](status-pages/create-planned-maintenance-on-status-page.md)
+* [Edit planned maintenance](status-pages/edit-planned-maintenance.md)
+* [Add a custom domain to your status page](status-pages/add-custom-domain-to-status-page.md)
 * [Manage your subscribers](status-pages/manage-your-subscribers.md)
 * [Embed status page notifications on your website](status-pages/embed-status-page-notifications-on-your-website.md)
 * [Live status widget](status-pages/live-status-widget.md)
@@ -116,7 +116,7 @@
 * [Integrate Spike with Sematext](integrations-guideline/integrate-spike-with-sematext.md)
 * [Integrate Spike with Healthchecks](integrations-guideline/integrate-healthchecks-with-spike.md)
 * [Integrate Spike with Pingdom](integrations-guideline/integrate-spike-with-pingdom.md)
-* [Integrate Spike.sh with Sentry](integrations-guideline/integrate-spike-with-sentry.md)
+* [Integrate Spike with Sentry](integrations-guideline/integrate-spike-with-sentry.md)
 * [Integrate Spike with Apex ping](integrations-guideline/integrate-apex-ping-with-spike.md)
 * [Integrate Spike with Uptime Robot](integrations-guideline/integrate-spike-with-uptime-robot.md)
 * [Integrate Spike with Twilio](integrations-guideline/integrate-spike-with-twilio.md)
