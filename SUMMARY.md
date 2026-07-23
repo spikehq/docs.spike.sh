@@ -1,7 +1,7 @@
 # Table of contents
 
 * [Introduction](README.md)
-* [What is Spike.sh?](what-is-spike.md)
+* [What is Spike?](what-is-spike.md)
 
 ## Incidents
 
