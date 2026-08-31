@@ -56,5 +56,3 @@ Open [organisation settings](https://app.spike.sh/settings/general/organisation)
 Find your organisation slug in [organisation settings](https://app.spike.sh/settings/general/organisation) and use it at the login screen to sign in via SSO.
 
 <figure><img src="../.gitbook/assets/sso-slug.png" alt="Organisation slug in Spike settings"><figcaption></figcaption></figure>
-
-<figure><img src="../.gitbook/assets/image (147).png" alt="SSO login screen with organisation slug"><figcaption></figcaption></figure>
