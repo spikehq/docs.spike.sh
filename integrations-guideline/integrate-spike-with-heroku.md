@@ -1,3 +1,6 @@
+---
+description: "Connect Heroku to Spike via webhook so app and dyno issues trigger real-time on-call incidents."
+---
 # Integrate Spike with Heroku
 
 ### Service and integration

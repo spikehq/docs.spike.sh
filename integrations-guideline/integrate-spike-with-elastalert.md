@@ -1,3 +1,6 @@
+---
+description: "Send ElastAlert notifications to Spike via webhook so Elasticsearch-based alerts reach your on-call team instantly."
+---
 # Integrate Spike with ElastAlert
 
 ### Service and Integration

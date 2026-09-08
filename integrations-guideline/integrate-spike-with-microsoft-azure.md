@@ -1,3 +1,6 @@
+---
+description: "Send Microsoft Azure alerts to Spike via webhook so cloud infrastructure issues trigger instant on-call notifications."
+---
 # Integrate Spike with Microsoft Azure
 
 ### Service and integration

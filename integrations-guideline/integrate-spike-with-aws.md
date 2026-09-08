@@ -1,3 +1,6 @@
+---
+description: "Connect AWS to Spike using CloudWatch alarms and an SNS topic so infrastructure alerts trigger real-time on-call incidents."
+---
 # Integrate Spike with AWS
 
 ## Service and Integration

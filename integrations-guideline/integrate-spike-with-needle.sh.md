@@ -1,3 +1,6 @@
+---
+description: "Integrate Needle.sh with Spike via webhook to turn monitoring alerts into real-time on-call incidents."
+---
 # Integrate Spike with Needle.sh
 
 ### Service and integration

@@ -1,3 +1,6 @@
+---
+description: "Connect Zebrium to Spike via webhook so machine-learning-detected anomalies trigger on-call incidents."
+---
 # Integrate Spike with Zebrium
 
 ### Service and Integration

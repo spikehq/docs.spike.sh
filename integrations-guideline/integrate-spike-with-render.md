@@ -1,3 +1,6 @@
+---
+description: "Connect Render to Spike for real-time alerts on deployments, service health, and scaling events, so your team stays on top of infrastructure issues."
+---
 # Render
 
 ## Overview

@@ -1,3 +1,6 @@
+---
+description: "Send Hexowatch website-monitoring alerts to Spike via webhook so page changes trigger instant on-call notifications."
+---
 # Integrate Spike with Hexowatch
 
 ### Service and Integration

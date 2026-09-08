@@ -1,3 +1,6 @@
+---
+description: "Connect Uptime monitoring to Spike via webhook so downtime alerts reach your on-call team immediately."
+---
 # Integrate Spike with Uptime
 
 ### Service and integration

@@ -1,3 +1,6 @@
+---
+description: "Connect Sumo Logic to Spike via webhook so log analytics alerts trigger real-time on-call incidents."
+---
 # Integrate Spike with Sumo Logic
 
 ### Service and integration

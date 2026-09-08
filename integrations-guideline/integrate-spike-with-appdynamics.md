@@ -1,3 +1,6 @@
+---
+description: "Send AppDynamics alerts to Spike via webhook so application performance issues reach your on-call team instantly."
+---
 # Integrate Spike with AppDynamics
 
 ### Service and Integration
