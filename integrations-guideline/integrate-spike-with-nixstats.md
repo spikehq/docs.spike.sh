@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from Nixstats?
+description: "Step-by-step guide to connect Nixstats to Spike and receive Phone, SMS, and Slack alerts for server monitoring issues."
 ---
 
 # Integrate Spike with Nixstats

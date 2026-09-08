@@ -1,5 +1,5 @@
 ---
-description: "Step-by-step guide to setting up any integration with Spike, from webhooks to native tool connections."
+description: "Step-by-step instructions for setting up any integration with Spike, from simple webhooks to native tool connections."
 ---
 # Setup integrations
 

@@ -1,5 +1,5 @@
 ---
-description: Simple guide to archiving an integration
+description: "Step-by-step guide to archiving an integration in Spike from the integrations settings page in your dashboard."
 ---
 
 # Archive an integration

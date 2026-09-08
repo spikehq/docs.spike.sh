@@ -1,5 +1,5 @@
 ---
-description: Create tickets in Zendesk, Freshdesk, or Supportpal directly from Spike incidents.
+description: "Create tickets in Zendesk, Freshdesk, or Supportpal directly from Spike incidents to keep response and support in sync."
 ---
 
 # Helpdesk integrations

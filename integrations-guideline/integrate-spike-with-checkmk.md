@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from CheckMk?
+description: "Step-by-step guide to connect CheckMk to Spike and receive Phone, SMS, and Slack alerts for infrastructure issues."
 ---
 
 # Integrate Spike with Checkmk

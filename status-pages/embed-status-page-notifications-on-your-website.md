@@ -1,5 +1,5 @@
 ---
-description: Embed live status notifications on your website to keep visitors informed about incidents and maintenance.
+description: "Embed live status notifications directly on your website so visitors see updates without visiting your status page."
 ---
 
 # Embed status page notifications on your website

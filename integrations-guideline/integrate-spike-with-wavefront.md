@@ -1,5 +1,5 @@
 ---
-description: "Send Wavefront observability alerts to Spike via webhook for instant on-call notifications."
+description: "Send Wavefront observability alerts to Spike via webhook for instant on-call notifications on performance issues."
 ---
 # Integrate Spike with Wavefront
 

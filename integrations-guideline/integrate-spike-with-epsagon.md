@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from Epsagon?
+description: "Step-by-step guide to connect Epsagon to Spike and receive Phone, SMS, and Slack alerts for monitoring issues."
 ---
 
 # Integrate Spike with Epsagon

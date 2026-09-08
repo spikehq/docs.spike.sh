@@ -1,5 +1,5 @@
 ---
-description: Create a status page to communicate the health of your system components to customers.
+description: "Create a public status page in Spike to communicate the health of your website, API, or any customer-facing service."
 ---
 
 # Create a status page

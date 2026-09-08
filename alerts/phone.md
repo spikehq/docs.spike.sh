@@ -1,5 +1,5 @@
 ---
-description: Spike calls your phone when an incident triggers. During the call, you can acknowledge, resolve, or escalate.
+description: "Spike calls your phone when an incident triggers — press a key during the call to acknowledge, resolve, or escalate it."
 ---
 
 # Phone alerts

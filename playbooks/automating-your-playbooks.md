@@ -1,5 +1,5 @@
 ---
-description: Set up Playbooks to run automatically when an incident matches conditions you define.
+description: "Set up Playbooks to run automatically on every incident that matches the conditions you define — no manual trigger needed."
 ---
 
 # Automating Playbooks

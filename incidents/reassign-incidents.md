@@ -1,5 +1,5 @@
 ---
-description: Reassign an incident to any team member directly from the dashboard, incident page, or service view.
+description: "Reassign any incident to a different team member directly from the dashboard, incident page, or service view page."
 ---
 
 # Reassign incidents

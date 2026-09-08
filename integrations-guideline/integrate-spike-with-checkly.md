@@ -1,7 +1,5 @@
 ---
-description: >-
-  Get alerts if your API breaks, web app with crucial transactions with E2E
-  testing alerts from Checkly
+description: "Get real-time alerts when your API breaks or an end-to-end web transaction fails by connecting Checkly to Spike."
 ---
 
 # Integrate Spike with Checkly

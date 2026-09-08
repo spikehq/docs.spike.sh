@@ -1,5 +1,5 @@
 ---
-description: Create a planned maintenance event to notify subscribers about upcoming service impact.
+description: "Create a planned maintenance event on your status page to notify subscribers ahead of expected service impact."
 ---
 
 # Create planned maintenance on your status page

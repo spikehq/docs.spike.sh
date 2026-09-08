@@ -1,5 +1,5 @@
 ---
-description: Spike sends notifications when your on-call shift starts or ends, across personal and team-wide channels.
+description: "Spike notifies you when your on-call shift starts or ends, across both personal channels and shared team channels."
 ---
 
 <figure><img src="../.gitbook/assets/oncall/oncall-notifications--cover.png" alt="On-call shift notifications on Spike"><figcaption></figcaption></figure>

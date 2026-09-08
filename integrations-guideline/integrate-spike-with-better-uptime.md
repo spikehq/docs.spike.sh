@@ -1,5 +1,5 @@
 ---
-description: "Send Better Uptime alerts to Spike via webhook for instant on-call notifications when your services go down."
+description: "Send Better Uptime alerts to Spike via webhook for instant on-call notifications the moment your services go down."
 ---
 # Integrate Spike with Better Uptime
 

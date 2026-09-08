@@ -1,5 +1,5 @@
 ---
-description: Trigger any Playbook manually from the dashboard or an incident page.
+description: "Trigger any Spike Playbook manually from the dashboard or an incident page, and watch each action's progress live."
 ---
 
 # Run Playbooks manually

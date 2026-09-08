@@ -1,5 +1,5 @@
 ---
-description: Connect Freshdesk to Spike to create tickets from incidents and manage them directly from Freshdesk.
+description: "Connect Freshdesk to Spike to create tickets from incidents, and check or act on incidents from within Freshdesk."
 ---
 
 <figure><img src="../../.gitbook/assets/helpdesk-integrations/freshdesk-cover.png" alt="Freshdesk integration with Spike"><figcaption></figcaption></figure>

@@ -1,5 +1,5 @@
 ---
-description: Embed a live status widget on your website to show real-time system health.
+description: "Embed a live status widget on your website so every visitor can check your system's real-time health at a glance."
 layout:
   title:
     visible: true

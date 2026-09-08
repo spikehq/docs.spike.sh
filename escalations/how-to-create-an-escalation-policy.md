@@ -1,5 +1,5 @@
 ---
-description: Create an escalation policy to define who gets alerted and when during an incident.
+description: "Step-by-step guide to creating an escalation policy in Spike to define who gets alerted, and when, during an incident."
 ---
 
 # How to create an escalation policy

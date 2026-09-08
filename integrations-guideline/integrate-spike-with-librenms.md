@@ -1,5 +1,5 @@
 ---
-description: "Send LibreNMS network monitoring alerts to Spike via webhook for instant on-call notifications."
+description: "Send LibreNMS network monitoring alerts to Spike via webhook for instant on-call notifications on device issues."
 ---
 # Integrate Spike with LibreNMS
 

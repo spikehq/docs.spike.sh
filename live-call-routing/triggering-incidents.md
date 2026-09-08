@@ -1,5 +1,5 @@
 ---
-description: Automatically trigger incidents from incoming calls using Live Call Routing.
+description: "Trigger incidents from Live Call Routing calls either manually from the call log, or automatically after each call."
 ---
 
 <figure><img src="../.gitbook/assets/live-call-routing/incidents.png" alt="Triggering incidents from Live Call Routing"><figcaption></figcaption></figure>

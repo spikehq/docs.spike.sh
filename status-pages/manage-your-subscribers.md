@@ -1,5 +1,5 @@
 ---
-description: Let visitors subscribe to your status page for real-time updates on incidents and maintenance events.
+description: "Let visitors subscribe to your Spike status page so they get real-time updates on incidents and maintenance events."
 layout:
   title:
     visible: true

@@ -1,5 +1,5 @@
 ---
-description: Remove a team member and handle reassignment of their duties.
+description: "Remove a team member from Spike and reassign their on-call duties, escalation policies, and any open incidents."
 ---
 
 # Removing team members

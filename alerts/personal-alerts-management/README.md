@@ -1,5 +1,5 @@
 ---
-description: Manage how, when, and where you receive incident alerts to suit your schedule and reduce alert fatigue.
+description: "Manage how, when, and where you receive incident alerts in Spike to suit your schedule and reduce alert fatigue."
 ---
 
 # Personal alerts management

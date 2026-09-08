@@ -1,5 +1,5 @@
 ---
-description: Connect Spike to a self-hosted Jira server using OAuth credentials.
+description: "Connect Spike to a self-hosted Jira server using OAuth credentials to create tickets directly from your incidents."
 ---
 
 # JIRA server (self-hosted)

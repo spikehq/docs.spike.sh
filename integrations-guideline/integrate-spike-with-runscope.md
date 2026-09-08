@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from Runscope?
+description: "Step-by-step guide to connect Runscope to Spike and receive Phone, SMS, and Slack alerts for API test failures."
 ---
 
 # Integrate Spike with Runscope

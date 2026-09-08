@@ -1,5 +1,5 @@
 ---
-description: Check whether your teammates have verified their phone and email to receive alerts.
+description: "Check whether your teammates have verified their phone and email, and send a reminder if alerts aren't reaching them."
 ---
 
 # Check if your team is getting alerts

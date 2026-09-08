@@ -1,5 +1,5 @@
 ---
-description: Share any incident as a public link with customers, stakeholders, or your team.
+description: "Share any Spike incident as a public link with customers, stakeholders, or your team to communicate an outage."
 ---
 
 # Sharing incidents

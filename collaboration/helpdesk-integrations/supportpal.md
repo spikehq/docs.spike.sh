@@ -1,5 +1,5 @@
 ---
-description: Connect Supportpal to Spike and create support tickets directly from incidents.
+description: "Connect Supportpal to Spike to create support tickets directly from incidents, syncing incident data one-way to Supportpal."
 ---
 
 <figure><img src="../../.gitbook/assets/helpdesk-integrations/supportpal-cover.png" alt="Supportpal integration with Spike"><figcaption></figcaption></figure>

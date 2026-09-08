@@ -1,5 +1,5 @@
 ---
-description: "Send Splunk alerts to Spike via webhook for instant on-call notifications when Splunk detects an issue."
+description: "Send Splunk alerts to Spike via webhook for instant Phone, SMS, and Slack notifications when Splunk detects an issue."
 ---
 # Integrate Spike with Splunk
 

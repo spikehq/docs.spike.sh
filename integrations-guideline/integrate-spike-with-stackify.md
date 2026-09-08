@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from Stackify?
+description: "Step-by-step guide to connect Stackify to Spike and receive Phone, SMS, and Slack alerts for application issues."
 ---
 
 # Integrate Spike with Stackify

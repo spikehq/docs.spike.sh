@@ -1,5 +1,5 @@
 ---
-description: Mute alerts on an incident to stop notifications for a set period without resolving it.
+description: "Mute alerts on an incident to stop repeat notifications for a set period, without resolving the incident itself."
 ---
 
 # Mute alerts

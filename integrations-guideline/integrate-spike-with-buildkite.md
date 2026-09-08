@@ -1,5 +1,5 @@
 ---
-description: "Connect Buildkite to Spike via webhook so CI/CD pipeline failures trigger real-time on-call incidents."
+description: "Connect Buildkite to Spike via webhook so CI/CD pipeline failures trigger real-time on-call incidents immediately."
 ---
 # Integrate Spike with Buildkite
 

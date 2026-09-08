@@ -1,5 +1,5 @@
 ---
-description: "Connect Logz.io to Spike via webhook so log analytics alerts reach your on-call team in real time."
+description: "Connect Logz.io to Spike via webhook so log analytics alerts reach your on-call team in real time, day or night."
 ---
 # Integrate Spike with Logz
 

@@ -1,5 +1,5 @@
 ---
-description: Spike sends email alerts for incidents, including incident details, stack trace, and a public link.
+description: "Spike sends detailed email alerts for incidents, including incident details, stack trace, and a shareable public link."
 ---
 
 # Email alerts

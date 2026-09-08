@@ -1,5 +1,5 @@
 ---
-description: Configure SAML Single Sign-On (SSO) for your Spike organisation.
+description: "Configure SAML Single Sign-On (SSO) in Spike for both the incident dashboard and your public status page dashboard."
 ---
 
 # Single Sign-On (SSO)

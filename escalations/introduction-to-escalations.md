@@ -1,5 +1,5 @@
 ---
-description: Escalation policies define who gets alerted and when, so incidents don't go unacknowledged.
+description: "Escalation policies define who gets alerted, through which channel, and in what order, until an incident is acknowledged."
 ---
 
 # Escalation policies

@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from New Relic?
+description: "Step-by-step guide to connect New Relic to Spike and receive Phone, SMS, and Slack alerts for application performance issues."
 ---
 
 # Integrate Spike with New Relic

@@ -1,5 +1,5 @@
 ---
-description: All actions available in Spike Playbooks, with examples of how to use them.
+description: "All actions available in Spike Playbooks — run in the order you define — with examples of how to use each one."
 ---
 
 # Actions in Playbooks

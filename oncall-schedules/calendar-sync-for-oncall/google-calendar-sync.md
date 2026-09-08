@@ -1,6 +1,5 @@
 ---
-description: >-
-  Sync your on-call schedule with your Google Calendar
+description: "Sync your Spike on-call schedule with Google Calendar to see upcoming shifts alongside your other calendar events."
 ---
 
 <figure><img src="../../.gitbook/assets/oncall/calendar-sync/Google calendar cover.png" alt="Export on-call schedule to your calendar"><figcaption></figcaption></figure>

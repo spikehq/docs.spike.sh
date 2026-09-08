@@ -1,5 +1,5 @@
 ---
-description: Manage team roles and permissions to define what each member can do in Spike.
+description: "Manage team roles and permissions in Spike to define exactly what each member can view, edit, or configure access to."
 ---
 
 # Roles and access

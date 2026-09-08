@@ -1,5 +1,5 @@
 ---
-description: Message parsing fails when Spike cannot convert an integration's JSON payload into a readable format.
+description: "Message parsing fails when Spike can't convert an integration's JSON alert payload into a readable incident format."
 ---
 
 # Why does message parsing fail?

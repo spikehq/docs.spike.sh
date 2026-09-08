@@ -1,5 +1,5 @@
 ---
-description: "Connect Logentries to Spike via webhook to turn log-based alerts into real-time on-call notifications."
+description: "Connect Logentries to Spike via webhook to turn log-based alerts into real-time on-call notifications instantly."
 ---
 # Integrate Spike with Logentries
 

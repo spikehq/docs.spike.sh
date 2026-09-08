@@ -1,5 +1,5 @@
 ---
-description: Connect ClickUp to Spike and create tasks directly from incidents.
+description: "Connect ClickUp to Spike to create tasks directly from incidents, so follow-up work is tracked without leaving Spike."
 ---
 
 # ClickUp
