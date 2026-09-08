@@ -1,5 +1,5 @@
 ---
-description: Live Call Routing gives your team a phone number that routes incoming calls to the on-call engineer.
+description: "Live Call Routing gives your team a dedicated phone number that routes incoming calls straight to the on-call engineer."
 ---
 
 <figure><img src="../.gitbook/assets/live-call-routing/banner-image.png" alt="Live Call Routing on Spike"><figcaption></figcaption></figure>

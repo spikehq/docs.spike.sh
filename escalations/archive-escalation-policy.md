@@ -1,5 +1,5 @@
 ---
-description: Archive an escalation policy when it's no longer in use.
+description: "Archive an escalation policy in Spike once it's no longer associated with any integration, from the policy settings."
 ---
 
 # Archive escalation policy

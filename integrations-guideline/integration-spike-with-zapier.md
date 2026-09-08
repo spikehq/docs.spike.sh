@@ -1,7 +1,5 @@
 ---
-description: >-
-  Automate your workflow by creating incidents or get triggered on different
-  channels with Zapier and Spike
+description: "Automate incident creation and route alerts to different channels by connecting Zapier to Spike — no code required."
 ---
 
 # Integrate Spike with Zapier

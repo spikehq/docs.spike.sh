@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from Honeybadger?
+description: "Step-by-step guide to connect Honeybadger to Spike and receive Phone, SMS, and Slack alerts for application errors."
 ---
 
 # Integrate Spike with Honeybadger

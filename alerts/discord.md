@@ -1,5 +1,5 @@
 ---
-description: Spike sends incident alerts to Discord channels. Set it up using a webhook.
+description: "Set up Spike's webhook integration to send incident and on-call alerts directly to your team's Discord channels."
 ---
 
 # Discord

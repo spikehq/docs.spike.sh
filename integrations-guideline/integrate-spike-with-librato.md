@@ -1,7 +1,5 @@
 ---
-description: >-
-  Get alerts for monitoring your server, application and more with Librato and
-  Spike
+description: "Get real-time Phone, SMS, and Slack alerts for server and application monitoring issues by connecting Librato to Spike."
 ---
 
 # Integrate Spike with Librato

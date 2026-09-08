@@ -1,5 +1,5 @@
 ---
-description: Playbooks automate incident response by running predefined actions manually or based on conditions.
+description: "A Playbook is a sequence of response steps Spike runs on an incident, triggered manually or automatically based on conditions."
 ---
 
 # Playbooks

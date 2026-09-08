@@ -1,7 +1,5 @@
 ---
-description: >-
-  Get alerts for monitoring your server, application, performance and more with
-  AppSignal and Spike
+description: "Get real-time Phone, SMS, and Slack alerts for server, application, and performance issues with AppSignal and Spike."
 ---
 
 # Integrate Spike with AppSignal

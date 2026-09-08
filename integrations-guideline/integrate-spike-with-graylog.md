@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from Graylog?
+description: "Step-by-step guide to connect Graylog to Spike and receive Phone, SMS, and Slack alerts for log-based issues fast."
 ---
 
 # Integrate Spike with Graylog

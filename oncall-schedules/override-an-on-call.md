@@ -1,5 +1,5 @@
 ---
-description: On-call overrides assign temporary coverage for a shift without changing the underlying schedule.
+description: "On-call overrides assign temporary, one-time shift coverage for a member without changing the underlying schedule."
 ---
 
 # On-call overrides

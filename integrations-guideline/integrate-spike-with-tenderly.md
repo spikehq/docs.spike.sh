@@ -1,5 +1,5 @@
 ---
-description: "Connect Tenderly to Spike via webhook to route smart contract and blockchain alerts into on-call incidents."
+description: "Connect Tenderly to Spike via webhook to route smart contract and blockchain monitoring alerts into on-call incidents."
 ---
 # Integrate Spike with Tenderly
 

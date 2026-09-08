@@ -1,5 +1,5 @@
 ---
-description: Connect your Plivo number to Spike to enable Live Call Routing.
+description: "Connect your Plivo phone number to Spike to enable Live Call Routing for incoming, human-reported incident calls."
 ---
 
 <figure><img src="../.gitbook/assets/live-call-routing/plivo-banner.png" alt="Configure Plivo for Live Call Routing on Spike"><figcaption></figcaption></figure>

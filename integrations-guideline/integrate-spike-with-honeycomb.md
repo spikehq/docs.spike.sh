@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from Honeycomb.io?
+description: "Step-by-step guide to connect Honeycomb to Spike and receive Phone, SMS, and Slack alerts for observability issues."
 ---
 
 # Integrate Spike with Honeycomb

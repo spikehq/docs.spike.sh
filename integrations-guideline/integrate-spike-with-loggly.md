@@ -1,5 +1,5 @@
 ---
-description: "Send Loggly alerts to Spike via webhook so log-based issues reach your on-call team in real time."
+description: "Send Loggly alerts to Spike via webhook so log-based issues reach your on-call team in real time, day or night."
 ---
 # Integrate Spike with Loggly
 

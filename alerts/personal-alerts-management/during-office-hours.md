@@ -1,5 +1,5 @@
 ---
-description: "Customize how alerts are routed during office hours to fit your work preferences."
+description: "Customize how Spike routes your alerts during office hours — by SMS, mobile app, or another channel that fits your workflow."
 ---
 
 <figure><img src="../../.gitbook/assets/alerts/alerts-office-hours-cover-1.png" alt="Alerts during office hours settings in Spike"><figcaption><p>Configure alert preferences for office hours.</p></figcaption></figure>

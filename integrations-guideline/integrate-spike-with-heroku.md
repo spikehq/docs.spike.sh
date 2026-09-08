@@ -1,5 +1,5 @@
 ---
-description: "Connect Heroku to Spike via webhook so app and dyno issues trigger real-time on-call incidents."
+description: "Connect Heroku to Spike via webhook so app crashes and dyno restarts trigger real-time on-call incidents immediately."
 ---
 # Integrate Spike with Heroku
 

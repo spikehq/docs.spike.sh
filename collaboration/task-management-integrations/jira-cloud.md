@@ -1,5 +1,5 @@
 ---
-description: Connect Jira Cloud to Spike and create Jira tickets directly from incidents.
+description: "Connect Jira Cloud to Spike to create Jira tickets directly from incidents for tracking longer-term follow-up work."
 ---
 
 # JIRA Cloud

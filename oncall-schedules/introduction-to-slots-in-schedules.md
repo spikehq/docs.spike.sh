@@ -1,5 +1,5 @@
 ---
-description: Slots restrict on-call coverage to specific hours or days, so team members aren't on-call around the clock.
+description: "Slots restrict on-call coverage to specific hours or days within a shift, so members aren't on-call around the clock."
 ---
 
 # Slots in schedules

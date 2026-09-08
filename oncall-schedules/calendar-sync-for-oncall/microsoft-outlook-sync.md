@@ -1,6 +1,5 @@
 ---
-description: >-
-  Sync your on-call schedule with your Microsoft Outlook
+description: "Sync your Spike on-call schedule with Microsoft Outlook to see upcoming shifts alongside your other calendar events."
 ---
 
 <figure><img src="../../.gitbook/assets/oncall/calendar-sync/Microsoft outlook cover.png" alt="Export on-call schedule to your calendar"><figcaption></figcaption></figure>

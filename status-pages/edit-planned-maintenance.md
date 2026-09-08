@@ -1,5 +1,5 @@
 ---
-description: Edit an upcoming planned maintenance event to update its details or schedule.
+description: "Edit an upcoming planned maintenance event on your status page to update its details, timing, or affected components."
 ---
 
 # Edit planned maintenance

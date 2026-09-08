@@ -1,5 +1,5 @@
 ---
-description: "Connect PM2 to Spike via webhook so Node.js process crashes and restarts trigger real-time on-call alerts."
+description: "Connect PM2 to Spike via webhook so Node.js process crashes and automatic restarts trigger real-time on-call alerts."
 ---
 # Integrate Spike with PM2
 

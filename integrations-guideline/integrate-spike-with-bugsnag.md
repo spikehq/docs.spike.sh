@@ -1,7 +1,5 @@
 ---
-description: >-
-  Get alerts on your platform's stability and monitor it's score with Spike.sh
-  and Bugsnag
+description: "Monitor your platform's stability and error-tracking score with Spike's Bugsnag integration for real-time alerts."
 ---
 
 # Integrate Spike with Bugsnag

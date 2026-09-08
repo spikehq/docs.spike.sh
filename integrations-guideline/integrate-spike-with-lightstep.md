@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from Lightstep?
+description: "Step-by-step guide to connect Lightstep to Spike and receive Phone, SMS, and Slack alerts for observability issues."
 ---
 
 # Integrate Spike with Lightstep

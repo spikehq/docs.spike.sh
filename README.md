@@ -1,5 +1,5 @@
 ---
-description: Documentation for Spike — incident management, on-call schedules, alerts, and status pages.
+description: "Documentation for Spike's incident management platform — integrations, on-call schedules, escalation policies, Playbooks, and status pages."
 ---
 
 # Introduction

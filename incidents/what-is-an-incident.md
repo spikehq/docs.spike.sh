@@ -1,5 +1,5 @@
 ---
-description: An incident is any issue that needs to be investigated and resolved, often one that affects your customers.
+description: "An incident is any issue that needs investigation and resolution, often one that affects your customers or systems."
 ---
 
 # What is an incident?

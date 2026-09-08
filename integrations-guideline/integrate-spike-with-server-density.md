@@ -1,7 +1,5 @@
 ---
-description: >-
-  Get alerts for monitoring your server, application, performance and more with
-  Server Density and Spike
+description: "Get real-time Phone, SMS, and Slack alerts for server and application performance issues by connecting Server Density to Spike."
 ---
 
 # Integrate Spike with Server Density

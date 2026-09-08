@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from ohdear.app?
+description: "Step-by-step guide to connect Oh Dear to Spike and receive Phone, SMS, and Slack alerts for uptime and site health issues."
 ---
 
 # Integrate Spike with Oh-Dear

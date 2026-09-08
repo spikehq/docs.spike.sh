@@ -1,5 +1,5 @@
 ---
-description: You can change an incident's status from all alerting channels without having to come to Spike.
+description: "Change an incident's status directly from any alerting channel — SMS, phone, Slack, or email — without opening Spike."
 ---
 
 # How to change incident status

@@ -1,5 +1,5 @@
 ---
-description: Control sign-in methods and restrict access by email domain.
+description: "Control which sign-in methods your team can use, and restrict Spike access by email domain, as an organisation admin."
 ---
 
 # Sign-in rules

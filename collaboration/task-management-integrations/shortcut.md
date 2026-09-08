@@ -1,5 +1,5 @@
 ---
-description: Connect Shortcut to Spike and create stories directly from incidents.
+description: "Connect Shortcut to Spike to create stories from incidents, covering follow-up work like root cause analysis fast."
 ---
 
 # Shortcut

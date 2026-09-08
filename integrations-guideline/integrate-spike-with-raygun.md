@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from Raygun?
+description: "Step-by-step guide to connect Raygun to Spike and receive Phone, SMS, and Slack alerts for crash and performance issues."
 ---
 
 # Integrate Spike with Raygun

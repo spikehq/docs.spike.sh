@@ -1,5 +1,5 @@
 ---
-description: Host your status page on a custom subdomain like status.example.com.
+description: "Host your Spike status page on a custom subdomain, like status.example.com, instead of the default spike.sh URL."
 ---
 
 # Add a custom domain to your status page

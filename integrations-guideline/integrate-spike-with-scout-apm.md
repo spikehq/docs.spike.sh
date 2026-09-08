@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from Scout apm?
+description: "Step-by-step guide to connect Scout APM to Spike and receive Phone, SMS, and Slack alerts for application performance issues."
 ---
 
 # Integrate Spike with Scout-apm

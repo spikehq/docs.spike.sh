@@ -1,5 +1,5 @@
 ---
-description: Customize your status page with your brand colors, logo, header, footer, and uptime display options.
+description: "Customize your Spike status page with your brand colors, logo, header, footer, and uptime display preferences."
 ---
 
 # Style your status page

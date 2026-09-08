@@ -1,5 +1,5 @@
 ---
-description: Connect Zendesk to Spike for bidirectional sync of incidents, tickets, notes, and statuses.
+description: "Connect Zendesk to Spike for bidirectional sync of incidents, tickets, notes, and statuses between both platforms."
 ---
 
 <figure><img src="../../.gitbook/assets/helpdesk-integrations/zendesk-cover.png" alt="Zendesk integration with Spike"><figcaption></figcaption></figure>

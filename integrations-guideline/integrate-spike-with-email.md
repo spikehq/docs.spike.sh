@@ -1,7 +1,5 @@
 ---
-description: >-
-  Have a tool which doesn't support webhook? In this case, use our email
-  integration.
+description: "Send alerts to Spike from any tool that doesn't support webhooks, using Spike's dedicated email integration address."
 ---
 
 # Integrate Spike with Email

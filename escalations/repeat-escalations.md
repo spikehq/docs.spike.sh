@@ -1,5 +1,5 @@
 ---
-description: Repeat escalations restart the policy from the top when no one acknowledges or resolves an incident.
+description: "Repeat escalations restart the escalation policy from the top when no one has acknowledged or resolved the incident."
 ---
 
 # Repeat escalations

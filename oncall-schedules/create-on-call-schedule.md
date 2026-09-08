@@ -1,5 +1,5 @@
 ---
-description: Set up an on-call schedule to define who's on-call and when across your team.
+description: "Step-by-step guide to setting up an on-call schedule in Spike to define who's on-call, and when, across your team."
 ---
 
 # Create an on-call schedule

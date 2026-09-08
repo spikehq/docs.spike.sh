@@ -1,5 +1,5 @@
 ---
-description: Create public incidents on your status page and post updates as the situation evolves.
+description: "Create public incidents on your status page dashboard and post updates as the situation evolves for your customers."
 ---
 
 # Incidents on your status page

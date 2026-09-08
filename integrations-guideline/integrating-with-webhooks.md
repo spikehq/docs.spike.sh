@@ -1,5 +1,5 @@
 ---
-description: Use spike's webhook and create an incident from your code.
+description: "Use Spike's webhook integration to create an incident directly from your own code with a simple POST request today."
 ---
 
 # Integrating with Webhooks

@@ -1,5 +1,5 @@
 ---
-description: Connect your Twilio number to Spike to enable Live Call Routing.
+description: "Connect your Twilio phone number to Spike to enable Live Call Routing for incoming, human-reported incident calls."
 ---
 
 <figure><img src="../.gitbook/assets/live-call-routing/twilio-banner.png" alt="Configure Twilio for Live Call Routing on Spike"><figcaption></figcaption></figure>

@@ -1,5 +1,5 @@
 ---
-description: Alert routing rules apply automated actions to incidents based on conditions you define.
+description: "Alert routing rules apply automated actions to every incoming incident based on conditions you define with AND/OR logic."
 ---
 
 # Alert routing rules

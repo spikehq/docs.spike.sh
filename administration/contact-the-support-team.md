@@ -1,5 +1,5 @@
 ---
-description: Ways to reach Spike's support team.
+description: "Ways to reach Spike's support team — via live chat, email, or a scheduled call — for any help with your account."
 ---
 
 # Contact the support team

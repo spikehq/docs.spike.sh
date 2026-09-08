@@ -1,5 +1,5 @@
 ---
-description: Create tickets, tasks, or issues in your project management tool directly from Spike incidents.
+description: "Create tickets, tasks, or issues in your project management tool — Jira, Linear, ClickUp, or Shortcut — directly from Spike incidents."
 ---
 
 # Task management integrations

@@ -1,5 +1,5 @@
 ---
-description: How to get Phone, SMS and Slack alerts from Site24x7?
+description: "Step-by-step guide to connect Site24x7 to Spike and receive Phone, SMS, and Slack alerts for uptime and performance issues."
 ---
 
 # Integrate Spike with Site24x7

@@ -1,5 +1,5 @@
 ---
-description: Invite team members to your Spike organisation.
+description: "Invite new team members to your Spike organisation via the top navigation, or share a unique organisation invite link."
 ---
 
 # Adding team members

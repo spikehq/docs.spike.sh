@@ -1,5 +1,5 @@
 ---
-description: Connect Sentry with Spike and get incident alerts over phone calls, sms, Slack, etc to the on-call responder
+description: "Connect Sentry to Spike and get real-time incident alerts over phone calls, SMS, Slack, and more to the on-call responder."
 ---
 
 <figure><img src="../.gitbook/assets/integrations/sentry/Sentry cover.png" alt=""><figcaption></figcaption></figure>

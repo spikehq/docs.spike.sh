@@ -1,5 +1,5 @@
 ---
-description: SMS alerts keep you informed of incidents without a phone call.
+description: "Spike sends an SMS the moment an incident triggers, so you stay informed of critical issues without a phone call."
 ---
 
 # SMS alerts
