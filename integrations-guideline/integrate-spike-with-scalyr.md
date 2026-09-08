@@ -1,3 +1,6 @@
+---
+description: "Send Scalyr alerts to Spike via webhook so your on-call team gets instant notifications for log-based anomalies."
+---
 # Integrate Spike with Scalyr
 
 ### Service and integration <a href="service-and-integration" id="service-and-integration"></a>

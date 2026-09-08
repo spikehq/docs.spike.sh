@@ -1,3 +1,6 @@
+---
+description: "Send Uptime Kuma alerts to Spike via webhook so self-hosted monitoring downtime reaches your on-call team instantly."
+---
 # Integrate Spike with Uptime Kuma
 
 ### Service and Integration

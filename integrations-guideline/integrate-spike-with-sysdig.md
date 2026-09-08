@@ -1,3 +1,6 @@
+---
+description: "Send Sysdig security and monitoring alerts to Spike via webhook so threats and anomalies trigger on-call incidents."
+---
 # Integrate Spike with Sysdig
 
 ### Service and Integration

@@ -1,3 +1,6 @@
+---
+description: "Connect Coralogix to Spike via webhook to turn log and observability alerts into real-time on-call incidents."
+---
 # Integrate Spike with Coralogix
 
 ### Service and Integration

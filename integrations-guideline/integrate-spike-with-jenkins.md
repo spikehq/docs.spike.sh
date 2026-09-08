@@ -1,3 +1,6 @@
+---
+description: "Connect Jenkins to Spike for real-time alerts on build failures, unstable builds, and pipeline issues."
+---
 # Integrate Spike with Jenkins
 ## Overview
 

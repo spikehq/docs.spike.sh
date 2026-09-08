@@ -1,3 +1,6 @@
+---
+description: "Send Uptime Robot alerts to Spike via webhook so downtime is reported to your on-call team instantly."
+---
 # Integrate Spike with Uptime Robot
 
 ## Service and Integration

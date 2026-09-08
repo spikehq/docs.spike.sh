@@ -1,3 +1,6 @@
+---
+description: "Forward LogDNA alerts to Spike via webhook so log-based issues trigger real-time on-call notifications."
+---
 # Integrate Spike with LogDNA
 
 ### Service and Integration

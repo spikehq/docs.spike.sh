@@ -1,3 +1,6 @@
+---
+description: "Send Wavefront observability alerts to Spike via webhook for instant on-call notifications."
+---
 # Integrate Spike with Wavefront
 
 ### Service and Integration

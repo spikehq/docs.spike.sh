@@ -1,3 +1,6 @@
+---
+description: "Send Dynatrace alerts to Spike via webhook so application performance issues trigger instant on-call notifications."
+---
 # Integrate Spike with Dynatrace
 
 ### Service and Integration

@@ -1,3 +1,6 @@
+---
+description: "Send StatusCake alerts to Spike via webhook so uptime and performance issues trigger instant on-call notifications."
+---
 # Integrate Spike with StatusCake
 
 ### Service and Integration

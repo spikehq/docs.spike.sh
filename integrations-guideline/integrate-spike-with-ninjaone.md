@@ -1,3 +1,6 @@
+---
+description: "Connect NinjaOne to Spike for real-time alerts on endpoint health, security events, and automated tasks across your managed devices."
+---
 # NinjaOne
 <figure><img src="https://cdn.spike.sh/changelog/images/ninjaone-wide.png" alt="NinjaOne Cover"><figcaption></figcaption></figure>
 

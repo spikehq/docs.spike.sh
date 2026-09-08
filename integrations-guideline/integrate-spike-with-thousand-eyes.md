@@ -1,3 +1,6 @@
+---
+description: "Integrate ThousandEyes with Spike via webhook to turn network and app performance alerts into on-call incidents."
+---
 # Integrate Spike with Thousand Eyes
 
 ### Service and integration

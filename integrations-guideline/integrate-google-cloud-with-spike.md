@@ -1,3 +1,6 @@
+---
+description: "Connect Google Cloud to Spike using a Stackdriver webhook so infrastructure alerts trigger real-time on-call incidents."
+---
 # Integrate Spike with Google Cloud
 
 ## Service and Integration

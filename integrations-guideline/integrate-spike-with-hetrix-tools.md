@@ -1,3 +1,6 @@
+---
+description: "Connect HetrixTools uptime and blacklist monitoring to Spike via webhook for real-time on-call alerts."
+---
 # Integrate Spike with Hetrix Tools
 
 ### Service and Integration

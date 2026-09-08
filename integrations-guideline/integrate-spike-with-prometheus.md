@@ -1,3 +1,6 @@
+---
+description: "Send Prometheus alerts to Spike via webhook so metric-based alerting rules trigger instant on-call notifications."
+---
 # Integrate Spike with Prometheus
 
 ### Service and integration

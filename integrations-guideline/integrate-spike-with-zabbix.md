@@ -1,3 +1,6 @@
+---
+description: "Send Zabbix monitoring alerts to Spike via webhook for instant on-call notifications on infrastructure issues."
+---
 # Integrate Spike with Zabbix
 
 ### Service and Integration

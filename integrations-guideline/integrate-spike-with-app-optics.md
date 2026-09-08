@@ -1,3 +1,6 @@
+---
+description: "Connect AppOptics to Spike via webhook so application performance alerts reach your on-call team in real time."
+---
 # Integrate Spike with App Optics
 
 ### Service and integration

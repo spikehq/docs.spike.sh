@@ -1,3 +1,6 @@
+---
+description: "Connect CrowdStrike to Spike via webhook to route endpoint security detections straight into on-call incident alerts."
+---
 # Integrate Spike with Crowdstrike
 
 ### Service and Integration

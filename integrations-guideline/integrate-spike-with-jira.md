@@ -1,3 +1,6 @@
+---
+description: "Connect Jira to Spike for real-time alerts on issue creation, status changes, and resolutions, keeping your team informed of critical project activity."
+---
 # Jira
 <figure><img src="https://cdn.spike.sh/changelog/images/jira-inbound-wide.png" alt="Jira Integration Cover"><figcaption></figcaption></figure>
 
