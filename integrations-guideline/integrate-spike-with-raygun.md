@@ -16,7 +16,7 @@ Make sure to add the Raygun Integration and copy the webhook.
 
 ### Step 1
 
-From the [dashboard](https://app.raygun.com/settings), go to integrations and choose webhook integration.
+From the [dashboard](https://app.raygun.com/signin), go to integrations and choose webhook integration.
 
 ![Select webhook from the integration page](<../.gitbook/assets/Group 1 (4).png>)
 

@@ -13,7 +13,7 @@ Make sure you have the service and integration already setup for Uptime Robot. F
 
 ## Use the webhook on Uptime Robot
 
-Login to [Uptime Robot](https://uptimerobot.com/login) and navigate to Settings from the header.
+Login to [Uptime Robot](https://app.uptimerobot.com/login) and navigate to Settings from the header.
 
 Go to **settings > click Add Alert contact**
 
