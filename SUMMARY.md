@@ -202,6 +202,8 @@
 * [Integrate Spike with MongoDB Atlas](integrations-guideline/mongodb-atlas.md)
 * [Integrate Spike with Jira](integrations-guideline/integrate-spike-with-jira.md)
 * [Integrate Spike with Jenkins](integrations-guideline/integrate-spike-with-jenkins.md)
+* [Integrate Spike with Nagios](integrations-guideline/integrate-spike-with-nagios.md)
+* [Integrate Spike with Icinga 2](integrations-guideline/integrate-spike-with-icinga-2.md)
 
 ## AI features <a href="#mcp" id="mcp"></a>
 
