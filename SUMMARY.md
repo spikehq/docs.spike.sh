@@ -204,6 +204,7 @@
 * [Integrate Spike with Jenkins](integrations-guideline/integrate-spike-with-jenkins.md)
 * [Integrate Spike with Nagios](integrations-guideline/integrate-spike-with-nagios.md)
 * [Integrate Spike with Icinga 2](integrations-guideline/integrate-spike-with-icinga-2.md)
+* [Integrate Spike with Bitbucket Pipelines](integrations-guideline/integrate-spike-with-bitbucket-pipelines.md)
 
 ## AI features <a href="#mcp" id="mcp"></a>
 
