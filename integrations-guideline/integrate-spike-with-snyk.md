@@ -1,6 +1,6 @@
 ---
 description: >-
-  Page your on-call when Snyk finds a new critical or high vulnerability in a project, and resolve the incident when the next scan comes back clean.
+  Page your on-call when Snyk finds a new critical or high vulnerability in a project, and resolve the incident when the next scan reports it fixed.
 ---
 
 # Integrate Spike with Snyk
@@ -11,19 +11,18 @@ Snyk has no webhook screen in its UI. Webhooks are created with the Snyk API, so
 
 ## What Spike does with each snapshot
 
-Snyk sends a `project_snapshot` event after every recurring test of a project, whether or not anything changed. Spike only acts on the ones that matter:
+Snyk sends a `project_snapshot` for **every** recurring test of **every** Open Source and Container project in the org, whether or not anything changed. A healthy project tested nightly sends 365 "still clean" deliveries a year. Spike drops those at the edge and acts on the rest:
 
-| Snapshot | What happens in Spike |
+| Delivery | What happens in Spike |
 | --- | --- |
 | Brings new `critical` or `high` issues that are not ignored | Opens an incident for that project, or adds an event to the one already open |
-| Brings new issues only below the threshold, or all of them ignored in Snyk | Accepted and dropped. Nobody is paged |
-| Brings nothing new and the project still has `critical` or `high` issues open | Nothing changes. The incident that is open stays open |
-| Brings nothing new and the project has no `critical` or `high` issues left | Auto-resolves the open incident. Dropped when nothing is open |
+| Brings nothing new, and the project still has `critical` or `high` issues open | Added to the open incident as a standing-issues event. Opens one if nothing is open for that project yet |
+| Reports the last `critical` and `high` issues removed | Auto-resolves the incident for that project |
+| Brings nothing new, removes nothing, and the project has no `critical` or `high` issues left | Answered with `200` and dropped. It never reaches your incident list |
+| Brings new issues only below the threshold, or all of them ignored in Snyk | Counts as nothing new, so it is dropped unless the project still has `critical` or `high` issues open |
 | `ping` | Answered with `200`. Nothing is created |
 
-There is **one incident per Snyk project**, identified by `project.id`. A weekly scan that keeps finding the same two vulnerabilities never opens a second incident, and a scan that finds three more adds them to the incident already open instead of paging the team again.
-
-Scans of a clean project are dropped before they reach Spike's incident pipeline, so a hundred projects testing nightly cost you nothing.
+There is **one incident per Snyk project**, identified by `project.id`, the uuid Snyk keeps for the project's whole life. A dependency bump that pulls in a dozen advisories in one scan is one incident, not twelve pages, and renaming the project in Snyk does not split it in two.
 
 {% hint style="info" %}
 An incident covers the project, not the vulnerability. If you would rather split by package or by origin, add an [alert rule](../alerts/alert-rules.md) that matches on the payload.
@@ -31,25 +30,31 @@ An incident covers the project, not the vulnerability. If you would rather split
 
 ### Incident titles
 
-The title counts the new issues in the snapshot that opened the incident and names the worst of them:
+The title names the worst issue in the delivery rather than counting them, so a phone alert is worth listening to:
 
-```
-3 new critical vulnerabilities in spikehq/api:package.json
-```
+| Event | Title |
+| --- | --- |
+| New issues | `Critical: Prototype Pollution in lodash@4.17.15 — spikehq/api:package.json` |
+| More than one at the top severity | `High: Prototype Pollution in xml2js@0.6.0 (+1 more) — globex-manufacturing/inventory-api:package.json` |
+| Standing issues, nothing new this scan | `Open: 1 critical, 2 high — spikehq/api:package.json` |
+| Resolved | `Resolved: Prototype Pollution in lodash@4.17.15 fixed — spikehq/api:package.json` |
 
-The full list of issues, the package names and versions, the CVSS scores, the fix information and the `browseUrl` back to Snyk are all on the incident page.
+`(+1 more)` counts only the other issues at the **highest severity the snapshot brought**, so a critical arriving alongside three highs reads as one critical, not as four.
+
+License findings are titled the same way. Snyk reports them with `issueType: license` and an `issueData.title` like `GPL-3.0 license`, which fits the same slot as a CVE name.
+
+The full list of issues, package versions, CVSS scores, fix information and the `browseUrl` back to Snyk are on the incident page.
 
 ### Severity
 
-Spike reads the highest `issueData.severity` among the new issues in the snapshot and maps it:
+Snyk sends no event-level severity, only a severity per issue. Spike computes one for the incident — `critical` when any new issue in the snapshot is critical, otherwise `high` — and writes it onto the payload as a top-level `severity` before the incident is stored:
 
-| Snyk severity | Spike severity |
+| Computed severity | Spike severity |
 | --- | --- |
 | `critical` | SEV1 |
 | `high` | SEV2 |
-| `medium`, `low` | SEV3 |
 
-The bottom row is there for completeness. At the default threshold a snapshot that only brings medium and low issues never opens an incident, so a Snyk incident is a SEV1 or a SEV2.
+Because only critical and high issues page, every Snyk incident is a SEV1 or a SEV2.
 
 {% hint style="info" %}
 Severity is set when the incident is created and does not move on repeats. [Alert rules](../alerts/alert-rules.md) can override it, route the incident elsewhere, or suppress it entirely.
@@ -57,7 +62,7 @@ Severity is set when the incident is created and does not move on repeats. [Aler
 
 ### The severity threshold
 
-The threshold is `high`. New `critical` and `high` issues open an incident; new `medium` and `low` issues never do, and neither does an issue you have ignored in Snyk, even when its severity is critical.
+The threshold is `high`. New `critical` and `high` issues open an incident; new `medium` and `low` issues never do, and neither does an issue you have ignored in Snyk, even when its severity is critical. Ignoring an issue in Snyk is a decision your team already made, and Spike does not page you about it again.
 
 To page only on `critical`, keep the threshold where it is and add an alert rule that suppresses SEV2 incidents on this integration. That way `high` findings still land in Spike and stay on the incident list, they just do not wake anyone.
 
@@ -128,7 +133,7 @@ curl -X POST "https://api.snyk.io/v1/org/<snyk-org-id>/webhooks/<webhook-id>/pin
   -H "Authorization: token <snyk-api-token>"
 ```
 
-A `200` from Snyk means it reached Spike. Your first real incident arrives with the next recurring test that finds something new, which is within 24 hours on daily testing and within a week on weekly testing. To see one sooner, open a project in Snyk and click **Retest now** on a project you know has an unfixed critical vulnerability.
+A `200` from Snyk means it reached Spike. Your first real incident arrives with the next recurring test, which is within 24 hours on daily testing and within a week on weekly testing. To see one sooner, open a project you know has an unfixed critical vulnerability in Snyk and click **Retest now**.
 
 ## Managing the webhook
 
@@ -146,7 +151,7 @@ curl -X DELETE "https://api.snyk.io/v1/org/<snyk-org-id>/webhooks/<webhook-id>" 
   -H "Authorization: token <snyk-api-token>"
 ```
 
-Snyk sends the event name in `X-Snyk-Event` and a per-delivery id in `X-Snyk-Transport-ID`. Quote the transport id when you ask [support](../administration/contact-the-support-team.md) about a delivery.
+Snyk sends the event name in `X-Snyk-Event`, as `project_snapshot/v0` or `ping/v0`, and a per-delivery id in `X-Snyk-Transport-ID`. Quote the transport id when you ask [support](../administration/contact-the-support-team.md) about a delivery.
 
 ## Payload reference
 
@@ -155,54 +160,41 @@ A `project_snapshot` that opens an incident looks like this, trimmed to the fiel
 ```json
 {
   "project": {
-    "id": "af137b96-6966-46c1-826b-2e79ac49bbd9",
+    "id": "af137b96-6966-46c1-826b-2e79ac49bd58",
     "name": "spikehq/api:package.json",
     "origin": "github",
     "type": "npm",
-    "branch": "main",
-    "browseUrl": "https://app.snyk.io/org/spike/project/af137b96-6966-46c1-826b-2e79ac49bbd9",
-    "issueCountsBySeverity": {
-      "critical": 1,
-      "high": 2,
-      "medium": 5,
-      "low": 11
-    }
+    "browseUrl": "https://app.snyk.io/org/spike/project/af137b96-6966-46c1-826b-2e79ac49bd58",
+    "issueCountsBySeverity": { "low": 4, "medium": 6, "high": 2, "critical": 1 }
   },
-  "org": {
-    "id": "27ec0b4a-1d5e-4f34-9f6c-9d2f5e8a1b33",
-    "name": "spike"
-  },
-  "group": {
-    "id": "8f2b4c1d-9a7e-4c3b-b5d6-1e2f3a4b5c6d",
-    "name": "Spike"
-  },
+  "org": { "id": "8a3e1f0c-4d1a-4a4e-9f3d-9c2c2a9b0f11", "name": "Spike" },
+  "group": { "id": "b2b8f2f4-5d3a-4d66-9a5e-6a0b1a4c8e22", "name": "Spike.sh" },
   "newIssues": [
     {
-      "id": "SNYK-JS-AXIOS-6124857",
+      "id": "SNYK-JS-LODASH-567746",
       "issueType": "vuln",
-      "pkgName": "axios",
-      "pkgVersions": ["1.5.0"],
-      "priority": { "score": 866 },
+      "pkgName": "lodash",
+      "pkgVersions": ["4.17.15"],
       "issueData": {
-        "id": "SNYK-JS-AXIOS-6124857",
-        "title": "Server-side Request Forgery (SSRF)",
+        "title": "Prototype Pollution",
         "severity": "critical",
         "cvssScore": 9.1,
-        "url": "https://security.snyk.io/vuln/SNYK-JS-AXIOS-6124857"
+        "url": "https://snyk.io/vuln/SNYK-JS-LODASH-567746"
       },
       "isIgnored": false,
-      "fixInfo": {
-        "isUpgradable": true,
-        "isPatchable": false,
-        "nearestFixedInVersion": "1.6.0"
-      }
+      "fixInfo": { "isUpgradable": true, "isPatchable": false, "nearestFixedInVersion": "4.17.20" },
+      "priority": { "score": 899 }
     }
   ],
   "removedIssues": []
 }
 ```
 
-Spike adds a top-level `severity` of `critical`, `high`, `medium` or `low` to the payload before the incident is created, so [alert rules](../alerts/alert-rules.md) and the [Title Remapper](../alerts/title-remapper.md) can read it without walking `newIssues`.
+That delivery produces `Critical: Prototype Pollution in lodash@4.17.15 — spikehq/api:package.json`.
+
+`removedIssues` carries the same shape and is what closes an incident: the snapshot that fixes the last critical or high issue arrives with an empty `newIssues`, a critical and high count of zero, and the fixed issues in `removedIssues`.
+
+Spike adds a top-level `severity` of `critical` or `high` to the stored payload, so [alert rules](../alerts/alert-rules.md) and the [Title Remapper](../alerts/title-remapper.md) can read one severity for the incident without walking `newIssues`.
 
 {% hint style="info" %}
 Snyk lists webhooks as beta and reserves the right to change this payload. If a field you depend on stops arriving, the payload on the incident page is always what Snyk actually sent.
@@ -213,10 +205,10 @@ Snyk lists webhooks as beta and reserves the right to change this payload. If a 
 To put your own wording on these incidents, build a [Title Remapper](../alerts/title-remapper.md) on the Snyk integration. Avoid loops, so address the first new issue by index:
 
 ```
-{{data.project.name}} needs {{data.newIssues.[0].fixInfo.nearestFixedInVersion}} of {{data.newIssues.[0].pkgName}}
+{{data.project.name}} needs {{data.newIssues.[0].pkgName}}@{{data.newIssues.[0].fixInfo.nearestFixedInVersion}}
 ```
 
-Output: `spikehq/api:package.json needs 1.6.0 of axios`
+Output: `spikehq/api:package.json needs lodash@4.17.20`
 
 ## Troubleshooting
 
@@ -242,15 +234,17 @@ Snyk rejects a `url` it cannot parse, a `secret` shorter than its minimum, and a
 
 Check the project type. Snyk Code, IaC and SAST projects never send `project_snapshot`. Then check that the project is on recurring tests rather than on manual tests only, under the project's settings in Snyk.
 
-A snapshot that brings nothing new is also dropped on purpose, so a project whose vulnerabilities you already know about stays quiet until something new appears.
+A scan of a project with nothing new and no critical or high issues open is dropped on purpose, so a healthy org stays quiet until something actually changes.
 
 </details>
 
 <details>
 
-<summary>Incidents are created but never resolve</summary>
+<summary>An incident never resolves</summary>
 
-The incident resolves on the first snapshot where the project has no `critical` and no `high` issues left. Medium and low issues can stay open, they do not hold the incident. If the counts are at zero in Snyk and the incident is still open, the project has not been re-tested since the fix, so retest it from the Snyk UI.
+The incident closes on the snapshot that reports the project's last critical and high issues removed, so the project has to be tested again after the fix. If Snyk has not re-tested since the upgrade, retest it from the Snyk UI.
+
+If the counts in Snyk look like zero to you but the incident stays open, check whether the project has an **ignored** critical or high issue. Snyk's `issueCountsBySeverity` is expected to include ignored issues, which keeps the project's count above zero and holds the incident open. Either stop ignoring the issue in Snyk, or resolve the incident by hand.
 
 </details>
 
