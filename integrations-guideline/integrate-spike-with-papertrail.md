@@ -5,7 +5,7 @@ description: >-
 
 # Integrate Spike with Papertrail
 
-[Papertrail](https://www.papertrail.com/) watches your logs and can alert on a saved search. Point that alert at a Spike webhook and every period with new matching log lines opens an incident that escalates through your on-call policy, titled with the log line that tripped the search and carrying the rest of the matches and a link back to Papertrail.
+[Papertrail](https://www.papertrail.com/) watches your logs and can alert on a saved search. Point that alert at a Spike webhook and every period with new matching log lines opens an incident that escalates through your on-call policy, titled after the search and what it looks for, and carrying the matching lines and a link back to Papertrail.
 
 Papertrail sends nothing when the matches stop, so there is no recovery event to close the incident with. Use a [resolve timer](../incidents/resolve-timer.md) or resolve by hand, as described in Step 4 below.
 
@@ -21,28 +21,62 @@ There is one incident per saved search. Spike groups on `saved_search.id`, so re
 
 ## How incidents are titled
 
-The title is the name of the saved search followed by the log line that tripped it, so on-call can read the problem off a Slack message or a lock screen without opening the incident:
+The title is the name of the saved search and a plain-English reading of its query, so on-call can tell from a Slack message, a lock screen or a phone call which search fired and what it was looking for:
 
 ```
-Payments 5xx: status=502 upstream=checkout latency=1204ms (+2 more)
+Payments 5xx: payments-api logs matching status=502 or status=503
 ```
 
-| Part | Where it comes from |
-| --- | --- |
-| `Payments 5xx` | `saved_search.name`, the name you gave the search in Papertrail |
-| `status=502 upstream=checkout latency=1204ms` | The `message` of the worst line in that callback. Papertrail's syslog severity picks it, `Error` over `Warning` over `Info`. Ties, and callbacks where no line carries a severity, fall back to the first line |
-| `(+2 more)` | The other lines in the same callback. Left off when the callback carried a single line |
-
-A quoted line longer than 90 characters is trimmed with an ellipsis, so a stack trace or a large JSON blob can never push the saved search name off the end of the title. The full line, the rest of the batch, the hostnames, the programs and the link back to the search are on the incident page.
-
-Each callback brings different log lines, so the title of an open incident is the newest thing that matched. That does not affect grouping: repeats are matched on `saved_search.id`, never on the title text, so they land on the one incident however much the wording moves.
-
-{% hint style="warning" %}
-The quoted line is your raw log content, and a title travels further than the incident page does: Slack, phone push notifications and email subject lines. If the search can match lines carrying customer emails, tokens or internal paths, run it in [count-only mode](#count-only-alerts), where there are no log lines to quote, or rewrite the title with a [Title Remapper](../alerts/title-remapper.md).
-{% endhint %}
+That title is built from `saved_search.name` and `saved_search.query`, and from nothing else. Both are fixed for the life of the saved search, so every callback for that search produces exactly the same title, whether it carried log lines or only counts.
 
 {% hint style="info" %}
-The syslog severity on a log line only decides which line gets quoted. It is not the incident's severity — Papertrail alerts carry no severity of their own, so incidents come in at your integration's default. Set severity per saved search with [alert rules](../alerts/alert-rules.md), which can also route the incident to another escalation policy or suppress it entirely.
+Log lines, hostnames, counts, event ids and timestamps are deliberately kept out of the title. They change on every callback, and a title that moves breaks the things that read it: the **Repeated N times** grouping on an incident, duplicate suppression, and any [alert rule](../alerts/alert-rules.md) matching on title text. All of it is on the incident page instead.
+{% endhint %}
+
+### How the query is read
+
+| Saved search name | Query in Papertrail | Incident title |
+| --- | --- | --- |
+| `sampli` | `Sampling rate` | `sampli: logs matching "Sampling rate"` |
+| `Important stuff` | `cron OR server1` | `Important stuff: logs matching "cron" or "server1"` |
+| `Payments 5xx` | `program:payments-api (status=502 OR status=503)` | `Payments 5xx: payments-api logs matching status=502 or status=503` |
+| `Production Errors` | `error OR timeout OR exception` | `Production Errors: logs matching "error", "timeout" or "exception"` |
+| `Production Errors` | `severity:error OR severity:critical` | `Production Errors: error or critical logs` |
+| `Production Errors` | `program:nginx "upstream timed out"` | `Production Errors: nginx logs matching "upstream timed out"` |
+| `Production Errors` | `program:billing severity:error` | `Production Errors: billing error logs` |
+| (no name) | `program:auth-gateway "invalid_grant"` | `auth-gateway logs matching "invalid_grant"` |
+| `Auth` | `/fail(ed\|ure)/` | `Auth: matching logs found` |
+
+The pieces Papertrail gives structure to are read as words rather than repeated as syntax:
+
+* `program:nginx` becomes `nginx logs`, and several programs become `nginx or haproxy logs`.
+* `severity:error` puts the level in front, as `error logs`.
+* `host:web-01` becomes `on web-01`.
+* A negated term, `-healthcheck` or `-program:cron`, becomes `(excluding healthcheck)`.
+* Comparisons such as `status=502` and `status=5*` are left as they are, unquoted.
+* Anything left over is quoted. **A space in a Papertrail query means AND**, so `Sampling rate` reads as `matching "Sampling rate"`, one phrase, never as two alternatives. Only terms genuinely joined by `OR` are listed as `matching "a", "b" or "c"`.
+
+{% hint style="info" %}
+Two saved searches with the same name no longer share a title, because their queries differ. `API errors` on `program:public-api status=5*` and `API errors` on `program:partner-api status=5*` come out as `API errors: public-api logs matching status=5*` and `API errors: partner-api logs matching status=5*`.
+{% endhint %}
+
+### When the query cannot be read
+
+Some queries have no clean reading, and a title has to stay short enough to be useful on a phone. In those cases Spike falls back, in this order:
+
+| Case | Title |
+| --- | --- |
+| The query uses a regular expression (`/fail(ed\|ure)/`) or nested brackets | `Auth: matching logs found` |
+| Name plus query would run past 100 characters | `Payments 5xx: matching logs found` |
+| The name itself runs past 70 characters | The name cut at a word boundary, never mid-word, plus `: matching logs found` |
+| The search has a query but no name | The read query on its own, `auth-gateway logs matching "invalid_grant"` |
+| The callback carries no `saved_search` at all, and every line came from one program | `payments-api: matching logs found` |
+| Nothing usable in the payload | `Papertrail alert` |
+
+The separator is a plain `: `, not a dash, because titles are read aloud on phone calls and sent as SMS.
+
+{% hint style="info" %}
+Papertrail alerts carry no severity of their own, so incidents come in at your integration's default. The syslog severity on a log line is the level of that one line, not a judgement about the alert, and it is not used to set incident severity. Set severity per saved search with [alert rules](../alerts/alert-rules.md), which can also route the incident to another escalation policy or suppress it entirely.
 {% endhint %}
 
 ## Prerequisites
@@ -60,7 +94,7 @@ In Spike, go to **Integrations → Add integration → Papertrail**, attach it t
 
 ## Step 2 — Save the search you want to be paged for
 
-In Papertrail, run the search in the event viewer, check that it matches what you expect and nothing else, then click **Save Search** and give it a name. That name becomes the first half of every incident title, so write it the way you want to hear it on a phone call at 3am: `5xx from checkout` rather than `search 4`.
+In Papertrail, run the search in the event viewer, check that it matches what you expect and nothing else, then click **Save Search** and give it a name. Both the name and the query end up in every incident title, so write the name the way you want to hear it on a phone call at 3am, `5xx from checkout` rather than `search 4`, and keep the query as plain as the job allows. A query built from `program:`, `severity:`, `host:` and a few terms reads back as a sentence; one built on a regular expression cannot, and the title falls back to the name alone.
 
 Narrow searches make good alerts. A search that matches a few hundred lines an hour will page you every period, which is noise rather than an incident.
 
@@ -111,15 +145,15 @@ Resolving by hand works just as well. Use the timer as a backstop so a search th
 
 ## Count-only alerts
 
-Papertrail can send counts instead of the matching log lines. Turn on the count-only option on the alert when the volume matters more than the individual lines, or when the search matches sensitive content and you would rather no log line left Papertrail, or appeared in an incident title.
+Papertrail can send counts instead of the matching log lines. Turn on the count-only option on the alert when the volume matters more than the individual lines, or when the search matches sensitive content and you would rather no log line left Papertrail at all.
 
-Spike handles those the same way. The payload carries a `counts` array with one entry per sender instead of `events`, and with no log lines to quote the title breaks the period down by sender, busiest first:
+Spike handles those the same way. The payload carries a `counts` array with one entry per sender instead of `events`, and the per-sender totals are shown on the incident. The title is unchanged, because it is built from the saved search rather than from the batch:
 
 ```
-Payments 5xx: 4 matches from web-01, 1 from web-02
+Payments 5xx: payments-api logs matching status=502 or status=503
 ```
 
-Everything else, the grouping on the saved search, the escalation and the resolve timer, is unchanged. A count-only callback and an events-mode callback for the same saved search land on the same incident, so you can switch a search between the two modes without splitting its history.
+Everything else, the grouping on the saved search, the escalation and the resolve timer, is unchanged too. A count-only callback and an events-mode callback for the same saved search land on the same incident with the same title, so you can switch a search between the two modes without splitting its history.
 
 ## Payload reference
 
@@ -127,7 +161,7 @@ Papertrail posts `application/x-www-form-urlencoded` with a single `payload` fie
 
 ```bash
 curl --request POST \
-  --data-urlencode 'payload={"events":[{"message":"status=502 upstream=checkout","severity":"Error"}],"saved_search":{"id":42,"name":"Payments 5xx"}}' \
+  --data-urlencode 'payload={"events":[{"message":"status=502 upstream=checkout","severity":"Error"}],"saved_search":{"id":42,"name":"Payments 5xx","query":"program:payments-api status=502"}}' \
   "https://hooks.spike.sh/<your-token>/push-events"
 ```
 
@@ -162,20 +196,20 @@ An events-mode alert looks like this:
   "min_id": "7711561783320576",
   "reached_record_limit": false,
   "reached_time_limit": false,
-  "frequency": 600
+  "frequency": "1 minute"
 }
 ```
 
 | Field | What Spike does with it |
 | --- | --- |
 | `saved_search.id` | Groups callbacks. One open incident per saved search |
-| `saved_search.name` | The first half of the incident title |
-| `saved_search.query`, `saved_search.html_search_url` | Shown on the incident, so you can open the search in Papertrail |
-| `events[]` | The worst line by `severity` is quoted in the title, with `(+N more)` for the rest. Every line, with its hostname, program and severity, is on the incident |
-| `counts[]` | Used instead of `events` on count-only alerts. Becomes the per-sender breakdown in the title |
+| `saved_search.name`, `saved_search.query` | The incident title, and the only two fields it is built from |
+| `saved_search.html_search_url` | Shown on the incident, so you can open the search in Papertrail |
+| `events[]` | Every line, with its hostname, program and severity, is shown on the incident. Never used in the title |
+| `counts[]` | Used instead of `events` on count-only alerts. The per-sender totals are shown on the incident. Never used in the title |
 | `max_id`, `min_id` | Recorded per callback, so you can tell the periods apart on a long-running incident |
 | `reached_record_limit` | Noted on the incident when Papertrail truncated the batch at 25,000 events |
-| `frequency` | The alert window in seconds. `60` is the every minute setting, `600` every 10 minutes |
+| `frequency` | How often the alert may fire, as Papertrail words it: `1 minute`, `1 hour`. Some accounts send `min_time_at` and `max_time_at` instead and no `frequency` at all |
 
 A count-only alert replaces `events` with `counts`:
 
@@ -200,27 +234,27 @@ A count-only alert replaces `events` with `counts`:
   },
   "max_id": "7711561783320578",
   "min_id": "7711561783320576",
-  "frequency": 3600
+  "frequency": "1 hour"
 }
 ```
 
 ### Title Remapper sample
 
-A [Title Remapper](../alerts/title-remapper.md) on the Papertrail integration replaces the default title with one you write against the payload. It is the way to keep raw log content out of your alerts while still saying more than the search name:
+A [Title Remapper](../alerts/title-remapper.md) on the Papertrail integration replaces the default title with one you write against the payload, which is how you fold in a team name or an environment:
 
 ```handlebars
-{{data.saved_search.name}} on {{data.events.[0].hostname}} ({{data.events.[0].severity}})
+Production {{data.saved_search.name}}: {{data.saved_search.query}}
 ```
 
-Output: `Payments 5xx on web-01 (Error)`
+Output: `Production Payments 5xx: program:payments-api (status=502 OR status=503)`
 
-A remapper replaces the title on every callback, including the choice of which line to quote, so write it against fields that are always there. Count-only alerts carry no `events` at all, so keep a remapper like the one above for searches you run in events mode.
+Write the remapper against `saved_search` only. Fields like `events`, `counts` and `max_id` change on every callback, and a title built on them stops repeats grouping on the incident already open. Count-only callbacks carry no `events` at all, so a remapper that reads one produces an empty title for half your alerts.
 
 ## Things worth knowing
 
 * **There is no recovery event.** Papertrail alerts fire on new matches and stay silent otherwise, so nothing can tell Spike the problem is over. The resolve timer in Step 4 is the answer.
 * **One incident per saved search, not per log line.** A period with 4,000 matching lines is one incident carrying 4,000 events, not 4,000 incidents.
-* **Batches stop at 25,000 events.** Papertrail sets `reached_record_limit` when it truncated, and Spike notes that on the incident. The `(+N more)` in the title counts the lines in the batch, not the true number of matches for the period.
+* **Batches stop at 25,000 events.** Papertrail sets `reached_record_limit` when it truncated, and Spike notes that on the incident, so you know the batch you are reading is not the whole period.
 * **The URL is the credential.** Papertrail sends no signature and no authentication header, so treat the webhook URL as a secret. If it leaks, archive the integration in Spike and create a new one, then update the URL on every alert pointing at it.
 * **Timestamps are Papertrail's.** `received_at` uses the time zone on your Papertrail profile. Incident times in Spike are shown in your own time zone, so the two can look a few hours apart on the same event.
 * **Alerts are per saved search, not per Spike integration.** One Papertrail integration in Spike can receive alerts from as many saved searches as you like, and each one gets its own incident. Use separate integrations when different searches should page different teams, or keep one and split with [alert rules](../alerts/alert-rules.md).
@@ -243,7 +277,7 @@ Run the saved search in the Papertrail event viewer over the last hour. If it ha
 
 The previous incident was already resolved, either by hand or by the resolve timer. Spike only appends to an incident that is still open. If that happens constantly, your resolve timer is shorter than the gap between callbacks, so raise it using the table in Step 4.
 
-The title reading differently on each callback is never the cause. Grouping is on `saved_search.id`, which Papertrail sends unchanged for the life of the saved search.
+The title is not involved either way. Grouping is on `saved_search.id`, which Papertrail sends unchanged for the life of the saved search, so two searches that happen to share a name still get their own incidents and one search keeps its own however its callbacks differ.
 
 </details>
 
@@ -257,9 +291,9 @@ Expected without a resolve timer, since Papertrail has no recovery event. Turn o
 
 <details>
 
-<summary>The title is just the saved search name</summary>
+<summary>The title says "matching logs found" instead of describing the query</summary>
 
-The callback carried nothing to quote. In events mode that means an empty `events` array, which Papertrail sends if the alert fired on a period whose matches had already aged out; in count-only mode it means every sender reported zero, which happens when the minimum count on the alert is `0`. Set a minimum count of at least `1`.
+Spike could not read that query into words. It happens with regular expressions and nested brackets, which have no plain reading, and when the name and the read query together would run past 100 characters. Shortening the saved search name usually brings the query back into the title. Editing the query to the same effect without a regex works too, and a [Title Remapper](../alerts/title-remapper.md) overrides the title entirely.
 
 </details>
 
