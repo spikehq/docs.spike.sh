@@ -17,12 +17,12 @@ Robotalp sends the event type on every POST, and Spike reacts to it:
 | --- | --- |
 | `down` | Opens an incident for that robot, or adds an event to the one already open |
 | `up` | Resolves the open incident for that robot. Dropped when nothing is open |
+| `paused` | Never opens an incident. Pausing a robot is a person's decision, not an outage |
+| `test` | Opens an incident titled `Robot Alp test connection`, so you can see the delivery worked. Resolve it by hand |
 
-There is one incident per robot. Incident titles read as the robot plus its state, which is what makes them understandable when Spike reads one out on a phone call:
+Robotalp names the same states in more than one way depending on the robot and the account, so Spike matches on the words in the event rather than the exact string. `Robot Up`, `up`, `online`, `recovered` and `"isUp": true` all read as a recovery and resolve the open incident for that robot.
 
-```
-Production API is down
-```
+There is one incident per robot, matched on the robot id when Robotalp sends one and on the robot name, or its URL, when it does not.
 
 The rest of the event lands on the incident page rather than in the title:
 
@@ -34,6 +34,27 @@ The rest of the event lands on the incident page rather than in the title:
 {% hint style="info" %}
 Robotalp's **Notification frequency** setting re-sends an alert while a robot stays down. Spike groups those repeats onto the incident that is already open, so the team is paged once and the repeats show up on the incident timeline instead. Leave the setting wherever your team wants it in Robotalp.
 {% endhint %}
+
+## Incident titles
+
+The title says what went wrong as well as which robot it was, so on-call can judge an alert without opening the incident first. That matters most when Spike reads the title out on a phone call.
+
+The reason in the title is a short fixed category that Spike works out from the error message Robotalp sent — `timeout`, `HTTP 503`, `connection refused`, `DNS failure`, `missed heartbeat` and so on — never the raw error text. The full message Robotalp sent is still on the incident.
+
+| What Robotalp sent | Incident title |
+| --- | --- |
+| Robot `Checkout API (prod)` down, `Connection timed out after 30000 ms from 3 locations` | `Checkout API (prod) is down: timeout` |
+| The same robot down, `HTTP 503 Service Unavailable` | `Checkout API (prod) is down: HTTP 503` |
+| The same robot back up | `Checkout API (prod) is up` |
+| Robot `Nightly billing cron` down, `No ping received in the last 25 hours` | `Nightly billing cron is down: missed heartbeat` |
+| Robot `shop.acme-demo.io` down, `SSL certificate expires in 6 days (threshold 14 days)` | `shop.acme-demo.io: SSL certificate expiring` |
+| A down event that names no robot | `Robot Alp alert with no robot name` |
+
+{% hint style="info" %}
+Look at the SSL row. Robotalp's SSL and domain robots report an approaching certificate or domain expiry as a **Down** event, even though the site is still serving traffic. Spike recognises those and leaves `is down` off the title, so a certificate with a fortnight left on it does not read like an outage. The same goes for blacklist and PageSpeed robots.
+{% endhint %}
+
+A robot name long enough to push the title past 200 characters is shortened at a word boundary with `...`, and the `is down: timeout` part is kept whole rather than truncated away.
 
 ## Prerequisites
 
@@ -56,14 +77,14 @@ In Spike, go to **Integrations → Add integration → Robotalp**, attach it to 
 3. Fill in the form:
    * **Webhook URL**: the URL you copied in Step 1
    * **Headers**: leave empty. Spike authenticates on the token in the URL and needs no header of its own
-   * **Payload**: `{"source": "robotalp"}` — see below, this one is not optional
+   * **Payload**: optional. `{"source": "robotalp"}` is worth adding — see below
 4. Click **Test Connection**. Robotalp posts to the URL and tells you whether it got a response back.
 5. Save the integration.
 
-{% hint style="warning" %}
-**The `source` key in the custom payload is required.** Robotalp merges whatever you put in the **Payload** field into every POST it sends, and it does not publish the key names it uses for the rest of the body. `{"source": "robotalp"}` gives Spike one stable key to recognise your events by. Without it, Spike cannot tell a Robotalp event apart from any other webhook body and the incident will be missing its robot name, error message and link.
+{% hint style="info" %}
+Robotalp merges whatever you put in the **Payload** field into every POST it sends. Spike does not need anything in there: events arriving on this webhook URL are already known to be from this integration, because the token in the URL is what routes them.
 
-Keep the value lowercase and exactly `robotalp`. If you want extra context of your own on every incident, add it alongside rather than replacing it, for example `{"source": "robotalp", "team": "platform"}`.
+`{"source": "robotalp"}` is still worth adding. It makes Robotalp bodies easy to spot when someone is reading an incident payload next to events from your other tools, and it gives alert rules a key to match on. Anything else you want on every incident goes alongside it, for example `{"source": "robotalp", "team": "platform"}`.
 {% endhint %}
 
 ## Step 3 — Turn the webhook on for the robots you care about
@@ -81,7 +102,7 @@ Robots that should page a different team get their own Spike integration, with i
 The quickest end-to-end check is a robot that really fails. Point a throwaway HTTP robot at a URL that returns a 500, or at a hostname that does not resolve, enable the webhook on its **Alerts** tab and wait for it to go down. The incident should appear in Spike with the robot name in the title. Then point the robot back at something healthy and confirm the incident resolves on its own when Robotalp reports it up.
 
 {% hint style="info" %}
-**Test Connection** posts through the same path, so it is a good check that the URL is reachable and the token is right. Robotalp does not document whether the test body is shaped like a real `down` event, so it may open an incident in Spike. If one shows up, resolve it by hand; nothing else is left behind.
+**Test Connection** posts through the same path, so it is a good check that the URL is reachable and the token is right. It opens an incident in Spike, titled `Robot Alp test connection` when the body says it is a test. Robotalp does not document the shape of that body, so a test that looks like a real event is titled like one. Either way, resolve it by hand afterwards; nothing else is left behind.
 {% endhint %}
 
 ## Severity
@@ -94,7 +115,7 @@ Robotalp does not send a severity with its events, so every incident arrives at 
 | Incident title contains `staging` | Set severity to `SEV-3` |
 | Incident details, key `source`, equals `robotalp` | Set severity to `SEV-2` |
 
-The last one is a catch-all for everything from this integration, which is useful when one Spike service takes events from more than one tool.
+The last one is a catch-all for everything from this integration, useful when one Spike service takes events from more than one tool. It needs the `source` key from Step 2 to be on the payload; without it, match on the title instead.
 
 ## Event payload
 
@@ -107,7 +128,7 @@ Robotalp documents what it sends as a list rather than a schema, and does not pu
 * Event URL
 * Whatever you put in the **Payload** field
 
-Spike reads the robot, the state, the time, the error message and the event link out of the body Robotalp sends, and branches on the `source` key you added in Step 2. Anything else you add to the custom payload is carried onto the incident as-is, so it can be matched on in alert rules the same way as the table above.
+Spike reads the robot, the state, the time, the error message and the event link out of the body Robotalp sends. It does not depend on one fixed spelling for those: the robot arrives as `robot_name`, `robotName`, `Robot Name` or, for a robot with no name of its own, as the URL it checks, and Spike reads all of them the same way. Anything you add in the **Payload** field is carried onto the incident as-is, so it can be matched on in alert rules the same way as the table above.
 
 To see exactly what your own account sends, open the incident in Spike and look at the payload on it. That is the body Robotalp posted, verbatim.
 
@@ -131,11 +152,13 @@ Work down the path the event takes:
 
 <details>
 
-<summary>Incidents arrive but the robot name and error message are missing</summary>
+<summary>An incident is titled "Robot Alp alert with no robot name"</summary>
 
-This is the missing `source` key. Open the integration in Robotalp and put `{"source": "robotalp"}` in the **Payload** field, then save. Events sent before that are not reprocessed, so resolve the incomplete incidents by hand.
+That title means the event carried nothing Spike could name the robot by: no robot name, no robot id and no URL. Open the payload on the incident to see what did arrive.
 
-If the field already has a payload of your own in it, merge the key in rather than replacing what is there: `{"source": "robotalp", "team": "platform"}`.
+The usual cause is a robot saved without a name in Robotalp. Give it one and later events will be titled with it. Robots that only ever have a URL are fine — Spike titles those with the URL, with the scheme stripped, as in `status.acme-demo.io/health is down: HTTP 502`.
+
+Events like this still group together rather than opening one incident each, so a misconfigured robot does not flood the dashboard.
 
 </details>
 
@@ -143,7 +166,7 @@ If the field already has a payload of your own in it, merge the key in rather th
 
 <summary>Incidents open but never resolve</summary>
 
-The recovery closes an incident only when it is for the same robot that opened it. Renaming a robot in Robotalp while it is down splits the two, so the `up` no longer matches the open incident and Spike drops it.
+The recovery closes an incident only when it is for the same robot that opened it. Robotalp sends a robot id on most payloads and Spike matches on that first, so renaming a robot mid-outage still resolves the incident it opened. Where the payload carries no id, the name is all Spike has to go on, and a rename while the robot is down splits the two: the `up` no longer matches the open incident and is dropped.
 
 If someone already resolved the incident by hand in Spike, the later `up` has nothing to close and is dropped, which is expected.
 
