@@ -17,7 +17,7 @@ Make sure you have the service and integration already setup for Zapier. Follow 
 Click on **Create zap** ([what is a zap?](https://zapier.com/help/create/basics/learn-key-concepts-in-zapier)) on Zapier's dashboard. You can choose to have Spike as a **trigger** and also as an **action**
 
 {% hint style="success" %}
-Use Spike.sh's Zapier app to [setup triggers and actions here](https://zapier.com/apps/spikesh/integrations).
+Use Spike's Zapier app to [setup triggers and actions here](https://zapier.com/apps/spikesh/integrations).
 {% endhint %}
 
 **Trigger**\

@@ -39,8 +39,8 @@ Auto-resolution is supported for this integration. Spike will also automatically
 {% tab title="Setting up on Xitoring" %}
 * **Navivate to Notification**
   * Visit [Notification Roles](https://app.xitoring.com/ui/notificationRoles)
-  * Click Spike.sh > Paste webhook
+  * Click Spike > Paste webhook
 
-<figure><img src="../.gitbook/assets/xitoring-spike.png" alt="Spike.sh on Xitoring"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/xitoring-spike.png" alt="Spike on Xitoring"><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
