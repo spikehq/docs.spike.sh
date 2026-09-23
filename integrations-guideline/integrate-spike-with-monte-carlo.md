@@ -29,8 +29,17 @@ Resolving the incident in Spike does not change the alert in Monte Carlo, and an
 
 Titles come from the alert itself, so they stay readable when Spike reads them out on a phone call:
 
-* Anomaly: `Has 42 rows vs. 101 expected on artemis`, built from `event_list[0].event_details` and `event_list[0].table_name`
-* Custom rule breach: the rule description, for example `Orders row count must stay above 49`
+* Anomaly: `Has 1,204 rows vs. 58,930 expected on analytics:prod.finance.daily_ledger`, built from `event_list[0].event_details` and `event_list[0].table_name`
+* Custom rule breach: `Rule broken: Refund amounts must never be negative on snowflake:prod.payments.refunds`, built from the rule description. A rule that carries no table reads `Rule broken: Daily signups below 40% of 7-day average`
+* An alert that carries nothing to build a title from: `Monte Carlo incident <incident_id>`, or `Monte Carlo alert with no details` when even the id is missing
+
+The `Rule broken:` prefix is there so a custom rule reads as an alert rather than as a reminder of the rule. Anomaly titles never get it, because the event details already read as a problem.
+
+A title longer than 200 characters keeps its ` on {table}` part whole and shortens only the subject, at a word boundary, so the table a responder needs is never the part that gets cut:
+
+```
+Distribution shift detected in field shipping_country: share of rows with value US dropped from 61.4% to 12.9% while value unknown rose from 0.2% to 48.7%... on snowflake:prod.logistics.shipments
+```
 
 The alert URL, the group id, the table and the rule comparisons stay in the payload and show up on the incident page. Use a [Title Remapper](../alerts/title-remapper.md) if you would rather see the warehouse or the domain in the title:
 
@@ -40,7 +49,13 @@ The alert URL, the group id, the table and the rule comparisons stay in the payl
 
 ## Severity
 
-Monte Carlo only sends `declared_alert_severity` once somebody marks the alert as an incident, so most alerts open with no severity and pick one up later:
+Set severity on a Monte Carlo incident with [alert rules](../alerts/alert-rules.md). The same rules route the incident to another escalation policy or suppress it entirely, which is how you send freshness alerts on a staging dataset somewhere quieter than the pager.
+
+{% hint style="warning" %}
+The SEV you declare in Monte Carlo does not reach the Spike incident. Monte Carlo sends `declared_alert_severity` only on a later "marked as incident" update, never on the alert that opens the incident, and Spike sets severity when an incident is created or reopened rather than on an update that joins one that is already open.
+{% endhint %}
+
+Spike does read the value when it ever arrives on an opening payload, and maps it onto its three severities:
 
 | `declared_alert_severity` | Severity in Spike |
 | --- | --- |
@@ -50,11 +65,7 @@ Monte Carlo only sends `declared_alert_severity` once somebody marks the alert a
 | `SEV-4` | SEV3 |
 | `null` or absent | Left unset |
 
-Spike has three severities and Monte Carlo has four, which is why `SEV-4` lands on SEV3. Read more about [priority and severity](../incidents/priority-and-severity.md).
-
-{% hint style="info" %}
-[Alert rules](../alerts/alert-rules.md) can override the severity, route the incident to another escalation policy, or suppress it entirely. That is the place to send freshness alerts on a staging dataset somewhere quieter than the pager.
-{% endhint %}
+Monte Carlo has four severities and Spike has three, which is why `SEV-4` lands on SEV3. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
 ## Step 1 — Create the integration in Spike
 
@@ -170,7 +181,7 @@ An update repeats `incident_id` and adds the fields that changed:
 | `owner` | An email address | The alert owner changes |
 
 {% hint style="info" %}
-Monte Carlo documents these update fields in a table rather than as a sample payload. Spike reads them whether they arrive at the top level or inside `payload`, so an update resolves the right incident either way.
+Monte Carlo documents these update fields in a table rather than as a sample payload. Spike reads them whether they arrive at the top level or inside `payload`, so an update resolves the right incident either way. An update is recorded on the incident, including the SEV declared on it, but it does not change the incident's severity.
 {% endhint %}
 
 ## Troubleshooting
@@ -201,9 +212,9 @@ Spike groups on `payload.incident_id`. Two incidents for what looks like the sam
 
 <details>
 
-<summary>Titles read as the rule id instead of a description</summary>
+<summary>A title reads as an id, or as "Monte Carlo alert with no details"</summary>
 
-Custom rules with no description fall back to what the payload has. Give the rule a description in Monte Carlo, or write a [Title Remapper](../alerts/title-remapper.md) that builds the title from `payload.rule.comparisons`.
+Both are fallbacks for an alert that carried nothing to build a title from. A custom rule with no description is the usual cause, so give the rule a description in Monte Carlo, or write a [Title Remapper](../alerts/title-remapper.md) that builds the title from `payload.rule.comparisons`.
 
 </details>
 
@@ -211,6 +222,6 @@ Custom rules with no description fall back to what the payload has. Give the rul
 
 <summary>Severity never gets set</summary>
 
-Monte Carlo only sends `declared_alert_severity` when somebody marks the alert as an incident, which is usually after Spike has already paged. Set severity from [alert rules](../alerts/alert-rules.md) if you want it on the incident from the first page.
+That is expected today. The SEV is declared on a later update, and Spike does not change the severity of an incident that is already open, so the declared SEV stays in the incident's activity rather than on the incident itself. Set severity from [alert rules](../alerts/alert-rules.md) instead, which also gets it onto the incident from the first page.
 
 </details>
