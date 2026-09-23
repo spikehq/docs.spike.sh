@@ -20,34 +20,62 @@ Every Dash0 webhook body carries a `type` that says where the issue is in its li
 | `alert.ongoing` | Opens an incident for that issue, or adds an event to the one already open |
 | `alert.resolved` | Auto-resolves the open incident. Dropped when nothing is open |
 | `alert.closed` | Auto-resolves the open incident. Dropped when nothing is open |
-| `alert.superseded` | Auto-resolves the open incident. The replacement issue arrives as its own `alert.ongoing` |
+| `alert.superseded` | Adds an event to the open incident and leaves it open. Never opens an incident on its own |
 
-`alert.superseded` is what Dash0 sends when you edit a check rule while it is failing. The issue raised by the old version of the rule is closed out and a new one opens against the new version, so Spike resolves the first incident and opens a second one rather than leaving a stale incident behind.
+`alert.superseded` is what Dash0 sends when the issue instance is replaced, which in practice means you edited the check rule while it was failing. The check can still be failing at that moment, so Spike treats it as an update and not as a recovery: the notification joins the open incident, and the `alert.ongoing` that follows against the new version of the rule joins it too. Editing a rule mid-incident neither resolves the incident nor pages anyone a second time.
 
 There is one incident per `data.issue.issueIdentifier`. That identifier is stable for a given check rule and resource across issue instances, so a check that flaps, a reminder notification, and a `degraded` that turns into a `critical` all land on the incident already open instead of paging the team again.
 
 {% hint style="success" %}
-Auto-resolution needs nothing switched on. As long as the channel is attached to the check rule, Dash0 sends the closing notification and Spike resolves the incident.
+Auto-resolution needs nothing switched on. As long as the channel is attached to the check rule, Dash0 sends `alert.resolved` when the check recovers, or `alert.closed` when the issue is closed in Dash0, and Spike resolves the incident.
 {% endhint %}
 
 ### Incident titles
 
-Spike builds the title from the check rule name and the resource the issue is about, so it stays identical across the notification, its reminders and its resolution, which is what makes it readable when Spike reads it out on a phone call. When the body carries no check rule name, the title falls back to `Dash0 check {checkrule.id} failing`.
+Titles read `Check failing: {check rule name} on {service}`, so an incident says what broke and where without anyone having to open it:
+
+```
+Check failing: Payments API error rate above 5% on payments-api
+```
+
+The `Check failing:` prefix is there because check rule names usually describe the healthy state. Without it, `Checkout page loads` arriving at three in the morning reads like good news.
+
+The service comes from the issue's labels, falling back to the check rule's own labels, and Spike takes the first of these that is set:
+
+`dash0.resource.name`, `service.name`, `service_name`, `service`, `k8s.deployment.name`, `k8s.statefulset.name`, `k8s.daemonset.name`, `k8s.cronjob.name`, `k8s.job.name`, `k8s.pod.name`, `k8s.namespace.name`, `k8s.cluster.name`, `host.name`, `host`, `container.name`, `faas.name`, `cloud.resource_id`, `instance`, `job`
+
+That order is fixed rather than the order the labels happen to arrive in, so one check rule always names its resource the same way. When none of them is set — a synthetic check with no resource behind it, for instance — the title is simply `Check failing: {check rule name}`.
+
+Two fallbacks cover a body that names no rule at all:
+
+| What arrived | Title |
+| --- | --- |
+| A check rule id but no name | `Dash0 check chk_7e1d0a failing` |
+| Nothing usable | `Dash0 alert with no details` |
+
+A recovery is the same title with `[RESOLVED]` in front of it.
+
+{% hint style="info" %}
+Titles never carry the status, the summary, the description, a measured number, the issue id, its timestamps or its URL. Every one of those changes while a single issue is open, and a title that moves is unrecognisable when Spike reads it out on a phone call. They are all on the incident page instead.
+{% endhint %}
+
+A title over 200 characters is shortened at a word boundary with `...`, keeping ` on {service}` whole, because the service is the part you need to hear.
 
 Use the [Title Remapper](../alerts/title-remapper.md) if you want a different shape — there is an example [further down this page](#rewriting-the-title).
 
 ### Severity
 
-Dash0 check rules have two failing degrees, and Spike maps them onto its own severities:
+Dash0 check rules fail in two degrees, `degraded` and `critical`, and the one that applies is in `data.issue.status`. Spike does not read it today, so a Dash0 incident arrives without a severity whichever degree failed.
 
-| Dash0 status | Severity |
+Set it with an [alert routing rule](../alerts/alert-rules.md) instead. Add an **Incident details** condition on the key `data.issue.status`, and give each degree the action you want:
+
+| Condition | Action |
 | --- | --- |
-| `critical` | SEV1 |
-| `degraded` | SEV2 |
-| Anything else | SEV3 |
+| `data.issue.status` equals `critical` | **Mark severity as** SEV1, and load a wider escalation policy if you have one |
+| `data.issue.status` equals `degraded` | **Mark severity as** SEV2, or **Ignore incident** to keep those out of Spike entirely |
 
 {% hint style="info" %}
-Severity is set when the incident is created and does not move when the same issue is notified again. [Alert rules](../alerts/alert-rules.md) can override it, route the incident to a different escalation policy, or suppress it entirely.
+The status travels with every notification for an issue, so a `degraded` check that later turns `critical` sends `critical` on its next notification. The rule runs when the incident is created, so the severity reflects the degree that opened it and does not move afterwards.
 {% endhint %}
 
 ## Prerequisites
@@ -97,7 +125,7 @@ This is the route to use when rules are created by teams or by code and you do n
 
 A check rule can fail as `degraded` before it fails as `critical`. If you only want Spike involved for the second, add the trigger `dash0.failed_check.max_status=critical` where the channel is attached. Dash0 then holds back the `degraded` notifications and Spike never sees them.
 
-Leave the filter off if you would rather have every failure in Spike and sort it out there — a `degraded` issue opens a SEV2 incident, and an [alert rule](../alerts/alert-rules.md) can suppress or downgrade those without touching Dash0.
+Leave the filter off if you would rather have every failure in Spike and sort it out there — a `degraded` issue opens an incident like any other, and the [alert routing rule](../alerts/alert-rules.md) above can downgrade or drop those without anyone touching Dash0.
 
 ## Step 4 — Send a test notification
 
@@ -161,11 +189,23 @@ Dash0 posts a fixed JSON body. These are the fields Dash0 documents, and the one
 | `data.issue.checkrule.id` | Unique ID of the check rule that raised the issue |
 | `data.issue.checkrule.version` | Version of that check rule. This is what changes when an issue is superseded |
 
-The body carries more than this — the check rule name, a summary, the failing status, a link back to the issue in Dash0 and the issue's labels are all in there. Spike reads them for the incident title, the severity and the incident page, and falls back to the documented fields above when one is missing. The full body as Dash0 sent it is kept on the incident, so the first notification you receive shows you exactly what your Dash0 organization sends.
+The body carries more than this — the check rule name, a summary, the failing status, a link back to the issue in Dash0 and the issue's labels are all in there. Spike reads the rule name and the labels for the incident title and keeps the rest on the incident page. The full body as Dash0 sent it is stored on the incident, so the first notification you receive shows you exactly what your Dash0 organization sends.
+
+### Label values
+
+Labels arrive in OpenTelemetry's `AnyValue` shape: the value is an object that names its own type rather than a bare value.
+
+```json
+{ "key": "service_name", "value": { "stringValue": "payments-api" } }
+```
+
+Spike reads `stringValue`, `intValue`, `doubleValue` and `boolValue`, and also accepts a plain string, which is the shape a check rule's own labels use.
+
+Note the underscore in `service_name`. A label that comes out of a query keeps the name the query gave it, so the same concept reaches Spike as `service_name` from one rule and as the OpenTelemetry `service.name` from another. Both are in the list under [Incident titles](#incident-titles), so either one names the service.
 
 ### Rewriting the title
 
-Point a [Title Remapper](../alerts/title-remapper.md) at the Dash0 integration to build your own title out of that body. This one prefers the issue summary and falls back to the check rule id, which is always there:
+Point a [Title Remapper](../alerts/title-remapper.md) at the Dash0 integration to build your own title out of that body. A remapper replaces the whole title, so the `Check failing:` prefix and the ` on {service}` suffix go with it. This one prefers the issue summary and falls back to the check rule id, which is always there:
 
 ```
 {{#if data.issue.summary}}
@@ -177,10 +217,14 @@ Point a [Title Remapper](../alerts/title-remapper.md) at the Dash0 integration t
 
 Open the remapper against a real incident first — the preview shows the payload your check rules actually produce, which is the quickest way to find the field you want.
 
+{% hint style="warning" %}
+A summary moves as an issue develops, so remapping onto one gives an incident a title that changes under it. Prefer fields that are fixed for the life of the issue, which is why the built-in title uses the rule name and the service.
+{% endhint %}
+
 ## Things worth knowing
 
 * **One incident per check rule and resource.** Two resources failing the same check rule are two issues in Dash0, so they are two incidents in Spike. That is usually what you want when they page different people through [alert rules](../alerts/alert-rules.md).
-* **Editing a failing check rule closes its incident.** Dash0 supersedes the issue, Spike resolves the incident, and the new version of the rule opens a fresh one.
+* **Editing a failing check rule does not close its incident.** Dash0 supersedes the issue instance, Spike keeps the one incident open, and the notifications from the new version of the rule join it. Nobody is paged twice for one rule edit.
 * **A resolution with nothing open is dropped.** If you resolved the incident in Spike before the check recovered, the `alert.resolved` that follows is ignored rather than reopening anything.
 * **Reminders do not page twice.** Dash0's `frequency` re-notifies while an issue is failing. Those land as events on the open incident.
 * **The test notification does not auto-resolve.** It is a single synthetic notification with no recovery behind it.
@@ -207,14 +251,16 @@ The `dash0.failed_check.max_status=critical` trigger holds back `degraded` notif
 
 <summary>Incidents open but never resolve</summary>
 
-Spike resolves on `alert.resolved`, `alert.closed` and `alert.superseded`. If an incident is still open after the check recovered in Dash0, check whether the incident was opened by a different integration or a manual entry — Spike only resolves the incident that the same `issueIdentifier` opened.
+Spike resolves on `alert.resolved` and `alert.closed` only. `alert.superseded` deliberately does not resolve, because the check can still be failing when Dash0 replaces the issue instance. If an incident is still open after the check recovered in Dash0, check whether it was opened by a different integration or entered by hand — Spike only resolves the incident that the same `issueIdentifier` opened.
 
 </details>
 
 <details>
 
-<summary>Every incident has the same title</summary>
+<summary>Two incidents from one check rule have the same title</summary>
 
-That means the check rule name is not reaching Spike and the fallback title is being used, so every issue from one rule looks alike. Open the incident and look at the payload Dash0 sent, then use a [Title Remapper](../alerts/title-remapper.md) to pull the field that does carry the detail you want.
+A title only names a service when the payload carries one of the labels listed under [Incident titles](#incident-titles). When one rule fails for two resources and neither notification carries one of them, both incidents read `Check failing: {rule name}` and are hard to tell apart. Add a label from that list — `service.name` is the OpenTelemetry standard — to the check rule or to the resources it watches.
+
+They are still two separate incidents either way. Grouping is by `issueIdentifier` and never by title, so identical titles do not merge two problems into one.
 
 </details>
