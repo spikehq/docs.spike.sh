@@ -207,6 +207,12 @@
 
 * [Remote MCP server](mcp/remote-mcp-server.md)
 
+## Terraform <a href="#terraform" id="terraform"></a>
+
+* [Terraform provider](terraform/README.md)
+* [Resources](terraform/resources.md)
+* [Data sources](terraform/data-sources.md)
+
 ## Administration
 
 * [Roles and access](administration/roles-and-access.md)
