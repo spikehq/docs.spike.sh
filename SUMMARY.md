@@ -188,6 +188,7 @@
 * [Integrate Spike with Sentry](integrations-guideline/integrate-spike-with-sentry.md)
 * [Integrate Spike with Server Density](integrations-guideline/integrate-spike-with-server-density.md)
 * [Integrate Spike with Site24x7](integrations-guideline/integrate-spike-with-site24x7.md)
+* [Integrate Spike with Snyk](integrations-guideline/integrate-spike-with-snyk.md)
 * [Integrate Spike with Solarwinds Orion](integrations-guideline/integrate-spike-with-solarwinds-orion.md)
 * [Integrate Spike with Splunk](integrations-guideline/integrate-spike-with-splunk.md)
 * [Integrate Spike with Stackify](integrations-guideline/integrate-spike-with-stackify.md)
