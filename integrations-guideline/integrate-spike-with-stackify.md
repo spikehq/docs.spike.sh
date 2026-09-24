@@ -30,6 +30,6 @@ Add a new Webhook.
 
 ### Step 3
 
-Paste the Spike.sh Webhook link.
+Paste the Spike Webhook link.
 
 ![Paste the Webhook](<../.gitbook/assets/Group 3 (1).png>)

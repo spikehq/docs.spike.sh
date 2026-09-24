@@ -23,7 +23,7 @@ Goto monitored URLs and select the link you want to add a webhook for.
 
 #### Step 2
 
-Paste the Spike.sh webhook URL and save.
+Paste the Spike webhook URL and save.
 
 ![](<../.gitbook/assets/Group 98 (1).png>)
 
