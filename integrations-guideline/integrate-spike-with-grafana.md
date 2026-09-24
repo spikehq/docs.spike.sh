@@ -39,7 +39,7 @@ Auto-resolution is supported for this integration. Spike will also automatically
   * From your Grafana dashboard, navigate to the Alerting section and select Notification Channels.
   * Click on Add channel to create a new notification channel.
 * **Configure the Webhook:**
-  * Set the type to Webhook and paste the Spike.sh webhook URL into the URL field.
+  * Set the type to Webhook and paste the Spike webhook URL into the URL field.
   * Set the content type to application/json.
   * Select the alert conditions and events that should trigger notifications, such as threshold breaches or data loss.
 {% endtab %}
