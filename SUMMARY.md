@@ -133,6 +133,7 @@
 * [Integrate Spike with Dynatrace](integrations-guideline/integrate-spike-with-dynatrace.md)
 * [Integrate Spike with ElastAlert](integrations-guideline/integrate-spike-with-elastalert.md)
 * [Integrate Spike with Elastic Cloud](integrations-guideline/integrate-spike-with-elastic-cloud.md)
+* [Integrate Spike with elmah.io](integrations-guideline/integrate-spike-with-elmah-io.md)
 * [Integrate Spike with Email](integrations-guideline/integrate-spike-with-email.md)
 * [Integrate Spike with Epsagon](integrations-guideline/integrate-spike-with-epsagon.md)
 * [Integrate Spike with Ghost Inspector](integrations-guideline/integrate-spike-with-ghost-inspector.md)
