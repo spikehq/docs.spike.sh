@@ -114,6 +114,7 @@
 * [Integrate Spike with App Optics](integrations-guideline/integrate-spike-with-app-optics.md)
 * [Integrate Spike with AppDynamics](integrations-guideline/integrate-spike-with-appdynamics.md)
 * [Integrate Spike with AppSignal](integrations-guideline/integrate-spike-with-appsignal.md)
+* [Integrate Spike with Assertible](integrations-guideline/integrate-spike-with-assertible.md)
 * [Integrate Spike with AWS](integrations-guideline/integrate-spike-with-aws.md)
 * [Integrate Spike with Axiom](integrations-guideline/integrate-spike-with-axiom.md)
 * [Integrate Spike with Better Uptime](integrations-guideline/integrate-spike-with-better-uptime.md)
