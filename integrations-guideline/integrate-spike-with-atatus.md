@@ -97,24 +97,25 @@ Open **Alerting → Alert Policies**, edit each policy that should page on-call,
 
 Attach the channel to the policies a human should be woken up for and leave it off the rest. The channel is the only filter between an Atatus alert and your phone, so an alert policy on a noisy non-production app is better left on email.
 
-## Step 4 — Send a test notification
+## Step 4 — Check that deliveries reach Spike
 
-Atatus can deliver a test payload without waiting for a real alert, which is the quickest way to confirm the URL is right:
+Use the test action on the notification channel if Atatus offers one for webhook channels in your account. It sends a test payload straight away, an incident shows up in Spike within a few seconds titled from whatever that payload carries, and you resolve it and are done.
 
-* Use the **Test** / **Send test notification** action on the notification channel in the Atatus UI, or
-* Call Atatus's `POST /channels/testmessage` API for the channel, using your Atatus API key.
-
-Either way an incident shows up in Spike within a few seconds, titled from whatever the test payload carries. Resolve it and you are done.
+If your account has no test action on the channel, make an alert fire on purpose instead. Create a throwaway alert policy on a non-production app with a threshold the app will breach immediately — a response time threshold of a few milliseconds, or an error rate above zero — attach the Spike channel to it, wait for the alert, then delete the policy.
 
 {% hint style="info" %}
-The test delivery is a real incident, so it pages your escalation policy like any other. Either warn the team first, or run the test outside office hours rules, or resolve it quickly.
+A test delivery is a real incident, so it pages your escalation policy like any other. Warn the team first, or run the test while you are the one on call, and resolve the incident afterwards.
+{% endhint %}
+
+{% hint style="warning" %}
+Atatus's public REST API is in beta and covers browser monitoring only, so there is no supported API call you can use to fire a test notification. Use the channel's own test action or a throwaway alert policy.
 {% endhint %}
 
 ## Step 5 — Add the error notification webhook
 
 Skip this step if you only want alert policies.
 
-Error notifications are per project and live somewhere else in Atatus. Open **Project Settings → Team Notifications** on the project, add a **Webhook** notification, and paste the same Spike webhook URL from Step 1 (or the URL of a second Spike integration, if new errors should page a different team). Save it.
+Error notifications are per project and live somewhere else in Atatus. Open the project and go to **Settings → Team Notifications → Webhook**, paste the same Spike webhook URL from Step 1 into the **URL** box — or the URL of a second Spike integration, if new errors should page a different team — and click **Save**.
 
 From then on a new error captured in that project opens an incident in Spike. One error group is one incident, so a single bad deploy throwing the same exception ten thousand times is one incident carrying the repeats, not ten thousand pages.
 
@@ -132,7 +133,7 @@ A resolve timer applies to every incident on the integration, including the ones
 
 ## What Spike reads from the payload
 
-Atatus does not publish the schema of its webhook body. Its own Team Notifications webhook page points you at a tool like [RequestBin](https://requestbin.com) to see what gets sent, rather than documenting the body, and the shape has differed between Atatus accounts and channel types in the past. Spike therefore reads the payload by what each field means rather than by insisting on one exact layout:
+Atatus does not publish the schema of its webhook body. Its own webhook documentation recommends troubleshooting with a tool like [RequestBin](https://requestbin.com) rather than documenting the body, and the two routes above do not have to agree with each other. Spike therefore reads the payload by what each field means rather than by insisting on one exact layout:
 
 | What Spike looks for | What it does with it |
 | --- | --- |
@@ -145,7 +146,7 @@ Atatus does not publish the schema of its webhook body. Its own Team Notificatio
 
 ### Seeing the body for yourself
 
-If you want to know exactly what your Atatus account sends, point a second notification channel at a [RequestBin](https://requestbin.com) URL and fire the test notification from Step 4 at it. The incident page in Spike shows the same body for every delivery that reached Spike, which is usually the faster place to look once the integration is live.
+If you want to know exactly what your Atatus account sends, point a second notification channel — or a second Team Notifications webhook — at a [RequestBin](https://requestbin.com) URL and let the next alert hit both. That is what Atatus's own documentation recommends. Once the integration is live the incident page in Spike shows the same body for every delivery that reached Spike, which is usually the faster place to look.
 
 {% hint style="info" %}
 Atatus sends no signature and no authentication header with its webhooks, so the webhook URL is the credential. If it leaks, archive the integration in Spike and create a new one, then update the URL on the Atatus channel.
