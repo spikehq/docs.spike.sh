@@ -126,7 +126,7 @@ Nothing HEAL sends resolves a Spike incident today, so give the integration a [r
 
 ## Severity and routing
 
-Set severity on a HEAL incident with [alert rules](../alerts/alert-rules.md). The same rules route the incident to another escalation policy or suppress it entirely, which is how a Default Early Warning on a staging application goes somewhere quieter than the pager.
+Set severity on a HEAL incident with [alert rules](../alerts/alert-rules.md). The same rules route the incident to another escalation policy, or drop it with the **Ignore incident** action, which is how a Default Early Warning on a staging application goes somewhere quieter than the pager.
 
 {% hint style="warning" %}
 HEAL's own **Severe** and **Default** severities do not become Spike severities automatically. A notification email carries no structured payload for Spike to lift a severity out of — there is only the subject and the body text. Write an alert rule matching on that text instead, for example on `Severity: Severe` in the body, or on the signal type in the subject.
@@ -142,7 +142,7 @@ Until Spike can recognise a recovery email by a keyword and match it on the sign
 
 * Use the [resolve timer](../incidents/resolve-timer.md) from Step 4, which is what we recommend.
 * Resolve incidents by hand as your team closes the signal in HEAL.
-* If close notifications are creating incidents nobody needs to see, write an [alert rule](../alerts/alert-rules.md) matching the closed wording in the title and suppress it, so the close email is recorded without paging anybody.
+* Write an [alert rule](../alerts/alert-rules.md) matching the close notification's wording in the title — HEAL's closed status — with the **Resolve incident** action, so the close email lands as an incident that is already resolved instead of one that pages somebody. It does not close the incident the signal opened, which is what the resolve timer is for. Use **Ignore incident** instead if you would rather the close email left no trace at all.
 
 {% hint style="info" %}
 Two different signals whose subjects happen to render identically would join into one incident. That is the standard trade-off for any email integration and is unlikely with HEAL, because the signal id is part of the documented subject format.
@@ -184,7 +184,7 @@ That is expected today. Nothing HEAL emails resolves an incident, including its 
 
 <summary>Too many incidents, or the wrong people paged</summary>
 
-Tighten HEAL's notification preferences first, since that is the only filter that stops an email being sent at all. Turn Info signals **Off**, move Default Early Warning to **If Open for too long**, and check the granularity setting, which decides how finely HEAL splits events before they become notifications. Then use [alert rules](../alerts/alert-rules.md) in Spike to route or suppress what still gets through.
+Tighten HEAL's notification preferences first, since that is the only filter that stops an email being sent at all. Turn Info signals **Off**, move Default Early Warning to **If Open for too long**, and check the granularity setting, which decides how finely HEAL splits events before they become notifications. Then use [alert rules](../alerts/alert-rules.md) in Spike to route, ignore or auto-resolve what still gets through.
 
 </details>
 
