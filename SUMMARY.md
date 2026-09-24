@@ -118,6 +118,7 @@
 * [Integrate Spike with Axiom](integrations-guideline/integrate-spike-with-axiom.md)
 * [Integrate Spike with Better Uptime](integrations-guideline/integrate-spike-with-better-uptime.md)
 * [Integrate Spike with Bitbucket Pipelines](integrations-guideline/integrate-spike-with-bitbucket-pipelines.md)
+* [Integrate Spike with BugBase](integrations-guideline/integrate-spike-with-bugbase.md)
 * [Integrate Spike with Bugsnag](integrations-guideline/integrate-spike-with-bugsnag.md)
 * [Integrate Spike with Buildkite](integrations-guideline/integrate-spike-with-buildkite.md)
 * [Integrate Spike with Checkly](integrations-guideline/integrate-spike-with-checkly.md)
