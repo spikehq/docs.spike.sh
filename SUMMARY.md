@@ -208,6 +208,7 @@
 * [Integrate Spike with Wiz](integrations-guideline/integrate-spike-with-wiz.md)
 * [Integrate Spike with Panther](integrations-guideline/integrate-spike-with-panther.md)
 * [Integrate Spike with Papertrail](integrations-guideline/integrate-spike-with-papertrail.md)
+* [Integrate Spike with Monte Carlo](integrations-guideline/integrate-spike-with-monte-carlo.md)
 
 ## AI features <a href="#mcp" id="mcp"></a>
 
