@@ -124,6 +124,7 @@
 * [Integrate Spike with Checkmk](integrations-guideline/integrate-spike-with-checkmk.md)
 * [Integrate Spike with CloudAMQP](integrations-guideline/integrate-spike-with-cloudamqp.md)
 * [Integrate Spike with Cloudflare](integrations-guideline/integrate-spike-with-cloudflare.md)
+* [Integrate Spike with CloudQA](integrations-guideline/integrate-spike-with-cloudqa.md)
 * [Integrate Spike with CopperEgg](integrations-guideline/integrate-spike-with-copperegg.md)
 * [Integrate Spike with Coralogix](integrations-guideline/integrate-spike-with-coralogix.md)
 * [Integrate Spike with Cronicle](integrations-guideline/integrate-spike-with-cronicle.md)
