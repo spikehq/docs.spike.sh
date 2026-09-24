@@ -171,6 +171,7 @@
 * [Integrate Spike with Nixstats](integrations-guideline/integrate-spike-with-nixstats.md)
 * [Integrate Spike with NodePing](integrations-guideline/integrate-spike-with-nodeping.md)
 * [Integrate Spike with Oh-Dear](integrations-guideline/integrate-spike-with-oh-dear.md)
+* [Integrate Spike with OpenText SiteScope](integrations-guideline/integrate-spike-with-sitescope.md)
 * [Integrate Spike with Paessler PRTG](integrations-guideline/paessler-prtg.md)
 * [Integrate Spike with Panther](integrations-guideline/integrate-spike-with-panther.md)
 * [Integrate Spike with Papertrail](integrations-guideline/integrate-spike-with-papertrail.md)
