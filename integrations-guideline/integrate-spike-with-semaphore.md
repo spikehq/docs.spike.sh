@@ -70,7 +70,7 @@ spec:
 sem create -f notify-on-fail.yml
 ```
 
-This YAML configuration sends alerts to Spike.sh when a pipeline fails.
+This YAML configuration sends alerts to Spike when a pipeline fails.
 {% endtab %}
 {% endtabs %}
 
