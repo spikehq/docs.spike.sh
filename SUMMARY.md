@@ -207,6 +207,7 @@
 * [Integrate Spike with Bitbucket Pipelines](integrations-guideline/integrate-spike-with-bitbucket-pipelines.md)
 * [Integrate Spike with Wiz](integrations-guideline/integrate-spike-with-wiz.md)
 * [Integrate Spike with Panther](integrations-guideline/integrate-spike-with-panther.md)
+* [Integrate Spike with Papertrail](integrations-guideline/integrate-spike-with-papertrail.md)
 
 ## AI features <a href="#mcp" id="mcp"></a>
 
