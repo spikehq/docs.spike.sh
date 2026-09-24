@@ -50,7 +50,7 @@ This feature is only available if your Cloudflare account has at least one zone 
 * **Configure the Webhook**:
   * Set your reset condition (this will automatically resolve the incident on Spike).
 * **Configure the Webhook**:
-  * Enter the details for your notification, and paste the Spike.sh webhook URL
+  * Enter the details for your notification, and paste the Spike webhook URL
   * If you see an option for setting headers, set the `ContentType` to `"application/json"`
 {% endtab %}
 {% endtabs %}
