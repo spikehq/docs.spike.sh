@@ -196,6 +196,7 @@
 * [Integrate Spike with Sysdig](integrations-guideline/integrate-spike-with-sysdig.md)
 * [Integrate Spike with Tenderly](integrations-guideline/integrate-spike-with-tenderly.md)
 * [Integrate Spike with Thousand Eyes](integrations-guideline/integrate-spike-with-thousand-eyes.md)
+* [Integrate Spike with Tideways](integrations-guideline/integrate-spike-with-tideways.md)
 * [Integrate Spike with Travis CI](integrations-guideline/integrate-spike-with-travis-ci.md)
 * [Integrate Spike with Twilio](integrations-guideline/integrate-spike-with-twilio.md)
 * [Integrate Spike with Updown.io](integrations-guideline/updown-io.md)
