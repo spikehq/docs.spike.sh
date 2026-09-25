@@ -159,6 +159,7 @@
 * [Integrate Spike with Loggly](integrations-guideline/integrate-spike-with-loggly.md)
 * [Integrate Spike with LogRocket](integrations-guideline/logrocket.md)
 * [Integrate Spike with Logz](integrations-guideline/integrate-spike-with-logz.md)
+* [Integrate Spike with Metoro](integrations-guideline/integrate-spike-with-metoro.md)
 * [Integrate Spike with Microsoft Azure](integrations-guideline/integrate-spike-with-microsoft-azure.md)
 * [Integrate Spike with MongoDB Atlas](integrations-guideline/mongodb-atlas.md)
 * [Integrate Spike with Monte Carlo](integrations-guideline/integrate-spike-with-monte-carlo.md)
