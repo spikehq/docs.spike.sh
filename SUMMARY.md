@@ -129,6 +129,7 @@
 * [Integrate Spike with Cronicle](integrations-guideline/integrate-spike-with-cronicle.md)
 * [Integrate Spike with Cronitor](integrations-guideline/integrate-spike-with-cronitor.md)
 * [Integrate Spike with Crowdstrike](integrations-guideline/integrate-spike-with-crowdstrike.md)
+* [Integrate Spike with Dash0](integrations-guideline/integrate-spike-with-dash0.md)
 * [Integrate Spike with Datadog](integrations-guideline/integrate-spike-with-datadog.md)
 * [Integrate Spike with Dynatrace](integrations-guideline/integrate-spike-with-dynatrace.md)
 * [Integrate Spike with ElastAlert](integrations-guideline/integrate-spike-with-elastalert.md)
