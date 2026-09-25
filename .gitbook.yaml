@@ -6,3 +6,4 @@ redirects:
   oncall-schedules/export-on-call-schedule: oncall-schedules/calendar-sync-for-oncall/README.md
   integrations-guideline/integrate-spike-with-newrelic: integrations-guideline/integrate-spike-with-new-relic.md
   integrations-guideline/integrate-spike-with-ohdear: integrations-guideline/integrate-spike-with-oh-dear.md
+  integrations-guideline/integrate-spike-with-montecarlo: integrations-guideline/integrate-spike-with-monte-carlo.md

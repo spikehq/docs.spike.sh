@@ -1,0 +1,4 @@
+# SUMMARY.md lists every page; two integration guides written at the same time
+# used to conflict on their appended lines. Keep both sides on a merge; the
+# section is kept sorted by scripts/summary_integrations.mjs.
+SUMMARY.md merge=union
