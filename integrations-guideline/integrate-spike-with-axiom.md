@@ -53,7 +53,7 @@ Auto-resolution is supported for this integration. Spike will also automatically
   * Save your monitor settings to finalize the setup.
 
 * **Configure the Webhook**:
-  * Enter the details for your notification, and paste the Spike.sh webhook URL
+  * Enter the details for your notification, and paste the Spike webhook URL
   * If you see an option for setting headers, set the `ContentType` to `"application/json"`
 {% endtab %}
 {% endtabs %}
