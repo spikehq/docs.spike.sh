@@ -179,6 +179,7 @@
 * [Integrate Spike with Prometheus](integrations-guideline/integrate-spike-with-prometheus.md)
 * [Integrate Spike with Raygun](integrations-guideline/integrate-spike-with-raygun.md)
 * [Integrate Spike with Render](integrations-guideline/integrate-spike-with-render.md)
+* [Integrate Spike with Robotalp](integrations-guideline/integrate-spike-with-robotalp.md)
 * [Integrate Spike with Rollbar](integrations-guideline/integrate-spike-with-rollbar.md)
 * [Integrate Spike with Runscope](integrations-guideline/integrate-spike-with-runscope.md)
 * [Integrate Spike with Scalyr](integrations-guideline/integrate-spike-with-scalyr.md)
