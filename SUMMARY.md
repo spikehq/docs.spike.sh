@@ -135,6 +135,7 @@
 * [Integrate Spike with Elastic Cloud](integrations-guideline/integrate-spike-with-elastic-cloud.md)
 * [Integrate Spike with Email](integrations-guideline/integrate-spike-with-email.md)
 * [Integrate Spike with Epsagon](integrations-guideline/integrate-spike-with-epsagon.md)
+* [Integrate Spike with Expel](integrations-guideline/integrate-spike-with-expel.md)
 * [Integrate Spike with Ghost Inspector](integrations-guideline/integrate-spike-with-ghost-inspector.md)
 * [Integrate Spike with GitHub Workflows](integrations-guideline/integrate-spike-with-github-workflows.md)
 * [Integrate Spike with Google Cloud](integrations-guideline/integrate-google-cloud-with-spike.md)
