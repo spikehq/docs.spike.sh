@@ -33,7 +33,7 @@ Every state GitLab can send has a decision. Nothing falls through to "does nothi
 | --- | --- |
 | `failed` on a protected ref | Opens an incident for that project and branch, or adds an event to the one already open |
 | `success` on a protected ref | Auto-resolves the open incident for that project and branch. Dropped when nothing is open |
-| `running`, `pending` | Skipped. A run that is still going never pages anyone |
+| `created`, `preparing`, `waiting_for_resource`, `pending`, `running`, `manual`, `scheduled` | Skipped. A run that has not finished never pages anyone |
 | `canceled`, `skipped` | Skipped. A cancelled run is not a failure, and it does not resolve anything either |
 | Any status on an unprotected branch | Skipped |
 | `source: merge_request_event` | Skipped. Merge request pipelines are the author's problem, not on-call's |
@@ -46,7 +46,7 @@ Every state GitLab can send has a decision. Nothing falls through to "does nothi
 | `failed` to a `production` tier environment | Opens an incident for that project and environment, or adds an event to the one already open |
 | `success` to the same environment | Auto-resolves the open incident. Dropped when nothing is open |
 | `failed` or `success` to any other tier | Skipped |
-| `running`, `blocked`, `approved` | Skipped. A deployment in flight, or waiting on an approval, is not an outage |
+| `created`, `running`, `blocked`, `approved`, `canceled` | Skipped. A deployment in flight, waiting on an approval, or called off is not an outage |
 | `rejected` | Skipped — and so is the `failed` event GitLab sends straight after a rejection, so a deployment somebody turned down never pages |
 
 ### Every other hook
@@ -83,6 +83,7 @@ Titles say what failed, where, and in which project, in one short sentence, so t
 Pipeline failed on main in acme/checkout-api
 Pipeline passed on main in acme/checkout-api
 Scheduled pipeline failed on main in acme/checkout-api
+Scheduled pipeline passed on main in acme/checkout-api
 Pipeline failed on tag v2.3.0 in acme/checkout-api
 Deployment to production failed in acme/checkout-api
 Deployment to production succeeded in acme/checkout-api
@@ -197,13 +198,30 @@ An admitted delivery is answered with the id of the event Spike created:
 { "Ok": true, "event": "66f3c8a19b4e2f0012ab34cd" }
 ```
 
-A delivery Spike decided not to act on is also a `200`, with the reason it was skipped:
+A delivery Spike decided not to act on is also a `200`, and carries the reason it was skipped:
 
 ```json
-{ "Ok": true, "skipped": "pipeline status running" }
+{
+  "Ok": true,
+  "skipped": true,
+  "reason": "pipeline ran on feature/retry-webhooks, which is not a protected branch or tag"
+}
 ```
 
-The reasons map onto the tables above — an unprotected ref, a merge request or child pipeline, a status that is neither `failed` nor `success`, a non-production environment tier, a rejected deployment, or `unsupported event <kind>` for a hook Spike does not read.
+Every reason is a short sentence. These are all of them:
+
+| Reason in **Recent events** | What it means |
+| --- | --- |
+| `pipeline is running, which is neither a failure nor a recovery` | The pipeline has not finished. The same sentence covers `pending`, `created`, `preparing`, `manual`, `scheduled`, `canceled` and `skipped` |
+| `pipeline ran on feature/retry-webhooks, which is not a protected branch or tag` | The ref is not protected. Protect the branch in GitLab if it should page |
+| `merge request pipeline, which concerns its author rather than on-call` | `source` was `merge_request_event` |
+| `child pipeline, the parent pipeline is the one we page on` | `source` was `parent_pipeline` |
+| `deployment is blocked, which is neither a failure nor a recovery` | The deployment has not finished. The same sentence covers `running`, `created`, `approved` and `canceled` |
+| `deployment to staging is on the staging tier, and only production pages` | `environment_tier` was something other than `production` |
+| `deployment was rejected in GitLab, so nothing was deployed` | Somebody turned the deployment down at the approval step |
+| `deployment failed after it was rejected in GitLab, so nothing was deployed` | The `failed` event GitLab sends moments after a rejection, matched to it by `deployment_id` |
+| `unsupported event tag_push` | A hook other than Pipeline or Deployment. Untick it in GitLab to stop sending it |
+| `not a GitLab webhook event` | The body carried no `object_kind` at all |
 
 {% hint style="info" %}
 Spike answers GitLab straight away and escalates afterwards, so a delivery never sits waiting on a phone call or a Slack message. That keeps every delivery well inside GitLab's 10-second webhook timeout. It also means **Recent events** shows the event id rather than the outcome of the escalation — open the incident in Spike to see who was alerted.
@@ -315,7 +333,7 @@ Fields GitLab leaves out are simply left off the incident.
 
 ## Things worth knowing
 
-* **Older GitLab versions** do not send `protected_ref` on pipeline events. When it is missing, Spike falls back to "the ref is the project's default branch", so `main` still pages and feature branches still do not.
+* **Older GitLab versions** (before 15.7) do not send `protected_ref` on pipeline events. When it is missing, Spike falls back to "the ref is the project's default branch", so `main` still pages and feature branches still do not. A protected branch that is not the default one, and a protected tag, cannot be recognised on those versions and do not page.
 * **Environments with no tier** are treated as production, so a real failure is never missed because somebody forgot to set the tier in GitLab. Set the tier on your non-production environments to keep them quiet.
 * **Rejected deployments** are remembered for 24 hours, so the `failed` event GitLab sends right after somebody rejects an approval does not page. A genuine failure of a later deployment to the same environment still does.
 * **The webhook URL is the only credential** on this integration. Spike does not verify GitLab's secret token, so leave that field empty and treat the URL as a secret.
