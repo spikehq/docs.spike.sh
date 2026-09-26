@@ -255,7 +255,7 @@ What each family carries, and the field Spike pairs its start and stop on:
 | BGP | `extended_parameters.connection_name` | The connection's own details, as Imperva sends them |
 | Performance | `event_metadata.asset_id` | The performance detail Imperva sends for the asset |
 
-Imperva may add fields to any of these. Spike keeps the whole body on the incident, so anything extra is available to alert rules and to the Title Remapper as `data.body.<field>`.
+The field names above are Imperva's, and the values in the samples are examples. Imperva may add fields to any of these; Spike keeps the whole body on the incident, so anything extra is available to alert rules and to the Title Remapper as `data.body.<field>`.
 
 ## Troubleshooting
 
