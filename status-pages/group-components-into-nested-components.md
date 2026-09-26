@@ -6,6 +6,8 @@ description: "Group related components on your Spike status page under a parent 
 
 Grouping components gives you fewer rows to scan, and a group's status tells you at a glance whether anything inside it is unhealthy. Put "India" and "Japan" under "Asia", or "SMS", "Slack" and "Phone" under "Alerting". These are called **nested components**.
 
+<figure><img src="../.gitbook/assets/status-pages/status-page-subcomponents-wide.png" alt="Nested components grouped under a parent on a Spike status page"><figcaption></figcaption></figure>
+
 Nesting is exactly one level deep. A component that is nested cannot contain anything itself, so the dashboard only ever offers top-level components as parents.
 
 ## Nest a component
