@@ -56,6 +56,8 @@ Ticking a parent is a shortcut that selects everything nested under it, and unti
 
 On the public status page, nested components are grouped under their parent behind a **Show nested components** / **Hide nested components** toggle that shows how many there are. Visitors can toggle any group themselves.
 
+<figure><img src="../.gitbook/assets/status-pages/public status page with nested components.png" alt="Nested components on a public Spike status page"><figcaption></figcaption></figure>
+
 A group starts expanded when the parent's status is anything other than operational, so nothing is hidden on a bad day, and starts collapsed when everything in it is healthy.
 
 Subscriber notification emails group the affected components under their parent and note how many nested components were affected.
