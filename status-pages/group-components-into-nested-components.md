@@ -66,6 +66,32 @@ Subscriber notification emails group the affected components under their parent 
 
 A component that still has components nested under it cannot be archived. Spike refuses and tells you to move or archive the nested components first.
 
+## FAQs
+
+### Can I nest a component more than one level deep?
+
+No. Nesting is exactly one level. A component that is already nested cannot become a parent, which is why the **Parent component** dropdown only ever lists top-level components.
+
+### Can I set a parent's status directly?
+
+No. A parent's status is always derived from the worst status among itself and its nested components. To change what a parent shows, change the status of whatever inside it is unhealthy.
+
+### Does a parent's uptime graph include its nested components?
+
+Yes. Each day in the parent's 90-day graph shows the worst state across the group. If you move an existing component under a parent, the parent's graph recalculates across all 90 days, so the component's past outages show up in the group straight away.
+
+### Does re-parenting a component affect an open incident?
+
+No. The incident keeps the same affected components. Moving one into or out of a group changes how it is displayed, not what the incident refers to.
+
+### Why does a parent show a partly filled tick when I declare an incident?
+
+Some of its nested components are selected and some are not. Tick the parent itself to select all of them, and untick it to clear them.
+
+### Do visitors' expand and collapse choices carry over between visits?
+
+No. Those choices are not saved. Each visit starts from the default: expanded when the parent's status is anything other than operational, collapsed when everything in the group is healthy.
+
 {% hint style="info" %}
 Next, [style your status page](style-your-status-page.md) to choose which components show historical uptime, or [declare an incident](create-public-incident-on-status-page.md) against a group.
 {% endhint %}
