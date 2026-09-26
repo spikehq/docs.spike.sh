@@ -149,6 +149,7 @@
 * [Integrate Spike with Honeycomb](integrations-guideline/integrate-spike-with-honeycomb.md)
 * [Integrate Spike with Hyperping](integrations-guideline/integrate-spike-with-hyperping.md)
 * [Integrate Spike with Icinga 2](integrations-guideline/integrate-spike-with-icinga-2.md)
+* [Integrate Spike with Imperva Cloud WAF](integrations-guideline/integrate-spike-with-imperva.md)
 * [Integrate Spike with Instana](integrations-guideline/integrate-spike-with-instana.md)
 * [Integrate Spike with Jenkins](integrations-guideline/integrate-spike-with-jenkins.md)
 * [Integrate Spike with Jira](integrations-guideline/integrate-spike-with-jira.md)
