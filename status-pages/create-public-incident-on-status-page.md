@@ -18,7 +18,7 @@ Set the **impact** based on your assessment. You can update this as the situatio
 
 Set the **date and time** the incident was identified. Spike uses this to calculate outage duration for affected components.
 
-Select the **affected components** impacted by the incident. For each component, set its current state:
+Select the **affected components** impacted by the incident. The picker is a tree, so use the search box to narrow it down, and tick a parent to select everything [nested under it](group-components-into-nested-components.md). For each component, set its current state:
 
 - **Operational**: The component is functioning correctly.
 - **Degraded performance**: The component is working but below normal performance.

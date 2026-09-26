@@ -94,6 +94,7 @@
 ## Status Pages
 
 * [Create a status page](status-pages/create-status-page.md)
+* [Group components into nested components](status-pages/group-components-into-nested-components.md)
 * [Style your status page](status-pages/style-your-status-page.md)
 * [Incidents on your status page](status-pages/create-public-incident-on-status-page.md)
 * [Create planned maintenance on your status page](status-pages/create-planned-maintenance-on-status-page.md)
