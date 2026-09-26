@@ -46,6 +46,8 @@ The parent's 90-day uptime graph folds in its nested components' bars the same w
 
 When you [declare an incident](create-public-incident-on-status-page.md), the affected-components picker is a tree with a search box. The search filters both levels, and a matching nested component keeps its parent visible.
 
+<figure><img src="../.gitbook/assets/status-pages/status-pages-nested-components-incident-picker-1.png" alt="Affected components tree with nested components on Spike status page"><figcaption></figcaption></figure>
+
 Ticking a parent is a shortcut that selects everything nested under it, and unticking it clears them. When only some of a parent's children are selected, the parent shows a partial tick. You still set a status for each selected component.
 
 ## What visitors see
