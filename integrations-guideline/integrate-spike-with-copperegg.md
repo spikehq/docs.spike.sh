@@ -27,7 +27,7 @@ From the dashboard, navigate to alerts.&#x20;
 
 #### Step 2
 
-Add a new notification profile for Spike.sh webhook alerts in the alerts section.
+Add a new notification profile for Spike webhook alerts in the alerts section.
 
 ![](<../.gitbook/assets/image (102).png>)
 

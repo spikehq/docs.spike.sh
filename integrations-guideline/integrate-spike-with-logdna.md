@@ -25,6 +25,6 @@ From the Settings tab, navigate to the alerts section. Then add a new **Alert Pr
 
 #### Step 2
 
-Select webhooks from the available integrations and paste the Spike.sh webhook URL.
+Select webhooks from the available integrations and paste the Spike webhook URL.
 
 ![](<../.gitbook/assets/image (108).png>)

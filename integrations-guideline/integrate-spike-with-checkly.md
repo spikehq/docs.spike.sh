@@ -14,7 +14,7 @@ With our Checkly integration make sure your API always responds quickly and with
 
 ## Use our webhook on Checkly
 
-Visit [Alert settings on Checkly](https://app.checklyhq.com/alert-settings) and create a new channel. From the list of alert channels, select Spike.sh.
+Visit [Alert settings on Checkly](https://app.checklyhq.com/alert-settings) and create a new channel. From the list of alert channels, select Spike.
 
 Paste your integration's copied URL and paste it on Checkly. That's it. Your integration is ready to receive incidents.
 

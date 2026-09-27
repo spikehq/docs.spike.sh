@@ -26,7 +26,7 @@ From the [Sematext Hook](https://apps.sematext.com/ui/hooks) dashboard, **Create
 
 ### Step 2
 
-From the list of options, select **Spike.sh**.&#x20;
+From the list of options, select **Spike**.&#x20;
 
 ![Select WebHook](../.gitbook/assets/sematext-2.png)
 

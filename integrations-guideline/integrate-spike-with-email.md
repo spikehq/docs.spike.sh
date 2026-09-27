@@ -6,9 +6,9 @@ description: "Send alerts to Spike from any tool that doesn't support webhooks, 
 
 ## Where to use email integration?
 
-Many tools like DigitalOcean, Pulseway etc do not support webhooks as alert channels. In this case, you can choose to create an Email integration with Spike.sh to get incidents and relevant alerts.
+Many tools like DigitalOcean, Pulseway etc do not support webhooks as alert channels. In this case, you can choose to create an Email integration with Spike to get incidents and relevant alerts.
 
-## How does email integration with Spike.sh work?
+## How does email integration with Spike work?
 
 Select Email from our list of integrations and use the uniquely generated email address on any tool of your choice. The emails received are managed by us for your integration. There is no inbox :)
 

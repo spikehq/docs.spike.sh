@@ -41,7 +41,7 @@ Auto-resolution is supported for this integration. Spike will also automatically
   * Adjust the monitor settings according to your requirements
 * **Set Up the Webhook:**
   * In the Alert Recipients panel, select the **Webhook option**.
-  * Paste the Spike.sh webhook URL into the provided field.
+  * Paste the Spike webhook URL into the provided field.
   * If available, set the `Content-Type` header to `application/json` for proper data formatting.
 {% endtab %}
 {% endtabs %}

@@ -15,7 +15,7 @@ Make sure to add the Checkmk integration and copying the webhook.[\
 
 
 
-## Using Spike.sh script with [Checkmk](https://docs.checkmk.com/latest/en/install_packages_debian.html)
+## Using Spike script with [Checkmk](https://docs.checkmk.com/latest/en/install_packages_debian.html)
 
 **Download the official checkmk-spike package **[**here**](https://exchange.checkmk.com/p/spike-5)**.**
 
@@ -60,9 +60,9 @@ Make the file executable.
 
 #### Step 5
 
-On the dashboard, create a notification rule and choose to **Notify via Spike.sh** option to enable this integration.
+On the dashboard, create a notification rule and choose to **Notify via Spike** option to enable this integration.
 
-## Using Spike.sh script with [Checkmk Docker](https://docs.checkmk.com/latest/en/introduction_docker.html)
+## Using Spike script with [Checkmk Docker](https://docs.checkmk.com/latest/en/introduction_docker.html)
 
 In case if you are using Checkmk with Docker containers, follow these steps.
 

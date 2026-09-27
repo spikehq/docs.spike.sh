@@ -34,6 +34,6 @@ Add a new notification group from the notification group dashboard.
 
 ### Step 4
 
-Paste the Spike.sh Webhook. 
+Paste the Spike Webhook. 
 
 ![](<../.gitbook/assets/Group 4 (1).png>)

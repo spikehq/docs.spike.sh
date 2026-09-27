@@ -17,9 +17,9 @@ Make sure you have the service and integration already setup for Healthchecks. F
 
 ## Use the webhook on Healthchecks
 
-![Spike.sh on Healthchecks.io](<../.gitbook/assets/image (36).png>)
+![Spike on Healthchecks.io](<../.gitbook/assets/image (36).png>)
 
-You can use our native **Spike.sh** integration on [**Healthchecks.io**](https://healthchecks.io)**.** Copy the webhook from above steps after creating an integration. Next, paste it on Healthchecks.io, simple as that.&#x20;
+You can use our native **Spike** integration on [**Healthchecks.io**](https://healthchecks.io)**.** Copy the webhook from above steps after creating an integration. Next, paste it on Healthchecks.io, simple as that.&#x20;
 
 {% hint style="success" %}
 This integration supports auto resolution.

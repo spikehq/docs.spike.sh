@@ -14,7 +14,7 @@ When the bits hit the fan, developers need clear and focused insights. [AppSigna
 
 ## Using our webhook on AppSignal
 
-To integrate our webhook on AppSignal, visit their dashboard and go to the "Notifications" tab the site's sidebar, click the "Add integration" and paste the webhook you copied from Spike.sh
+To integrate our webhook on AppSignal, visit their dashboard and go to the "Notifications" tab the site's sidebar, click the "Add integration" and paste the webhook you copied from Spike
 
 ![Select your events on AppSignal](<../.gitbook/assets/1 (1).png>)
 

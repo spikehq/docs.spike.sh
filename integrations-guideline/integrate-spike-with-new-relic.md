@@ -28,7 +28,7 @@ In the Notification Channel, click to create a new channel and select **Webhooks
 
 ### Step 3
 
-* Configure the webhook as shown in the figure and **paste the Spike.sh webhook in Base Url** input.
+* Configure the webhook as shown in the figure and **paste the Spike webhook in Base Url** input.
 * Paste the custom payload from below and please make sure to not make any edits to the payload.&#x20;
 
 ```

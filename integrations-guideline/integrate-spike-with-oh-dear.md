@@ -24,7 +24,7 @@ Open Settings and select the **Notification** tab.
 
 ### Step 2
 
-Select Webhooks from the left menu. Paste the Spike.sh webhook URL and update.
+Select Webhooks from the left menu. Paste the Spike webhook URL and update.
 
 ![Paste the Webhook](<../.gitbook/assets/Group 2 (3).png>)
 

@@ -42,7 +42,7 @@ Select Webhooks from the integrations window.&#x20;
 
 ### Step 4
 
-Paste the Spike.sh webhook link. Make sure to mark the HTTP method as **POST** and **post as JSON.**
+Paste the Spike webhook link. Make sure to mark the HTTP method as **POST** and **post as JSON.**
 
 ![](<../.gitbook/assets/image (3) (1) (1) (1).png>)
 

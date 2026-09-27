@@ -41,7 +41,7 @@ Choose the type of webhook and add the webhook.
 
 #### Step 4
 
-Paste the Spike.sh webhook and save.
+Paste the Spike webhook and save.
 
 ![](<../.gitbook/assets/Group 96.png>)
 

@@ -1,8 +1,8 @@
 ---
 description: >-
-  This guide will walk you through the steps to integrate Spike.sh with Elastic
+  This guide will walk you through the steps to integrate Spike with Elastic
   Cloud using webhooks. With this integration, you can send alerts from Elastic
-  Cloud directly to Spike.sh for streamlined i
+  Cloud directly to Spike for streamlined i
 ---
 
 # Integrate Spike with Elastic Cloud
@@ -48,7 +48,7 @@ This integration automatically detects and sets Critical severity. It also auto-
 * **Add a Webhook Action**:
   * In the **"Actions"** section of the alert setup, choose Webhook as the action type.
   * Paste the Spike integration webhook URL into the URL field.
-  * Adjust the JSON payload to include relevant data for Spike.sh. _Refer to next section for possible payload_
+  * Adjust the JSON payload to include relevant data for Spike. _Refer to next section for possible payload_
   * `Important` - In the headers, set the `Content-Type` to `application/json`.
   * Save the integration.
 {% endtab %}
