@@ -94,6 +94,7 @@
 ## Status Pages
 
 * [Create a status page](status-pages/create-status-page.md)
+* [Group components into nested components](status-pages/group-components-into-nested-components.md)
 * [Style your status page](status-pages/style-your-status-page.md)
 * [Incidents on your status page](status-pages/create-public-incident-on-status-page.md)
 * [Create planned maintenance on your status page](status-pages/create-planned-maintenance-on-status-page.md)
@@ -129,8 +130,10 @@
 * [Integrate Spike with Cronicle](integrations-guideline/integrate-spike-with-cronicle.md)
 * [Integrate Spike with Cronitor](integrations-guideline/integrate-spike-with-cronitor.md)
 * [Integrate Spike with Crowdstrike](integrations-guideline/integrate-spike-with-crowdstrike.md)
+* [Integrate Spike with Dash0](integrations-guideline/integrate-spike-with-dash0.md)
 * [Integrate Spike with Datadog](integrations-guideline/integrate-spike-with-datadog.md)
 * [Integrate Spike with Dynatrace](integrations-guideline/integrate-spike-with-dynatrace.md)
+* [Integrate Spike with eG Enterprise](integrations-guideline/integrate-spike-with-eg-enterprise.md)
 * [Integrate Spike with ElastAlert](integrations-guideline/integrate-spike-with-elastalert.md)
 * [Integrate Spike with Elastic Cloud](integrations-guideline/integrate-spike-with-elastic-cloud.md)
 * [Integrate Spike with Email](integrations-guideline/integrate-spike-with-email.md)
@@ -177,8 +180,10 @@
 * [Integrate Spike with Pingdom](integrations-guideline/integrate-spike-with-pingdom.md)
 * [Integrate Spike with PM2](integrations-guideline/integrate-spike-with-pm2.md)
 * [Integrate Spike with Prometheus](integrations-guideline/integrate-spike-with-prometheus.md)
+* [Integrate Spike with Pulseway](integrations-guideline/integrate-spike-with-pulseway.md)
 * [Integrate Spike with Raygun](integrations-guideline/integrate-spike-with-raygun.md)
 * [Integrate Spike with Render](integrations-guideline/integrate-spike-with-render.md)
+* [Integrate Spike with Robotalp](integrations-guideline/integrate-spike-with-robotalp.md)
 * [Integrate Spike with Rollbar](integrations-guideline/integrate-spike-with-rollbar.md)
 * [Integrate Spike with Runscope](integrations-guideline/integrate-spike-with-runscope.md)
 * [Integrate Spike with Scalyr](integrations-guideline/integrate-spike-with-scalyr.md)
@@ -213,6 +218,12 @@
 ## AI features <a href="#mcp" id="mcp"></a>
 
 * [Remote MCP server](mcp/remote-mcp-server.md)
+
+## Terraform <a href="#terraform" id="terraform"></a>
+
+* [Terraform provider](terraform/README.md)
+* [Resources](terraform/resources.md)
+* [Data sources](terraform/data-sources.md)
 
 ## Administration
 
