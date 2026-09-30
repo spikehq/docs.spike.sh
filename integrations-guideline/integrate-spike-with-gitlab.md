@@ -72,25 +72,43 @@ That gives you one incident per red branch and one per broken environment. A bra
 | A pipeline passes with nothing open | Nothing is created |
 
 {% hint style="info" %}
-**Scheduled pipelines are tracked on their own.** A nightly pipeline on `main` and a push pipeline on `main` are two separate incidents, so a green push does not quietly close a failing nightly, and a red nightly does not keep firing on every push. All schedules on the same ref share one incident — the pipeline's name is not part of the identity.
+**Scheduled pipelines are tracked on their own.** A nightly pipeline on `main` and a push pipeline on `main` are two separate incidents, so a green push does not quietly close a failing nightly, and a red nightly does not keep firing on every push.
+
+Two different schedules on the same branch do share one incident for now: grouping reads the project, the ref and whether the run was scheduled, and not the pipeline's name. Their titles name them apart (below), so the incident timeline still says which nightly failed.
 {% endhint %}
 
 ## Incident titles
 
-Titles say what failed, where, and in which project, in one short sentence, so they hold up when Spike reads one out on a phone call or it lands on a lock screen:
+Titles say what ran, what happened to it, where, and in which project, in one short sentence, so they hold up when Spike reads one out on a phone call or it lands on a lock screen:
 
+| What GitLab sent | Incident title |
+| --- | --- |
+| Pipeline `failed` on `main` | `Pipeline failed on main in acme/checkout-api` |
+| Pipeline `success` on `main` | `Pipeline passed on main in acme/checkout-api` |
+| Pipeline `failed`, `source: schedule`, named `Nightly integration suite` | `Nightly integration suite failed on main in acme/checkout-api` |
+| Pipeline `success`, same schedule | `Nightly integration suite passed on main in acme/checkout-api` |
+| Pipeline `failed`, `source: schedule`, unnamed | `Scheduled pipeline failed on main in acme/checkout-api` |
+| Pipeline `failed` on tag `v2.3.0` | `Pipeline failed on tag v2.3.0 in acme/checkout-api` |
+| Deployment `failed` to `production` | `Deployment to production failed in acme/checkout-api` |
+| Deployment `success` to `production` | `Deployment to production succeeded in acme/checkout-api` |
+
+**Name a pipeline and the title names it back.** Set [`workflow:name`](https://docs.gitlab.com/ee/ci/yaml/#workflowname) in `.gitlab-ci.yml`, and that name becomes the subject of the sentence:
+
+```yaml
+workflow:
+  name: Nightly integration suite
 ```
-Pipeline failed on main in acme/checkout-api
-Pipeline passed on main in acme/checkout-api
-Scheduled pipeline failed on main in acme/checkout-api
-Scheduled pipeline passed on main in acme/checkout-api
-Pipeline failed on tag v2.3.0 in acme/checkout-api
-Deployment to production failed in acme/checkout-api
-Deployment to production succeeded in acme/checkout-api
-```
+
+It is the only thing that tells two nightlies on one branch apart on a phone at 3am, so it is worth setting on every scheduled pipeline. Without it GitLab generates a name — "Pipeline for branch: main" — which only repeats the branch the title already names, so Spike drops it and says "Pipeline", or "Scheduled pipeline" for a schedule.
+
+A tag is called a tag, so nobody has to work out whether `v2.3.0` is a branch. A merge request pipeline is named by the branch being merged rather than by GitLab's internal `refs/merge-requests/88/merge` — though merge request pipelines never page anyone anyway.
+
+**A failure and a recovery do not read the same, on purpose.** "Pipeline failed on main…" and "Pipeline passed on main…" are different sentences so the incident timeline shows which event was which. Spike matches them up on the payload's project, ref and environment rather than on the text, so the two sentences do not have to agree.
 
 {% hint style="info" %}
 Pipeline ids, commit shas, job names, who triggered the run and how long it took are deliberately kept out of the title. They change on every run, and a title that moves breaks the things that read it: the **Repeated N times** grouping on an incident, duplicate suppression, and any [alert rule](../alerts/alert-rules.md) matching on title text. All of it is on the incident page instead.
+
+The same goes for `workflow:name`. Keep it a fixed string; a name that interpolates a CI variable, `Nightly $CI_COMMIT_SHORT_SHA`, gives every run a different title and costs you those three things. Incident matching is unaffected — that reads the payload, not the title — so a name that moves never opens a second incident or misses a page.
 {% endhint %}
 
 Each incident carries the detail on its page rather than in the title:
@@ -105,7 +123,7 @@ Each incident carries the detail on its page rather than in the title:
 Want the title to read differently — the environment first, or your team's own wording? Use a [Title Remapper](../alerts/title-remapper.md):
 
 ```handlebars
-{{payload.project.path_with_namespace}} — pipeline {{payload.object_attributes.status}} on {{payload.object_attributes.ref}}
+{{data.body.project.path_with_namespace}} — pipeline {{data.body.object_attributes.status}} on {{data.body.object_attributes.ref}}
 ```
 
 ## Severity
@@ -192,11 +210,19 @@ GitLab's **Test** dropdown on the webhook can send a **Pipeline events** sample,
 
 Open the webhook in GitLab and look at **Edit → Recent events**. GitLab lists every delivery with the response Spike returned, which is how you tell "Spike never got it" apart from "Spike got it and decided not to page".
 
-An admitted delivery is answered with the id of the event Spike created:
+An admitted delivery is answered with what Spike did with it:
+
+```json
+{ "Ok": true, "newIncident": true, "isSuppressed": false }
+```
+
+On the rare delivery where Spike's own processing runs past eight seconds, the answer carries the id of the stored event instead:
 
 ```json
 { "Ok": true, "event": "66f3c8a19b4e2f0012ab34cd" }
 ```
+
+Both mean the delivery was accepted and the incident is being handled. The second one only means Spike replied before its escalation finished instead of after, so that a slow moment on Spike's side can never spend GitLab's 10-second webhook timeout.
 
 A delivery Spike decided not to act on is also a `200`, and carries the reason it was skipped:
 
@@ -204,6 +230,7 @@ A delivery Spike decided not to act on is also a `200`, and carries the reason i
 {
   "Ok": true,
   "skipped": true,
+  "newIncident": false,
   "reason": "pipeline ran on feature/retry-webhooks, which is not a protected branch or tag"
 }
 ```
@@ -220,11 +247,11 @@ Every reason is a short sentence. These are all of them:
 | `deployment to staging is on the staging tier, and only production pages` | `environment_tier` was something other than `production` |
 | `deployment was rejected in GitLab, so nothing was deployed` | Somebody turned the deployment down at the approval step |
 | `deployment failed after it was rejected in GitLab, so nothing was deployed` | The `failed` event GitLab sends moments after a rejection, matched to it by `deployment_id` |
-| `unsupported event tag_push` | A hook other than Pipeline or Deployment. Untick it in GitLab to stop sending it |
+| `unsupported event tag_push` | A hook other than Pipeline or Deployment — `push`, `tag_push`, `merge_request`, `build`, `release` and the rest read the same way, with their own name. Untick the trigger in GitLab to stop sending it |
 | `not a GitLab webhook event` | The body carried no `object_kind` at all |
 
 {% hint style="info" %}
-Spike answers GitLab straight away and escalates afterwards, so a delivery never sits waiting on a phone call or a Slack message. That keeps every delivery well inside GitLab's 10-second webhook timeout. It also means **Recent events** shows the event id rather than the outcome of the escalation — open the incident in Spike to see who was alerted.
+Spike waits up to eight seconds for its own escalation engine before answering, so **Recent events** normally tells you whether a delivery paged anyone. Past eight seconds it answers with the event id and finishes escalating afterwards — nothing is dropped, and the reply still lands inside GitLab's 10-second webhook timeout. Open the incident in Spike to see who was alerted, either way.
 {% endhint %}
 
 {% hint style="warning" %}
