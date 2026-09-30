@@ -32,19 +32,43 @@ A `good` payload that matches nothing open is dropped rather than treated as an 
 
 ## Incident titles
 
-The title is the monitor, its category and SiteScope's own status string, which already reads as a sentence:
+The title is SiteScope's `sample` — the reading that made the monitor change state — followed by the monitor's full path:
+
+```
+{sample} - {full_name}
+```
 
 | Payload | Incident title |
 | --- | --- |
-| `category: error`, `state: Error: Connection refused` | `HTTP - Checkout API is in error: Error: Connection refused` |
-| `category: warning`, `state: Warning: Response time above threshold` | `HTTP - Checkout API is in warning: Warning: Response time above threshold` |
-| `category: nodata`, `state: No data received from monitor` | `HTTP - Checkout API is in nodata: No data received from monitor` |
+| `sample: Connection refused after 3 retries`, `full_name: Production/APIs/HTTP - Checkout API` | `Connection refused after 3 retries - Production/APIs/HTTP - Checkout API` |
+| `sample: Response time 4200ms, threshold 2000ms` | `Response time 4200ms, threshold 2000ms - Production/APIs/HTTP - Checkout API` |
+| No `sample`, `state: No data received from monitor` | `No data received from monitor - Production/APIs/HTTP - Checkout API` |
 
-The group, the full monitor path, the target host and IP, the sample text and the drill-down URL stay on the incident page rather than in the title, so the title still fits a lock screen and a phone call. Use a [Title Remapper](../alerts/title-remapper.md) if your team would rather lead with the group or the host:
+`sample` says what is wrong and `full_name` says exactly which monitor, group path included, so the title answers both questions on a lock screen without opening the incident.
+
+When a field is missing, Spike falls back rather than leaving a gap. A template variable SiteScope did not substitute, still sitting there as a literal `<sample>`, counts as missing:
+
+* No `sample`, which is normal for `nodata` where there is no reading to report, uses `state` in its place
+* No `full_name` uses `monitor`, then the alert's own name, `alert_name`
+* No `sample` and no `state` leaves just the monitor name
+* A payload with no monitor name at all is dropped, since there is nothing to page anyone about
+
+Titles are collapsed to single spaces and cut at 200 characters.
+
+Two things follow from putting the reading in the title, both deliberate:
+
+* The category is not in the title. `error`, `warning` and `nodata` live on the incident page, and the sample text usually says which one it is anyway.
+* The title changes when the reading changes, so a monitor can page you with `Response time 4200ms...` and later add an event reading `Response time 9100ms...`. It is still one incident: Spike groups on `monitor_uuid`, never on the title.
+
+A `good` payload is titled the same way from its own sample, but you rarely see it, because it resolves the incident rather than opening one.
+
+Use a [Title Remapper](../alerts/title-remapper.md) if your team would rather lead with the group, the host or the state:
 
 ```handlebars
 {{payload.group}} — {{payload.monitor}}: {{payload.state}}
 ```
+
+Alert rules and title remapping that match on the exact title text should match on a prefix or on a payload field rather than the whole string, since the reading in the title varies between deliveries.
 
 ## Severity
 
@@ -169,7 +193,7 @@ SiteScope's **Alerts** tab has a working **Test** button, so you can check the w
 
 1. Go to the **Alerts** tab, select the `Spike` alert and click **Test**.
 2. Pick the monitor to test against and run it. SiteScope posts the body to Spike with that monitor's current values.
-3. The incident shows up in Spike within a few seconds, titled after the monitor and its state.
+3. The incident shows up in Spike within a few seconds, titled with the monitor's sample reading and its full path, for example `Connection timed out after 30000ms - Production/Storefront/HTTP - Storefront Checkout`.
 
 For an end-to-end check of the resolve path, point a test URL monitor at a hostname that does not exist, wait for it to go into error and open an incident, then fix the URL and wait for the next check. The monitor turns good, the resolve action fires, and the incident closes itself.
 
@@ -248,7 +272,7 @@ An **Unavailable** trigger sends the same shape with `category` set to `nodata` 
 Add your own fields to the template if your team wants them on the incident page. SiteScope's alert template variables are all available, and Spike shows every key it receives.
 
 {% hint style="warning" %}
-Keep `monitor_uuid` in the template. It is the field Spike groups on, and a payload without it cannot be matched to the incident it belongs to, so every check interval would open a new one.
+Keep `monitor_uuid`, `sample` and `full_name` in the template. `monitor_uuid` is the field Spike groups on, and a payload without it cannot be matched to the incident it belongs to, so every check interval would open a new one. `sample` and `full_name` are what the incident title is built from.
 {% endhint %}
 
 ## Things worth knowing
