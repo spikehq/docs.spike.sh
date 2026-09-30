@@ -17,11 +17,17 @@ Snyk fires `project_snapshot` on **every** recurring scan of **every** Open Sour
 | --- | --- |
 | Brings a new `critical` or `high` issue, and nothing is open for that project | Opens an incident and pages your escalation policy |
 | Brings a new `critical` or `high` issue while an incident is open for that project | Added as an event to the open incident. It never pages again |
-| Brings nothing new, but the project still has critical or high issues open | Added as an event to the open incident, so you can see the project is still vulnerable. Opens one if nothing is open |
+| Brings nothing new, but the project still has critical or high issues open | Added as an event to the open incident, so you can see the project is still vulnerable. Dropped when no incident is open |
 | Removes the last critical or high issue | Auto-resolves the open incident |
 | Brings nothing, removes nothing, and the project has no critical or high issues | Dropped. Spike answers `200` and creates nothing at all |
-| Only `medium`, `low` or `isIgnored: true` issues | Dropped, for the same reason. See [Threshold](#threshold) |
-| `ping` | Answered `200`. Creates nothing |
+| Brings only `medium`, `low` or `isIgnored: true` issues | Counts as bringing nothing new: dropped on a project with no critical or high issues open, added to the open incident on one that has them. See [Threshold](#threshold) |
+| `ping`, or a payload with no project in it | Answered `200`. Creates nothing |
+
+Only a snapshot carrying a **new** critical or high issue opens an incident. Everything else — a scan that found yesterday's issues again, the scan that cleared the last of them — lands on an incident that is already open, and is dropped when there is none, so Spike never pages anyone at 3am about a vulnerability that has been sitting there for a week or about one that is already fixed.
+
+{% hint style="warning" %}
+That is worth knowing on the day you create the webhook. A project that is **already** carrying a critical or high issue does not open an incident on its next scan, because that scan brings nothing new — Snyk lists an issue in `newIssues` once, on the scan that first found it. Work through the backlog Snyk already shows you, and let the webhook cover what arrives from then on. Anything in that backlog that a responder should be holding an incident for can be opened in Spike by hand.
+{% endhint %}
 
 ### One incident per project, not per vulnerability
 
@@ -62,12 +68,17 @@ The count is only of the issues at the *highest* severity in that snapshot. One 
 | A license finding (`issueType: license`) | `High: GPL-3.0 license in left-pad@1.3.0 — spikehq/api:package.json` |
 | Nothing new, project still vulnerable | `Open: 1 critical, 2 high — spikehq/api:package.json` |
 | The scan that fixes the last issue | `Resolved: Prototype Pollution in lodash@4.17.15 fixed — spikehq/api:package.json` |
+| A scan that clears two criticals at once | `Resolved: Prototype Pollution in lodash@4.17.15 fixed (+1 more) — spikehq/api:package.json` |
 
 License findings are titled exactly like vulnerabilities. Snyk caps them at `high`, so a GPL violation in a dependency reads as `High: GPL-3.0 license in left-pad@1.3.0` and pages the same way a CVE does.
 
 {% hint style="info" %}
 The title changes from one snapshot to the next, on purpose. Grouping is on `project.id`, a real field Snyk sends on every delivery, so a title that moves with the findings never splits an incident or breaks auto-resolve. [Alert rules](../alerts/alert-rules.md) matching on Snyk title text should match on the project name at the end of the title, which is the part that stays put.
 {% endhint %}
+
+When several issues arrive at the same severity, the one named is the worst of them by CVSS score, so which issue leads the title is a property of the scan rather than of the order Snyk happened to serialise its array in. An issue that reaches Spike without an `issueData.title` reads as `Critical: Vulnerability in lodash@4.17.15` — or `High: License issue in left-pad@1.3.0` for a `license` finding — rather than dropping the package.
+
+Titles are built to fit 120 characters. The package and version never give way, because they are what a responder acts on; a vulnerability with a name too long to sit beside them is shortened at a word boundary, or replaced by the plain word `Vulnerability`. A Snyk project name longer than 80 characters — a deep monorepo path — is shortened from the front, so `...services/billing/worker:package.json` keeps the manifest that says which project it is.
 
 The CVE ids, the fix versions, `fixInfo`, `priority.score`, the CVSS scores and the link back to Snyk are all on the incident page rather than in the title.
 
@@ -77,8 +88,10 @@ Snyk sends no single severity for a snapshot — severity lives per issue, in `n
 
 | The snapshot | Severity Spike sets | Severity in Spike |
 | --- | --- | --- |
-| Brings at least one new `critical` issue | `critical` | SEV1 |
-| Anything else that opens an incident | `high` | SEV1 |
+| Brings a new `critical` issue | `critical` | SEV1 |
+| Brings new issues, the worst of them `high` | `high` | SEV1 |
+| Removes a `critical` issue, or the project still has one open | `critical` | SEV1 |
+| Anything else that reaches an incident | `high` | SEV1 |
 
 Critical and high both land on SEV1 in Spike, because both are things you asked to be paged for. Use [alert rules](../alerts/alert-rules.md) if you want highs at SEV2, or to route a particular project's incidents to a quieter escalation policy. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
@@ -162,7 +175,7 @@ curl --request POST \
 
 A `200` back means Snyk reached Spike. The ping carries no project and nothing to page anyone about, so Spike accepts it and creates no incident — an empty incident list after a successful ping is the integration working, not a failure.
 
-To see a real incident, wait for the next scheduled scan, or open the project in Snyk and click **Retest now** on a project you know has a critical or high issue. Recurring scans usually run daily, so the wait can be up to 24 hours.
+To see a real incident, wait for a scan that finds something Snyk has not reported before — a snapshot only carries an issue in `newIssues` the first time it is found, so a retest of a project whose issues Snyk already knows about brings nothing new. The quickest way to produce one deliberately is to add a dependency with a known critical advisory to a test project and let Snyk rescan it. Recurring scans usually run daily, so the wait can otherwise be up to 24 hours.
 
 ## Managing the webhook
 
@@ -228,11 +241,13 @@ Snyk posts `application/json` with `X-Snyk-Event: project_snapshot/v0`, a `X-Sny
 | Field | What Spike does with it |
 | --- | --- |
 | `project.id` | Groups snapshots. One open incident per project, for the life of the project |
-| `project.name` | The tail of the title, `spikehq/api:package.json` |
+| `project.name` | The tail of the title, `spikehq/api:package.json`. Also the fallback identity, used only if a delivery ever arrives without `project.id` |
 | `project.issueCountsBySeverity` | Decides whether the project is still vulnerable. `critical + high` at zero is what lets an incident resolve, and what makes a nothing-happened snapshot droppable |
 | `project.browseUrl`, `project.origin`, `project.type` | Shown on the incident, so you can open the project in Snyk |
 | `newIssues[]` | The issues this scan found. The worst one at the top severity becomes the title, the rest are on the incident page |
-| `newIssues[].issueData.severity` | Sets the incident's severity: `critical` if any new issue is critical, otherwise `high` |
+| `newIssues[].issueData.severity` | Decides what pages and what the title says. Sets the incident's severity: `critical` if any new issue is critical, otherwise `high` |
+| `newIssues[].issueData.cvssScore` | Picks which of several equally severe issues the title names. Never shown in the title itself |
+| `newIssues[].pkgName`, `pkgVersions[0]` | The `in lodash@4.17.15` part of the title, the dependency to bump |
 | `newIssues[].isIgnored` | `true` never pages and never counts towards the title |
 | `newIssues[].issueType` | `vuln` or `license`. Both are titled the same way, from `issueData.title` |
 | `removedIssues[]` | The issues this scan cleared. A snapshot that removes the last critical or high issue resolves the incident and names the fix in the title |
@@ -247,10 +262,12 @@ Snyk posts `application/json` with `X-Snyk-Event: project_snapshot/v0`, a `X-Sny
 A [Title Remapper](../alerts/title-remapper.md) on the Snyk integration replaces the default title with one you write against the payload, which is how you fold in an environment or a team:
 
 ```handlebars
-[{{data.org.name}}] {{data.newIssues.[0].issueData.title}} in {{data.newIssues.[0].pkgName}} — {{data.project.name}}
+[{{org.name}}] {{newIssues.[0].issueData.title}} in {{newIssues.[0].pkgName}} — {{project.name}}
 ```
 
 Output: `[Spike] Prototype Pollution in lodash — spikehq/api:package.json`
+
+The payload Snyk posts is the root of the template, so `project`, `org`, `newIssues` and `removedIssues` are referenced by name with nothing in front of them.
 
 Write the remapper so it still reads sensibly when `newIssues` is empty, which is what a standing-issues or resolving snapshot looks like. A remapper that only reads `newIssues[0]` produces a title with holes in it on exactly the delivery that tells your team the problem is fixed.
 
@@ -274,7 +291,9 @@ Most often the org has nothing that sends snapshots. Only Open Source and Contai
 
 Next, check the threshold. Spike only opens incidents for `critical` and `high` issues that are not ignored. A project sitting on twenty mediums sends a snapshot every night and none of them page, by design.
 
-Finally, remember the schedule. Recurring scans usually run once a day, so a webhook created this morning may not produce its first real snapshot until tomorrow. Click **Retest now** on a project with a known critical issue to force one.
+Then check that the issue is actually new. Only a scan that *finds* a critical or high issue opens an incident, and Snyk reports an issue as new once. A project that was already carrying three criticals when you created the webhook sends its nightly snapshot with an empty `newIssues`, which opens nothing.
+
+Finally, remember the schedule. Recurring scans usually run once a day, so a webhook created this morning may not produce its first real snapshot until tomorrow. Click **Retest now** on a project with a known critical issue to force a scan — though a retest of a project whose issues Snyk has already reported brings nothing new either, so it confirms delivery rather than opening an incident.
 
 </details>
 
