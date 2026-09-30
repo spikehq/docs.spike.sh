@@ -24,6 +24,8 @@ Set the visibility to **Public** to make the page accessible to anyone with the 
 
 Components represent the parts of your system you want to display status for — website, API, mobile app, or individual microservices. Enter them as a comma-separated list.
 
+Once they exist, you can [group related components under a parent](group-components-into-nested-components.md) to keep the list short.
+
 <figure><img src="../.gitbook/assets/status-pages/status-pages-create-status-page-components-1.png" alt="Add components to status page in Spike"><figcaption></figcaption></figure>
 
 Once created, your status page appears in the dashboard with uptime history for each component.
