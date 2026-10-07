@@ -197,6 +197,7 @@
 * [Integrate Spike with Solarwinds Orion](integrations-guideline/integrate-spike-with-solarwinds-orion.md)
 * [Integrate Spike with Splunk](integrations-guideline/integrate-spike-with-splunk.md)
 * [Integrate Spike with Stackify](integrations-guideline/integrate-spike-with-stackify.md)
+* [Integrate Spike with StarTree ThirdEye](integrations-guideline/integrate-spike-with-startree-thirdeye.md)
 * [Integrate Spike with StatusCake](integrations-guideline/integrate-spike-with-statuscake.md)
 * [Integrate Spike with Sumo Logic](integrations-guideline/integrate-spike-with-sumo-logic.md)
 * [Integrate Spike with Sysdig](integrations-guideline/integrate-spike-with-sysdig.md)
