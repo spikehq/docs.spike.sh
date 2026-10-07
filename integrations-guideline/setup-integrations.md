@@ -89,3 +89,6 @@ Follow the simple instructions on how to setup an integration with Spike.
 [integration-spike-with-zapier.md](integration-spike-with-zapier.md)
 {% endcontent-ref %}
 
+{% content-ref url="integrate-spike-with-elmah-io.md" %}
+[integrate-spike-with-elmah-io.md](integrate-spike-with-elmah-io.md)
+{% endcontent-ref %}
