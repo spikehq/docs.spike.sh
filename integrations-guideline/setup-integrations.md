@@ -53,6 +53,10 @@ Follow the simple instructions on how to setup an integration with Spike.
 [integrate-spike-with-datadog.md](integrate-spike-with-datadog.md)
 {% endcontent-ref %}
 
+{% content-ref url="integrate-spike-with-dbmarlin.md" %}
+[integrate-spike-with-dbmarlin.md](integrate-spike-with-dbmarlin.md)
+{% endcontent-ref %}
+
 {% content-ref url="integrate-spike-with-travis-ci.md" %}
 [integrate-spike-with-travis-ci.md](integrate-spike-with-travis-ci.md)
 {% endcontent-ref %}
