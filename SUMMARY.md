@@ -155,6 +155,7 @@
 * [Integrate Spike with Instana](integrations-guideline/integrate-spike-with-instana.md)
 * [Integrate Spike with Jenkins](integrations-guideline/integrate-spike-with-jenkins.md)
 * [Integrate Spike with Jira](integrations-guideline/integrate-spike-with-jira.md)
+* [Integrate Spike with Last9](integrations-guideline/integrate-spike-with-last9.md)
 * [Integrate Spike with Librato](integrations-guideline/integrate-spike-with-librato.md)
 * [Integrate Spike with LibreNMS](integrations-guideline/integrate-spike-with-librenms.md)
 * [Integrate Spike with Lightstep](integrations-guideline/integrate-spike-with-lightstep.md)
