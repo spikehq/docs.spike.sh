@@ -201,6 +201,7 @@
 * [Integrate Spike with Sumo Logic](integrations-guideline/integrate-spike-with-sumo-logic.md)
 * [Integrate Spike with Sysdig](integrations-guideline/integrate-spike-with-sysdig.md)
 * [Integrate Spike with Tenderly](integrations-guideline/integrate-spike-with-tenderly.md)
+* [Integrate Spike with TestMu AI](integrations-guideline/integrate-spike-with-testmu-ai.md)
 * [Integrate Spike with Thousand Eyes](integrations-guideline/integrate-spike-with-thousand-eyes.md)
 * [Integrate Spike with Travis CI](integrations-guideline/integrate-spike-with-travis-ci.md)
 * [Integrate Spike with Twilio](integrations-guideline/integrate-spike-with-twilio.md)
