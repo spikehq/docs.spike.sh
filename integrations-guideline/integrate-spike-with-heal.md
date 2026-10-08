@@ -75,22 +75,22 @@ In Spike, go to **Integrations → Add integration → Email**, name it `HEAL`, 
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-## Step 2 — Add the Spike address as a recipient in HEAL
+## Step 2 — Add the Spike address in HEAL
 
-HEAL sends its signal emails to the recipients in its notification settings. In the HEAL console:
+HEAL sends signal emails to the address on a HEAL user's profile. We recommend a dedicated user for paging, so the Spike address does not replace a teammate's own email. In the HEAL console:
 
-1. Open **Settings** and go to **Notification Settings**.
-2. Under the **Email** channel, add the Spike address from Step 1 as a recipient. The email address is the only required field.
-3. Choose the signal types that should email this recipient: **Early Warning**, **Problem**, and optionally **Info** and **Batch Problem**. Pick the applications they apply to.
-4. Make sure the notification is sent both when a signal **opens** and when it **closes**. Without the closed email the incident stays open until someone resolves it by hand.
+1. Open **My Profile** and go to **Email Notifications**.
+2. In the **Email To** field, enter the Spike address from Step 1. This is the only required field.
+3. Under the notification preferences, choose the signal types that should be emailed: **Early Warning**, **Problem**, and optionally **Info** and **Batch Problem**. Pick the applications they apply to.
+4. Make sure the preferences cover both when a signal **opens** and when it **closes**. Without the closed email the incident stays open until someone resolves it by hand.
 5. Save.
 
 {% hint style="info" %}
-The menu names above follow HEAL's own settings screens, which vary a little between HEAL versions. Look for where your team already receives HEAL email notifications and add the Spike address there.
+HEAL's screens vary a little between versions. If you do not see these labels, look for where your team already sets the email address that receives HEAL notifications.
 {% endhint %}
 
 {% hint style="warning" %}
-Leave HEAL's default subject and body in place. Spike reads the Signal ID from the subject and the status, applications and severity from the body. Keep the message in plain text or HTML as HEAL sends it; Spike reads both.
+Leave HEAL's default subject and body in place. Spike reads the Signal ID from the subject and the status, applications and severity from the body. Auto-resolve works only when the subject carries the Signal ID.
 {% endhint %}
 
 ## Step 3 — Confirm it end to end
