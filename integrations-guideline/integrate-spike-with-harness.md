@@ -44,6 +44,9 @@ Spike will automatically group repeated incidents and also suppress alerts while
    * **Stage Failed**
    * **Stage Success** (resolves a Stage Failed incident for the same stage)
    * **Step Failed**
+   * **Trigger Failed** (optional)
+
+   Pipeline Failed and Pipeline Success are the minimum. The Stage, Step and Trigger events are optional.
 
    Do not select **Pipeline Start**, **Stage Start** or **Pipeline End**. Spike never opens or resolves an incident from them.
 5. Click **Next**. Under **Notification Method**, select **Webhook**.
@@ -56,6 +59,10 @@ Spike will automatically group repeated incidents and also suppress alerts while
 * `eventData.pipelineIdentifier` - ties a failure to its recovery. Without it Spike falls back to matching by title, so recovery by pipeline needs this field.
 
 Optional fields that sharpen the incident: `orgIdentifier`, `projectIdentifier`, `pipelineName`, `stageName`, `stageIdentifier`, `stepName`, `triggerName` and `errorMessage`.
+
+{% hint style="warning" %}
+Do not use a custom notification template. Spike reads the standard `eventData` body shown below. A custom template may drop the wrapper, and then Spike cannot match a recovery to its failure by pipeline.
+{% endhint %}
 
 **Test the Integration:**
 * Run a pipeline that you expect to fail and verify the incident appears in Spike
