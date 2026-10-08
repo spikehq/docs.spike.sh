@@ -21,10 +21,10 @@ We could not find a real Hawkeye alarm email to build this against. The subject 
 
 ## Step 2: Point Hawkeye's alarm emails at Spike
 
-1. In Hawkeye, open **Preferences** and make sure the **SMTP** settings are filled in, so Hawkeye can send mail. The sender address you set here is stored on the incident for display.
-2. Open the test you want to be paged for and go to its **Alarms** settings.
-3. Add the Spike email address as an **Email** recipient of the alarm. Required: the Spike address is the only recipient field that matters.
-4. Choose when the alarm fires. Enable the **Status Change** option (alarm when a result differs from the previous run) if you want Spike to resolve the incident when the test passes again.
+1. In Hawkeye, go to **Administration** > **Preferences** > **Email (SMTP)** and fill in the SMTP settings so Hawkeye can send mail. The sender address you set here is stored on the incident for display.
+2. Open the test you want to be paged for and click **Show Alarm Options**.
+3. Under **Set Alarm On**, add the Spike email address as the alarm email recipient. Required: the Spike address is the only field that matters.
+4. Choose what the alarm fires on: **Failed**, **Error** and **Status Change**. Tick **Status Change** (alarm when a result differs from the previous run) if you want Spike to resolve the incident when the test passes again.
 5. Save the test.
 
 ## What Hawkeye sends, and what Spike reads
