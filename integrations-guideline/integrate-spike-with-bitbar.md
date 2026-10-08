@@ -43,12 +43,12 @@ From the header, click [Add integration](https://app.spike.sh/integrations/new),
 
 ### Step 2: Turn on email notifications in BitBar
 
-In BitBar Cloud, open the notification settings for your account or project and add a notification of type **EMAIL** with the Spike address as the recipient. Choose the scope **TEST_RUN** so you hear about finished test runs, or **TEST_RUN_SUCCEEDED** to also get success emails.
+In BitBar Cloud, open the notification settings for your account or project and add a notification of type **EMAIL** with the Spike address as the recipient. Choose the scope **TEST_RUN** to get both failure and success emails, so incidents auto-resolve. Choose **TEST_RUN_FAILURE** to get failure emails only; in that case set a resolve timer.
 
 BitBar does not document where this setting lives in its interface, so look under your account's integrations or the project settings.
 
 {% hint style="info" %}
-Without success emails, incidents never auto-resolve. Use a [resolve timer](../incidents/resolve-timer.md) in that case.
+With **TEST_RUN_FAILURE** no success emails arrive, so incidents never auto-resolve. Use a [resolve timer](../incidents/resolve-timer.md) in that case.
 {% endhint %}
 
 ### Step 3: Test it
