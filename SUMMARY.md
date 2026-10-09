@@ -144,6 +144,7 @@
 * [Integrate Spike with Google Cloud](integrations-guideline/integrate-google-cloud-with-spike.md)
 * [Integrate Spike with Grafana](integrations-guideline/integrate-spike-with-grafana.md)
 * [Integrate Spike with Graylog](integrations-guideline/integrate-spike-with-graylog.md)
+* [Integrate Spike with Harness FME](integrations-guideline/integrate-spike-with-harness-fme.md)
 * [Integrate Spike with Healthchecks](integrations-guideline/integrate-healthchecks-with-spike.md)
 * [Integrate Spike with Heroku](integrations-guideline/integrate-spike-with-heroku.md)
 * [Integrate Spike with Hetrix Tools](integrations-guideline/integrate-spike-with-hetrix-tools.md)
