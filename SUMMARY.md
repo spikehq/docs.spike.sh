@@ -174,6 +174,7 @@
 * [Integrate Spike with NinjaOne](integrations-guideline/integrate-spike-with-ninjaone.md)
 * [Integrate Spike with Nixstats](integrations-guideline/integrate-spike-with-nixstats.md)
 * [Integrate Spike with NodePing](integrations-guideline/integrate-spike-with-nodeping.md)
+* [Integrate Spike with NVADR (RedHunt Labs)](integrations-guideline/integrate-spike-with-nvadr.md)
 * [Integrate Spike with Oh-Dear](integrations-guideline/integrate-spike-with-oh-dear.md)
 * [Integrate Spike with Paessler PRTG](integrations-guideline/paessler-prtg.md)
 * [Integrate Spike with Panther](integrations-guideline/integrate-spike-with-panther.md)
