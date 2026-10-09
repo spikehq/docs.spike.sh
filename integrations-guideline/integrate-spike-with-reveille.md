@@ -131,7 +131,7 @@ Check three things:
 
 <summary>Incidents open but never resolve</summary>
 
-Check the subjects on the two emails. The success subject must end with `SUCCESSFUL`, the failure subject with `FAILED`, and everything before that word must be identical. A stray character, a different monitor name or a different dash before the word is fine, but a different name is not. Also confirm Reveille actually sends the success email.
+Check the subjects on the two emails. The success subject must end with `SUCCESSFUL`, the failure subject with `FAILED`, and everything before that word must be identical. The dash before the word may differ, but the monitor name may not. Also confirm Reveille actually sends the success email.
 
 </details>
 
