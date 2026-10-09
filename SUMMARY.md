@@ -171,6 +171,7 @@
 * [Integrate Spike with Nagios](integrations-guideline/integrate-spike-with-nagios.md)
 * [Integrate Spike with Needle.sh](integrations-guideline/integrate-spike-with-needle.sh.md)
 * [Integrate Spike with New Relic](integrations-guideline/integrate-spike-with-new-relic.md)
+* [Integrate Spike with Notion](integrations-guideline/integrate-spike-with-notion.md)
 * [Integrate Spike with NinjaOne](integrations-guideline/integrate-spike-with-ninjaone.md)
 * [Integrate Spike with Nixstats](integrations-guideline/integrate-spike-with-nixstats.md)
 * [Integrate Spike with NodePing](integrations-guideline/integrate-spike-with-nodeping.md)
