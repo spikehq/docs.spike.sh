@@ -206,6 +206,7 @@
 * [Integrate Spike with Twilio](integrations-guideline/integrate-spike-with-twilio.md)
 * [Integrate Spike with Updown.io](integrations-guideline/updown-io.md)
 * [Integrate Spike with Uptime](integrations-guideline/integrate-spike-with-uptime.md)
+* [Integrate Spike with Uptycs](integrations-guideline/integrate-spike-with-uptycs.md)
 * [Integrate Spike with Uptime Kuma](integrations-guideline/integrate-spike-with-uptime-kuma.md)
 * [Integrate Spike with Uptime Robot](integrations-guideline/integrate-spike-with-uptime-robot.md)
 * [Integrate Spike with Wavefront](integrations-guideline/integrate-spike-with-wavefront.md)
