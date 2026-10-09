@@ -227,7 +227,7 @@ Open an incident in Sentinel and run the playbook on it manually: **Incidents**,
 ### Good to know
 
 * The Spike incident title is the incident `description`, which by default is the description of the analytics rule. When it is empty, Spike uses the incident title, severity and workspace name instead.
-* A Sentinel incident that is reopened after it was closed is sent as a new notification with status `Active`.
+* The rules above only send an incident when it is created or when its status changes to `Closed`. Other updates, such as a reopen, are not sent.
 * Resolving an incident in Spike does not close it in Sentinel. Close it in Sentinel and let the playbook resolve the Spike incident.
 
 Disclaimer: These integration instructions are offered independently by Spike, and Spike is not affiliated with nor a partner of Microsoft Corporation.
