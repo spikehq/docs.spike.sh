@@ -131,13 +131,7 @@ The same task when it is marked complete, which resolves the incident:
 }
 ```
 
-Or from a script, with a task you fetched from Asana's `GET /tasks/{task_gid}`, whose response has this same shape:
-
-```bash
-curl -X POST "https://hooks.spike.sh/<your-token>/push-events" \
-  -H "Content-Type: application/json" \
-  -d '{"data": {"gid": "1209876543210123", "name": "Checkout returns 500 for EU customers after the payment step", "completed": false, "projects": [{"name": "Production Incidents"}]}}'
-```
+From a script, `POST` the same JSON to the webhook URL with the header `Content-Type: application/json`. Asana's `GET /tasks/{task_gid}` returns a task in this same shape.
 
 ## Step 3 — Test it
 
