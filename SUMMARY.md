@@ -210,6 +210,7 @@
 * [Integrate Spike with Uptime Robot](integrations-guideline/integrate-spike-with-uptime-robot.md)
 * [Integrate Spike with Wavefront](integrations-guideline/integrate-spike-with-wavefront.md)
 * [Integrate Spike with Wiz](integrations-guideline/integrate-spike-with-wiz.md)
+* [Integrate Spike with WhatsUp Gold](integrations-guideline/integrate-spike-with-whatsup-gold.md)
 * [Integrate Spike with Xitoring](integrations-guideline/integrate-spike-with-xitoring.md)
 * [Integrate Spike with Zabbix](integrations-guideline/integrate-spike-with-zabbix.md)
 * [Integrate Spike with Zapier](integrations-guideline/integration-spike-with-zapier.md)
