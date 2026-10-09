@@ -164,6 +164,7 @@
 * [Integrate Spike with LogRocket](integrations-guideline/logrocket.md)
 * [Integrate Spike with Logz](integrations-guideline/integrate-spike-with-logz.md)
 * [Integrate Spike with Microsoft Azure](integrations-guideline/integrate-spike-with-microsoft-azure.md)
+* [Integrate Spike with Microsoft Sentinel](integrations-guideline/integrate-spike-with-microsoft-sentinel.md)
 * [Integrate Spike with MongoDB Atlas](integrations-guideline/mongodb-atlas.md)
 * [Integrate Spike with Monte Carlo](integrations-guideline/integrate-spike-with-monte-carlo.md)
 * [Integrate Spike with Moogsoft](integrations-guideline/integrate-spike-with-moogsoft.md)
