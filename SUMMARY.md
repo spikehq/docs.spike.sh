@@ -158,6 +158,7 @@
 * [Integrate Spike with Librato](integrations-guideline/integrate-spike-with-librato.md)
 * [Integrate Spike with LibreNMS](integrations-guideline/integrate-spike-with-librenms.md)
 * [Integrate Spike with Lightstep](integrations-guideline/integrate-spike-with-lightstep.md)
+* [Integrate Spike with Lightup](integrations-guideline/integrate-spike-with-lightup.md)
 * [Integrate Spike with LogDNA](integrations-guideline/integrate-spike-with-logdna.md)
 * [Integrate Spike with Logentries](integrations-guideline/integrate-spike-with-logentries.md)
 * [Integrate Spike with Loggly](integrations-guideline/integrate-spike-with-loggly.md)
