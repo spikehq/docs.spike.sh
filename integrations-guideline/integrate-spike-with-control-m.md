@@ -34,7 +34,7 @@ Auto-resolution is supported for this integration. Spike will also automatically
 
 {% tabs %}
 {% tab title="Setup on Control-M" %}
-1. In the Control-M Configuration Manager (or Control-M/EM **Configuration** domain), open the **System Parameters** of Control-M/EM and set the alerts handling to send alerts to an external script. Control-M calls this the **alerts listener**: the `SendAlarmToScript` parameter points to the script it runs, and `SendAlarmToScriptDelay`-style options are not needed.
+1. In Control-M, set up the **alerts listener**: the external script that Control-M runs for each alert. Follow BMC's "Alerts" documentation for your version to register the script (BMC calls this sending alerts to an external program).
 2. Write the listener script. Control-M calls it with `name: value` arguments (`call_type`, `alert_id`, `data_center`, `memname`, `order_id`, `severity`, `status`, `send_time`, `last_user`, `last_time`, `message`, `run_as`, `application`, `sub_application`, `job_name`, `host_id`, `alert_type`, `closed_from_em`, `ticket_number`, `run_counter`, `notes`).
 3. In the script, join every token up to the next `name:` token into one value, because a value such as `Ended not OK` contains spaces.
 4. Make the script post a JSON body to the Spike webhook URL, using the field mapping below.
