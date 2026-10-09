@@ -132,6 +132,7 @@
 * [Integrate Spike with Crowdstrike](integrations-guideline/integrate-spike-with-crowdstrike.md)
 * [Integrate Spike with Dash0](integrations-guideline/integrate-spike-with-dash0.md)
 * [Integrate Spike with Datadog](integrations-guideline/integrate-spike-with-datadog.md)
+* [Integrate Spike with dbt Cloud](integrations-guideline/integrate-spike-with-dbt-cloud.md)
 * [Integrate Spike with Dynatrace](integrations-guideline/integrate-spike-with-dynatrace.md)
 * [Integrate Spike with eG Enterprise](integrations-guideline/integrate-spike-with-eg-enterprise.md)
 * [Integrate Spike with ElastAlert](integrations-guideline/integrate-spike-with-elastalert.md)
