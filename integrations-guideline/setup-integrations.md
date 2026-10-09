@@ -89,3 +89,7 @@ Follow the simple instructions on how to setup an integration with Spike.
 [integration-spike-with-zapier.md](integration-spike-with-zapier.md)
 {% endcontent-ref %}
 
+
+{% content-ref url="integrate-spike-with-opspilot.md" %}
+[integrate-spike-with-opspilot.md](integrate-spike-with-opspilot.md)
+{% endcontent-ref %}
