@@ -86,6 +86,7 @@ sinksConfig:
   - webhook_sink:
       name: spike_sink
       url: "https://hooks.spike.sh/<your-token>/push-events"
+      format: json
       size_limit: 16384
 ```
 
@@ -93,9 +94,12 @@ sinksConfig:
 | --- | --- |
 | `name` | Required. Anything you will recognise, such as `spike_sink` |
 | `url` | Required. The full Spike webhook URL from Step 1, including `/push-events` |
+| `format` | Set to `json`, so Robusta posts one flat JSON object per finding, as shown in the payload reference |
 | `size_limit` | Optional. Maximum body size in bytes; default 4096. Robusta drops keys from the end of the body to fit, and `fingerprint` can be dropped, so raise it |
 
 Keep your existing sinks in the list; add this one next to them.
+
+Recoveries come from Alertmanager. Leave `send_resolved: true` on your Alertmanager receiver for Robusta (the default), and keep the Prometheus playbook at `status: all` in the Robusta values, so Robusta sees the resolved alerts and sends the `[RESOLVED] ` findings.
 
 3. Apply it:
 
