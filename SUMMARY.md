@@ -182,6 +182,7 @@
 * [Integrate Spike with PM2](integrations-guideline/integrate-spike-with-pm2.md)
 * [Integrate Spike with Prometheus](integrations-guideline/integrate-spike-with-prometheus.md)
 * [Integrate Spike with Pulseway](integrations-guideline/integrate-spike-with-pulseway.md)
+* [Integrate Spike with Quest Spotlight on SQL Server](integrations-guideline/quest-spotlight-sql-server.md)
 * [Integrate Spike with Raygun](integrations-guideline/integrate-spike-with-raygun.md)
 * [Integrate Spike with Render](integrations-guideline/integrate-spike-with-render.md)
 * [Integrate Spike with Robotalp](integrations-guideline/integrate-spike-with-robotalp.md)
