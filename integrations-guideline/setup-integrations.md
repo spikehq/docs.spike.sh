@@ -85,6 +85,10 @@ Follow the simple instructions on how to setup an integration with Spike.
 [integrate-spike-with-instana.md](integrate-spike-with-instana.md)
 {% endcontent-ref %}
 
+{% content-ref url="integrate-spike-with-asana.md" %}
+[integrate-spike-with-asana.md](integrate-spike-with-asana.md)
+{% endcontent-ref %}
+
 {% content-ref url="integration-spike-with-zapier.md" %}
 [integration-spike-with-zapier.md](integration-spike-with-zapier.md)
 {% endcontent-ref %}
