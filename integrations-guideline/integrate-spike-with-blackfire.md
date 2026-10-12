@@ -17,13 +17,14 @@ Blackfire's email format is not published. This guide assumes a subject like `[B
 3. Click **Create integration**.
 4. Copy the email address shown on the integration page. It looks like `ced6f1c82327db079e3f@email-hooks.spike.sh`.
 
-## Step 2: Add the email channel in Blackfire
+## Step 2: Send the alert rule's notifications to Spike
 
-1. Sign in to [Blackfire](https://blackfire.io) and open the environment you want to monitor.
-2. Go to **Alerting** and open **Channels**.
-3. Add a new channel of type **Email** and paste the Spike address as the recipient. This is the only required field.
-4. Open the **Alerts** of the environment, edit (or create) each alert rule and select the new channel as a notification channel for it.
-5. Save the alert rule.
+1. Sign in to [Blackfire](https://blackfire.io) and open the **Alerting** dashboard of the environment you want to monitor.
+2. Click **Add Alert** to create an alert rule, or edit an existing one, and set its metric, threshold and context.
+3. In the notification step, open the channel selection menu and create a new notification channel of type **Email** directly from it, with the Spike address from Step 1 as the recipient.
+4. Select that channel for the alert rule and save it. Repeat for every alert rule that should page through Spike.
+
+If you would rather keep Blackfire's emails going to your own mailbox, add your address as the Email channel instead and set up a rule in your mail provider that forwards Blackfire's alert emails to the Spike address. Forwarding keeps the subject and body, which is all Spike reads.
 
 {% hint style="warning" %}
 Blackfire may require a specific plan for some notification channels. If the Email channel is missing in your account, check your Blackfire plan.
@@ -31,9 +32,11 @@ Blackfire may require a specific plan for some notification channels. If the Ema
 
 ## Step 3: Test it
 
-Wait for an alert rule to fire, or send the example below to your Spike address from your own mail client or as a SendGrid Inbound Parse style payload.
+Wait for an alert rule to fire, or forward an earlier Blackfire alert email to your Spike address. An incident should appear within a minute.
 
 ### Example email
+
+Spike receives each email as the fields below. You do not build these yourself; they are shown so you can check what arrives.
 
 Firing:
 
@@ -70,6 +73,7 @@ Recovery:
 | `text` or `html` | Recommended | The first sentence about the fault becomes the incident title. `html` is used when `text` is empty. |
 | `from` | No | Shown in the email preview. |
 
-* **Title:** the first content line of the email body, for example *96th percentile response time of Checkout on Production is 1,240 ms, above the 800 ms alarm threshold for 5 minutes.* If it is missing, the subject is used.
+* **Title:** for an alarm or warning, the first content line of the email body, for example *96th percentile response time of Checkout on Production is 1,240 ms, above the 800 ms alarm threshold for 5 minutes.* Greetings, links and `Label: value` lines are skipped, and the title is cut at a word boundary to 200 characters. If there is no such line, the subject is used. A recovery email is titled by its subject, for example *[Blackfire] Recovered: Checkout p96 response time on Production*.
+* **Emails with no usable subject:** an email whose subject is empty, or holds nothing but the tag and a state word, has no key. Its title is the fixed *Blackfire alert with no subject* (a recovery: *Blackfire alert recovered*), and all such emails join one open incident.
 * **Grouping:** Spike derives a key from the subject by removing the `[Blackfire]` tag and state words (alarm, warning, recovered, back to normal and so on). Emails for the same alert rule and environment join the same open incident, including a warning that escalates to an alarm.
-* **Auto-resolve:** a recovery email (subject or first sentence containing *recovered*, *recovery*, *back to normal* or *resolved*) resolves the open incident with the same key. A recovery email with no subject cannot be matched and will not auto-resolve.
+* **Auto-resolve:** a recovery email (subject or first sentence containing *recovered*, *recovery*, *back to normal* or *resolved*) resolves the open incident with the same key. A recovery email with no usable subject has no key, so it does not auto-resolve: it is added to the open incident with no subject, which you resolve by hand.
