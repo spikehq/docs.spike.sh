@@ -117,6 +117,7 @@
 * [Integrate Spike with AppDynamics](integrations-guideline/integrate-spike-with-appdynamics.md)
 * [Integrate Spike with AppSignal](integrations-guideline/integrate-spike-with-appsignal.md)
 * [Integrate Spike with AppViewX](integrations-guideline/integrate-spike-with-appviewx.md)
+* [Integrate Spike with Assertible](integrations-guideline/integrate-spike-with-assertible.md)
 * [Integrate Spike with Atatus](integrations-guideline/integrate-spike-with-atatus.md)
 * [Integrate Spike with AWS](integrations-guideline/integrate-spike-with-aws.md)
 * [Integrate Spike with Axiom](integrations-guideline/integrate-spike-with-axiom.md)
