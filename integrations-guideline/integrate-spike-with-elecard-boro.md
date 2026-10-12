@@ -21,7 +21,7 @@ Every notification carries a `status`, and that field alone decides what Spike d
 | `Cleared` | That same error state ended | Auto-resolves the open incident. Dropped when nothing is open |
 | `Event` | An event trigger fired — a one-shot error report | Opens an incident and pages. Boro never sends a `Cleared` for it, so nothing in the payload will ever close it. See Step 3 |
 
-Matching is case-insensitive, so `Cleared` and `CLEARED` both resolve. A `status` Spike does not recognise, and a notification with none at all, is treated as firing: the incident opens and pages rather than being dropped.
+Matching is case-insensitive, so `Cleared` and `CLEARED` both resolve. Boro only sends `Cleared`, but `Resolved`, `Closed` and `OK` are read the same way. A `status` Spike does not recognise, and a notification with none at all, is treated as firing: the incident opens and pages rather than being dropped.
 
 ### Incident identity
 
@@ -40,7 +40,7 @@ Spike identifies the incident by **`referenceNumber`**, the number Boro uses to 
 `referenceNumber` has to arrive as a JSON number, the way Boro sends it (`"referenceNumber": 7189705`). A quoted string, a `null` or a missing field all read as *no identity*, and Spike then falls back to matching on the incident title, as described under **Incident titles** below.
 {% endhint %}
 
-Boro documents `referenceNumber` as optional, and the field is absent from some notifications — `Event`-type triggers have no completion to connect to in the first place. Those incidents still open, still page, and still resolve on a later `Cleared` for the same trigger and task, because Spike matches them on the title instead.
+Boro documents `referenceNumber` as optional, and the field is absent from some notifications — `Event`-type triggers have no completion to connect to in the first place. Those incidents still open and still page, and Spike matches their repeats on the title instead. An `Active` without a `referenceNumber` is resolved by a later `Cleared` without one when the trigger, the task and the project are the same; an `Event` never gets a `Cleared` (see Step 3).
 
 Resolving an incident in Spike does not change anything in Boro, and a `Cleared` that arrives when nothing is open has nothing to close, so it is dropped. Let Boro clear the error and let that resolve the incident, to keep the two sides in step.
 
@@ -57,8 +57,8 @@ Timestamp Discontinuity, 3 errors on DASH AllRenditions — video(HQ_video 4 Mb/
 That is `trigger`, `count`, `task_name` and `subtask_description`. The pieces come and go with the payload:
 
 * `, {count} errors` appears only when `count` is a number of 1 or more.
-* When `count_by_pids` names more than one elementary stream, the two worst PIDs are named with their own error counts, worst first, and the rest are summarised: `CC Error, 7 errors on PIDs 1001 (3), 1002 (2) +1 more on Service 2 UDP`. The media representation drops out in that case, because Boro sends one `subtask_description` and a fault spread over several streams is not that one rendition.
-* ` — {subtask_description}` appears when Boro sends one and only one stream is affected.
+* When `count_by_pids` has more than one elementary stream, the clause counts them rather than naming PIDs: `CC Error, 7 errors on 3 PIDs on Service 2 UDP — audio(rus 128 kb/s: 48 kHz, mp4a.40.2)`.
+* ` — {subtask_description}` appears whenever Boro sends one.
 * `details.http_error`, or `details.curl_error` when there is no HTTP error, is appended as ` — 404 Not Found` when it reads as a sentence rather than a bare numeric code.
 
 When `referenceNumber` is absent, `null` or a quoted string, Spike has no id to group on and matches the next notification on the title instead. The title then has to come out byte-for-byte identical every time, so all the readings are dropped and it is just the trigger and the stream:
@@ -76,7 +76,7 @@ Timestamp Discontinuity on DASH AllRenditions is back to normal
 The stream in the title — the "where" — is `task_name`, and falls back to the host and path of `task_uri` when the task has no name (`HTTP Error on cdn.example.net/live/channel5/master.m3u8 — 404 Not Found`), then to `probe_name` when there is neither. A notification with no `trigger` reads `Elecard Boro alert`, and one with nothing usable at all reads `Elecard Boro alert with no details` rather than being dropped.
 
 {% hint style="info" %}
-`sequenceId`, `referenceNumber`, `level`, `time`, `time_end`, `duration`, `project_name`, `profile_name`, `subtask_uri` and `links` are deliberately kept out of the title and shown on the incident page instead. Titles are capped at 200 characters; the media representation is cut first, then the readings, so `{trigger} on {task_name}` always survives.
+`sequenceId`, `referenceNumber`, `level`, `time`, `time_end`, `duration`, `project_name`, `profile_name`, `subtask_uri` and `links` are deliberately kept out of the title and shown on the incident page instead. Titles are capped at 200 characters. When a title runs longer, the media representation is cut first, then the HTTP or transport error, then the count, so `{trigger} on {task_name}` survives whole. Only a task name that is itself too long for the cap is shortened, at a word boundary, ending in `…`.
 {% endhint %}
 
 Use a [Title Remapper](../alerts/title-remapper.md) if your team reads streams by project or probe rather than by task:
@@ -85,7 +85,7 @@ Use a [Title Remapper](../alerts/title-remapper.md) if your team reads streams b
 [{{data.body.project_name}}] {{data.body.trigger}} on {{data.body.task_name}}
 ```
 
-Write the remapper against `trigger`, `task_name`, `task_uri`, `probe_name`, `project_name` and `profile_name` only. One that reads `time`, `duration`, `count` or `sequenceId` renders a different title on every delivery, which stops repeats grouping and stops recoveries matching for the notifications that have no `referenceNumber`.
+Notifications with a `referenceNumber` group and resolve on that number, so a remapper does not affect them. Notifications without one are matched on the title Spike builds, before any remapper runs, against the title stored on the open incident. A remapper changes that stored title, so with any remapper that rewrites the title, repeats without a `referenceNumber` stop grouping and their `Cleared` stops resolving. Only add a remapper if your Boro notifications carry `referenceNumber`.
 
 ## Severity
 
@@ -250,12 +250,12 @@ Those two notifications are one incident in Spike: `Timestamp Discontinuity, 3 e
 
 | Field | What Spike does with it |
 | --- | --- |
-| `status` | `Active` opens or joins, `Cleared` resolves, `Event` opens and never resolves |
+| `status` | `Active` opens or joins, `Cleared` resolves (as do `Resolved`, `Closed` and `OK`), `Event` opens and never resolves |
 | `referenceNumber` | Groups notifications onto one incident — one per error state. Optional in Boro's spec; without it Spike matches on the title |
 | `trigger` | Leads the incident title — Boro's own words for what is wrong |
 | `task_name` | The stream or service in the title, kept whole |
-| `count`, `count_by_pids` | How much, and on which elementary streams. In the title when there is a `referenceNumber` to group on |
-| `subtask_description` | The media representation, appended to the title when only one stream is affected |
+| `count`, `count_by_pids` | How much, and on how many elementary streams. In the title when there is a `referenceNumber` to group on |
+| `subtask_description` | The media representation, appended to the title when there is a `referenceNumber` to group on |
 | `details` | `http_error` and `curl_error` are appended to the title when they read as sentences; `source_ip` and the rest are shown on the incident |
 | `level` | Shown on the incident. Spike does not set severity from it — write an [alert rule](../alerts/alert-rules.md) on it, as described under **Severity** |
 | `task_uri` | Shown on the incident, and the fallback "where" in the title when the task has no name |
@@ -289,9 +289,9 @@ If nothing arrives at all, confirm **Enable** is ticked on the profile, that the
 
 <summary>Incidents open but never resolve</summary>
 
-Check the `status` on the notifications shown on the incident. Only `Cleared` resolves. An `Event` never does, by design, because Boro sends nothing further for it — Step 3 is how you stop those accumulating.
+Check the `status` on the notifications shown on the incident. Only `Cleared` (or `Resolved`, `Closed`, `OK`) resolves. An `Event` never does, by design, because Boro sends nothing further for it — Step 3 is how you stop those accumulating.
 
-If you are expecting a `Cleared` and the incident is still open, compare the `referenceNumber` on the two notifications. Spike resolves the incident whose reference number matches, so a `Cleared` carrying a different one has nothing to close. For notifications with no reference number, Spike matches on the title, so a [Title Remapper](../alerts/title-remapper.md) that puts a count or a timestamp in the title will also stop recoveries matching.
+If you are expecting a `Cleared` and the incident is still open, compare the `referenceNumber` on the two notifications. Spike resolves the incident whose reference number matches, so a `Cleared` carrying a different one has nothing to close. For notifications with no reference number, Spike matches on the title and then checks that the trigger, task and project are the same, so a `Cleared` from another project does not resolve the incident, and any [Title Remapper](../alerts/title-remapper.md) on the integration stops these recoveries matching.
 
 A `Cleared` that arrives after the incident was already resolved, by hand or by a resolve timer, is dropped too.
 
@@ -327,7 +327,7 @@ Expected. Spike does not set severity from the Boro payload. `level` is on the i
 
 <summary>Titles look the same on several incidents</summary>
 
-A title built without readings — `PCR Repetition Error on Service 2 UDP` — is what a notification with no `referenceNumber` gets, and that sameness is deliberate: it is what lets the repeat group and the recovery resolve. Two such incidents at once are two separate error states on that task. Add the project or the probe with a [Title Remapper](../alerts/title-remapper.md) if you need to tell them apart at a glance, but keep the remapper off anything that changes between notifications.
+A title built without readings — `PCR Repetition Error on Service 2 UDP` — is what a notification with no `referenceNumber` gets, and that sameness is deliberate: it is what lets the repeat group and the recovery resolve. While one such incident is open, every notification with the same title joins it, so the same title shows up again only on a later incident, after the earlier one resolved. Open the incident page to see the project and probe each one came from.
 
 </details>
 
