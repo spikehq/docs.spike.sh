@@ -57,7 +57,9 @@ A recovery that arrives with no matching open incident is dropped rather than tu
 
 Spike identifies the incident by the Imperva asset the event is about, `event_metadata.asset_id`, within the Imperva account in `event_metadata.account_id`. The asset id is the same on an attack's start and its stop, so one attack reads as one Spike incident: it pages once, repeats join it, and the stop resolves it. Two websites under attack at once are two incidents. A DDoS start and a BGP down on the same asset are separate incidents too, because the kind of event is part of the identity.
 
-If an event carries no `asset_id`, Spike falls back to the first of `extended_parameters.site_name`, `range`, `ip_range` with `slice_name`, or `connection_name`. `account_id` is there because one Spike integration can receive events from several Imperva accounts or sub-accounts.
+If an event carries no `asset_id`, Spike falls back to the first of `extended_parameters.site_name`, `range`, `ip_range` with `slice_name`, or `connection_name`. If it carries none of those either, the incident is identified by the kind of event and the account alone, so every such event of one kind in one account shares an incident. `account_id` is there because one Spike integration can receive events from several Imperva accounts or sub-accounts.
+
+A stop resolves an incident only when it is the stop for that incident's start (a `BgpUp` never closes a DDoS incident) and names the same account and the same asset. `event_type` is compared without regard to letter case.
 
 ## Incident title
 
@@ -74,9 +76,9 @@ Website group DDoS attack started on EU edge (192.0.2.0/24)
 Connection performance restored on xconnect-ams
 ```
 
-An event with nothing usable at all is titled `Imperva alert with no details`. Titles carry no ids, URLs, dates or traffic readings; those are on the incident page.
+An event with nothing usable at all is titled `Imperva alert with no details`. Spike adds no ids, URLs, dates or traffic readings of its own; Imperva's sentence is used as Imperva wrote it, and the rest of the payload is on the incident page.
 
-A stop event is shown with its own sentence, for example `DDoS attack ended on checkout.acme.com`. It still resolves the right incident, because matching is by identity and never by title.
+A stop event is shown with its own sentence, for example `DDoS attack ended on checkout.acme.com`. It still resolves the right incident, because a known event is matched by its kind, account and asset, not by its title. Only an `event_type` Spike does not know is matched by title.
 
 ## Severity
 
@@ -98,6 +100,10 @@ In Spike, go to **Integrations → Add integration → Imperva Cloud WAF**, atta
 
 ## Step 2 — Add a webhook connection in Imperva
 
+{% hint style="warning" %}
+The console menu names and buttons in Steps 2 and 3 (**Webhook Connections**, **Add webhook connection**, **Notification Settings**, **Test Webhook**) and the `HelloWorldTest` test event type come from partner documentation and have not been checked against a live console. If your console labels them differently, look for the account's webhook connection and notification policy settings.
+{% endhint %}
+
 1. Sign in to the Imperva Cloud Security Console and go to **Account → Account Management → Webhook Connections**.
 2. Select **Add webhook connection** and fill in the name and URL. Both are required:
    * **Name**: something your team will recognise, for example `Spike`
@@ -118,7 +124,7 @@ In Spike, go to **Integrations → Add integration → Imperva Cloud WAF**, atta
 
 Always select the stop or recovery notification that matches each start you select. A DDoS start without its stop pages your rotation and leaves the incident open until somebody resolves it by hand. A [resolve timer](../incidents/resolve-timer.md) is a reasonable backstop, not a replacement.
 
-The test delivery has `event_type` `HelloWorldTest`. Spike accepts it and opens nothing, so a quiet incident list after the test is the expected result. Confirm it arrived under the integration's request log in Spike.
+The test delivery has `event_type` `HelloWorldTest`. Spike accepts it and opens nothing, so a quiet incident list after the test is the expected result. To see an incident open, use the replay in Step 4.
 
 ## Step 4 — Confirm it end to end
 
