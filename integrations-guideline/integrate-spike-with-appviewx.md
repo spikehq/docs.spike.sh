@@ -7,20 +7,20 @@ description: >-
 
 [AppViewX](https://www.appviewx.com) manages the certificates your organisation relies on. It emails an expiry alert when a certificate is about to expire, so someone can renew it before a site or service breaks.
 
-AppViewX alerts are emails, so this integration uses Spike's email address. Add that address as a recipient of the AppViewX expiry alert and each alert pages your on-call rotation instead of waiting in a mailbox.
+AppViewX alerts are emails, so the Spike AppViewX integration has an email address instead of a webhook URL. Add that address as a recipient of the AppViewX expiry alert and each alert pages your on-call rotation instead of waiting in a mailbox.
 
 ## What Spike does with each email
 
 | What AppViewX sends | What Spike does |
 | --- | --- |
 | Expiry alert for a certificate | Opens an incident and pages |
-| The same alert again for the same certificate | Adds to the incident already open, no new page |
-| 0-10 day alert with a subject containing "Critical" | Opens its own incident, titled with a `Critical:` prefix |
+| The same alert again for the same certificate (the next scheduled run) | Adds to the incident already open, no new page |
+| A 0-10 day "Critical" alert whose body matches the routine one | Adds to the incident already open, no new page |
 
 AppViewX sends no recovery email, so Spike cannot resolve these incidents on its own. Resolve the incident in Spike once the certificate is renewed.
 
 {% hint style="info" %}
-The incident title is short and names the certificate, for example **Certificate for shop.acme.com expires soon**. The common name is read from the `Common Name` line of the email body, or from the subject when the body does not have one. The full email, including the serial number and the expiry date, is kept in the incident details.
+The incident title is the email body as AppViewX wrote it, with links removed and whitespace tidied, up to 200 characters. With the recommended template that reads **Certificate with Common Name shop.acme.com Serial number 0A1B2C3D4E5F60718293A4B5C6D7E8F9 issued by DigiCert Global G2 TLS RSA SHA256 2020 CA1 is about to expire on 11/07/2026**. When the body is empty the subject is the title. The full email is kept in the incident details.
 {% endhint %}
 
 ## Set up the integration
@@ -33,26 +33,36 @@ From the header, click [Add integration](https://app.spike.sh/integrations/new),
 
 Copy the unique email address from the integration page. It looks like `9f3c2a71be04d58e6a17@email-hooks.spike.sh`.
 
-### Step 3: Configure SMTP in AppViewX
+### Step 3: Make sure AppViewX can send email
 
-AppViewX sends mail through the SMTP server you configure, so that comes first. In the AppViewX console, open the SMTP / email server settings and enter your mail server details. The **From** address you set here is the sender Spike shows in the incident details. Skip this step if AppViewX already sends email for you.
+AppViewX sends alerts through your organisation's mail server. If AppViewX already emails your team, nothing changes here; otherwise ask your AppViewX administrator to set up outbound email. The sender they configure is what Spike shows as `from` in the incident details.
 
-### Step 4: Add the Spike address to the expiry alert
+### Step 4: Create an expiry alert that emails Spike
 
-In AppViewX, open the certificate expiry notification (the **Expiry Alert**) and add the Spike email address to its **To** recipients. Keep any existing recipients. Use AppViewX's recommended template for the body, because Spike reads the `Common Name` line from it:
+Your AppViewX role needs **Expiry Alerts** enabled under **Authorized Functions > CLM**, and its resource needs the **Cert_Expiry_Mail_Individual** and **Cert_Expiry_Mail_Bulk** workflow requests (**Access Control > Workflow Requests**).
+
+1. Go to **Menu > CLM > ALERTS & LOGS > Expiry Alerts** and click **+ Create**.
+2. Enter an **Alert Name**, then under **Alert Configuration** click **+ Add**.
+3. Choose the **Certificate Type** and the **Certificate Expiry Period** the alert covers.
+4. Set **Notification Method** to **Email** and turn on **Individual Alerts**, so each certificate gets its own email and its own incident. Turning on **Ignore renewed/regenerate certificate** stops alerts for a certificate once it is renewed.
+5. Under **Email Configuration**, put the Spike address in **To** (keep any existing recipients), and use AppViewX's recommended subject and body:
 
 ```
-Certificate with Common Name <common name>
-Serial number <serial number>
-issued by <issuer>
-is about to expire on <mm/dd/yyyy>
+Subject: Expiry Alert :: |Common Name| certificate| expiring on |Valid Until|
+
+Certificate with Common Name |Common Name|
+Serial number |Serial Number|
+issued by |Issuer Common Name|
+is about to expire on |Valid Until|
 ```
 
-The only required field is the recipient address. Spike also uses the subject and body when AppViewX provides them, and builds the title from them.
+6. Click **Add**, choose **Schedule** (daily is typical) as the **Alert Execution Type**, and click **Save**.
+
+The body becomes the incident title, and the scheduled run sends the same body about the same certificate each time, so the repeats join one incident.
 
 ### Step 5: Test it
 
-Send a test expiry alert, or wait for the next scheduled one, and check that an incident appears in Spike.
+Run the alert with **Run Now**, or wait for the next scheduled run, and check that an incident appears in Spike.
 
 ## What AppViewX sends
 
@@ -73,9 +83,9 @@ Spike receives the email as these fields:
 | --- | --- | --- |
 | `to` | Yes | The part before `@` selects your integration |
 | `envelope` | No | Its `to` list is also matched, so forwarded mail still reaches the integration |
-| `subject` | No | Title fallback when the body has no common name, and always kept in the details |
-| `text` | No | Plain-text body, read first for the common name |
-| `html` | No | Used when `text` is empty, and kept in the details |
+| `subject` | No | The title when the body is empty, and always kept in the details |
+| `text` | No | The plain-text body, which is the title |
+| `html` | No | Converted to text and used as the title when `text` is empty, and kept in the details |
 | `from` | No | Kept in the details |
 
 If the email has no usable subject or body, the incident is titled **AppViewX alert with no details**.
@@ -83,7 +93,7 @@ If the email has no usable subject or body, the incident is titled **AppViewX al
 ## Good to know
 
 {% hint style="warning" %}
-* Two certificates with the same common name share one title. A new alert for one is added to the incident already open for the other, so resolve the incident once the certificate is renewed.
-* Bulk-mode alerts send the certificate list as an attachment. Their title is the subject, for example **Expiry Alert :: Certificates expiring in next 30 days**.
-* If you edit the AppViewX template and remove the `Common Name` line, the title falls back to the subject.
+* Spike matches repeats on the title, so keep the body free of values that change between runs, such as a run timestamp. A changed body opens a new incident.
+* Individual alerts include renewal and unsubscribe links. The links are removed from the title, but their text (for example "Renew certificate") stays in it.
+* Bulk-mode alerts send the certificate list as an attachment. When their body is empty the title is the subject, for example **Expiry Alert :: Certificates expiring in next 30 days**.
 {% endhint %}
