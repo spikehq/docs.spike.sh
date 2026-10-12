@@ -66,7 +66,7 @@ The recovery for the same test:
 
 ## Step 3: Test it
 
-Send a mail with the firing body above to your Spike address, or use a test whose threshold you can trip on purpose. An incident should appear. Then send the recovery body (same `subject`) and the incident resolves.
+Use a test whose threshold you can trip on purpose, or send an email yourself: to your Spike address, with the subject `Hawkeye Alarm: Branch-NYC to DC1 VoIP MOS` and the firing example's `text` value as its plain-text body. An incident should appear. Then send a second email with the same subject and the recovery example's `text` value as its body, and the incident resolves. The examples above show how the email reaches Spike; they are not themselves something you can send.
 
 ## Incident identity
 
@@ -97,5 +97,5 @@ Spike reads the `Status:` line in the body:
 `Passed` is read in any letter case, and the closed-like values `Resolved`, `Closed`, `OK` and `Cleared` count as a recovery too. A recovery never opens an incident: with nothing open for that subject it is dropped. Any other value, or a missing `Status:` line, opens or updates an incident. Resolving in Spike does not change anything in Hawkeye.
 
 {% hint style="warning" %}
-Auto-resolve depends on Hawkeye sending a recovery email, which happens with the **Status Change** alarm option, and on the subject being the same in the failure and the recovery email. There is a 30 MB payload limit.
+Auto-resolve depends on Hawkeye sending a recovery email, which happens with the **Status Change** alarm option, and on the subject being the same in the failure and the recovery email. Spike resolves on a `Status: Passed` email as described above, but this has not yet been confirmed against a real Hawkeye recovery email, so the Spike integrations page does not list Keysight Hawkeye as auto-resolving yet. Until you have seen one of your incidents resolve this way, also set a [resolve timer](../incidents/resolve-timer.md). There is a 30 MB payload limit.
 {% endhint %}
