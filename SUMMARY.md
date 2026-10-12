@@ -134,6 +134,7 @@
 * [Integrate Spike with Crowdstrike](integrations-guideline/integrate-spike-with-crowdstrike.md)
 * [Integrate Spike with Dash0](integrations-guideline/integrate-spike-with-dash0.md)
 * [Integrate Spike with Datadog](integrations-guideline/integrate-spike-with-datadog.md)
+* [Integrate Spike with DBmarlin](integrations-guideline/integrate-spike-with-dbmarlin.md)
 * [Integrate Spike with Dynatrace](integrations-guideline/integrate-spike-with-dynatrace.md)
 * [Integrate Spike with Edge Delta](integrations-guideline/integrate-spike-with-edge-delta.md)
 * [Integrate Spike with eG Enterprise](integrations-guideline/integrate-spike-with-eg-enterprise.md)
