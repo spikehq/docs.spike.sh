@@ -23,7 +23,7 @@ We could not find a real Hawkeye alarm email to build this against. The subject 
 
 1. In Hawkeye, go to **Administration** > **Preferences** > **Email (SMTP)** and fill in the SMTP settings so Hawkeye can send mail. The sender address you set here is stored on the incident for display.
 2. Open the test you want to be paged for and click **Show Alarm Options**.
-3. Under **Set Alarm On**, add the Spike email address as the alarm email recipient. Required: the Spike address is the only field that matters.
+3. Under **Set Alarm On**, add the Spike email address as the alarm email recipient. It is the only setting Spike needs.
 4. Choose what the alarm fires on: **Failed**, **Error** and **Status Change**. Tick **Status Change** (alarm when a result differs from the previous run) if you want Spike to resolve the incident when the test passes again.
 5. Save the test.
 
@@ -35,7 +35,7 @@ Spike reads these parts of the email:
 | --- | --- | --- |
 | `to` | Yes | Carries the integration token in the `<token>@email-hooks.spike.sh` address. |
 | `subject` | Yes | Hawkeye's predefined alarm title, one per test. It identifies the alarm, so a repeat joins the open incident and the recovery resolves it. |
-| `text` | Yes | The test-results body. Its first non-empty line becomes the incident title, and its `Status:` line decides whether the alarm is firing or recovered. |
+| `text` | Yes | The test-results body. Its first line that is not a `Key: value` pair becomes the incident title, and its `Status:` line decides whether the alarm is firing or recovered. |
 | `html` | No | Used only when `text` is empty; Spike converts it to text. |
 | `envelope` | No | Its recipients are also checked for the token when the mail was forwarded. |
 | `from` | No | The sender address, shown in the incident details. |
@@ -70,13 +70,19 @@ Send a mail with the firing body above to your Spike address, or use a test whos
 
 ## Incident identity
 
-Spike identifies the incident by the email **subject**. Hawkeye uses one predefined subject per test, so every alarm for that test lands on the same incident, and the recovery email resolves it. If Hawkeye put the status in the subject, a recovery would not match and the incident would only close with its resolve timer.
+Spike identifies the incident by the email **subject**. Hawkeye uses one predefined subject per test, so every alarm for that test lands on the same incident, and the recovery email resolves it. If Hawkeye put the status in the subject, a recovery would not match and the incident would stay open until someone resolves it.
 
-If a mail has no subject, Spike matches by title instead, and uses the constant title `Keysight Hawkeye alarm with no subject`.
+If a mail has no subject (or an unfilled placeholder such as `{subject}`), Spike cannot tell which test it is about. It titles the incident with the constant `Keysight Hawkeye alarm with no subject` and matches on that, so all such mails share one incident, which never resolves itself.
 
 ## Incident title
 
-The title is Hawkeye's own sentence about the fault: the first non-empty line of the body, whitespace collapsed and capped at 200 characters. Spike's parser can shorten it so readings that change between runs do not end up in the title, for example `Branch-NYC to DC1 VoIP MOS failed between nyc-branch-01 and dc1-core-02`. When the body is empty the title is the subject, and when both are empty it is `Keysight Hawkeye alert with no details`.
+The title is Hawkeye's own sentence about the fault: the first line of the body that is not a `Key: value` pair, whitespace collapsed and capped at 200 characters. For the firing alarm above it is:
+
+```
+Test Branch-NYC to DC1 VoIP MOS failed: MOS 3.1 is below the threshold of 4.0 between nyc-branch-01 and dc1-core-02.
+```
+
+The readings can change between runs; that does not split the incident, because Spike matches on the subject. The recovery email is titled by its own sentence (`Test Branch-NYC to DC1 VoIP MOS passed: ...`), and the incident keeps the title it opened with. When the body has no such sentence the title is the subject (with `recovered` appended for a passed email), an email with no subject is titled `Keysight Hawkeye alarm with no subject`, and an email with neither is titled `Keysight Hawkeye alert with no details`.
 
 ## What resolves an incident
 
@@ -86,9 +92,9 @@ Spike reads the `Status:` line in the body:
 | --- | --- | --- |
 | `Failed` | The test failed. | Opens or updates an incident and pages. |
 | `Error` | The test could not run. | Opens or updates an incident and pages. |
-| `Passed` | The test is back to passing. | Resolves the incident. |
+| `Passed` | The test is back to passing. | Resolves the incident with the same subject. |
 
-Only the exact value `Passed` resolves. Any other value, or a missing `Status:` line, leaves the incident open. Resolving in Spike does not change anything in Hawkeye.
+`Passed` is read in any letter case, and the closed-like values `Resolved`, `Closed`, `OK` and `Cleared` count as a recovery too. A recovery never opens an incident: with nothing open for that subject it is dropped. Any other value, or a missing `Status:` line, opens or updates an incident. Resolving in Spike does not change anything in Hawkeye.
 
 {% hint style="warning" %}
 Auto-resolve depends on Hawkeye sending a recovery email, which happens with the **Status Change** alarm option, and on the subject being the same in the failure and the recovery email. There is a 30 MB payload limit.
