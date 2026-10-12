@@ -19,14 +19,15 @@ In Spike, go to **Integrations → Add integration → APImetrics**, attach it t
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-## Step 2 — Add a webhook alert action in APImetrics
+## Step 2 — Add a Generic webhook action in APImetrics
 
-1. Sign in to APImetrics and open the **Alerts** area of the dashboard.
-2. Create a new **alert action** and choose the **Webhook** type.
-3. Paste the Spike webhook URL from Step 1 into the **URL** field and save.
-4. Attach the action to the alert that watches your API calls (for example **All Failures**), and choose the results that should trigger it: **Fail**, **Warning**, **Slow** and **Pass**. Pass is what resolves the incident, so keep it selected.
-
-The menu names in APImetrics change from time to time; look for the alert action or webhook option on the Alerts screens.
+1. Sign in to APImetrics, open your project and choose **Alerts & Webhooks** in the left-hand navigation.
+2. Click **+ Add new action**.
+3. Set **Type** to **Generic** and give the action a name, for example `Spike`.
+4. Toggle on the triggers **Fail**, **Warning**, **Slow** and **Pass**. Pass is what resolves the incident, so keep it on.
+5. Optionally use **Include tags** and **Exclude tags** to limit which API calls page Spike, and set **Only alert after this many failures in a row** (0 alerts on every result).
+6. Paste the Spike webhook URL from Step 1 into the **URL** field. Leave **HTTP Headers** empty and **Authentication** at **None**.
+7. Make sure the **Enabled** toggle is on, and click **Save**.
 
 ## What APImetrics sends
 
@@ -70,9 +71,9 @@ APImetrics posts this JSON body when an API call fails. Spike reads `call_id`, `
 | Field | Required | Used for |
 | --- | --- | --- |
 | `call_id` | Yes | Identifies the monitored API call. It is the same on every run, so repeat failures join one incident and a pass resolves it |
-| `result_class` | Yes | `FAIL`, `WARNING` and `SLOW` open or update an incident. `PASS` resolves it. The class is added to the title for slow and warning results |
+| `result_class` | Yes | `PASS` resolves the incident (`OK`, `RESOLVED`, `CLOSED` and `CLEARED` count as a pass too, in any case). Any other value, such as `FAIL`, `WARNING` or `SLOW`, opens or updates an incident. The class is added to the end of the title |
 | `context._notification.description` | Recommended | APImetrics' own sentence about what is wrong. It becomes the incident title |
-| `context._notification.title` | Recommended | The fallback title, and the source of the call name when the description has none |
+| `context._notification.title` | Recommended | The title when `call_id` is missing, and the call name when the description has no link |
 | `result` | Optional | A machine code such as `DOWNLOAD_ERROR`, used in the title only when the description has no text |
 
 Every other field (`result_id`, `location_id`, `result_url`, `call_url`, `response_time`, `response_size`, `context._result_category`, `context._result_streak`) is stored with the incident and not read for the title.
@@ -101,20 +102,24 @@ When the call passes, APImetrics sends the same shape with `result_class` set to
 
 ## Incident title
 
-The title is APImetrics' own sentence about the fault. A failure reads as APImetrics wrote it, and a slow or warning result carries its class at the end:
+The title is APImetrics' own sentence about the fault: the lead line of `context._notification.description`, its first finding, its last finding when that is different, and the result class. HTML, links and the "View details here" sign-off are removed:
 
 ```
-API Call "Checkout - Create order" has failed: Couldn't resolve host 'api.acme-shop.com'
-API Call "Checkout - Create order" was slow: The API responded in 5.3 seconds (SLOW)
+API Call "Checkout - Create order" has failed: We could not connect to the API. Couldn't resolve host 'api.acme-shop.com' (FAIL)
+API Call "Checkout - Create order" was slow: The API responded in 5.3 seconds. (SLOW)
 ```
 
-It is built from the lead line of `context._notification.description`, then its findings, with HTML, links and the "View details here" sign-off removed. Titles are capped at 200 characters. If the description has no text, the title falls back to the result code and call name, for example `DOWNLOAD_ERROR on API Call "Checkout - Create order" (FAIL)`. If `call_id` is missing, the title is the plain notification title, for example `APImetrics: All Failures: Checkout - Create order`, and Spike matches repeats and recoveries by that title. A pass is titled `API Call "Checkout - Create order" is passing again`.
+Titles are capped at 200 characters by shortening the findings; the call name and the class are always kept. If the description has no list, its whole text is used. If it has no text at all, the title falls back to the result code and call name, for example `DOWNLOAD_ERROR on API Call "APImetrics: All Failures: Checkout - Create order" (FAIL)`, where the call name comes from the notification title.
+
+If `call_id` is missing, the title is the plain notification title, for example `APImetrics: All Failures: Checkout - Create order`, and Spike matches repeats and recoveries by that title. A pass is titled `API Call "<call name>" is passing again (PASS)`, or `APImetrics API call is passing again (PASS)` when the pass carries no notification.
 
 Use a [Title Remapper](../alerts/title-remapper.md) if you prefer a different format.
 
 ## Auto resolve
 
 An incident is matched by `call_id`. Repeat failures of the same call join the open incident instead of paging again, and a `PASS` for that `call_id` resolves it. A pass with no matching open incident is dropped.
+
+Without a `call_id`, a pass resolves the incident only when it carries the same `context._notification.title` as the failure that opened it; a pass without a notification title cannot be matched and leaves the incident for you to resolve.
 
 {% hint style="warning" %}
 A call runs from several APImetrics locations, but the incident is identified by the call alone. A pass from one location can resolve an incident that is still failing from another, and the next failure opens it again.
