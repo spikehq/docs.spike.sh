@@ -221,6 +221,7 @@
 * [Integrate Spike with Uptime Kuma](integrations-guideline/integrate-spike-with-uptime-kuma.md)
 * [Integrate Spike with Uptime Robot](integrations-guideline/integrate-spike-with-uptime-robot.md)
 * [Integrate Spike with Uptrends](integrations-guideline/integrate-spike-with-uptrends.md)
+* [Integrate Spike with Uptycs](integrations-guideline/integrate-spike-with-uptycs.md)
 * [Integrate Spike with Wavefront](integrations-guideline/integrate-spike-with-wavefront.md)
 * [Integrate Spike with WhatsUp Gold](integrations-guideline/integrate-spike-with-whatsup-gold.md)
 * [Integrate Spike with Wiz](integrations-guideline/integrate-spike-with-wiz.md)
