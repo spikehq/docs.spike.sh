@@ -61,7 +61,7 @@ Spike will automatically group repeated incidents and also suppress alerts while
 Optional fields that sharpen the incident: `orgIdentifier`, `projectIdentifier`, `pipelineName`, `stageName`, `stageIdentifier`, `stepName`, `triggerName` and `errorMessage`.
 
 {% hint style="warning" %}
-Do not use a custom notification template. Spike reads the standard `eventData` body shown below. A custom template may drop the wrapper, and then Spike cannot match a recovery to its failure by pipeline.
+Do not use a custom notification template. Spike reads the event type and the pipeline identifier only from the standard `eventData` body shown below. If a custom template drops the `eventData` wrapper, Spike cannot tell one kind of event from another, so every notification is treated as a failure: a Pipeline Success or Pipeline Start with nothing open opens and pages a new incident, and no incident is ever resolved automatically. Such incidents are matched by their plain title, for example `Pipeline failed — deploy-payments-api`.
 {% endhint %}
 
 **Test the Integration:**
@@ -141,6 +141,20 @@ Recovery example:
 * `eventData.stepName` - Step shown in the title for `StepFailed`
 * `eventData.triggerName` - Trigger shown in the title for `TriggerFailed`
 * `eventData.errorMessage` - Harness's own description of the failure, used as the incident title
+
+The event type is read ignoring case.
+
+## Incident titles
+
+A failure leads with Harness's own sentence, without the trailing `Please check execution logs.` and its final period, followed by where it failed:
+
+```
+Shell Script execution failed — deploy-payments-api
+```
+
+A stage failure adds the stage (`deploy-payments-api › Deploy to prod`), a step failure the stage and step, and a trigger failure the trigger (`deploy-payments-api (trigger nightly-main)`). Titles are capped at 200 characters by shortening Harness's sentence.
+
+When `eventData.pipelineIdentifier` is missing or empty, Spike groups by the title instead, so the title leaves the sentence out and stays the same on every run: `Pipeline failed — deploy-payments-api`. A recovery is logged as `Pipeline deploy-payments-api succeeded` or `Stage Deploy to prod succeeded in deploy-payments-api`.
 
 {% hint style="success" %}
 This integration supports auto-resolution. When the pipeline succeeds, the open incident for that pipeline is resolved automatically.
