@@ -32,6 +32,8 @@ All four carry a lifecycle in `notification.status`, and all three of its values
 | `ongoing` | Tideways is re-notifying because the breach is still going | Lands on the incident already open and never pages again. If nothing is open — because the `opened` notification was never delivered — it opens one, since a breach nobody has been told about is a breach somebody should be paged for |
 | `closed` | Tideways closed the alert because the reading came back under the threshold | Auto-resolves the open incident. Dropped when nothing is open |
 
+`resolved`, `ok` and `cleared` are read as `closed` too.
+
 ### Exceptions and slow SQL queries
 
 | `type` | The check in Tideways | What happens in Spike |
@@ -46,18 +48,18 @@ An error group has no `notification.status` — it has a state of its own in `no
 | `new`, `open` | Still firing. Opens an incident, or lands on the one already open for that group |
 | `resolved`, `not_error`, `ignored` | Auto-resolves the open incident. Dropped when nothing is open |
 
-Anything Tideways sends here that is not one of those five is treated as still firing. An extra incident costs a click; a swallowed alert costs an outage.
+`closed`, `ok` and `cleared` are read as `resolved` too. Anything else is treated as still firing. An extra incident costs a click; a swallowed alert costs an outage.
 
 ### Everything else
 
 | `type` | The notification in Tideways | What happens in Spike |
 | --- | --- | --- |
 | `missing-data` | A service stopped sending data | Opens an incident and pages your escalation policy. A repeat of the same condition lands on it |
-| `release` | A release was deployed | Opens an incident. Informational — see the hint below |
-| `compare_release` | Tideways compared a release with the one before it | Opens an incident. Informational — see the hint below |
-| `weekly_report` | The week's digest | Opens an incident. Informational — see the hint below |
+| `release` | A release was deployed | Opens an incident, or lands on the open one with the same title. Informational — see the hint below |
+| `compare_release` | Tideways compared a release with the one before it | Titled like a release (`Release {name} on {project}`), so it lands on that release's incident while it is open. Informational — see the hint below |
+| `weekly_report` | The week's digest | Titled the same every week, so each report lands on the open report incident, or reopens it once resolved: one incident per project, not one per week. Informational — see the hint below |
 
-A `type` Spike has never seen — Tideways adds checks, and you can tick one the day it ships — still opens an incident, titled with the name of the check and your project, for example `Uptime monitor alert on storefront`. Spike would rather page you about a check it does not know than drop it.
+A `type` Spike has never seen — Tideways adds checks, and you can tick one the day it ships — still opens an incident, titled `Tideways alert with no details`. Spike would rather page you about a check it does not know than drop it; the whole payload is on the incident page.
 
 {% hint style="warning" %}
 **Leave Weekly report, Release and Release comparison unticked** unless you genuinely want to be paged for them. They are informational: nothing is wrong, and nothing ever arrives to resolve them, so each one opens an incident somebody has to acknowledge and resolve by hand. If you do want them in Spike, point them at a separate Spike integration on a service with no escalation policy, or set a [resolve timer](../incidents/resolve-timer.md) on the integration.
@@ -71,23 +73,25 @@ Which notifications land on one incident is decided by the id Tideways repeats a
 
 * **Threshold breaches** are identified by `notification.incident_id`. Tideways sends the same number on the `opened`, on every `ongoing` and on the `closed`, so one breach is one incident: it pages once, the re-notifications land on it, and the `closed` resolves it. Older Tideways installs send that id only under the vendor's own misspelled `notification.incidient_id`; Spike reads both spellings, so an older install groups just as well.
 * **Exceptions and slow SQL queries** are identified by `notification.error_group.id`. Every later occurrence of the same group, and the notification that says somebody resolved it, carries that id, so a group that fires fifty times is one incident.
-* **`missing-data`, `release`, `compare_release`, `weekly_report`** and any unrecognised `type` carry no id at all. Spike groups those on the title instead, which is why their titles deliberately hold nothing that moves between two deliveries — no reading, no timestamp, no week's numbers. A `missing-data` notification repeated an hour later reads identically and lands on the incident it already opened.
+* **`missing-data`, `release`, `compare_release`, `weekly_report`** and any unrecognised `type` carry no id at all, and a threshold or error-group notification whose id is missing, blank or an unfilled template variable is treated the same way. Spike groups those on the title instead, which is why their titles deliberately hold nothing that moves between two deliveries — no reading, no timestamp, no week's numbers. A `missing-data` notification repeated an hour later reads identically and lands on the incident it already opened.
 
 Identity is the alert, not the check. Two transactions breaching their own response-time thresholds are two `notification.incident_id`s, so they are two incidents.
 
 ## Incident title
 
-Tideways writes its own sentence about a PHP fault, so for an exception that sentence is the start of the title, followed by the method it fired in and the project:
+Tideways writes its own sentence about a PHP fault, so for an exception that sentence is the title, with nothing added:
 
 ```
-Allowed memory size of 134217728 bytes exhausted (tried to allocate 32768 bytes) in web_profiler.controller.profiler:panelAction on storefront
+Allowed memory size of 134217728 bytes exhausted (tried to allocate 32768 bytes)
 ```
 
-A slow SQL query has no such sentence — Tideways sends `notification.error_group.lastMessage` as `null` — so the readable description it does send is used, with the repository method and the project after it. A fully qualified PHP name is written as the leaf, because a backslash reads as an escape sequence in a phone notification rather than as a separator:
+A slow SQL query has no such sentence — Tideways sends `notification.error_group.lastMessage` as `null` — so the readable description it does send is used, with the repository method and the project after it, names written as Tideways sent them:
 
 ```
-New slow SELECT query on orders in OrderRepository::findOpenOrders on storefront
+New slow SELECT query on orders in AppBundle\Repository\OrderRepository::findOpenOrders on storefront
 ```
+
+The same `{description} in {method} on {project}` title is used for an exception whose notification carries no usable `error_group.id`, because without an id Spike groups on the title and `lastMessage` changes with each occurrence.
 
 A threshold breach carries no sentence at all, so the title is built from the check, how far past the threshold the reading went, and where:
 
@@ -98,23 +102,24 @@ Transaction response time up 64% (1,230 vs 750 threshold) on checkout::confirmAc
 Failure rate 12.5 % vs 5 % threshold on checkout::confirmAction [web/production]
 ```
 
+Without a usable `notification.incident_id` (or `incidient_id`) Spike groups on the title, so it carries no reading: `Response time threshold breached on storefront`.
+
 The percentage is Spike's own arithmetic on `notification.value` against `notification.criticalThreshold`, printed only when both read as numbers and the difference is at least 1%. The readings themselves are printed as Tideways sent them, so a title read beside Tideways' own screen shows the same numbers that screen does. The last line above is the one payload type that sends no `criticalThreshold`: Tideways' own `notification.formatted_value` and `notification.formatted_threshold` are echoed verbatim, spacing included, and nothing is computed. A breach whose readings did not arrive at all degrades to `Response time threshold breached on storefront` rather than guessing.
 
-The two recoveries read as recoveries, each in Tideways' own words:
+A threshold recovery reads as a recovery, in Tideways' own word:
 
 ```
 Response time back to normal on storefront
-[RESOLVED] Allowed memory size of 134217728 bytes exhausted (tried to allocate 32768 bytes) in web_profiler.controller.profiler:panelAction on storefront
 ```
 
-An error group's state leads the title, because a phone notification, an email subject and a Slack line all cut a long title from the end — and it is Tideways' own state, so a group moved to `ignored` or `not_error` reads `[IGNORED]` or `[NOT AN ERROR]` rather than claiming somebody fixed it.
+An error group keeps its title when somebody moves it on in Tideways; the incident is resolved on `notification.error_group.id`.
 
 And the notifications with no id are titled so that a repeat reads identically:
 
 ```
 No data from web (production) on storefront for at least 24h
 Release 2026.10.08-1 on storefront
-Release comparison for 2026.10.08-2 on storefront
+Release 2026.10.08-2 on storefront
 Weekly report for storefront
 ```
 
@@ -130,9 +135,11 @@ Use a [Title Remapper](../alerts/title-remapper.md) if your team reads these by 
 {{data.body.notification.transaction}} on {{data.body.application}} ({{data.body.notification.environment}})
 ```
 
+A remapper does not affect threshold breaches and error groups that carry their id. The notifications Spike groups on the title (`missing-data`, releases, weekly reports, and any notification without a usable id) are matched on the title Spike builds, before any remapper runs, against the title stored on the open incident — and a remapper changes that stored title, so with a remapper on the integration their repeats open new incidents.
+
 ## Severity
 
-Spike does not read a severity from the Tideways payload, because Tideways does not send one — a notification is sent at all only because the check you configured said it was worth sending. Incidents open at your integration's default.
+Spike does not read a severity from the Tideways payload, because Tideways does not send one — a notification is sent at all only because the check you configured said it was worth sending. Use an [alert rule](../alerts/alert-rules.md) to set one.
 
 If you want different levels on the badge, write an [alert rule](../alerts/alert-rules.md) on `type`, on `notification.status` or on `notification.value`. Alert rules can also route an incident to another service or escalation policy, or suppress it entirely. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
@@ -196,7 +203,7 @@ Leave **Weekly Report**, **Release** and **Release Comparison** unticked unless 
 
 ## Step 4 — Confirm it end to end
 
-Tideways has no "send me a test notification" button for a webhook, so the first real alert is the test. Watch for all three moments:
+Treat the first real alert as the test. Watch for all three moments:
 
 1. A check crosses its threshold and an incident opens in Spike, titled with the check, the reading and your project, on the service you attached, escalating through your policy.
 2. Tideways re-notifies while the breach lasts, and that lands on the same incident — a second event on it, not a second page.
@@ -283,7 +290,7 @@ An `exception`, which carries `notification.error_group` instead of an incident 
 ```
 
 ```
-Allowed memory size of 134217728 bytes exhausted (tried to allocate 32768 bytes) in web_profiler.controller.profiler:panelAction on storefront
+Allowed memory size of 134217728 bytes exhausted (tried to allocate 32768 bytes)
 ```
 
 The same group once somebody moves it on in Tideways. `error_group.status` is the only field that changed, and it is what resolves the incident:
@@ -309,7 +316,7 @@ The same group once somebody moves it on in Tideways. `error_group.status` is th
 ```
 
 ```
-[RESOLVED] Allowed memory size of 134217728 bytes exhausted (tried to allocate 32768 bytes) in web_profiler.controller.profiler:panelAction on storefront
+Allowed memory size of 134217728 bytes exhausted (tried to allocate 32768 bytes)
 ```
 
 A `transaction-failure-rate`, the one payload type that sends Tideways' own formatted numbers and no `criticalThreshold`, plus the three fields that say where:
@@ -431,7 +438,7 @@ Expected, and harmless. A recovery reads `Response time back to normal on storef
 
 Spike could not read anything at all from the delivery — an empty body, or a body that is not the Tideways envelope. Spike opens an incident for an unreadable delivery rather than dropping something that might be a real alert. Acknowledge it, resolve it, and send the payload on the incident page to Spike support if it keeps happening.
 
-A delivery titled after a check you do not recognise, such as `Uptime monitor alert on storefront`, is a different thing: that is a Tideways check Spike has no special handling for yet, and the incident is real.
+It is also the title of a Tideways check Spike has no handling for yet: if the incident page shows a full Tideways envelope with a `type` you do not recognise, the incident is real.
 
 </details>
 
@@ -439,7 +446,7 @@ A delivery titled after a check you do not recognise, such as `Uptime monitor al
 
 <summary>The severity badge is always the same</summary>
 
-Expected. Tideways sends no severity, so incidents open at your integration's default. An [alert rule](../alerts/alert-rules.md) on `type`, `notification.status` or `notification.value` can set whatever severity you want, and can also route or suppress the incident.
+Expected. Tideways sends no severity, so Spike sets none from the payload. An [alert rule](../alerts/alert-rules.md) on `type`, `notification.status` or `notification.value` can set whatever severity you want, and can also route or suppress the incident.
 
 </details>
 
