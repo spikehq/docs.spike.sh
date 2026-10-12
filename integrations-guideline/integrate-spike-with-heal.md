@@ -101,7 +101,7 @@ If step 1 works and step 3 does not, check that the closed email reaches the Spi
 
 ## Email reference
 
-HEAL's email reaches Spike as an inbound email, and these are the fields Spike reads. Alert rules and the Title Remapper can read them as `data.body.<field>`.
+HEAL's email reaches Spike as an inbound email, and these are the fields Spike reads. Spike keeps `subject`, `text`, `html`, `from` and `to` on the incident under `details`, so alert rules and the Title Remapper read them as `data.body.details.<field>`, for example `{{data.body.details.subject}}`. `envelope` is used only to route the email and is not kept.
 
 | Field | What Spike uses it for |
 | --- | --- |
@@ -112,7 +112,7 @@ HEAL's email reaches Spike as an inbound email, and these are the fields Spike r
 | `text` | HEAL's status sentence, the severity, the applications and the signal summary |
 | `html` | The HTML version, used when `text` is empty and shown in the incident preview |
 
-Spike adds the following to the incident from those fields:
+Spike adds the following to the incident from those fields. They sit next to the email's fields, so alert rules and the Title Remapper read them the same way, for example `{{data.body.details.signal_id}}`:
 
 | Field | Value |
 | --- | --- |
