@@ -22,7 +22,7 @@ Every notification carries a `state` — Metoro's `$alert_state`, which the vend
 | `firing` | Opens an incident for that firing and pages your escalation policy, or adds an event to the one already open |
 | `resolved` | Auto-resolves the open incident. Dropped when nothing is open — it never opens an incident of its own |
 
-Nothing else is read as a recovery. In particular `resolved_at` is kept on the incident and never interpreted: on a firing notification it can arrive as `""`, as `"0"` or as the literal `"$resolved_at"` depending on how Metoro substitutes it, and a recovery guessed out of a timestamp would stop the paging for a problem nobody has fixed.
+`cleared`, `closed` and `ok` are read as `resolved` too, in any casing. Nothing else is read as a recovery. In particular `resolved_at` is kept on the incident and never interpreted: on a firing notification it can arrive as `""`, as `"0"` or as the literal `"$resolved_at"` depending on how Metoro substitutes it, and a recovery guessed out of a timestamp would stop the paging for a problem nobody has fixed.
 
 ### Incident identity
 
@@ -34,6 +34,8 @@ Spike identifies the incident by `alert_fire_uuid`, Metoro's `$alert_fire_uuid` 
 | `alert_uuid` only | The alert definition's uuid |
 | Neither | The incident title, which is why a title with no uuid behind it never carries a number. See [Incident titles](#incident-titles) |
 
+A uuid that arrives as a variable Metoro did not substitute — the literal `$alert_fire_uuid`, or `{{alert_fire_uuid}}`, `<alert_fire_uuid>`, `%alert_fire_uuid%` — counts as no uuid at all, so it can never tie two different alerts together.
+
 `alert_uuid` is a fallback and never a preference, because every group of a grouped alert shares one `alert_uuid`. Preferring it would let one group's recovery resolve a sibling group's incident — a second service's page going quiet while it is still broken.
 
 {% hint style="success" %}
@@ -42,21 +44,21 @@ Auto-resolution needs nothing switched on in Spike. Tick **Notify when alarm rec
 
 ## Incident titles
 
-`description` is Metoro's `$alert_description` — the sentence your own alert rule gives for what is wrong — so when it reads as a title, it **is** the title:
+`description` is Metoro's `$alert_description` — the sentence your own alert rule gives for what is wrong — and whenever it is filled in, it **is** the title:
 
 ```
 checkout-api is returning 5xx on more than 2% of requests for the last 5 minutes
 ```
 
-A responder woken at 3am learns more from that than from any line Spike could assemble out of the parts, so nothing is added to it and nothing is cut out of it.
+Nothing is added to it. A description longer than 200 characters is cut at the last whole word that fits; the full text stays on the incident page.
 
-The description box takes free prose, though, and a paragraph is not a title. A `description` longer than 120 characters — about the two lines a phone notification shows — is left on the incident page, and the title is **built** instead out of the parts Metoro's own alert screen shows in columns:
+When the description box is empty, the title is **built** out of the parts Metoro's own alert screen shows in columns:
 
 ```
 checkout-api 5xx rate high — http.server.request.count 4.7 on checkout-api (production)
 ```
 
-That is `{alert_name} — {metric_name} {value} on {where}`, and whichever of those parts your payload supports. The same line is used when the description box is simply empty.
+That is `{alert_name} — {metric_name} {value} on {where}`, and whichever of those parts your payload supports. It needs `alert_name`.
 
 `{where}` is `service`, then `environment`, then the first pair of the group-by `attributes`. Both names go in when both read (`checkout-api (production)`), because an alert on `checkout-api` in staging is not the one in production. It goes last in the line so that shortening can never take it, and the measurement clause is the first thing dropped if the line runs past 200 characters.
 
@@ -74,7 +76,7 @@ Values are rounded for reading rather than printed raw: whole numbers from ten u
 
 ### Recoveries
 
-A recovery reads the same way in the past, with nothing in it that moves:
+A recovery is `Recovered: ` followed by the description (or, when that is empty, the alert name), with nothing in it that moves:
 
 ```
 Recovered: checkout-api is returning 5xx on more than 2% of requests for the last 5 minutes
@@ -86,10 +88,9 @@ The value on a recovery is the value that came back under the threshold, which i
 
 | What arrived | Title |
 | --- | --- |
-| A description that reads as a title | That sentence, used whole |
-| A long description, or none | `{alert_name} — {metric_name} {value} on {where}` |
-| No name and no description, but a metric | `{metric_name} {value} on {where}` |
-| A Guardian notification | Its `title`, else its `message` cut to one line |
+| A description | That sentence, cut at a whole word past 200 characters |
+| No description, but an alert name | `{alert_name} — {metric_name} {value} on {where}` |
+| A Guardian notification | Its `title`, else its `message`, cut at a whole word past 200 characters |
 | Nothing readable | `Metoro alert with no details` |
 
 {% hint style="info" %}
@@ -171,7 +172,7 @@ Three of those lines carry the behaviour and should never be edited out:
 
 * **`state`** is the only thing that tells a firing from a recovery. Without it every recovery opens a new incident and nothing ever auto-resolves.
 * **`alert_fire_uuid`** is how Spike recognises the same firing twice. Without it repeats and recoveries have to be matched by title.
-* **`description`** or **`alert_name`** — at least one — is what the incident is called. With neither, the incident is titled from the metric, and with nothing at all it reads `Metoro alert with no details`.
+* **`description`** or **`alert_name`** — at least one — is what the incident is called. With neither, the incident reads `Metoro alert with no details`.
 
 The rest is what the responder reads on the incident page. Keep the quotes around every value, including the uuids and `$breaching_datapoint_value`: Metoro substitutes plain text, so an unquoted value can produce JSON that does not parse.
 
@@ -257,8 +258,8 @@ Every field in the template, the Metoro variable behind it, and what Spike does 
 | `state` | `$alert_state` | Firing or recovery. **Required** for auto-resolution |
 | `alert_fire_uuid` | `$alert_fire_uuid` | Incident identity. **Required** for reliable grouping |
 | `alert_uuid` | `$alert_uuid` | Fallback identity, for a payload with no fire uuid |
-| `description` | `$alert_description` | The incident title when it reads as one |
-| `alert_name` | `$alert_name` | The title when `description` is long or empty |
+| `description` | `$alert_description` | The incident title whenever it is filled in |
+| `alert_name` | `$alert_name` | Heads the built title when `description` is empty |
 | `metric_name` | `$metric_name` | Part of the built title |
 | `value` | `$breaching_datapoint_value` | The number in a built title, when a uuid is present |
 | `attributes` | `$attributes` | The place in a built title, when `service` and `environment` are empty |
@@ -285,7 +286,7 @@ Point a [Title Remapper](../alerts/title-remapper.md) at the Metoro integration 
 Open the remapper against a real incident first — the preview shows the body your own template produces, which is the quickest way to find the field you want.
 
 {% hint style="warning" %}
-If your alerts reach Spike without `alert_fire_uuid` or `alert_uuid`, do not remap onto `value`, `fired_at` or `resolved_at`. Spike has to match those incidents by title, and a title that moves between notifications opens a new incident each time.
+Only remap the title when your alerts reach Spike with `alert_fire_uuid` or `alert_uuid`. Without a uuid Spike matches the next notification on the title it builds itself, before any remapper runs, against the title stored on the open incident — and a remapper changes that stored title. With any remapper on the integration, uuid-less repeats open new incidents and their recoveries stop resolving.
 {% endhint %}
 
 ## Things worth knowing
@@ -315,8 +316,8 @@ If it is listed, check the **URL** on the webhook character for character agains
 Three things to check, in this order:
 
 1. **Notify when alarm recovers** is ticked on the alert, and the recovery destination is the same Spike webhook. Without the tick Metoro never sends a recovery at all.
-2. The body template still has `"state": "$alert_state"` in it, spelled exactly that way. Spike resolves on the value `resolved` under `state` (or under `alert_state`) and on nothing else — not on `resolved_at` being filled in.
-3. The body template still has `"alert_fire_uuid": "$alert_fire_uuid"` in it. Without a uuid the recovery has to match the open incident by title, which only works if the incident was opened by the same integration.
+2. The body template still has `"state": "$alert_state"` in it, spelled exactly that way. Spike resolves on the value `resolved` (or `cleared`, `closed`, `ok`) under `state` (or under `alert_state`) and on nothing else — not on `resolved_at` being filled in.
+3. The body template still has `"alert_fire_uuid": "$alert_fire_uuid"` in it, and Metoro substitutes it: open a notification on the incident page and check the value is a uuid, not the text `$alert_fire_uuid`. Metoro's alert destinations page spells this variable `$fire_alert_uuid`; if yours arrives unsubstituted, try that spelling. Without a uuid the recovery has to match the open incident by title, which only works if the incident was opened by the same integration and no title remapper is set on it.
 
 </details>
 
@@ -326,7 +327,7 @@ Three things to check, in this order:
 
 The body is reaching Spike without `alert_fire_uuid` and without `alert_uuid`, so each notification was matched by title — and a title carrying a value that moves is a different title each time. Put both uuid lines back in the [body template](#the-body-template).
 
-Note that Spike already drops the value from a title when neither uuid is present, so this happens with a hand-written body rather than with the template on this page.
+Note that Spike already drops the value from a title when neither uuid is present, so with the template on this page this happens when the uuids arrive unsubstituted (see the `$fire_alert_uuid` note under **Incidents open but never resolve**) or when a [title remapper](#rewriting-the-title) is set on the integration.
 
 </details>
 
@@ -334,9 +335,9 @@ Note that Spike already drops the value from a title when neither uuid is presen
 
 <summary>The title says the wrong thing, or reads as a paragraph</summary>
 
-The title comes from your own alert rule's **description** when that description reads as a title, and from the rule's name, metric and value when it does not. If an incident is titled from the rule name and you expected the description, the description is longer than 120 characters — shorten it in Metoro, or [remap the title](#rewriting-the-title).
+The title comes from your own alert rule's **description** whenever it is filled in, cut at a whole word past 200 characters, and from the rule's name, metric and value when it is empty. If the title is a paragraph, shorten the description in Metoro, or [remap the title](#rewriting-the-title).
 
-If the title reads `Metoro alert with no details`, nothing in the body substituted to anything readable: check the variable names in the template for typos, since Metoro leaves an unknown `$variable` in the body as written and Spike ignores a value that still starts with `$`.
+If the title reads `Metoro alert with no details`, nothing in the body substituted to anything readable: check the variable names in the template for typos, since Metoro leaves an unknown `$variable` in the body as written and Spike ignores a value that is still an unsubstituted variable.
 
 </details>
 
