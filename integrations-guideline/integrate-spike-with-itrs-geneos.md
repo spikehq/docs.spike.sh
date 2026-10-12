@@ -85,6 +85,15 @@ Make sure a rule or **Alerting** → **Alerts** entry matches the data items you
 
 Trigger a test alert, or wait for a real one. The incident appears on the service in Spike within seconds.
 
+## Alternative: run the script from a Rule Action
+
+If you raise alerts from rules rather than from an Alerting hierarchy, run the same script as a **Script** action:
+
+1. In the **Gateway Setup Editor**, go to **Actions**, add an action named `Spike`, choose **Script** as its type, and point it at `spike-geneos.sh`.
+2. In the rule that sets the data item's severity, run the `Spike` action when the severity is raised (for example `run "Spike"` in the branch that sets `severity critical`), **and** in the branch that sets the severity back to `ok`.
+
+A Rule Action sends no `_ALERT_TYPE`. Spike then reads `_SEVERITY` instead: `OK` (or `_CLEAR` of `TRUE`) resolves the incident and any other severity fires. If the action does not also run when the severity returns to `ok`, incidents from it never resolve on their own.
+
 ## Payload
 
 The script sends one JSON object per alert. All values are strings, and a field Geneos leaves empty is sent as an empty string. This is the body of a firing alert:
@@ -145,10 +154,10 @@ And this is the body Geneos sends when the same alert clears:
 
 | Field | Required | How Spike uses it |
 | --- | --- | --- |
-| `_VARIABLEPATH` | Yes | The identity of the alert. Firing, repeats, escalations and the clear all carry the same path, so they share one incident. |
+| `_VARIABLEPATH` | Yes | The identity of the alert. Firing, repeats, escalations and the clear all carry the same path, so they share one incident. When it is empty, Spike matches notifications by their plain title instead (see [Incident title](#incident-title)). |
 | `_ALERT_TYPE` | Yes | `Clear` (or `Delete`) resolves the incident. `Alert` and `Resume` fire. `Suspend` and `ThrottleSummary` never open an incident. Compared case-insensitively. Empty when the script is run from a Rule Action. |
-| `_CLEAR` | Yes | `TRUE` marks a clear. Used when `_ALERT_TYPE` is empty. |
-| `_SEVERITY` | Yes | `UNDEFINED`, `OK`, `WARNING`, `CRITICAL` or `USER`. Shown at the start of the title. When `_ALERT_TYPE` is empty, `OK` means recovered. |
+| `_CLEAR` | Yes | `TRUE` marks a clear. Used only when `_ALERT_TYPE` is empty; an `Alert` or `Resume` that carries `TRUE` still fires. |
+| `_SEVERITY` | Yes | `UNDEFINED`, `OK`, `WARNING`, `CRITICAL` or `USER`. Shown at the start of a firing title when `_VARIABLEPATH` is present. When `_ALERT_TYPE` is empty, `OK` means recovered. |
 | `_VALUE` | No | The reading that triggered the alert, shown in the title. |
 | `_ROWNAME`, `_COLUMN` | No | Together they name the table cell in the title. |
 | `_HEADLINE` | No | Names the item in the title when the alert is on a headline instead of a table cell. |
@@ -164,7 +173,7 @@ Send the whole body as shown, even for fields you expect to be empty.
 | `_ALERT_TYPE` | What happens in Spike |
 | --- | --- |
 | `Alert`, `Resume` | Opens an incident, or adds an event to the one already open for the same `_VARIABLEPATH` |
-| `Clear`, `Delete` | Resolves the open incident for that `_VARIABLEPATH` |
+| `Clear`, `Delete` | Resolves the open incident for the same data item: the same `_VARIABLEPATH`, or, when the alert has none, the same row, column, headline, sampler, dataview and managed entity. With nothing open, nothing is created |
 | `Suspend`, `ThrottleSummary` | Never opens an incident |
 | Empty (Rule Action) | `_CLEAR` of `TRUE` or `_SEVERITY` of `OK` resolves. Anything else fires |
 
@@ -176,20 +185,26 @@ Geneos sends no sentence describing the fault, so Spike builds the title from th
 
 | Notification | Title |
 | --- | --- |
-| Firing | `Critical: Average_cpu percentUtilisation is 97 in CPU on db-prod-03` |
-| Clear | `Cleared: Average_cpu percentUtilisation in CPU on db-prod-03` |
+| Firing (`Alert`, `Resume`), with `_VARIABLEPATH` | `Critical: Average_cpu percentUtilisation is 97 in CPU on db-prod-03` |
+| Firing, without `_VARIABLEPATH` | `Average_cpu percentUtilisation in CPU on db-prod-03` |
+| Clear, or Rule Action back to `OK` | `Cleared: Average_cpu percentUtilisation in CPU on db-prod-03` |
+| Suspend | `Suspended: Average_cpu percentUtilisation in CPU on db-prod-03` |
+| Delete | `Deleted: Average_cpu percentUtilisation in CPU on db-prod-03` |
+| ThrottleSummary | `Throttle summary on GW_PROD_LDN` |
+| Nothing usable in the body | `ITRS Geneos alert with no details` |
 
 The title has these parts:
 
 * **Severity** is `_SEVERITY` in title case.
 * **What** is `_ROWNAME` and `_COLUMN`, else `_HEADLINE`, else `_SAMPLER`.
+* **Dataview** is `_DATAVIEW`, shown as "in *dataview*" unless it is empty or the same as *what*.
 * **Value** is `_VALUE`. Numbers from 10 up are shown whole with thousands separators, numbers below 10 with two significant digits. Text is quoted and capped at 80 characters.
 * **Where** is the first non-empty of `_MANAGED_ENTITY`, `_NETPROBE_HOST`, `_PROBE`, `_GATEWAY`.
 
-The severity and value are shown only when `_VARIABLEPATH` is present. Without it, Spike can only match a repeat or clear by title, so it uses a plain title that never changes between notifications.
+The severity and value are shown only when `_VARIABLEPATH` is present. Without it, Spike can only match a repeat or clear by title, so it uses a plain title that never changes between notifications. A `_VARIABLEPATH` that still reads as an unexpanded variable name, such as `$_VARIABLEPATH`, counts as empty. Titles are capped at 200 characters.
 
 ## Troubleshooting
 
 * **No incident appears.** Run the script by hand on the Gateway host with the variables set (`_VARIABLEPATH=x _ALERT_TYPE=Alert ./spike-geneos.sh`) and check `curl` is not blocked by a proxy or firewall.
-* **Incidents do not resolve.** Check that the `Spike` effect is also used on the **Clear** notification, and that `_VARIABLEPATH` is not empty.
-* **Every notification opens a new incident.** `_VARIABLEPATH` is empty or missing. Confirm the script is run from an Alerting effect and that `jq` is installed.
+* **Incidents do not resolve.** Check that the `Spike` effect is also used on the **Clear** notification (or, for a Rule Action, that the action also runs when the severity returns to `ok`). A clear resolves only the incident for the same data item, so it must come from the same cell or headline as the alert.
+* **Severity and value are missing from the title.** `_VARIABLEPATH` arrived empty, so Spike fell back to the plain title. Confirm the script passes `--arg _VARIABLEPATH "$_VARIABLEPATH"` and that `jq` is installed. Repeats and clears still match the open incident by that plain title.
