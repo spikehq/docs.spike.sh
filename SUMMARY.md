@@ -122,6 +122,7 @@
 * [Integrate Spike with AWS](integrations-guideline/integrate-spike-with-aws.md)
 * [Integrate Spike with Axiom](integrations-guideline/integrate-spike-with-axiom.md)
 * [Integrate Spike with Better Uptime](integrations-guideline/integrate-spike-with-better-uptime.md)
+* [Integrate Spike with BitBar](integrations-guideline/integrate-spike-with-bitbar.md)
 * [Integrate Spike with Bitbucket Pipelines](integrations-guideline/integrate-spike-with-bitbucket-pipelines.md)
 * [Integrate Spike with Blue Triangle](integrations-guideline/integrate-spike-with-blue-triangle.md)
 * [Integrate Spike with BugBase](integrations-guideline/integrate-spike-with-bugbase.md)
