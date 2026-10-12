@@ -77,7 +77,11 @@ Open the monitor, and in its notification message add:
 {{#is_recovery}} @webhook-spike-resolve {{/is_recovery}}
 ```
 
-Write your message text inside these blocks. Whatever sentence you write there is sent as `$EVENT_MSG` and becomes the Spike incident title, for example: `Checkout API 5xx error rate is 12.4% which is above the alert threshold of 5% for checkout-api in prod-us-east`.
+Write your message text inside these blocks. The sentence you write there is sent as `$EVENT_MSG`, and becomes the Spike incident title when the alert carries both a monitor query and a group, for example: `Checkout API 5xx error rate is 12.4% which is above the alert threshold of 5% for checkout-api in prod-us-east`. The recovery's sentence titles the recovery.
+
+{% hint style="warning" %}
+Keep double quotes and line breaks out of the notification message. Edge Delta places it inside a JSON string, and if it does not escape them the body arrives as invalid JSON and no incident is created.
+{% endhint %}
 
 #### Example payload
 
@@ -101,4 +105,9 @@ An alert sends:
 }
 ```
 
-Spike groups repeat alerts from the same monitor query and group into one incident, and the recovery webhook resolves it automatically.
+### How Spike handles alerts and recoveries
+
+* **Grouping.** Spike groups repeat alerts with the same `monitor_query` and `group` into one incident, and the recovery webhook resolves that incident automatically. A recovery for a different group, or a different monitor, leaves the incident open.
+* **Alerts without a query or group.** If a monitor has no group-by, or `$EVENT_QUERY` or `$EVENT_GROUP_ALL` is missing from the body, Spike matches alerts by title instead. The title is then the monitor's name and group, `{title} on {group}`, with no reading, so every repeat lands on the same incident.
+* **Recoveries.** A recovery with no open incident to resolve is dropped; it never opens an incident. Spike treats a delivery as a recovery when `event_action` is `resolved` (or `recovered`, `closed`, `cleared`, `ok`). If `event_action` is missing, a `status` of `OK` is a recovery; `No Data` is not.
+* **Titles.** Titles are cut to 200 characters. With no message, the title is `{metric} at {value} in {group}`, or the monitor's name and group.
