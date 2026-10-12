@@ -22,7 +22,7 @@ Nothing is installed anywhere. There is no inbox: Spike reads each email as it a
 | An email with a different subject | A separate incident, paged on its own |
 | A "passed" or recovery style email | Treated like any other email: a new incident, not a resolution |
 
-Spike identifies one CloudQA alert by the email **subject**. If CloudQA puts a timestamp, run id or counter in the subject, every email has a different subject and opens its own incident.
+Spike identifies one CloudQA alert by the email **subject**, exactly as it arrives. If CloudQA puts a timestamp, run id or counter in the subject, every email has a different subject and opens its own incident. An email with no subject is grouped by its title instead.
 
 ## How incidents are titled
 
@@ -35,7 +35,7 @@ The title is CloudQA's own sentence about the failure: the first line of the ema
 | Nothing readable | The email subject, for example `TruMonitor Alert: Checkout - Place order failed` |
 | No subject and no body | `CloudQA alert with no details` |
 
-If the email has only an HTML part, Spike converts it to text first. A line that contains a link is skipped, and the next line is used.
+If the email has only an HTML part, Spike converts it to text first. Links are removed from the line; a line that only pointed at a link, such as `See <link> for details.` or `Details: <link>`, is skipped and the next line is used.
 
 The full body, with its suite, priority, browser and location lines, is shown on the incident, and the HTML version is rendered as an email preview.
 
@@ -52,23 +52,30 @@ In Spike, go to **Integrations → Add integration → CloudQA**, attach it to a
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-## Step 2 — Add the address to CloudQA's notifications
+## Step 2 — Add the Spike address to CloudQA
 
-In CloudQA, open the monitor or test suite you want to be paged for and add the Spike address to its email recipients, alongside or instead of your own. Repeat for each monitor or suite.
+CloudQA only offers recipients it already knows, so add the address first.
 
-{% hint style="info" %}
-CloudQA's screens change between releases, and no CloudQA documentation shows these screens. Look for the email recipients or notification settings of the TruMonitor monitor or the TruRT schedule. Any place that accepts an email address works.
+1. In CloudQA, open **Settings** and the **Integration** tab, and add the Spike email address from Step 1 as an email integration. The recipient autosuggest in the next step only offers addresses listed here.
+
+## Step 3 — Add an Email notification
+
+1. In **Settings**, open the **Notifications** tab and click **Add Notification**. Select the type **Email**.
+2. For **TruMonitor** alerts, choose the **Priority** that matches your test cases and the **Consecutive failure** count that should trigger an email.
+3. For **TruRT** test suite reports, set **Notify on** to **TestSuite Fails**, and under **TestSuite To Notify** choose **All Test Suites** or **Select Test Suites**.
+4. In the recipients, type the Spike address, select it from the autosuggest, and save the notification.
+
+{% hint style="warning" %}
+Do not choose **Always** or **TestSuite Pass** under **Notify on**. Spike cannot tell a passing report from a failing one, so every passing run would open an incident.
 {% endhint %}
 
-Choose when CloudQA sends the email. Spike can only open incidents from failure emails. A setting such as "Always" that also emails passing runs will open an incident for every pass, so notify on failure only.
+## Step 4 — Test it
 
-## Step 3 — Test it
-
-Send an email to the Spike address, or trigger a failing run in CloudQA. An incident should appear within a minute.
+Trigger a failing run in CloudQA, or forward an earlier CloudQA failure email to the Spike address. An incident should appear within a minute.
 
 ## Fields Spike reads
 
-You do not send these yourself when CloudQA emails Spike. They are the fields of the email as Spike receives it, and the example below is what a test delivery looks like.
+You do not send these yourself when CloudQA emails Spike. They are the fields of the email as Spike receives it, and the example below is what a CloudQA failure email looks like on arrival.
 
 | Field | Required | What Spike does with it |
 | --- | --- | --- |
