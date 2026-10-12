@@ -66,7 +66,7 @@ Alarm for Clients_GLOBAL_TMS Cleared on 103.122.191.63 / FL-HK2-GRE-ipv4 +1 more
 Clients_GLOBAL_TMS is clear on 103.122.191.63 / FL-HK2-GRE-ipv4 +1 more
 ```
 
-Titles are capped at 200 characters and carry no `AlarmID`, no portal URL and no timestamps. Those are all on the incident page. A body Spike can read nothing out of is titled `Kentik alert with no details` rather than dropped.
+`Description` is used whole. Titles are capped at 200 characters: over that, the reading goes first, then the end of `Description` is cut at a word, and the "where" is always kept. Titles carry no `AlarmID`, no portal URL and no timestamps. Those are all on the incident page. A body Spike can read nothing out of is titled `Kentik alert with no details` rather than dropped.
 
 {% hint style="info" %}
 A clear reads differently from the notification that opened the incident, and that is on purpose — the person scanning an event list needs to know which of their open incidents went away. It still resolves the right incident, because matching is done on `AlarmID` and never on the title.
@@ -338,8 +338,8 @@ Every other field — `AlarmSeverity`, `AlarmPolicyID`, `Links`, `AlarmStart`, `
 * **One channel covers every policy.** There is no setup per policy beyond selecting the channel. Create the channel once and attach it to as many policies as you want.
 * **Several Spike integrations are fine.** If different teams own different parts of the network, create one Spike integration per team and one Kentik notification channel per integration, then attach each channel to that team's policies.
 * **Resolving in Spike does not touch Kentik.** The alarm stays active in Kentik's alerting dashboard until the condition clears there.
-* **Kentik Synthetics alarms work the same way.** They carry `AlarmID` and `Description` like any other alarm, and are titled by Kentik's sentence with the test name as the "where", for example `Synthetics Test CHATGPT failed`.
-* **Custom notification templates still work, with a caveat.** If you already use one — Kentik's custom notification templates, or a template another vendor supplies — Spike unwraps an `Events` array and reads the same field names out of the first event. Make sure your template passes `AlarmID` and `CurrentState` through, or Spike loses alarm-level matching.
+* **Kentik Synthetics alarms work the same way.** They carry `AlarmID` and `Description` like any other alarm, and are titled by Kentik's sentence with the test name as the "where", for example `Synthetics Test CHATGPT failed on CHATGPT`.
+* **Custom notification templates still work, with a caveat.** If you already use one — Kentik's custom notification templates, or a template another vendor supplies — Spike unwraps an `Events` array and reads the same field names out of the first event. Make sure your template passes `AlarmID` and `CurrentState` through, or Spike loses alarm-level matching. An `AlarmID` that arrives as the unfilled placeholder itself (for example `{{.AlarmID}}`) counts as no `AlarmID`.
 * **Kentik's own email and Slack notifications are separate.** Anything you have already set up in Kentik keeps working; the Spike channel is additional, not a replacement.
 
 ## Troubleshooting
