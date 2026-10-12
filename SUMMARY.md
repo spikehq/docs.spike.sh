@@ -176,6 +176,7 @@
 * [Integrate Spike with NodePing](integrations-guideline/integrate-spike-with-nodeping.md)
 * [Integrate Spike with Oh-Dear](integrations-guideline/integrate-spike-with-oh-dear.md)
 * [Integrate Spike with Paessler PRTG](integrations-guideline/paessler-prtg.md)
+* [Integrate Spike with Pandora FMS](integrations-guideline/integrate-spike-with-pandorafms.md)
 * [Integrate Spike with Panther](integrations-guideline/integrate-spike-with-panther.md)
 * [Integrate Spike with Papertrail](integrations-guideline/integrate-spike-with-papertrail.md)
 * [Integrate Spike with Pingdom](integrations-guideline/integrate-spike-with-pingdom.md)
