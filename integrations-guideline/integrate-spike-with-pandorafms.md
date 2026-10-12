@@ -11,18 +11,26 @@ Point a Pandora FMS alert action at a Spike integration URL and a critical or wa
 
 ## How Spike reads the alert
 
-Spike identifies the incident by `alert_id`, the value of Pandora FMS's `_id_alert_` macro. One alert (an agent, module and template assignment) keeps the same ID across firing, re-firing and recovery, so they all belong to one Spike incident.
+Spike identifies the incident by `alert_id`, the value of Pandora FMS's `_id_alert_` macro. One alert (an agent, module and template assignment) keeps the same ID across firing, re-firing and recovery, so they all belong to one Spike incident. A message with no `alert_id`, an empty one, or the macro text `_id_alert_` left unexpanded is matched to an open incident by its title instead.
 
 The `event` field decides what Spike does with a message:
 
 | `event` | Meaning |
 | --- | --- |
 | `fired` | Opens an incident, or joins the one already open for this `alert_id`. A missing `event`, or any other value, is also treated as firing. |
-| `recovered` | Resolves the open incident for this `alert_id`. Compared case-insensitively. |
+| `recovered` | Resolves the open incident for this `alert_id`. Never opens an incident: a recovery with nothing open is dropped. Compared case-insensitively; `resolved`, `recovery`, `closed`, `cleared` and `ok` are read the same way. |
 
 You type `fired` and `recovered` yourself in the action, so these two literals are the only part of the body that is not a Pandora FMS macro.
 
-The incident title is built from the body: for example `CPU Load critical at 97% (threshold 90%) on web-prod-03`. The reading and threshold appear only when `alert_id` is present.
+The incident title is built from the body:
+
+| Message | Title | Example |
+| --- | --- | --- |
+| Firing, with `alert_id` | `{module} {status} at {data}{unit} (threshold {threshold}{unit}) on {agent}` | `CPU Load critical at 97% (threshold 90%) on web-prod-03` |
+| Firing, no `alert_id` | `{module} {severity} on {agent}`, with no readings | `CPU Load critical on web-prod-03` |
+| Recovery | `{module} recovered on {agent}` | `CPU Load recovered on web-prod-03` |
+
+`{module}` falls back to `alert_name` and `{agent}` to `address`. A message with none of the four is titled `Pandora FMS alert with no details`.
 
 ## Set up instructions
 
@@ -113,11 +121,11 @@ Force the module past its threshold, or use the alert's **Force** option in the 
 | --- | --- | --- |
 | `event` | typed by you | `fired` or `recovered` |
 | `alert_id` | `_id_alert_` | Identity of the alert across firing and recovery |
-| `alert_name` | `_alert_name_` | Template name; the "what" in the title when `module` is empty |
-| `severity` | `_alert_text_severity_` | Status word when `module_status` is empty or `Normal` |
+| `alert_name` | `_alert_name_` | Template name; the "what" in the title when `module` is empty, as in `Critical condition critical on web-prod-03` |
+| `severity` | `_alert_text_severity_` | Status word when `module_status` is empty or `Normal`, and always the status word in the plain title |
 | `agent` | `_agent_` | The "where" in the title (agent alias, or name when there is no alias) |
 | `address` | `_address_` | The "where" when `agent` is empty |
-| `agent_group` | `_agentgroup_` | Context only |
+| `agent_group` | `_agentgroup_` | Context only; never in the title |
 | `module` | `_module_` | The "what" in the title |
 | `module_status` | `_modulestatus_` | Status word: critical, warning, unknown |
 | `data` | `_data_` | The reading, when it is a number |
@@ -126,13 +134,13 @@ Force the module past its threshold, or use the alert's **Force** option in the 
 | `warning_threshold_min`, `warning_threshold_max` | `_warning_threshold_min_`, `_warning_threshold_max_` | Threshold cited when the module is warning |
 | `timestamp` | `_timestamp_` | Context only |
 
-A threshold is shown only when the minimum is a non-zero number and the maximum is `0` or empty. Anything else is left out of the title rather than guessed.
+The threshold shown is the one matching the status (`critical_*` for critical, `warning_*` for warning), and only when its minimum is a non-zero number and its maximum is `0` or empty. The reading is shown only when `data` is a number and there is a unit or a threshold beside it. Anything else is left out of the title rather than guessed.
 
 ## FAQs
 
 <details>
 <summary>Will the incident resolve when the alert recovers?</summary>
-Yes, if the template has <strong>Alert recovery</strong> enabled and the action's Recovery data uses <code>"event": "recovered"</code>. Spike matches the recovery to the incident by <code>alert_id</code>.
+Yes, if the template has <strong>Alert recovery</strong> enabled and the action's Recovery data uses <code>"event": "recovered"</code>. Spike resolves the incident only when the recovery carries the same <code>alert_id</code> as the alert that opened it. When neither carries one, the recovery is matched by title and resolves the incident it matched.
 </details>
 <details>
 <summary>Why does the title have no reading on some incidents?</summary>
