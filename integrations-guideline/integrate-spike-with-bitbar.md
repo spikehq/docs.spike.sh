@@ -8,7 +8,7 @@ description: >-
 [BitBar](https://bitbar.com/) (SmartBear BitBar) is a cloud testing service that runs your automated tests on real mobile devices and browsers. It can email you when a test run finishes. Spike gives your integration a dedicated email address, so a BitBar email about a failed test run opens an incident and pages whoever is on call.
 
 {% hint style="warning" %}
-**This guide is based on illustrated emails, not captures.** BitBar does not publish the exact wording of its notification emails. Spike reads them defensively, but check the first real email against the table below. If the subject does not contain an outcome word such as `failed` or `succeeded`, the incident cannot auto-resolve.
+**This guide is based on illustrated emails, not captures.** BitBar does not publish the exact wording of its notification emails. Spike reads them defensively, but check the first real email against the table below. Auto-resolve needs a subject that names the test run and a success word such as `succeeded` or `passed` in the subject or, when the subject has none, in the body.
 {% endhint %}
 
 ## What Spike does with each email
@@ -33,7 +33,11 @@ If the email has no body, the subject is used. If it has neither, the title is `
 
 ## One incident per test run
 
-Spike builds an identity for the run from the email subject: lowercased, with outcome words, `#` and numbers removed. `Test run Nightly regression #412 in project ShopApp Android failed` and `Test run Nightly regression #413 in project ShopApp Android succeeded` therefore share the identity `test run nightly regression in project shopapp android`. The failure opens the incident and the later success resolves it.
+Spike builds an identity for the run from the email subject: lowercased, with outcome words and the run number (`#` and its digits) removed. `Test run Nightly regression #412 in project ShopApp Android failed` and `Test run Nightly regression #413 in project ShopApp Android succeeded` therefore share the identity `test run nightly regression in project shopapp android`. The failure opens the incident and the later success resolves it.
+
+Other numbers stay in the identity, so `ShopApp Android 13` and `ShopApp Android 14` are different projects: a success in one never resolves a failure in the other.
+
+The outcome is the last outcome word in the subject, because BitBar names the run and project before the outcome. A run named `Error handling` that succeeded is therefore a success. When the subject has no outcome word, Spike reads the outcome from the body, and an email with no outcome word anywhere is treated as a failure.
 
 An email whose subject is empty, or holds nothing but a run number and an outcome word, has no identity. It gets the fixed title `BitBar test run failed`, is matched by that title, and does not auto-resolve.
 
