@@ -22,79 +22,65 @@ Log in to your Uptrends account and open **Alerting** in the left menu.
 
 ### Step 2
 
-Open **Integrations** and choose to add a new integration. Select the **Webhook** type (a custom or generic webhook), and give it a name such as `Spike`.
+Open **Integrations** and click **+**. Select the **Uptrends integration** type, click **Choose...**, and give it a name such as `Spike`.
 
 ### Step 3
 
-Set the following:
+Set the **API URL** to the Spike webhook URL you copied (choose **Specify value here**). Keep the predefined request body on the **Customizations** tab as it is, then click **Save**.
 
-| Field | Value |
-| --- | --- |
-| URL | The Spike webhook URL you copied |
-| HTTP method | **POST** |
-| Content type | **application/json** |
-| Body | The JSON below, exactly as shown |
+Spike reads these fields of the predefined body. If you edit the body, keep them:
 
-Paste this body into the message template. Every `{{...}}` placeholder is filled in by Uptrends when the alert is sent.
+* `alert.type`
+* `alert.description`
+* `incident.key`
+* `monitor.guid`
+* `monitor.name`
+* `monitor.url`
+* `alertDefinition.name`
+
+{% hint style="warning" %}
+If you add a free-text variable to the body yourself, wrap it in `@JsonEncode`, as the predefined body does for the description: `"{{@JsonEncode({{@alert.description}})}}"`. Text such as an error message or a response body can contain quotes, and an unencoded quote makes the body invalid JSON that Spike cannot read.
+{% endhint %}
+
+This is what Spike receives when a monitor fails (abridged):
 
 ```json
 {
   "alert": {
-    "alertGuid": "{{@alert.alertGuid}}",
-    "type": "{{@alert.type}}",
-    "description": "{{@alert.description}}",
-    "failureMessage": "{{@alert.failureMessage}}",
-    "timestampUtc": "{{@alert.timestampUtc}}",
-    "timestamp": "{{@alert.timestamp}}",
-    "timestampUtcFormatted": "{{@alert.timestampUtcFormatted}}",
-    "timestampFormatted": "{{@alert.timestampFormatted}}",
-    "firstErrorUtc": "{{@alert.firstErrorUtc}}",
-    "firstError": "{{@alert.firstError}}",
-    "firstErrorUtcFormatted": "{{@alert.firstErrorUtcFormatted}}",
-    "firstErrorFormatted": "{{@alert.firstErrorFormatted}}",
-    "firstErrorCheckUrl": "{{@alert.firstErrorCheckUrl}}",
-    "firstErrorCheckId": "{{@alert.firstErrorCheckId}}",
-    "serverIpv4": "{{@alert.serverIpv4}}",
-    "serverIpv6": "{{@alert.serverIpv6}}",
-    "resolvedIpAddress": "{{@alert.resolvedIpAddress}}",
-    "responseBody": "{{@alert.responseBody}}",
-    "downtimeDuration": "{{@alert.downtimeDuration}}"
+    "type": "Alert",
+    "description": "HTTP error 503 (Service Unavailable)",
+    "timestampUtc": "2026-10-09T01:12:44"
   },
-  "alertDefinition": {
-    "guid": "{{@alertDefinition.guid}}",
-    "name": "{{@alertDefinition.name}}"
-  },
-  "escalationLevel": {
-    "id": "{{@escalationLevel.id}}",
-    "message": "{{@escalationLevel.message}}"
-  },
-  "incident": {
-    "key": "{{@incident.key}}"
-  },
+  "alertDefinition": { "name": "Production websites" },
+  "incident": { "key": "a91c7d2e-5b3f-4e8a-b6d0-17f4c2e9a835" },
   "monitor": {
-    "guid": "{{@monitor.monitorGuid}}",
-    "name": "{{@monitor.name}}",
-    "type": "{{@monitor.type}}",
-    "url": "{{@monitor.url}}",
-    "notes": "{{@monitor.notes}}",
-    "dashboardUrl": "{{@monitor.dashboardUrl}}",
-    "editUrl": "{{@monitor.editUrl}}"
+    "guid": "5e0f8b3a-6c21-4d97-8f4e-0a2b9c7d1e63",
+    "name": "Shop checkout health",
+    "url": "https://shop.example.com/health"
   },
-  "account": {
-    "id": "{{@account.id}}"
-  },
-  "source": "Uptrends",
-  "version": "1.0"
+  "source": "Uptrends"
 }
 ```
 
-{% hint style="info" %}
-Uptrends also offers a predefined **Uptrends integration** template that produces this structure. If you use it, check the placeholder names against the body above, because the incident key and monitor id are what let Spike group alerts and resolve them.
-{% endhint %}
+And when it recovers, with the same `incident.key`:
+
+```json
+{
+  "alert": { "type": "Ok", "description": "", "downtimeDuration": "00:12:26" },
+  "alertDefinition": { "name": "Production websites" },
+  "incident": { "key": "a91c7d2e-5b3f-4e8a-b6d0-17f4c2e9a835" },
+  "monitor": {
+    "guid": "5e0f8b3a-6c21-4d97-8f4e-0a2b9c7d1e63",
+    "name": "Shop checkout health",
+    "url": "https://shop.example.com/health"
+  },
+  "source": "Uptrends"
+}
+```
 
 ### Step 4
 
-Open **Alerting** > **Alert definitions**, edit the alert definition that covers the monitors you want in Spike (or create one), and open the escalation level you want to page from. Under **Integrations**, tick the **Spike** integration. Make sure the escalation level is also set to send a message when the monitor recovers, so Uptrends sends the OK alert.
+Open **Alerting** > **Alert definitions**, edit the alert definition that covers the monitors you want in Spike (or create one), and open the escalation level you want to page from. Under **Integrations**, tick the **Spike** integration. Leave the Error, Reminder and OK message types enabled, so Uptrends also sends the OK alert when the monitor recovers.
 
 ### Step 5
 
@@ -105,12 +91,12 @@ Save the alert definition and make sure your monitors are assigned to it (**Moni
 | Field | Required | Used for |
 | --- | --- | --- |
 | `alert.type` | Yes | `Alert` opens an incident, `Reminder` adds to the open one, `Ok` resolves it. |
-| `incident.key` | Yes | Identity of one Uptrends incident. The error alert, its reminders and its OK alert share it. |
-| `monitor.guid` | Recommended | Fallback identity when `incident.key` is missing or empty. |
+| `incident.key` | Recommended | Identity of one Uptrends incident. The error alert, its reminders and its OK alert share it. |
+| `monitor.guid` | Recommended | Fallback identity when `incident.key` is missing, empty or not filled in by Uptrends. |
 | `alert.description` | Recommended | Uptrends' own sentence about the error. It becomes the incident title. |
 | `monitor.name` | Recommended | The monitor named in the title. When empty, the host of `monitor.url` is used. |
 | `monitor.url` | Optional | Only used for the title when `monitor.name` is empty. |
-| `alertDefinition.name` | Optional | Used in the title when `alert.description` is empty. |
+| `alertDefinition.name` | Optional | Used in the title when `alert.description` is empty or the body carries no id. |
 
 All other fields are kept on the incident for reference.
 
@@ -119,8 +105,8 @@ All other fields are kept on the incident for reference.
 | `alert.type` | Result |
 | --- | --- |
 | `Alert` | A new error was detected. Opens an incident and pages. |
-| `Reminder` | The original error is still ongoing. Joins the open incident with the same `incident.key` and never resolves it. |
-| `Ok` | The error was resolved. Resolves the incident. |
+| `Reminder` | The original error is still ongoing. Joins the open incident with the same `incident.key` and never resolves it. If no incident is open, it opens one (or reopens the resolved one), so an error whose first alert was missed still pages. |
+| `Ok` | The error was resolved. Resolves the open incident with the same `incident.key` (or `monitor.guid`). It never opens an incident. |
 
 Example incident titles:
 
@@ -128,7 +114,7 @@ Example incident titles:
 * `Shop checkout health recovered`
 
 {% hint style="warning" %}
-If `incident.key` and `monitor.guid` are both removed from the body, Spike can only match a recovery to its incident by title. Keep them in the body.
+If `incident.key` and `monitor.guid` are both removed from the body, every title becomes `{alertDefinition.name} on {monitor.name}`, for example `Production websites on Shop checkout health`, and Spike matches a recovery to its incident by that title and resolves it only when the alert definition and monitor are the same. Keep the ids in the body.
 {% endhint %}
 
 {% hint style="success" %}
