@@ -1,19 +1,19 @@
 ---
 description: >-
-  Send SnappyFlow alerts to Spike so a violated alert rule pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when the alert recovers.
+  Send SnappyFlow alerts to Spike through a webhook notification channel so a violated alert pages your on-call rotation by phone, SMS, Slack or Teams.
 ---
 
 # Integrate Spike with SnappyFlow
 
-[SnappyFlow](https://snappyflow.io) is a full-stack observability platform. Its alerts watch metrics for your projects and applications and notify a channel when a rule is violated. Point a webhook channel at a Spike integration URL and a violated SnappyFlow alert pages your on-call rotation.
+[SnappyFlow](https://snappyflow.io) is a full-stack observability platform. Its alerts watch metrics for your projects and applications and notify a channel when an alert is violated. Point a webhook notification channel at a Spike integration URL and a violated SnappyFlow alert pages your on-call rotation.
 
 {% hint style="warning" %}
-SnappyFlow does not publish a webhook payload format. The body below is the one Spike reads, and the field names are Spike's own, taken from the labels SnappyFlow shows in its alert screens. Send exactly this body from your webhook channel. Check the first delivery in Spike, and tell us if SnappyFlow sends something different.
+SnappyFlow decides what its webhook sends; the channel form has no body, method or content-type settings. SnappyFlow does not publish that payload, so the field names Spike reads (below) are Spike's best reading of the labels SnappyFlow shows in its alert screens, not yet checked against a real delivery. After setup, open the first incident in Spike and look at its payload. If the fields differ, [tell us](mailto:support@spike.sh) and we will adjust the integration.
 {% endhint %}
 
 ## Prerequisites
 
-* A SnappyFlow account with permission to create alerts and notification channels
+* A SnappyFlow account that can create notification channels and edit projects and alerts
 * A SnappyFlow integration in Spike (Step 1)
 
 ## Step 1 — Create the integration in Spike
@@ -24,19 +24,41 @@ In Spike go to **Integrations** → **Add Integration** → **SnappyFlow**, and 
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-## Step 2 — Add a webhook channel in SnappyFlow
+## Step 2 — Create a webhook notification channel in SnappyFlow
 
-1. In SnappyFlow open your project and go to **Alerts & Notifications**.
-2. Add a notification channel and choose **Webhook**.
-3. Set the **URL** to the Spike webhook URL from Step 1, the method to `POST`, and the content type to `application/json`.
-4. Set the body to the JSON in Step 3.
-5. Save the channel.
+1. Go to the **Manage** tab, open **Profile**, then the **Notifications** section.
+2. Click **Add New**.
+3. In the **Add New Notification** window:
+   * **Type:** select **Webhook**.
+   * **Time Zone:** select your time zone.
+   * **Name:** for example `Spike`.
+   * **URL:** paste the Spike webhook URL from Step 1.
+   * **Response Field:** SnappyFlow describes it as an attribute that identifies notifications from this channel; any value, such as `spike`, works for Spike.
+   * **Authorization:** select **None**. The secret is already in the URL.
+4. Click **Verify**, then **Add**.
 
 {% hint style="info" %}
-The channel form's **Verify** button may send a test request to the URL. If it does, a test incident titled `SnappyFlow alert with no details` can open in Spike. Resolve it by hand.
+If **Verify** sends a test request, Spike may open a test incident titled `SnappyFlow alert with no details`. Resolve it by hand.
 {% endhint %}
 
-## Step 3 — Send this body
+## Step 3 — Add the channel to your project
+
+1. Open the **Application** tab, click the project's **...** menu and select **Edit Project**.
+2. Open the **Notification** tab, choose **Webhook** under **Add New Notification Type** and click **Configure**.
+3. Select the `Spike` channel, click the right-arrow icon, then **Save**.
+
+## Step 4 — Send alerts to the channel
+
+SnappyFlow only notifies a channel for alerts that have notifications enabled.
+
+1. In the **Application** tab, expand the project and click **View Dashboard** for the application.
+2. Open **Alerts** → **Alerts Definition**.
+3. For each alert you want paged: select it, click **Edit** under **Alert Operations**, and in the **Notification** section pick a **Severity** and the `Spike` **Notification Channel**. Click **Save**.
+4. Select the alert again, click **Enable Notification**, choose the severities to notify, and click **Yes**.
+
+## What Spike reads
+
+This is the shape Spike expects. Every key is unconfirmed until a real SnappyFlow delivery is seen:
 
 ```json
 {
@@ -54,63 +76,39 @@ The channel form's **Verify** button may send a test request to the URL. If it d
 }
 ```
 
-| Field | Required | What it is |
-| --- | --- | --- |
-| `alert_id` | Yes | A stable id for one alert (one alert rule on one source). It must be the same when the alert fires, repeats and recovers. Spike uses it to group repeats and to resolve. |
-| `status` | Yes | `triggered` while the alert is violated. Use `resolved` when it recovers. |
-| `severity` | No | `Sev1`, `Sev2` or `Sev3` (`Sev1` is the most severe). |
-| `alert_name` | Yes | The alert's name, as in **Alert Name** in the alert history. |
-| `alert_message` | No | SnappyFlow's own sentence about what is wrong. When present it becomes the incident title. |
-| `metric` | No | The metric the alert watches, for example `cpu_util`. |
-| `value` | No | The observed value of the metric. |
-| `threshold` | No | The threshold of the alert condition. |
-| `project` | No | The SnappyFlow project. |
-| `application` | No | The SnappyFlow application. |
-| `instance` | No | The instance or service the alert fired on. |
+| Field | What Spike does with it |
+| --- | --- |
+| `alert_id` | Identifies the alert. Repeats with the same `alert_id` join the open incident. |
+| `status` | `resolved`, `recovered`, `cleared`, `ok`, `normal`, `closed` or `up` (any case) is a recovery. Anything else, or none, is firing. |
+| `severity` | `Sev1`, `Sev2` or `Sev3`, shown at the start of a built title. |
+| `alert_name` | The alert's name, as in **Alert Name** in the alert history. |
+| `alert_message` | SnappyFlow's own sentence about what is wrong. When present it becomes the incident title. |
+| `metric`, `value`, `threshold` | The reading shown in a built title. |
+| `instance`, `application`, `project` | Where the alert fired, shown in the title. |
 
-If your channel can only send `Alert Name`, `Alert Message`, `Instance`, `Application` and `Project` as labels, Spike reads those too when the matching field is empty.
+Spike also reads the label-form keys `Alert Name`, `Alert Message`, `Instance`, `Application` and `Project` when the matching field is empty.
 
-For the recovery, send the same body with `"status": "resolved"` and no `alert_message`:
-
-```json
-{
-  "alert_id": "6f1c2a9e-4b7d-4e2a-9c51-0d8e3b7a2f14",
-  "status": "resolved",
-  "severity": "Sev1",
-  "alert_name": "High CPU Utilization",
-  "metric": "cpu_util",
-  "value": 41.2,
-  "threshold": 90,
-  "project": "payments",
-  "application": "payments-api",
-  "instance": "prod-db-01"
-}
-```
+If the delivery carries a top-level `message` key, Spike uses that text as the incident title as is.
 
 ## What happens in Spike
 
-* **Grouping:** `alert_id` identifies the incident. A repeat notification with the same `alert_id` joins the open incident instead of paging again.
-* **Without `alert_id`:** Spike falls back to matching by title, so the title is kept plain: `High CPU Utilization on prod-db-01 in payments-api`.
-* **Recovery:** a `status` of `resolved`, `recovered`, `cleared`, `ok` or `normal` (any case) resolves the matching open incident. It never opens a new one. Any other `status`, or none, counts as firing.
-* **Batches:** a body that is a list, or has an `alerts` list, becomes one incident titled like `High CPU Utilization on a, Disk Usage High on b +1 more`, keyed on the first item's `alert_id`.
+* **Grouping:** with an `alert_id`, a repeat notification for the same alert joins the open incident instead of paging again.
+* **Without `alert_id`:** Spike matches by title, so the title is kept plain and stable: `High CPU Utilization on prod-db-01 in payments-api`.
+* **Recovery:** SnappyFlow's documentation describes only violation notifications, so it is not confirmed that it sends a recovery at all. If it does send one with a recovery `status`, Spike resolves the open incident for the same `alert_id` (or, without one, the same alert name, instance, application and project), and never opens a new incident for it. Otherwise, resolve incidents in Spike yourself.
+* **Batches:** a delivery that is a list, or has an `alerts` list, becomes one incident titled like `3 SnappyFlow alerts: High CPU Utilization, Disk Usage High +1 more`, keyed on the first alert's `alert_id`.
 
 ## Incident title
 
 * With `alert_message`, the title is that sentence: `CPU utilization on prod-db-01 has been above 90% for the last 10 minutes`.
-* Without it, Spike builds one: `High CPU Utilization on prod-db-01 in payments-api, 97 (8.2% above 90)`. The reading is left out when `value` or `threshold` is missing or not a number, they are equal, the threshold is 0, or they differ by under 1%.
+* Without it, Spike builds one: `Sev1 High CPU Utilization: cpu_util 97 is 8.2% above threshold 90 on prod-db-01 in payments-api`. The reading is left out when `value` or `threshold` is missing or not a number, they are equal, the threshold is 0, or they differ by under 1%.
+* Without `alert_id`: `High CPU Utilization on prod-db-01 in payments-api`.
 * On recovery: `High CPU Utilization on prod-db-01 in payments-api recovered`.
 * With nothing usable at all: `SnappyFlow alert with no details`.
 
-## Test it
-
-1. Send the firing body to the Spike URL, for example with `curl -X POST -H 'Content-Type: application/json' -d @firing.json <webhook-url>`.
-2. Confirm an incident opens with the `alert_message` title.
-3. Send the same body again and confirm no second incident opens.
-4. Send the recovery body and confirm the incident resolves.
+Use a [Title Remapper](../alerts/title-remapper.md) if you prefer a different format.
 
 ## Troubleshooting
 
-* **Repeats open new incidents:** `alert_id` is missing or changes between notifications. Use one fixed id per alert.
-* **Recovery does not resolve:** `alert_id` differs from the firing one, or `status` is not a recovery value.
-* **Title reads `SnappyFlow alert with no details`:** the body had none of `alert_name`, `alert_message`, `metric`, `instance`, `application` or `project`. Check the channel's body and content type.
-* **Nothing arrives:** check the URL was copied whole and that SnappyFlow can reach `hooks.spike.sh`.
+* **Nothing arrives:** check that notifications are enabled for the alert and severity (Step 4), that the channel is added to the project (Step 3), and that the URL was copied whole.
+* **Title reads `SnappyFlow alert with no details`, or repeats open new incidents:** SnappyFlow's delivery does not use the field names above. Open the incident's payload in Spike and send it to [support@spike.sh](mailto:support@spike.sh) so we can map the real fields.
+* **Incidents do not resolve:** SnappyFlow may not send recoveries. Resolve the incident in Spike, or check the payload of the later deliveries for a recovery `status`.
