@@ -5,9 +5,9 @@ description: >-
 
 # Integrate Spike with HEAL
 
-[HEAL](https://www.heal.ai) is an AIOps platform that watches your applications and their services, and raises a **signal** when something goes wrong: an Early Warning when a problem is building, a Problem when users are affected, and an Info when it has something worth knowing. HEAL tells people about each signal by email, once when it opens and again when it closes.
+[HEAL](https://www.healsoftware.ai) is an AIOps platform that watches your applications and their services, and raises a **signal** when something goes wrong: an Early Warning when a problem is building, a Problem when users are affected, and an Info when it has something worth knowing. HEAL tells people about each signal by email, once when it opens and again when it closes.
 
-HEAL notifies by email, so this integration uses a Spike **Email** integration. Add the Spike address as a recipient of your HEAL notifications and a HEAL signal pages your on-call rotation when it opens, every later email about the same signal lands on the incident already open, and the incident resolves itself when HEAL sends the closed email.
+HEAL notifies by email, so the Spike HEAL integration has an email address instead of a webhook URL. Add that address as a recipient of your HEAL notifications and a HEAL signal pages your on-call rotation when it opens, every later email about the same signal lands on the incident already open, and the incident resolves itself when HEAL sends the closed email.
 
 Nothing is installed. One notification recipient, configured once in HEAL, covers every signal for the applications it is set up on.
 
@@ -30,30 +30,26 @@ Spike identifies the incident by HEAL's **Signal ID**, which HEAL puts in the em
 Because the incident is matched on the Signal ID, the email subject must keep HEAL's format. Do not rewrite the subject in your mail system or in HEAL's notification template.
 
 {% hint style="warning" %}
-When the subject carries no `[<id>: <description>]` bracket, Spike cannot tell which signal the email is about, so it matches by title instead. Those emails still page, and they still resolve their incident when the closed email produces the same title, but a changed subject or a different set of applications opens a second incident.
+When the subject carries no `[<id>: <description>]` bracket, or HEAL left the Signal ID unfilled (a literal `{Signal_ID}`), Spike cannot tell which signal the email is about. It then titles the incident by the email subject and matches on that: those emails still page, and a repeat with the same subject joins the open incident, but they never resolve themselves, because nothing proves a closed email is about the same signal. Resolve those incidents by hand.
 {% endhint %}
 
 ## Incident title
 
-The title is built from what HEAL says is failing, where, and the suggested root cause, and carries no Signal ID, no timestamps and no counters:
+The title is HEAL's own status sentence from the email body, with whitespace tidied:
 
 ```
-Travel Web transactions failing on Travels, root cause Travel-DB-Service
+Problem is OPEN on application(s) Travels.
 ```
 
-A closed email is written as a recovery:
+The closed email for the same signal reads:
 
 ```
-Recovered: Travel Web transactions failing on Travels, root cause Travel-DB-Service
+Problem is CLOSED on application(s) Travels.
 ```
 
-An Early Warning is prefixed with its type:
+That closed email resolves the incident, which keeps the title it opened with. An Early Warning reads `Early Warning is OPEN on application(s) Payments.`
 
-```
-Early Warning: Checkout latency rising on Payments
-```
-
-When the signal covers many applications the list is shortened to two names and a count, for example `Alpha-Billing-Platform, Beta-Orders-Platform +5 more`. Titles are capped at 200 characters. The full email, including the signal summary, is on the incident page.
+When the signal covers so many applications that the sentence would pass 200 characters, the list is shortened to two names and a count, for example `Problem is OPEN on application(s) Alpha-Billing-Platform, Beta-Orders-Platform +5 more.` When the body has no such sentence (a Batch Problem email, for example), the title is the signal type and the description from the subject bracket, such as `Batch Problem: Nightly settlement job, Current Status: Failed`. An email without a Signal ID is titled by its subject. The full email, including the signal summary, is on the incident page.
 
 Use a [Title Remapper](../alerts/title-remapper.md) if your team reads HEAL signals differently.
 
@@ -64,12 +60,12 @@ Spike does not set the severity badge from HEAL. The `Severity:` line of the ema
 ## Prerequisites
 
 * A HEAL account that can edit notification settings, and, for emails to reach Spike, HEAL's mail server (SMTP) set up to send to external addresses
-* A Spike Email integration and its address
+* A Spike HEAL integration and its email address
 * Nothing to open on your own network
 
 ## Step 1 — Create the integration in Spike
 
-In Spike, go to **Integrations → Add integration → Email**, name it `HEAL`, attach it to a service and an escalation policy, and copy the email address. It looks like `<your-token>@email-hooks.spike.sh`.
+In Spike, go to **Integrations → Add integration → HEAL**, attach it to a service and an escalation policy, and copy the integration's email address. It looks like `<your-token>@email-hooks.spike.sh`.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -97,7 +93,7 @@ Leave HEAL's default subject and body in place. Spike reads the Signal ID from t
 
 Wait for the next real signal, or ask your HEAL admin to trigger a test notification, and watch for three moments:
 
-1. A signal opens in HEAL and an incident opens in Spike, titled from the HEAL email, on the service you attached.
+1. A signal opens in HEAL and an incident opens in Spike, titled with HEAL's sentence (`Problem is OPEN on application(s) …`), on the service you attached.
 2. HEAL sends an update about the same signal and it lands on the same incident without paging again.
 3. HEAL closes the signal and the incident resolves itself.
 
@@ -121,7 +117,7 @@ Spike adds the following to the incident from those fields:
 | Field | Value |
 | --- | --- |
 | `details.signal_id` | The Signal ID, such as `112558` or `I-4471` |
-| `details.signal_status` | `open`, `upgraded` or `closed`, lowercased from the status sentence |
+| `details.signal_status` | `open`, `upgraded` or `closed`, lowercased from the status sentence (or from the word after the subject bracket) |
 | `details.signal_type` | `Problem`, `Early Warning`, `Info` or `Batch Problem` |
 | `details.applications` | The application names after `on application(s)` |
 | `details.severity` | The `Severity:` value |
@@ -162,4 +158,4 @@ There is a 30 MB payload limit on email integrations, the same as the generic [E
 
 * **No incident opens.** Check that the address is the one on the Spike integration page and that your mail server allows sending to external domains.
 * **The incident does not resolve.** Check that HEAL sends the closed email to the same address and that the subject still carries the same Signal ID.
-* **A second incident opens for the same signal.** The subject was changed between the open and the closed email, or it has no `[<id>: <description>]` bracket.
+* **A second incident opens for the same signal.** The subject was rewritten between emails, or it has no `[<id>: <description>]` bracket, so Spike matched on the subject instead of the Signal ID.
