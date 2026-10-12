@@ -23,9 +23,11 @@ description: >-
 
 ## How incidents are titled
 
-The incident title is the sentence BitBar writes about the run, taken from the plain-text body of the email. Spike collapses whitespace, removes links and shortens the title at the first colon, so it names the run, the project and the outcome without the counts. For example:
+The incident title is the sentence BitBar writes about the run, taken from the plain-text body of the email (or the HTML body converted to text when there is no plain-text part). Spike removes links, along with a line such as `View results:` that only introduced one, collapses whitespace and cuts the title at a word boundary to at most 200 characters. For example:
 
-`Test run Nightly regression #412 in project ShopApp Android failed`
+`Test run Nightly regression #412 in project ShopApp Android failed: 3 of 48 tests failed on 2 of 10 devices (Samsung Galaxy S23, Google Pixel 8).`
+
+The counts in the title differ from run to run, but they never split an incident: Spike groups emails by the test run, as described below, not by title.
 
 If the email has no body, the subject is used. If it has neither, the title is `BitBar alert with no details`.
 
@@ -33,7 +35,7 @@ If the email has no body, the subject is used. If it has neither, the title is `
 
 Spike builds an identity for the run from the email subject: lowercased, with outcome words, `#` and numbers removed. `Test run Nightly regression #412 in project ShopApp Android failed` and `Test run Nightly regression #413 in project ShopApp Android succeeded` therefore share the identity `test run nightly regression in project shopapp android`. The failure opens the incident and the later success resolves it.
 
-An email with an empty subject has no identity. It is matched by its fixed title `BitBar test run failed` and does not auto-resolve.
+An email whose subject is empty, or holds nothing but a run number and an outcome word, has no identity. It gets the fixed title `BitBar test run failed`, is matched by that title, and does not auto-resolve.
 
 ## Set up the integration
 
@@ -43,21 +45,22 @@ From the header, click [Add integration](https://app.spike.sh/integrations/new),
 
 ### Step 2: Turn on email notifications in BitBar
 
-In BitBar Cloud, open the notification settings for your account or project and add a notification of type **EMAIL** with the Spike address as the recipient. Choose the scope **TEST_RUN** to get both failure and success emails, so incidents auto-resolve. Choose **TEST_RUN_FAILURE** to get failure emails only; in that case set a resolve timer.
+BitBar's documentation says only that email notifications are turned on and off from your user settings in BitBar Cloud. Turn them on there for test runs. BitBar's notification scopes, as its public API names them, include every test run (`TEST_RUN`) and failed test runs only (`TEST_RUN_FAILURE`):
 
-BitBar does not document where this setting lives in its interface, so look under your account's integrations or the project settings.
+* Notify on **every test run** (failures and successes). Spike opens an incident on a failure and resolves it on the next success of the same run, so this is the setting to choose.
+* Notify on **failed test runs only**. Incidents then never auto-resolve, so set a [resolve timer](../incidents/resolve-timer.md).
 
-{% hint style="info" %}
-With **TEST_RUN_FAILURE** no success emails arrive, so incidents never auto-resolve. Use a [resolve timer](../incidents/resolve-timer.md) in that case.
-{% endhint %}
+### Step 3: Get BitBar's emails to the Spike address
 
-### Step 3: Test it
+If BitBar lets you enter the recipient address, enter the Spike integration address from Step 1. Otherwise BitBar emails the address of your BitBar account; create a rule in your mail provider that forwards BitBar's notification emails (from BitBar's sender address) to the Spike integration address. Forwarding keeps the subject and body, which is all Spike reads.
 
-Run a test that fails, or send the example below to your Spike address. An incident should appear within a minute.
+### Step 4: Test it
+
+Run a test that fails in BitBar, or forward an earlier BitBar failure email to your Spike address. An incident should appear within a minute.
 
 ## What Spike reads from the email
 
-Spike receives each email as the following fields. You do not need to build this yourself; BitBar's email produces it. It is shown so you can check what arrives.
+Spike receives each email as the following fields. You do not need to build this yourself; BitBar's email produces it. It is shown so you can check what arrives. Spike stores these fields, with the title and the run's identity and outcome, in the incident's details.
 
 | Field | Required | Used for |
 | --- | --- | --- |
