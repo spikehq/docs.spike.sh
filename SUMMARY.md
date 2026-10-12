@@ -112,6 +112,7 @@
 * [Integrating with Webhooks](integrations-guideline/integrating-with-webhooks.md)
 * [Integrate Spike with Airbrake.io](integrations-guideline/integrate-spike-with-airbrake.md)
 * [Integrate Spike with Apex ping](integrations-guideline/integrate-apex-ping-with-spike.md)
+* [Integrate Spike with APImetrics](integrations-guideline/integrate-spike-with-apimetrics.md)
 * [Integrate Spike with App Optics](integrations-guideline/integrate-spike-with-app-optics.md)
 * [Integrate Spike with AppDynamics](integrations-guideline/integrate-spike-with-appdynamics.md)
 * [Integrate Spike with AppSignal](integrations-guideline/integrate-spike-with-appsignal.md)
