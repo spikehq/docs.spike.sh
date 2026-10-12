@@ -13,8 +13,8 @@ Every delivery is one Uptycs alert, and it carries a `status`.
 
 | `status` | What Spike does |
 | --- | --- |
-| `open` | Opens an incident and pages. A repeat of the same alert (same `id`) is added to the incident that is already open instead of paging again. |
-| `closed` | Never opens a new incident. It is added to the matching open incident when there is one, and dropped otherwise. |
+| `open`, `new` or `assigned` (any casing), or no `status` at all | Opens an incident and pages. A repeat of the same alert (same `id`) is added to the incident that is already open instead of paging again. |
+| `resolved`, `closed` or any other value | Never opens or reopens an incident. It is added to the matching open incident when there is one, and dropped otherwise. |
 
 {% hint style="info" %}
 Spike does not resolve an incident when an Uptycs alert closes. Uptycs sends no recovery, so resolve the incident in Spike when the work is done, or set a [resolve timer](../incidents/resolve-timer.md) as a backstop.
@@ -24,7 +24,7 @@ Spike does not resolve an incident when an Uptycs alert closes. Uptycs sends no 
 
 Spike identifies the incident by the alert `id`. Uptycs gives each alert its own id, so one alert is one incident, and the same alert delivered again joins the open incident. Two different alerts on the same host are two incidents.
 
-If a delivery has no usable `id` (empty or missing), Spike falls back to matching the incident by its exact title.
+If a delivery has no usable `id` (missing, empty, or a template variable that did not render, such as `{{id}}`), Spike falls back to matching the incident by its exact title. The title is built the same way with or without an `id`, so such a delivery still joins the incident it opened.
 
 ## Incident title
 
@@ -34,10 +34,11 @@ The title is Uptycs' own sentence about what is wrong (the alert rule's `descrip
 Outbound connection to known malicious IP 185.220.101.4 from process /tmp/kworkerd (high) on prod-api-07
 ```
 
-* When `description` is empty, the alert `code` is used instead, for example `Outbound connection to threat IOC (high) on prod-api-07`.
-* ` (severity)` and ` on host` are left out when `severity` or `assetHostName` is empty.
-* An alert with a severity or a value but no description, code or host is titled from what it does carry, for example `High-severity alert on 10.0.0.1 (no description in payload)`. A body with none of those is titled `Uptycs alert with no details`.
-* Titles are capped at 200 characters. The alert id, asset id, link and time are not in the title; they are on the incident page.
+* When `description` is empty, the alert `code` is used as sent, for example `OUTBOUND_CONNECTION_TO_THREAT_IOC (high) on prod-api-07`.
+* ` (severity)` and ` on host` are left out when `severity` or `assetHostName` is empty. With a host but no description or code, the title starts with `Uptycs alert`, for example `Uptycs alert (high) on prod-api-07`.
+* A body with no description, code or host is titled `Uptycs alert with no details`.
+* The `status` never changes the title: a closed alert keeps the title it opened with.
+* Titles are capped at 200 characters by shortening the description, keeping the host whole. The alert id, asset id, value, link and time are not in the title; they are on the incident page.
 
 Use a [Title Remapper](../alerts/title-remapper.md) if your team reads alerts by rule code rather than by sentence:
 
@@ -47,7 +48,7 @@ Use a [Title Remapper](../alerts/title-remapper.md) if your team reads alerts by
 
 ## Severity
 
-Spike shows `severity` in the title but does not read it for the severity badge. Write an [alert rule](../alerts/alert-rules.md) on `severity` to set the badge, route to another service or escalation policy, or suppress an alert. Read more about [priority and severity](../incidents/priority-and-severity.md).
+Spike reads the `severity` field for the incident's severity badge, with no setup: `critical` and `high` become SEV1, `medium` SEV2 and `low` SEV3. Write an [alert rule](../alerts/alert-rules.md) on `severity` to route an alert to another service or escalation policy, or to suppress it. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
 ## Prerequisites
 
@@ -95,9 +96,9 @@ Send exactly this JSON body. Replace each value with the matching variable from 
 | `id` | Alert ID | Yes | Joins repeats to the open incident |
 | `description` | Alert rule description | Yes | The title |
 | `code` | Alert code | Recommended | Title when `description` is empty |
-| `severity` | Severity (`low`, `medium`, `high`, `critical`) | Recommended | The title |
+| `severity` | Severity (`low`, `medium`, `high`, `critical`) | Recommended | The title and the severity badge |
 | `assetHostName` | Asset host name | Recommended | The title, always last |
-| `status` | Alert status | Yes, `open` | Only `open` opens an incident |
+| `status` | Alert status | Recommended | Only `open`, `new`, `assigned` or no status opens an incident |
 | `grouping` | Alert grouping | No | Shown on the incident |
 | `key` | Alert key | No | Shown on the incident |
 | `value` | Alert value | No | Shown on the incident |
@@ -158,9 +159,9 @@ Compare `id` on two of the incidents. If it differs, Uptycs gave each notificati
 
 <details>
 
-<summary>A closed alert did not open an incident</summary>
+<summary>A closed or resolved alert did not open an incident</summary>
 
-Expected. Only `status` `open` opens an incident.
+Expected. Only a `status` of `open`, `new` or `assigned`, or no `status` at all, opens an incident. A closed or resolved delivery never opens or reopens one.
 
 </details>
 
