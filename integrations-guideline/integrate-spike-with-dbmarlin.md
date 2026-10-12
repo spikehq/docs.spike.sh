@@ -12,7 +12,7 @@ DBmarlin's **Webhook** integration posts both as JSON. Point it at a Spike integ
 ## Before you start
 
 * DBmarlin **5.11 or later**.
-* DBmarlin allows **one Webhook integration per server**. Every alert rule on that server goes to the same Spike integration, so create one Spike integration for the whole DBmarlin server rather than one per rule.
+* DBmarlin allows **one Webhook integration** ("you can only have one Webhook integration defined"). Every alert it sends goes to the same Spike integration, so create one Spike integration for the whole DBmarlin server rather than one per rule.
 
 ## Set up instructions
 
@@ -22,24 +22,26 @@ DBmarlin's **Webhook** integration posts both as JSON. Point it at a Spike integ
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-**Step 2:** Add the webhook in DBmarlin.
+**Step 2:** Set up the webhook in DBmarlin.
 
-1. In DBmarlin, open **Settings → Integrations** and choose **Webhook**.
-2. Click **Add** to create a new webhook.
-3. Fill in the form. **Name**, **Webhook URL** and **Headers** are mandatory:
+1. In DBmarlin, open **Settings → Integrations** and click **Edit** on the **Webhook** integration.
+2. Fill in the form:
 
-| Field | Required | Value |
-| --- | --- | --- |
-| **Name** | Yes | Any name, for example `Spike` |
-| **Webhook URL** | Yes | The Spike webhook URL copied in Step 1 |
-| **Headers** | Yes | `Content-Type: application/json` |
-| **Content** | Yes | One of the two templates below |
+| Field | Value |
+| --- | --- |
+| **Webhook URL** | The Spike webhook URL copied in Step 1 |
+| **DBmarlin URL** | The address you use to open DBmarlin, so the links in each alert point back to it |
+| **Headers** | `Content-Type: application/json` |
+| **Content Template** | The instance template below |
+| **Host Content Template** | The host template below |
 
-4. Paste the template that matches how you want alerts reported into **Content**, then save.
+3. Enable the integration and save.
 
-### Content template for database instances
+DBmarlin uses the **Content Template** for alerts on database instances and the **Host Content Template** for alerts on hosts, so fill in both, even if you only alert on one of them today.
 
-Use this template when your alert rules are defined on database instances. The incident is reported against the instance name.
+### Content Template (database instances)
+
+Paste this into **Content Template**. The incident is reported against the instance name.
 
 ```json
 {
@@ -65,9 +67,9 @@ Use this template when your alert rules are defined on database instances. The i
 }
 ```
 
-### Content template for hosts
+### Host Content Template (hosts)
 
-Use this template when your alert rules are defined on hosts. It is identical except that `instance` is replaced by `node`, and the incident is reported against the host name.
+Paste this into **Host Content Template**. It is identical except that `instance` is replaced by `node`, and the incident is reported against the host name.
 
 ```json
 {
@@ -94,10 +96,10 @@ Use this template when your alert rules are defined on hosts. It is identical ex
 ```
 
 {% hint style="warning" %}
-Paste the template as it is. Spike reads `ruleid` and `startedended` to match an end notification to the incident it closes, and `instance` or `node` to say where the problem is. Do not remove `<ruleid>`: without it Spike can only match alerts by their title, which is less precise when the same rule applies to several instances.
+Paste the templates as they are. Spike reads `ruleid` together with `instance` or `node` to match an end notification to the incident it closes, and `startedended` to tell a start from an end. Do not remove `<ruleid>` or the instance or host line: without both, Spike can only match alerts by their title, which then carries no readings.
 {% endhint %}
 
-**Step 3:** Make sure an alert rule sends to the webhook. In DBmarlin, open the alert rule you want paged, enable the **Webhook** notification on it and save. Then trigger the rule (or temporarily lower its threshold) and check that an incident appears in Spike.
+**Step 3:** Test it. DBmarlin has no test button; once the webhook is saved, new alerts arrive at Spike. Trigger an alert rule (for example by temporarily lowering its threshold) and check that an incident appears in Spike, then restore the threshold and check that the incident resolves when the alert ends.
 
 ## Fields Spike reads
 
@@ -178,7 +180,7 @@ Any `startedended` value that begins with `end` (in any letter case) is an end. 
 
 Spike identifies an incident by `ruleid` **together with** `instance` (or `node`). A DBmarlin rule can be defined once and applied to every instance, so the rule id alone is not unique: the same rule breaking on `orders-pg-prod-01` and `orders-pg-prod-02` is two incidents, and each one resolves on its own end notification.
 
-If `<ruleid>` is missing from the template, Spike falls back to matching by incident title, which is the metric and the instance or host.
+If `ruleid` or the instance or host is missing from a notification, Spike falls back to matching by incident title, which is then only the metric and the instance or host, with no readings. An end notification resolves such an incident only when neither notification carried a `ruleid`.
 
 ## Incident title
 
@@ -194,10 +196,13 @@ It reads as the metric, the direction and size of the change, the readings, and 
 | --- | --- |
 | Readings change by 1% or more | `dbtime up 463% (214s vs 38s, threshold 60s) on orders-pg-prod-01` |
 | No usable `oldvalue`, or under a 1% change | `executions 12,480 (threshold 10,000) on orders-mysql-prod-04` |
-| No `ruleid` | `dbtime on orders-pg-staging-02` |
+| No `ruleid`, or no instance or host | `dbtime on orders-pg-staging-02` |
 | End notification | `dbtime back to normal on orders-pg-prod-01` |
 | No `statistic` | `rulename` is used in its place |
+| No `statistic` or `rulename` | `DBmarlin alert on orders-pg-prod-01` |
 | No `statistic`, `rulename` or target | `DBmarlin alert with no details` |
+
+Readings are written as whole numbers from 10 up, with two significant digits below 10. Titles are at most 200 characters; the readings are dropped before the instance or host is ever cut.
 
 ## Severity
 
