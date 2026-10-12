@@ -77,7 +77,7 @@ Swap Space on prod-cache-01
 Swap Space on prod-cache-01 is back to normal
 ```
 
-Titles are capped at 200 characters with the host kept whole, whitespace is collapsed, and they carry no ids, no URLs and no timestamps. Those are all on the incident page.
+Titles are capped at 200 characters, whitespace is collapsed, and they carry no ids, no URLs and no timestamps; those are all on the incident page. The host is kept whole when the title is shortened, unless the host itself runs past 100 characters. A URL in a monitor name or a status string — SiteScope names a URL monitor after its URL — is shown as host and path only, without the scheme, any `user:password@`, query string or fragment, so credentials in a monitored URL never reach a phone call, SMS or Slack message.
 
 {% hint style="info" %}
 A status string long enough to be prose — a URL monitor can report the first line of the error page it got back — is reduced to the fault it names rather than cut off mid-sentence: `the server returned 502 Bad Gateway and the response body said that the upstream connection was reset while ...` becomes `URL - checkout: the server returned 502 Bad Gateway on prod-lb-01`. The whole string stays on the incident page.
@@ -187,10 +187,6 @@ What each key is for, and which ones Spike cannot do without:
 {% hint style="info" %}
 `<alertName>` is spelled `<alert::name>` in some SiteScope versions. If `alert_name` arrives as the literal text `<alertName>` on your first incident, swap it for `<alert::name>`. The same goes for any other property your version does not know — Spike treats an unsubstituted property as a missing value rather than as a name, so a wrong spelling costs a fallback, never a grouped incident.
 {% endhint %}
-
-{% content-ref url="archive-an-integration.md" %}
-[archive-an-integration.md](archive-an-integration.md)
-{% endcontent-ref %}
 
 ## Step 4 — Confirm it end to end
 
@@ -306,7 +302,7 @@ Yes — anything you add is kept on the incident and is readable by alert rules 
 
 <summary>An incident titled "SiteScope alert with no details" opened</summary>
 
-The delivery named no monitor, no host and no state — usually a request body whose properties SiteScope substituted nothing into, so every value arrived as the literal text that was pasted. Check the payload on the incident page against the body in Step 3, and check the property spellings against your SiteScope version. Spike opens an incident for an unreadable delivery rather than dropping it silently.
+The delivery named no monitor, no host and no state — usually a request body whose properties SiteScope substituted nothing into, so every value arrived as the literal text that was pasted. Check the payload on the incident page against the body in Step 3, and check the property spellings against your SiteScope version. Spike opens an incident for an unreadable delivery rather than dropping it silently. Such an incident does not resolve on its own: a `good` delivery that names no monitor cannot show which monitor recovered, so resolve it in Spike once the template is fixed.
 
 </details>
 
