@@ -1,7 +1,8 @@
 ---
 description: "Connect BugBase to Spike for real-time alerts when a security report or vulnerability is submitted, and automatic resolution when it is resolved, closed, or marked duplicate, invalid, or informational."
 ---
-# BugBase
+
+# Integrate Spike with BugBase
 
 ## Overview
 
@@ -11,7 +12,7 @@ With Spike's integration, you can receive real-time alerts when:
 
 * **A new report is submitted**: A researcher files a report against your program.
 * **A new vulnerability is reported**: A vulnerability is added to your program.
-* **A report is closed**: The report is resolved, closed, or marked as duplicate, invalid, or informational. Spike resolves the matching incident.
+* **A report is closed**: The report is resolved, closed, or marked as duplicate, invalid, or informational. Spike resolves the incident for that report.
 
 The incident title is the report's executive summary, so your on-call team sees what is wrong straight away.
 
@@ -20,7 +21,7 @@ Spike groups repeated alerts for the same report into one incident and suppresse
 {% endhint %}
 
 {% hint style="success" %}
-When a report moves to a closed stage (Resolved, Duplicate, Invalid/Spam, or Informational), Spike automatically resolves the same incident.
+When a report moves to a closed stage (Resolved, Closed, Duplicate, Invalid/Spam, or Informational), Spike automatically resolves the incident with the same `report_id`. A closing alert with no report id is added to the open incident with the same title but does not resolve it, so resolve that one by hand.
 {% endhint %}
 
 ## Set up instructions
@@ -100,17 +101,17 @@ Do not add the `{{report}}` variable or other multi-line text to the body. If Bu
 
 <details>
 <summary>Do I need to modify the JSON body?</summary>
-No. Paste it exactly as shown. Every field is used to build the incident title, match the report across alerts, or route by severity.
+No. Paste it exactly as shown. `report_id` matches the report across alerts, `status` and `is_closed` say whether the report is open or closed, `severity` and `priority` are there for alert rules, and the rest build the incident title.
 </details>
 
 <details>
 <summary>What is the incident title?</summary>
-The report's summary. If it is empty, Spike uses the description, then the impact, then the category and the host of the scope (for example, "SQL Injection report on api.acmebank.com"). When a report is closed, the title is prefixed with its status, for example "Resolved: ...".
+The report's summary, up to 200 characters. If it is empty, Spike uses the description, then the impact, then the category and the host of the scope (for example, "SQL Injection report on api.acmebank.com"), then "BugBase: " followed by the trigger. When a report is closed, the title is prefixed with its status, for example "Resolved: ...". A field BugBase leaves as an unfilled `{{variable}}` counts as empty.
 </details>
 
 <details>
 <summary>Which report statuses resolve the incident?</summary>
-Resolved, Duplicate, Invalid/Spam, and Informational. New and Triaged reports keep the incident open. Spike also resolves when `is_closed` is true.
+Resolved, Closed, Duplicate, Invalid/Spam, and Informational, in any capitalisation. Spike also resolves when `is_closed` is `true`. New and Triaged reports keep the incident open. In every case the closing alert must carry the same `report_id` as the alert that opened the incident. A closing alert for a report with no open incident does not create one.
 </details>
 
 <details>
