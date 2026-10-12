@@ -29,7 +29,9 @@ Last9 sends `resolve` only when **Send Resolved** is enabled on the channel. Wit
 
 Spike identifies the incident by `dedup_key`, which Last9 keeps the same for one alert across its `trigger` and `resolve` notifications (it is at most 255 characters). The key is what makes a repeat join the open incident and a recovery resolve it, so the title is for display only.
 
-If a delivery carries no `dedup_key`, Spike falls back to matching on the title. The title is built so that it stays the same across notifications for the same alert.
+Spike matches the key exactly as Last9 sends it, whether it is a string or a number.
+
+If a delivery carries no `dedup_key`, or an empty one, Spike falls back to matching on the title. The title is built so that it stays the same across notifications for the same alert. A recovery without a `dedup_key` resolves the incident only when its `payload.summary`, `description`, `expression` and `entity_name` are the same as those of the notification that opened the incident. It never resolves an incident that was opened with a `dedup_key`.
 
 ## Incident title
 
@@ -42,7 +44,7 @@ High error rate on checkout-api: 5xx ratio above 5% for 10 minutes
 When `payload.summary` is empty, the title is built from what the rule carries, in this order:
 
 1. `payload.custom_details.description`, the description written on the alert rule.
-2. The indicator, the rule's threshold and the entity, for example `http 5xx ratio above 5 on checkout-api`. The entity is left off when it is empty or `None`.
+2. `payload.custom_details.expression` on `payload.custom_details.entity_name`, for example `http_5xx_ratio on checkout-api`. When only one of the two is present, that one is the title on its own. An entity of `None` counts as empty.
 3. `Last9 alert with no details` when nothing usable is present.
 
 A recovery is written as `Resolved: ` followed by the same title:
@@ -61,7 +63,7 @@ Use a [Title Remapper](../alerts/title-remapper.md) if you would rather read Las
 
 ## Severity
 
-Spike does not read a severity from the Last9 payload. `payload.severity` is kept on the incident but does not set the severity badge, so incidents open at your integration's default. To use Last9's levels, write an [alert rule](../alerts/alert-rules.md) on `payload.severity`. Read more about [priority and severity](../incidents/priority-and-severity.md).
+Spike reads every key named `severity` in the body, and the last one it finds wins. In the body Last9 sends, that is `payload.custom_details.severity` (for example `breach`), which is not a severity Spike recognises, so the badge is not set and incidents open at your integration's default. If a body has no `custom_details.severity`, `payload.severity` (for example `critical`) sets the badge instead. To set the severity yourself from Last9's levels, write an [alert rule](../alerts/alert-rules.md) on `payload.severity`. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
 ## Prerequisites
 
@@ -233,7 +235,7 @@ Compare `dedup_key` in the payloads on two incidents. If it differs, Last9 treat
 
 <summary>The severity badge ignores Last9's severity</summary>
 
-Expected. `payload.severity` is on the incident, so an [alert rule](../alerts/alert-rules.md) matching it can set the severity you want.
+Expected when the body carries `custom_details.severity` (for example `breach`): it is the last `severity` key in the body, and Spike does not recognise its value. `payload.severity` is on the incident, so an [alert rule](../alerts/alert-rules.md) matching it can set the severity you want.
 
 </details>
 
