@@ -19,7 +19,7 @@ Two fields in the body do all the work. `event_type` is a value **you** hardcode
 
 | `event_type` | The rule that sends it | What Spike does with the body |
 | --- | --- | --- |
-| `Uptime` | elmah.io's built-in **Uptime message** filter | Identifies the incident by `url`, the monitored endpoint. The failure, every repeat of it and the recovery all carry the same one |
+| `Uptime` | elmah.io's built-in **Uptime message** filter | Identifies the incident by `url`, the monitored endpoint, together with `event_type`. The failure, every repeat of it and the recovery all carry the same ones |
 | `Heartbeat` | A rule matching your heartbeat messages | Treated exactly like `Uptime` — `url` is the identity, so `is unhealthy` and `is degraded` are one incident |
 | `Error` | A rule matching your application's errors | Matched by **title** instead. On an error message `url` is the request URL, which is different on every occurrence of one exception, so Spike ignores it |
 
@@ -30,7 +30,7 @@ Two fields in the body do all the work. `event_type` is a value **you** hardcode
 | `Fatal` | Opens an incident and pages your escalation policy |
 | `Error` | Opens an incident and pages your escalation policy |
 | `Warning` | Opens an incident. A heartbeat's `degraded` is an open problem, not a recovery |
-| `Information` | **Auto-resolves** the open incident, and never opens one. Dropped when nothing is open |
+| `Information` | **Auto-resolves** the open uptime or heartbeat incident for the same `url`, and never opens one. Dropped when nothing is open. An error incident is never auto-resolved |
 | `Verbose` | Dropped. Opens nothing and resolves nothing |
 | `Debug` | Dropped. Opens nothing and resolves nothing |
 
@@ -44,8 +44,8 @@ Anything Spike does not recognise in `severity` — a word that is not one of th
 
 Identity is the endpoint for a check, and the exception itself for an error:
 
-* **Uptime and heartbeat messages** are keyed on `url`. That value is the endpoint or job elmah.io is watching, identical on the failure, on every repeat and on the recovery, so a flapping check pages once and resolves itself. It also holds while elmah.io rewords the sentence — a heartbeat that goes `degraded` and then `unhealthy` is two sentences about one problem and lands on one incident.
-* **Error messages** are matched on the incident title, which is why the title Spike builds for an error is byte-for-byte identical on every occurrence (see below). The second time an exception is thrown it joins the incident already open instead of paging again.
+* **Uptime and heartbeat messages** are keyed on `url` and `event_type`. `url` is the endpoint or job elmah.io is watching, identical on the failure, on every repeat and on the recovery, so a flapping check pages once and resolves itself. It also holds while elmah.io rewords the sentence — a heartbeat that goes `degraded` and then `unhealthy` is two sentences about one problem and lands on one incident. `event_type` keeps a check apart from an error whose request URL happens to be the same address.
+* **Error messages** are matched on the incident title, which is why the title Spike builds for an error is byte-for-byte identical on every occurrence (see below). The second time an exception is thrown it joins the incident already open instead of paging again. Errors have no recovery message, so an error incident closes when you resolve it or on its [resolve timer](../incidents/resolve-timer.md).
 
 {% hint style="warning" %}
 A rule body that sends no `url` — a key you dropped, or a variable your account does not support — still opens incidents, with the right title and the right severity. What it cannot do is auto-resolve reliably: with no endpoint to key on, Spike falls back to matching the recovery against the open incident's title, which works for elmah.io's `… is up` / `… is down` wording and for the heartbeat wording Spike knows, and resolves nothing when the sentence is worded some other way. Keep `url` in the body for uptime and heartbeat rules.
@@ -68,27 +68,25 @@ On an `Error` message the sentence is an exception message, and "Object referenc
 Object reference not set to an instance of an object (System.NullReferenceException) on checkout-api
 ```
 
-Either part is left off when elmah.io's sentence already names it, so an exception message that starts with its own type does not say it twice.
+Each is appended whenever the body sends it, and only when `event_type` is `Error`.
 
-### One sentence, and one that is not cut
+### The whole sentence, cut only at 200 characters
 
-The subject of the title is the **first sentence** of what the payload says, never more. .NET writes several sentences into one exception message often enough — `Timeout expired. The timeout period elapsed prior to obtaining a connection from the pool. This may have occurred because …` — and the first sentence is the fault while the rest is the explanation. The explanation is on the incident page; a title carrying two of them reads as a pasted log excerpt on a phone call.
+`title` is used **whole**, with whitespace collapsed, never shortened to its first sentence: .NET's argument exceptions read `Value cannot be null. (Parameter 'userId')`, and the part after the first full stop is what tells two of them apart. Titles are capped at 200 characters: over that, the exception type is dropped first, then the sentence is cut back to a word boundary, and ` on {application}` is always kept whole.
 
-A sentence ends at a full stop **followed by a space**, so the dots inside `System.FormatException`, a version number, or a `Spike.Reporting.dll` never end a title early.
+When `title` is empty, the title is the first of these that says something:
 
-One sentence can still be too long for a lock screen, and then Spike prefers a sentence that fits over one it has to cut. It takes the first of these that fits:
-
-| Order | Where the subject comes from |
+| Order | Title |
 | --- | --- |
-| 1 | The first sentence of `title` — elmah.io's own words |
-| 2 | The first sentence of **the first line of** `detail`, which is where the exception's one-line message lands. A leading `System.Whatever.Exception: ` is dropped, since the type is appended afterwards anyway |
-| 3 | `{type} on {application}`, then `{type}`, then `{application}` — reached only when the body holds no sentence at all |
+| 1 | The first non-empty line of `detail`, with ` ({type}) on {application}` after it on an error |
+| 2 | `{type} on {application}` |
+| 3 | `{application}` |
 | 4 | The literal `elmah.io alert with no details`, so a blank body still reads as something |
 
-Nothing past the first line of `detail` is ever read, which is what keeps the stack frames and their line numbers out of the title. If neither sentence fits, elmah.io's own is cut back to a word boundary, with the exception type dropped first and ` on {application}` kept whole.
+Nothing past the first line of `detail` is ever read, which is what keeps the stack frames and their line numbers out of the title.
 
 {% hint style="info" %}
-Titles carry no timestamps, no counters, no ids, no request URL and nothing past the first sentence. Every one of those moves between two occurrences of one exception, and an error incident is matched **by title** — a title that moves opens a second incident instead of joining the first. They are all on the incident page.
+Titles carry no timestamps, no counters, no ids and no request URL. Every one of those moves between two occurrences of one exception, and an error incident is matched **by title** — a title that moves opens a second incident instead of joining the first. They are all on the incident page.
 
 A recovery keeps elmah.io's own sentence, `https://api.example.com is up`, because that is what reads right in an event list. It does not have to match the failure's title: the incident is keyed on `url`.
 {% endhint %}
@@ -201,7 +199,7 @@ Every field is required in the sense that Spike reads it by name, and leaving on
 
 | Field | What Spike does with it | Leave it out and |
 | --- | --- | --- |
-| `event_type` | Says which shape this is: `Uptime`, `Heartbeat` or `Error`. Matched in any casing | Spike guesses from whether `type` is present. An uptime message would be read as an error if your body also carried `type` |
+| `event_type` | Says which shape this is: `Uptime`, `Heartbeat` or `Error`. Matched in any casing | The message is matched by title, gets no ` ({type}) on {application}`, and never auto-resolves |
 | `title` | elmah.io's sentence about the fault. **The incident title** | The title falls back to the first line of `detail`, then to the type and application |
 | `detail` | The stack trace, or the check's output. Shown on the incident page, and the title's fallback | Nothing is lost on the title when `title` arrives |
 | `severity` | Opens, resolves or drops the message, and sets the severity badge | Every message opens an incident and nothing ever auto-resolves |
@@ -348,7 +346,7 @@ First, the recovery has to arrive at all: it is a separate message in elmah.io, 
 
 Second, `severity` on the recovery has to be `Information`. `Warning` is a degraded check, which Spike keeps open on purpose.
 
-Third, for uptime and heartbeat messages, `url` has to be the same on the recovery as on the failure. If `url` is missing from the body, Spike falls back to matching the recovery's wording against the open incident's title, which only works for wording it recognises — `is up`, `is up again`, `is back up`, `is healthy`, `is healthy again`, `is online`, `is reachable`, `is available`, `is responding`. Adding `url` to the body is the fix.
+Third, the incident has to be an uptime or heartbeat incident, and `url` has to be the same on the recovery as on the failure. Error incidents never auto-resolve. If `url` is missing from the body, Spike falls back to matching the recovery's wording against the open incident's title, which only works for wording it recognises — `is up`, `is up again`, `is back up`, `is healthy`, `is healthy again`, `is online`, `is reachable`, `is available`, `is responding`. Adding `url` to the body is the fix.
 
 </details>
 
@@ -364,7 +362,7 @@ Third, for uptime and heartbeat messages, `url` has to be the same on the recove
 
 <summary>An error and an uptime check on the same endpoint became one incident</summary>
 
-They should not have, and the field to look at is `event_type`. An error message whose body says `Uptime` is keyed on `url` like a check, and on an error that `url` is the request URL — so two unrelated exceptions on the same path collapse onto one incident. Each rule's body must carry the `event_type` for the shape that rule forwards.
+They should not have: a check is keyed on `url` together with `event_type`, so it never joins an error incident whose request URL is the same address, and its recovery never resolves one. The field to look at is `event_type`. An error message whose body says `Uptime` is keyed on `url` like a check, and on an error that `url` is the request URL — so two unrelated exceptions on the same path collapse onto one incident. Each rule's body must carry the `event_type` for the shape that rule forwards.
 
 </details>
 
