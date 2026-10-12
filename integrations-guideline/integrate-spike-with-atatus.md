@@ -11,35 +11,37 @@ Atatus can post each of those moves to a webhook. Point a webhook at a Spike int
 
 ## What Spike does with each notification
 
-Spike reads the `status` field of every delivery. Matching is case-insensitive.
+Spike reads the `status` field of every delivery. Matching ignores case and surrounding spaces.
 
 | `status` | What Spike does |
 | --- | --- |
 | `Opened` | Opens an incident, or joins the open one with the same `incident_id` |
-| `Closed` | Resolves the incident with the same `incident_id` |
+| `Closed` | Resolves the open incident with the same `incident_id`. It never opens an incident on its own |
 | `Acknowledged` | Joins the open incident and never resolves it |
+
+`Resolved`, `OK` and `Cleared` are treated like `Closed`. A missing or unrecognised status opens an incident, so a notification is never silently dropped.
 
 ## Incident titles
 
-The title is Atatus's own sentence for the condition that fired, taken from `description`, followed by the affected target from `target_name`:
+The title is Atatus's own sentence for the condition that fired, taken from `description`:
 
 ```
-Response Time goes above 2000 ms on checkout-service
+Response Time goes above 2000 ms
 ```
 
-If `description` is empty, Spike falls back to the `rule_name`, then to the `alert_policy_name`. If none of them is present the title is `Atatus alert with no details`. Titles are capped at 200 characters.
+If `description` is empty, Spike uses `{rule_name} on {target_name}`, then `rule_name` alone when there is no target, then `alert_policy_name`. If none of them is present the title is `Atatus alert with no details`. Spaces are collapsed and titles are capped at 200 characters.
 
-A recovery is titled with the same sentence plus `— back to normal`:
+A recovery is titled with the same title plus `— resolved`:
 
 ```
-Response Time goes above 2000 ms on checkout-service — back to normal
+Response Time goes above 2000 ms — resolved
 ```
 
-Matching is done on `incident_id`, not on the title, so an Opened and a Closed notification of one Atatus incident always pair up. Without an `incident_id`, Spike falls back to matching the exact title, which only works while `description` and `target_name` do not change between notifications.
+Matching is done on `incident_id`, not on the title, so an Opened and a Closed notification of one Atatus incident always pair up. Without an `incident_id`, Spike falls back to matching the exact title, which only works while `description` does not change between notifications. A Closed notification resolves an incident only when both carry the same `incident_id`, or neither carries one.
 
 ## Severity
 
-Spike does not read `severity` from the payload; it is kept on the incident, but incidents open at your integration's default severity. Write an [alert rule](../alerts/alert-rules.md) on `severity` if you want Atatus levels on the badge. Read more about [priority and severity](../incidents/priority-and-severity.md).
+Spike reads the `severity` field onto the incident's severity badge: `Critical` becomes SEV1 and `Warning` becomes SEV2. Use an [alert rule](../alerts/alert-rules.md) on `severity` if you want a different mapping. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
 ## Prerequisites
 
@@ -115,9 +117,10 @@ The Closed notification of the same incident carries the same fields with `statu
 | Field | Required | Used for |
 | --- | --- | --- |
 | `status` | Yes | Opened, Closed or Acknowledged: decides whether to open, join or resolve |
-| `incident_id` | Yes | Pairs Opened with Closed. A number or a non-empty string |
+| `severity` | Optional | Critical or Warning: the incident's severity badge |
+| `incident_id` | Recommended | Pairs Opened with Closed. A number or a non-empty string. Without it Spike matches on the title |
 | `description` | Recommended | The incident title |
-| `target_name` | Recommended | The affected application, host or entity, added to the title |
+| `target_name` | Optional | Added to the title fallback when `description` is empty |
 | `rule_name` | Optional | Title fallback when `description` is empty |
 | `alert_policy_name` | Optional | Title fallback when `description` and `rule_name` are empty |
 
