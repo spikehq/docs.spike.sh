@@ -17,9 +17,9 @@ TestMu AI documents its webhook but does not publish a payload. The fields below
 
 | Field | Required | What Spike does with it |
 | --- | --- | --- |
-| `status_ind` | Yes | `failed` and `error` open or join an incident. `passed` resolves the open incident for the same test. `skipped`, `ignored` and `unknown` neither open nor resolve. |
+| `status_ind` | Recommended | `failed` and `error` open or join an incident. `passed` resolves the open incident for the same test and never opens one. `skipped`, `ignored` and `unknown` neither open nor resolve. A missing or unrecognised status opens an incident, so a notification Spike cannot read is never silently dropped. |
 | `name` | Recommended | The test name, set with the `name` capability in your test. Together with the browser and the platform or device, it identifies one test across runs. |
-| `remark` | No | The sentence your test sets with `setTestStatus`. When it reads as a sentence, it leads the incident title. The default `completed` is ignored. |
+| `remark` | No | The sentence your test sets with `setTestStatus`. When it reads as a sentence, it leads the incident title, trimmed only as far as the 200-character title limit needs. The default `completed` and other bare status words are ignored. |
 | `browser` | Recommended | Part of the test's identity, and shown in the title. |
 | `browser_version` | No | Shown in the title only. It is never part of the identity, because `latest` changes between runs. |
 | `platform` | Recommended | Operating system, such as `win11`. Part of the identity. |
@@ -46,9 +46,10 @@ Spike groups repeated failures into the open incident and suppresses alerts whil
 {% tabs %}
 {% tab title="Setup on TestMu AI" %}
 * Log in to your TestMu AI account and open **Settings**, then **Integrations**.
-* Open the **Webhook** integration.
-* Paste the **webhook URL** from Spike into the URL field.
-* Choose the test notifications to send, so that both failed and passed tests reach Spike. Passed results are what resolve incidents.
+* Under **Communication**, open **Webhooks** and click **Connect**.
+* Click **Add URL** and paste the **webhook URL** from Spike.
+* Enable the **Test Fail** and **Test Pass** notifications. Passed results are what resolve incidents.
+* Leave Build Completion, HyperExecute Job Completion and Agent Testing notifications off for this webhook. Spike does not know their shape yet, so each one may open an incident, for example one titled `TestMu AI alert with no details`.
 * Save the settings.
 {% endtab %}
 {% endtabs %}
@@ -79,6 +80,6 @@ Spike groups repeated failures into the open incident and suppresses alerts whil
 
 Spike opens the incident **Discount code SAVE10 was not applied: cart total stayed at $42.00 — Checkout - apply discount code on chrome 128.0, win11**.
 
-When the same test passes, the notification has `"status_ind": "passed"` and `"remark": "completed"`. Spike resolves the incident titled **Checkout - apply discount code passed on chrome, win11**.
+When the same test passes on the same browser and platform, the notification has `"status_ind": "passed"` and `"remark": "completed"`, and Spike resolves the open incident above. The pass itself is logged on the incident as **Checkout - apply discount code passed on chrome, win11**.
 
 You can also test the integration by posting the body above to your webhook URL with `Content-Type: application/json`.
