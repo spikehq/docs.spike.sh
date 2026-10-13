@@ -19,6 +19,7 @@ Point that webhook at a Spike integration URL and a LangSmith alert pages your o
 | --- | --- |
 | The first alert from a rule | Opens an incident and pages your escalation policy |
 | The same rule alerting again while its incident is open | Added as an event to that incident. It never pages again |
+| The same rule firing after you resolved its incident | Reopens that same incident instead of opening a new one |
 | A different rule | A separate incident, paged on its own |
 | A delivery with no `alert_rule_id` | Matched to an open incident by title instead, so the same title joins and a different title opens a new incident |
 
@@ -165,7 +166,7 @@ Spike keeps the whole body on the incident, so every field is available to [aler
 
 * **One webhook per rule.** Add the Spike webhook to each alert rule you want paged, or create several Spike integrations if teams own different projects.
 * **No recovery.** A cleared alert does not resolve its incident. Use the resolve timer.
-* **Resolving in Spike does not touch LangSmith.** The rule keeps running and will page again the next time it fires and nothing is open.
+* **Resolving in Spike does not touch LangSmith.** The rule keeps running and will fire again, and that firing reopens the incident you resolved (same `alert_rule_id`).
 
 ## Troubleshooting
 
@@ -189,7 +190,7 @@ The rule's description is empty, so Spike fell back to the name. Write a descrip
 
 <summary>Each firing opens a new incident</summary>
 
-Compare `alert_rule_id` on two incidents. If it is missing from the payload, Spike can only match on the title, so a title that changes between firings opens a new incident. If the ids match and the first incident was resolved, the next firing opens a new one by design.
+Compare `alert_rule_id` on two incidents. If it is missing from the payload, Spike can only match on the title, so a title that changes between firings opens a new incident. If the ids match, a firing after you resolved the first incident reopens that same incident, so two incidents with the same `alert_rule_id` are not expected. Report that to Spike support, and include both incident links and the `alert_rule_id` as sent.
 
 </details>
 
