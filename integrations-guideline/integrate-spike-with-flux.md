@@ -50,6 +50,8 @@ You send events to Spike with a Flux `Provider` of type `generic` and an `Alert`
 
 2. **Create the Provider:**
 
+   Save it as `spike-provider.yaml`.
+
    ```yaml
    apiVersion: notification.toolkit.fluxcd.io/v1beta3
    kind: Provider
@@ -64,6 +66,8 @@ You send events to Spike with a Flux `Provider` of type `generic` and an `Alert`
 
 3. **Create the Alert:**
 
+   Save it as `spike-alert.yaml`.
+
    ```yaml
    apiVersion: notification.toolkit.fluxcd.io/v1beta3
    kind: Alert
@@ -77,14 +81,20 @@ You send events to Spike with a Flux `Provider` of type `generic` and an `Alert`
      eventSources:
        - kind: Kustomization
          name: '*'
+         namespace: flux-system
+       - kind: Kustomization
+         name: '*'
+         namespace: apps
        - kind: HelmRelease
          name: '*'
+         namespace: apps
        - kind: GitRepository
          name: '*'
+         namespace: flux-system
    ```
 
    * **providerRef** (required): the Provider created in the previous step.
-   * **eventSources** (required): the Flux objects to watch. Add or remove kinds as needed, and set `namespace` on a source to limit it to one namespace.
+   * **eventSources** (required): the Flux objects to watch. A source without `namespace` only matches objects in the Alert's own namespace (`flux-system` here), and `*` is not supported for `namespace`. List one entry per kind and namespace you want to watch, as in the example (change `apps` to your own namespaces).
    * **eventSeverity** (required for auto-resolution): use `info` so Flux also sends success events. With `error`, incidents open but never resolve automatically.
    * **eventMetadata** (optional): any keys you add are sent in `metadata` and kept on the incident, but Spike does not read them.
 
@@ -176,7 +186,7 @@ The first payload above creates an incident titled `service/apps/webapp validati
 **No incidents appear in Spike:**
 * Check the Provider and Alert status with `kubectl -n flux-system get providers,alerts`; both should be ready.
 * Confirm the `address` in the Secret is the exact Spike webhook URL.
-* Confirm `eventSources` includes the kind and namespace of the failing object.
+* Confirm `eventSources` has an entry with the kind and `namespace` of the failing object. An entry without `namespace` only matches the Alert's own namespace.
 * Check the notification-controller logs: `kubectl -n flux-system logs deploy/notification-controller`.
 
 **Incidents do not resolve:**
