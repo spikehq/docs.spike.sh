@@ -15,7 +15,7 @@ Nothing is installed anywhere. One webhook alert method, attached to the alert p
 
 Every notification Nobl9 sends through the webhook opens an incident, or lands on the incident already open for the same alert.
 
-Nobl9 does not send a notification when an alert policy stops firing, so **Spike never resolves a Nobl9 incident on its own.** Resolve it in Spike when the SLO has recovered, or set a [resolve timer](../incidents/resolve-timer.md) on the service.
+Nobl9 does not send resolutions to webhook alert methods, so **Spike never resolves a Nobl9 incident on its own.** Resolve it in Spike when the SLO has recovered, or set a [resolve timer](../incidents/resolve-timer.md) on the service.
 
 ## Incident identity
 
@@ -34,8 +34,8 @@ Remaining error budget is 10%, Error budget would be exhausted in 15 minutes and
 When Nobl9 sends no conditions sentence, Spike builds the title from the next best thing it has, in this order:
 
 1. A no-data anomaly, when `anomaly_type` is `noData`: `No data for 15m from SLO checkout-availability in checkout`
-2. The conditions array, naming the first two and counting the rest: `Remaining error budget is 10%, Error budget would be exhausted in 15 minutes +1 more — SLO checkout-availability in checkout`
-3. The description you wrote on the alert policy: `Checkout availability is burning error budget too fast — SLO checkout-availability in checkout`
+2. The description you wrote on the alert policy, when it fits on one line: `Checkout availability is burning error budget too fast — SLO checkout-availability in checkout`
+3. The condition that describes the budget pace, from the conditions array: `Error budget would be exhausted in 15 minutes — SLO checkout-availability in checkout`
 4. The alert policy name: `fast-burn on SLO checkout-availability in checkout`
 5. `Nobl9 alert with no details` when the notification has none of the above
 
@@ -79,7 +79,7 @@ In Spike, go to **Integrations → Add integration → Nobl9**, attach it to a s
    * **Display name** and **Description** — optional
    * **URL** — the webhook URL from Step 1. *Required*
 
-4. **Choose the template.** Select **Custom template** and paste the body below. Every field is optional on the Spike side, but send all of them: the title and the incident identity are read from them.
+4. **Set Notification Details to Custom** and paste the body below. Every field is optional on the Spike side, but send all of them: the title and the incident identity are read from them.
 
 ```json
 {
@@ -107,6 +107,10 @@ In Spike, go to **Integrations → Add integration → Nobl9**, attach it to a s
 
 5. **Save** the alert method.
 
+{% hint style="danger" %}
+**Never add a top-level `message` key to the template,** even though Nobl9's own webhook example has one. When the body has a `message` key Spike treats it as an already-written title and skips the Nobl9 parsing, so the incident loses its conditions sentence and SLO details.
+{% endhint %}
+
 {% hint style="info" %}
 If you would rather use Nobl9's standard mode and pick variables as fields, include the same names as the keys above. Spike reads `alert_id`, `alert_policy_conditions_text`, `alert_policy_conditions` (or `alert_policy_conditions[]`), `anomaly_type`, `no_data_alert_after`, `alert_policy_description`, `alert_policy_name`, `slo_name`, `service_name` and `project_name`. The rest are kept on the incident for alert rules.
 {% endhint %}
@@ -119,7 +123,7 @@ An alert method receives nothing until an alert policy uses it.
 2. Under **Alert methods**, select the webhook alert method you created in Step 2.
 3. **Save** the policy, then make sure the SLOs you want covered are attached to it.
 
-For a no-data notification, make sure the SLO has a no-data alert enabled as well; Nobl9 sends it through the same alert methods.
+4. **Attach it to no-data alerts too.** No-data notifications are not sent by alert policies. Open the SLO, go to its **Anomaly detection / no-data** settings and select the same webhook alert method there.
 
 ## Step 4 — Confirm it end to end
 
