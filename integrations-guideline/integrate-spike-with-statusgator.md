@@ -21,11 +21,15 @@ In StatusGator, open the notification settings of the board or monitor you want 
 
 **Step 2**
 
-Paste the Spike webhook URL. Send the notification as a `POST` with a JSON body.
+Paste the Spike webhook URL. Send the notification as a `POST` with a JSON body. StatusGator documents no signing or auth header for webhooks; the token in the Spike URL is the credential, so treat the URL like a password.
 
 **Step 3**
 
 Tick the events you want to be notified about: status changes and, if you want to hear about suspected outages before the vendor confirms them, early warnings. Save.
+
+{% hint style="info" %}
+The screen names above follow StatusGator's webhook documentation. StatusGator changes its dashboard from time to time, so if a label differs, look for the webhook option under the notification settings.
+{% endhint %}
 
 ## What Spike does with each event
 
@@ -33,11 +37,12 @@ The `type` field decides what Spike does.
 
 | `type` | What happens |
 | --- | --- |
-| `StatusChange` with `status` `down`, `warn` or `maintenance` | Opens an incident and pages. |
+| `StatusChange` with `status` `down`, `warn` or `maintenance` | Opens an incident, or joins the one already open for that monitor, and pages. |
 | `StatusChange` with `status` `up` | Resolves the open incident for that monitor. |
-| `EarlyWarningSignal` | Opens, or joins, the incident for that monitor. It never resolves it. |
+| `StatusChange` with any other or missing `status` | Treated as firing: opens or joins. |
+| `EarlyWarningSignal` | Has no `status`. Opens, or joins, the incident for that monitor. It never resolves it. |
 
-`status` is compared after trimming and lower-casing. `maintenance` is treated as firing.
+`status` is compared exactly after trimming and ignoring case. `maintenance` is treated as firing.
 
 {% hint style="info" %}
 An early warning that StatusGator never follows with a `StatusChange` stays open until someone resolves it by hand.
@@ -45,23 +50,33 @@ An early warning that StatusGator never follows with a `StatusChange` stays open
 
 ## Incident identity
 
-Spike identifies the incident by `monitor.id`, the stable id of your StatusGator monitor. The firing, the early warning and the recovery of one monitor are therefore one incident. `monitor.id` must be a non-empty string; without one, Spike falls back to matching by title.
+Spike identifies the incident by `monitor.id`, the stable id of your StatusGator monitor. The firing, the early warning and the recovery of one monitor are therefore one incident, and a recovery only closes the incident of the same monitor. The title is for display only.
+
+`monitor.id` counts as an id when it is a non-empty string or a number, and is not an unexpanded template variable such as `$monitor_id` or `{{monitor.id}}`. Without a usable id Spike falls back to matching by title, which is why that shape gets the plain title described below.
 
 ## Incident title
 
-The title is the vendor's own sentence about the fault, followed by the monitor's name:
+With a `monitor.id`, the title is `{message} - {where} {state}`:
 
-* `message` from the status page, plus the name: `Elevated Error Rate on ChatGPT (OpenAI)`
-* Early warning: `Service outage (OpenAI), early warning`
+* Firing: `Elevated Error Rate on ChatGPT - OpenAI down`
+* `status` `warn`: `Increased latency - OpenAI degraded`
+* `status` `maintenance`: `Scheduled database upgrade - OpenAI under maintenance`
+* Missing or unknown `status`: `Elevated Error Rate on ChatGPT - OpenAI status changed`
+* Empty `message`, naming up to two components whose `current_status` is not `up`: `Chat, Images down on OpenAI` or `Chat, Images +2 more down on OpenAI`; with no components, `OpenAI is down`
+* Early warning: `Service outage - possible outage on OpenAI`, or `Possible outage on OpenAI (early warning)` when `summary` is empty
 * Recovery: `OpenAI is back up`
+* No usable `monitor.id`: `OpenAI status alert`, for both firing and recovery
+* Nothing usable in the body: `StatusGator alert with no details`
 
-The name is `monitor.display_name`, then `service.name`, then `monitor.url`, then `monitor.host`. When `message` is empty the title reads `OpenAI is down: Chat, Images`, naming up to two affected components from `component_status_changes`.
+`where` is `monitor.display_name`, then `service.name`, then `monitor.host`; never a URL or an id. Whitespace is collapsed and titles are capped at 200 characters, shortening the sentence and never the name. A long `message` is cut at its first clause.
 
 ## Fields
 
-Required: `type`, `status` and `monitor.id`.
+Required: `type` and `monitor.id`. `status` is required to resolve; without it a `StatusChange` is treated as firing.
 
-Read when present: `message`, `summary` (early warnings), `previous_status`, `monitor.display_name`, `monitor.url`, `monitor.host`, `service.name`, `component_status_changes[].name` and `component_status_changes[].current_status`.
+Read when present: `message`, `summary` (early warnings), `monitor.display_name`, `service.name`, `monitor.host`, `component_status_changes[].name` and `component_status_changes[].current_status`.
+
+Everything else in the body is kept on the incident page.
 
 ## Example payloads
 
@@ -70,7 +85,7 @@ Read when present: `message`, `summary` (early warnings), `previous_status`, `mo
 ```json
 {
   "type": "StatusChange",
-  "recorded_at": "2025-07-17T02:20:45Z",
+  "recorded_at": "2026-10-13T02:20:45Z",
   "service": {
     "id": "OUQJLhNcSb",
     "name": "OpenAI",
@@ -93,7 +108,7 @@ Read when present: `message`, `summary` (early warnings), `previous_status`, `mo
   "status": "down",
   "previous_status": "up",
   "message": "Elevated Error Rate on ChatGPT",
-  "details": "We have identified that users are experiencing elevated errors for ChatGPT and the API. We are working on a mitigation.",
+  "details": "We have identified that users are experiencing elevated errors for the impacted services. We are working on implementing a mitigation.",
   "component_status_changes": [
     {
       "group_name": "APIs",
@@ -116,7 +131,7 @@ Read when present: `message`, `summary` (early warnings), `previous_status`, `mo
 ```json
 {
   "type": "StatusChange",
-  "recorded_at": "2025-07-17T03:05:12Z",
+  "recorded_at": "2026-10-13T03:05:12Z",
   "service": {
     "id": "OUQJLhNcSb",
     "name": "OpenAI",
@@ -139,7 +154,7 @@ Read when present: `message`, `summary` (early warnings), `previous_status`, `mo
   "status": "up",
   "previous_status": "down",
   "message": "Elevated Error Rate on ChatGPT",
-  "details": "This incident has been resolved. Error rates for ChatGPT and the API have returned to normal.",
+  "details": "This incident has been resolved.",
   "component_status_changes": [
     {
       "group_name": "APIs",
