@@ -75,11 +75,11 @@ In Spike, go to **Integrations → Add integration → LangSmith**, attach it to
 3. **Set the rule.** Choose the metric to watch (error count, feedback score, latency or cost), the threshold and the window. Give the rule a clear **name**, and write a **description** that says what is wrong in a sentence, because Spike uses it as the incident title.
 4. **Add a webhook notification.** In the rule's notification options choose **Webhook** and fill in:
    * **URL** (required) — the Spike URL from Step 1
-   * **Headers** (optional) — leave empty; the token in the URL is the credential
-   * **Body** (optional) — leave it empty, or add your own JSON keys. LangSmith adds its alert fields to whatever you put there
+   * **Headers** (required for Spike) — add `{"Content-Type": "application/json"}`
+   * **Request Body Template** (required for Spike) — enter exactly `{}`. LangSmith adds its alert fields at the top level of whatever template you send, so Spike receives only those fields
 5. **Save the rule.**
 
-The delivery LangSmith adds to the payload is the body below. Spike reads `alert_rule_id`, `alert_rule_description`, `alert_rule_name`, `project_name`, `alert_rule_attribute`, `alert_rule_type`, `triggered_metric_value` and `triggered_threshold`. `workspace_name`, `alert_rule_url`, `runs_url` and `timestamp` are kept on the incident page but are not used. Only `alert_rule_id` is needed to join repeat firings of one rule into one incident; the others only shape the title.
+With the template `{}`, the delivery is the body below. Spike reads `alert_rule_id`, `alert_rule_description`, `alert_rule_name`, `project_name`, `alert_rule_attribute`, `alert_rule_type`, `triggered_metric_value` and `triggered_threshold`. `workspace_name`, `alert_rule_url`, `runs_url` and `timestamp` are kept on the incident page but are not used. Of these only `alert_rule_id` matters for joining repeat firings of one rule into one incident; the others only shape the title. Spike does not require any of them, but LangSmith always sends all twelve.
 
 {% hint style="warning" %}
 Treat the webhook URL like a password. If it leaks, archive the integration in Spike and create a new one, then update the URL on each rule.
