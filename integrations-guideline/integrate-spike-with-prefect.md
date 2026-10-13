@@ -43,18 +43,24 @@ Auto-resolution is supported for this integration. Spike will also automatically
 3. Enter a **Block Name**, for example `spike`.
 4. Set **Method** to `POST`.
 5. Paste the Spike webhook URL into the **URL** field.
-6. In **Headers**, add `Content-Type` with the value `application/json`. This header is required.
+6. In **Headers**, enter the JSON below. This header is required: without it Spike cannot read the body.
+
+```json
+{"Content-Type": "application/json"}
+```
+
 7. Click **Create**.
 
 **Create the Automations**
 
-Create two automations, one for failures and one for recoveries.
+Create one automation that handles both failures and recoveries.
 
 1. Open **Automations** and click **Add Automation** (the **+** button).
-2. **Trigger:** choose **Flow run state**. Select the flows you want to monitor (or all flows), set the state to **Failed**, **Crashed** and **TimedOut**, and set it to trigger **Immediately**. Click **Next**.
+2. **Trigger:** choose **Flow run state**. Select the flows you want to monitor (or all flows), set **Flow run enters** / expect the states **Failed**, **Crashed**, **TimedOut** and **Completed**, and set it to trigger **Immediately**. Click **Next**.
 3. **Actions:** choose **Call a webhook**, select the `spike` block, and paste the payload below into the **Payload** field. Click **Next**.
-4. Enter a name, for example `Spike - flow run failed`, and click **Save**.
-5. Repeat the steps for recoveries: choose **Flow run state**, set the state to **Completed**, call the same webhook with the same payload, and name it `Spike - flow run completed`.
+4. Enter a name, for example `Spike - flow run state`, and click **Save**.
+
+Prefect sends one webhook per state change. Spike opens an incident for Failed, Crashed and TimedOut runs and resolves it on a later Completed run of the same flow and deployment.
 
 All fields in the payload are used by Spike. `state_type`, `state`, `flow_id` and `deployment_id` are required for the incident to be opened, grouped and resolved correctly; the rest are shown on the incident or used in its title.
 
