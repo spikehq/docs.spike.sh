@@ -15,9 +15,9 @@ NVADR does not document a generic outbound webhook. Its notification destination
 
 ## Prerequisites
 
-* An NVADR account with access to the **Issue Tracker**
+* An NVADR account with access to the **Issue Tracker** and to **Settings → Integrations & API**, where you create a Public API key
 * An NVADR integration in Spike and its webhook URL
-* Something that can make an HTTPS POST when an NVADR issue is opened or closed
+* A place to run a small forwarder (a script on a schedule, a workflow tool or a serverless function) that can call `https://api.redhuntlabs.com` and POST to `hooks.spike.sh`. NVADR has no trigger that calls a URL when an issue changes, so the forwarder polls for changes
 
 ## Step 1 — Create the integration in Spike
 
@@ -27,14 +27,32 @@ In Spike, go to **Integrations → Add integration → NVADR (RedHunt Labs)**, a
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-## Step 2 — Find the issues in NVADR
+## Step 2 — Create an NVADR Public API key
 
-1. Sign in to NVADR and open **Issue Tracker**.
-2. Open an issue. Note its **ID**, **Status**, **Priority** and **Assignee**, and the risk, asset, severity and category it was raised on. Your forwarder reads these.
+1. Sign in to NVADR and go to **Settings → Integrations & API**.
+2. Create a Public API key and copy it. Store it as a secret in your forwarder; it is sent in the `x-api-key` header.
+3. Open **Issue Tracker** and look at an issue. Note its **ID**, **Status**, **Priority** and **Assignee**, and the risk, asset, severity and category it was raised on, so you can recognise them in the API response.
 
-## Step 3 — Send the issue to Spike
+## Step 3 — Run a forwarder that sends changes to Spike
 
-POST JSON to the webhook URL when an issue is opened or its status changes. Send one issue per request, with exactly these fields.
+NVADR does not push issues anywhere, so your forwarder polls the Issue Tracker API on a schedule, for example every 5 minutes:
+
+```bash
+curl -s -H "x-api-key: $NVADR_API_KEY" https://api.redhuntlabs.com/api/v1/issue-tracker/
+```
+
+On each run the forwarder should:
+
+1. Read the list of issues from the response.
+2. Compare each issue's `status` with what it stored on the previous run, keyed by the issue `id`. Store these between runs in a file or small database.
+3. For every issue that is new or whose status changed, map the response fields onto the body below and POST it to your Spike webhook URL with `Content-Type: application/json`. Send one issue per request.
+4. Store the new status only after Spike accepts the POST, so a failed request is retried on the next run.
+
+{% hint style="info" %}
+The key names in NVADR's list response are not documented with an example. `id`, `status`, `priority` and `assignee` match NVADR's Update Issue request. Check the others (`title`, `asset`, `severity`, `category`, `first_seen`, `last_seen`) against a real response from your account and map them to the body's names.
+{% endhint %}
+
+The body to send:
 
 ```json
 {
