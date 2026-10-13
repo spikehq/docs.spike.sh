@@ -13,31 +13,39 @@ Reveille has no webhook, so this integration uses Spike's [email integration](in
 
 Spike reads the email's **subject** and **body**. How you word the subject decides whether incidents resolve.
 
-| Subject ends with | Spike treats it as |
+The last outcome word in the subject, case ignored, decides the status:
+
+| Subject's last outcome word | Spike treats it as |
 | --- | --- |
-| `FAILED` | A failure. It opens an incident, or joins the one already open for that monitor. |
-| `SUCCESSFUL` | A recovery. It resolves the open incident for that monitor. |
-| Neither word | A failure that never resolves on its own. |
+| `FAILED`, `FAILURE`, `ERROR`, `WARNING` | A failure. It opens an incident, or joins the one already open for that monitor. |
+| `SUCCESSFUL`, `SUCCESS`, `SUCCEEDED`, `PASSED` | A recovery. It resolves the open incident for that monitor, and is dropped when nothing is open. |
+| None of these | A failure. |
 
-A dash may sit before the word: `-`, `–` and `—` are all accepted, and case is ignored.
-
-Spike identifies the monitor by the subject with that trailing dash and word removed, with whitespace collapsed and lowercase. `OnBase Production CHECK – FAILED` and `OnBase Production CHECK – SUCCESSFUL` both give `onbase production check`, so the success email resolves the incident the failure opened. Each monitor therefore needs its own subject, and its failure and success subjects must differ only in that last word.
+Spike identifies the monitor by an `alertKey` built from the subject: lowercased, whitespace collapsed, with the outcome words and stand-alone separators (`-`, `–`, `—`, `:`) removed. `OnBase-Prod CHECK – FAILED` and `OnBase-Prod CHECK – SUCCESSFUL` both give `onbase-prod check`, so the success email resolves the incident the failure opened. Each monitor therefore needs its own subject, and its failure and success subjects must differ only in the outcome word and the separator.
 
 {% hint style="warning" %}
 The `FAILED` and `SUCCESSFUL` words are not something Reveille adds. You set them yourself in the Monitor Status Email's error and no-error subjects (Step 2). Any other wording opens incidents but will not resolve them.
 {% endhint %}
 
+If the subject gives no usable `alertKey`, Spike matches by title instead. That happens when the subject is empty, holds only outcome words, or still holds an unexpanded variable such as `$name`, `${name}`, `{{name}}`, `%name%` or `<%=name%>`. A variable that was not replaced is never treated as a monitor name, so two different monitors that both arrive with `${name}` open two incidents.
+
 ## Incident title
 
-The title is the first non-empty line of the email body. That is the message you set for the error case, so write a sentence that says what is wrong and names the system:
+The title is the first line of the email body that is not blank, a greeting, or the status table's heading row. That is the message you set for the error case, so write a sentence that says what is wrong and names the system:
 
 ```
-OnBase Production check failed: the following items need to be addressed.
+OnBase production checks failed on OnBase-Prod: the Unity Scheduler is down and DIP imports are backing up.
 ```
 
-If the body is empty, the subject is the title. If both are empty, the title is `Reveille alert with no details`. A recovery email is titled with its subject, for example `OnBase Production CHECK – SUCCESSFUL`. The status table that follows the first line is kept on the incident page and is not part of the title.
+URLs are removed from the line, whitespace is collapsed, and the title is cut at a word boundary to 200 characters. If the body has no such line, the subject is the title (`OnBase-Prod CHECK – FAILED`), cut to 200 characters. If both are empty, the title is `Reveille alert with no details`.
 
-Matching uses the monitor name taken from the subject, not the title, so the title can change between cycles without opening a second incident. Titles are capped at 200 characters.
+A recovery email is titled the same way, with the first line of its body, for example `OnBase production checks on OnBase-Prod are back to normal. No action needed at this time.`
+
+When the subject gives no usable `alertKey`, the title is fixed so a repeat matches: `Reveille monitor check failed` for a failure and `Reveille monitor check successful` for a success. These two differ, so a recovery without a usable subject does not close a failure without one. Keep a real monitor name in both subjects.
+
+The status table that follows the first line (Group, Monitor, Resource, Test, Status, Log Message, Monitor Last Cycle Time) is kept on the incident page and is not part of the title. If the email has only an HTML part, Spike converts it to text and reads the same line.
+
+Matching uses the `alertKey`, not the title, so the title and table can change between cycles without opening a second incident.
 
 {% hint style="info" %}
 Reveille's own default message, `The following items need to be addressed.`, names neither the system nor the fault. Replace it with a sentence that does.
@@ -67,11 +75,11 @@ In Spike, go to **Integrations → Add integration → Reveille**, attach it to 
    * **SubjectError** — `<Monitor name> CHECK – FAILED`
    * **SubjectNoError** — `<Monitor name> CHECK – SUCCESSFUL`
 
-   Use the same monitor name in both, for example `OnBase Production CHECK – FAILED` and `OnBase Production CHECK – SUCCESSFUL`.
+   Use the same monitor name in both, for example `OnBase-Prod CHECK – FAILED` and `OnBase-Prod CHECK – SUCCESSFUL`.
 
 4. **Set the messages.**
-   * **MessageError** — one sentence that names the system and what failed, for example `OnBase Production check failed: the following items need to be addressed.` It must be the first line of the body, because it becomes the incident title.
-   * **MessageNoError** — for example `No action needed at this time.`
+   * **MessageError** — one sentence that names the system and what failed, for example `OnBase production checks failed on OnBase-Prod: the Unity Scheduler is down.` It must be the first line of the body, because it becomes the incident title.
+   * **MessageNoError** — for example `OnBase production checks on OnBase-Prod are back to normal. No action needed at this time.`
 
 5. **Repeat for each monitor,** with a different monitor name in each subject.
 
@@ -85,42 +93,42 @@ A failure:
 
 ```json
 {
-  "to": "ced6f1c82327db079e3f@email-hooks.spike.sh",
-  "from": "Reveille Monitor <reveille@stmarys-health.org>",
-  "subject": "OnBase Production CHECK – FAILED",
-  "text": "OnBase Production check failed: the following items need to be addressed.\n\nGroup: OnBase\nMonitor: OnBase Production\nResource: ONBAPP02\nTest: Unity Scheduler Service\nStatus: Error\nLog Message: Service 'Hyland Unity Scheduler' is Stopped\nMonitor Last Cycle Time: 10/9/2026 3:12:04 AM",
-  "html": "<p>OnBase Production check failed: the following items need to be addressed.</p><table><tr><th>Group</th><th>Monitor</th><th>Resource</th><th>Test</th><th>Status</th><th>Log Message</th><th>Monitor Last Cycle Time</th></tr><tr><td>OnBase</td><td>OnBase Production</td><td>ONBAPP02</td><td>Unity Scheduler Service</td><td>Error</td><td>Service 'Hyland Unity Scheduler' is Stopped</td><td>10/9/2026 3:12:04 AM</td></tr></table>",
-  "envelope": "{\"to\":[\"ced6f1c82327db079e3f@email-hooks.spike.sh\"],\"from\":\"reveille@stmarys-health.org\"}"
+  "to": "7c41e9a2d05b4f3e8a61@email-hooks.spike.sh",
+  "from": "Reveille Monitoring <reveille-alerts@northwind-insurance.com>",
+  "subject": "OnBase-Prod CHECK – FAILED",
+  "text": "OnBase production checks failed on OnBase-Prod: the Unity Scheduler is down and DIP imports are backing up.\n\nGroup | Monitor | Resource | Test | Status | Log Message | Monitor Last Cycle Time\nAlpharetta | OnBase-Prod | OnBase-AppServer-01 | 0 | Bad | Hyland Unity Scheduler service is not running | 10/13/2026 3:02:14 AM\nAlpharetta | OnBase-Prod | OnBase-DIP-Import | 2 | Warning | 412 documents waiting in the import folder for 35 minutes | 10/13/2026 3:02:14 AM",
+  "html": "<p>OnBase production checks failed on OnBase-Prod: the Unity Scheduler is down and DIP imports are backing up.</p><table border=\"1\"><tr><th>Group</th><th>Monitor</th><th>Resource</th><th>Test</th><th>Status</th><th>Log Message</th><th>Monitor Last Cycle Time</th></tr><tr style=\"background-color:#f8d7da\"><td>Alpharetta</td><td>OnBase-Prod</td><td>OnBase-AppServer-01</td><td>0</td><td>Bad</td><td>Hyland Unity Scheduler service is not running</td><td>10/13/2026 3:02:14 AM</td></tr><tr style=\"background-color:#fff3cd\"><td>Alpharetta</td><td>OnBase-Prod</td><td>OnBase-DIP-Import</td><td>2</td><td>Warning</td><td>412 documents waiting in the import folder for 35 minutes</td><td>10/13/2026 3:02:14 AM</td></tr></table>",
+  "envelope": "{\"to\":[\"7c41e9a2d05b4f3e8a61@email-hooks.spike.sh\"],\"from\":\"reveille-alerts@northwind-insurance.com\"}"
 }
 ```
 
-It opens an incident on the service you attached, titled with the first line of the body.
+It opens an incident on the service you attached, titled `OnBase production checks failed on OnBase-Prod: the Unity Scheduler is down and DIP imports are backing up.`
 
 A recovery:
 
 ```json
 {
-  "to": "ced6f1c82327db079e3f@email-hooks.spike.sh",
-  "from": "Reveille Monitor <reveille@stmarys-health.org>",
-  "subject": "OnBase Production CHECK – SUCCESSFUL",
-  "text": "No action needed at this time.",
-  "html": "<p>No action needed at this time.</p>",
-  "envelope": "{\"to\":[\"ced6f1c82327db079e3f@email-hooks.spike.sh\"],\"from\":\"reveille@stmarys-health.org\"}"
+  "to": "7c41e9a2d05b4f3e8a61@email-hooks.spike.sh",
+  "from": "Reveille Monitoring <reveille-alerts@northwind-insurance.com>",
+  "subject": "OnBase-Prod CHECK – SUCCESSFUL",
+  "text": "OnBase production checks on OnBase-Prod are back to normal. No action needed at this time.\n\nGroup | Monitor | Resource | Test | Status | Log Message | Monitor Last Cycle Time\nAlpharetta | OnBase-Prod | OnBase-AppServer-01 | 0 | Good | Hyland Unity Scheduler service is running | 10/13/2026 3:32:09 AM\nAlpharetta | OnBase-Prod | OnBase-DIP-Import | 2 | Good | 0 documents waiting in the import folder | 10/13/2026 3:32:09 AM",
+  "html": "<p>OnBase production checks on OnBase-Prod are back to normal. No action needed at this time.</p><table border=\"1\"><tr><th>Group</th><th>Monitor</th><th>Resource</th><th>Test</th><th>Status</th><th>Log Message</th><th>Monitor Last Cycle Time</th></tr><tr style=\"background-color:#d4edda\"><td>Alpharetta</td><td>OnBase-Prod</td><td>OnBase-AppServer-01</td><td>0</td><td>Good</td><td>Hyland Unity Scheduler service is running</td><td>10/13/2026 3:32:09 AM</td></tr><tr style=\"background-color:#d4edda\"><td>Alpharetta</td><td>OnBase-Prod</td><td>OnBase-DIP-Import</td><td>2</td><td>Good</td><td>0 documents waiting in the import folder</td><td>10/13/2026 3:32:09 AM</td></tr></table>",
+  "envelope": "{\"to\":[\"7c41e9a2d05b4f3e8a61@email-hooks.spike.sh\"],\"from\":\"reveille-alerts@northwind-insurance.com\"}"
 }
 ```
 
-It resolves the incident above, because both subjects reduce to `onbase production check`.
+It resolves the incident above, because both subjects reduce to the `alertKey` `onbase-prod check`.
 
 Check three things:
 
 1. A failure email opens an incident with your `MessageError` sentence as its title.
-2. The next failure email from the same monitor lands on that incident without paging again.
+2. A repeat failure email from the same monitor, with different table rows, lands on that incident without paging again.
 3. The success email resolves it.
 
 ## Things worth knowing
 
 * **A failure email that repeats** joins the open incident. How often Reveille repeats it depends on how you schedule the Monitor Status Email.
-* **A per-error email** from Reveille's Error Maintenance notifications has no `FAILED` or `SUCCESSFUL` word. Spike treats it as a failure keyed on its whole subject, and it never resolves on its own. Resolve those in Spike.
+* **A per-error email** from Reveille's Error Maintenance notifications has no outcome word. Spike treats it as a failure keyed on its subject, and it never resolves on its own. Resolve those in Spike.
 * **Several monitors** can share one Spike integration, because the subject separates them. Use a different integration per team if different teams own them.
 * **A resolved incident is not reopened** by a late failure for the same monitor. The next failure email opens a new incident.
 * Email integrations have a 30 MB payload limit.
@@ -131,7 +139,7 @@ Check three things:
 
 <summary>Incidents open but never resolve</summary>
 
-Check the subjects on the two emails. The success subject must end with `SUCCESSFUL`, the failure subject with `FAILED`, and everything before that word must be identical. The dash before the word may differ, but the monitor name may not. Also confirm Reveille actually sends the success email.
+Check the subjects on the two emails. The success subject must carry a success word (`SUCCESSFUL`, `SUCCESS`, `SUCCEEDED` or `PASSED`), the failure subject a failure word, and everything else must be identical. The separator may differ, but the monitor name may not. Reveille sends the success email only when `OnlySendOnError` is false; with it true, incidents never auto-resolve.
 
 </details>
 
@@ -139,7 +147,7 @@ Check the subjects on the two emails. The success subject must end with `SUCCESS
 
 <summary>The dash looks wrong in the subject</summary>
 
-Some mail relays rewrite the en dash. Spike accepts `-`, `–` and `—`, so the match still works as long as the word at the end is intact.
+Some mail relays rewrite the en dash. Spike ignores stand-alone `-`, `–`, `—` and `:` when it builds the key, so the match still works as long as the outcome word is intact.
 
 </details>
 
@@ -155,7 +163,7 @@ The title is your `MessageError` sentence. If it reads `The following items need
 
 <summary>An incident titled "Reveille alert with no details" opened</summary>
 
-The email had neither a subject nor a body. Check the Monitor Status Email settings in Step 2.
+The email had neither a subject nor a body line. Check the Monitor Status Email settings in Step 2.
 
 </details>
 
