@@ -15,9 +15,11 @@ Create a Microsoft Sentinel integration and copy the unique webhook URL.
 
 Microsoft Sentinel does not post webhooks by itself. You connect it to Spike with a **playbook**, which is an Azure Logic App that uses the **Microsoft Sentinel incident** trigger. An **automation rule** runs the playbook whenever an incident is created or updated. The playbook sends the incident to your Spike webhook URL with one **HTTP** action.
 
-* An incident with status `New` or `Active` opens a Spike incident, or joins the one already open for it.
-* An incident whose status changes to `Closed` resolves the Spike incident.
-* Spike identifies an incident by its Sentinel incident ID (`object.name`). If that is missing it uses the incident number (`object.properties.incidentNumber`). The ID is the same for every notification about one incident, so a repeat notification never pages twice and a close finds the incident it belongs to.
+* An incident with status `New` opens a Spike incident, or joins the one already open for it.
+* An incident with status `Active` joins the open Spike incident. If Sentinel reopens an incident that Spike already resolved, it reopens in Spike.
+* An incident with status `Closed` resolves the Spike incident.
+* Status is compared without regard to case or surrounding spaces. A missing or unknown status is treated as a new incident.
+* Spike identifies an incident by its Sentinel incident ID (`object.name`, the GUID at the end of `object.id`). The ID is the same for every notification about one incident, so a repeat notification never pages twice and a close finds the incident it belongs to. An empty value or an unexpanded template such as `@{...}` is not an ID.
 
 ### Fields Spike reads
 
@@ -25,13 +27,15 @@ Send the whole incident. These are the fields Spike reads:
 
 | Field | Required | Used for |
 | --- | --- | --- |
-| `object.name` | Yes | The incident ID. Matches a close to the open incident. |
-| `object.properties.incidentNumber` | Only if `object.name` is missing | Fallback incident ID. |
-| `object.properties.status` | Yes | `New` and `Active` open an incident. `Closed` resolves it. |
+| `object.name` | Yes | The incident ID. Matches repeats and the close to the open incident. |
+| `object.properties.status` | Yes | `New` opens or joins, `Active` joins or reopens, `Closed` resolves. |
 | `object.properties.description` | Recommended | The incident title in Spike. |
 | `object.properties.title` | Recommended | Title when `description` is empty, and in the resolved message. |
-| `object.properties.severity` | Recommended | Shown in the title when `description` is empty. |
-| `workspaceInfo.WorkspaceName` | Recommended | The workspace the incident belongs to. |
+| `object.properties.classification` | Optional | Shown in the resolved message, for example `TruePositive`. |
+| `object.properties.severity` | Recommended | Sets the Spike severity. It is not part of the title. |
+| `workspaceInfo.WorkspaceName` | Recommended | The workspace, used in the title when `description` is empty. |
+
+Nothing else in the body is needed. Do not edit the body: send `@{triggerBody()}` as it is.
 
 ### Integrating with Microsoft Sentinel
 
@@ -52,42 +56,41 @@ Send the whole incident. These are the fields Spike reads:
 6. In **Body**, select **Dynamic content** and choose **Incident** (the whole trigger body), or enter `@{triggerBody()}`.
 7. Select **Save**.
 
-Spike receives the incident exactly as Sentinel hands it to the playbook:
+Spike receives the incident exactly as Sentinel hands it to the playbook. A new incident looks like this:
 
 ```json
 {
+  "eventUniqueId": "b3f1e7a2-6c94-4d58-a1f0-8e2d5c7b9a16",
+  "objectSchemaType": "Incident",
+  "objectEventType": "Create",
   "workspaceInfo": {
-    "SubscriptionId": "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0",
+    "SubscriptionId": "7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47",
     "ResourceGroupName": "rg-secops-prod",
     "WorkspaceName": "law-sentinel-prod"
   },
-  "workspaceId": "5b1f7a2e-3c4d-4e8f-9a0b-1c2d3e4f5a6b",
+  "workspaceId": "e41a6b2d-0c7f-4e93-b815-3d9f62a1c7e8",
   "object": {
-    "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5",
-    "name": "73e01a99-5cd7-4139-a149-9f2736ff2ab5",
+    "id": "/subscriptions/7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/Incidents/5f8b2c1e-9a47-4d3b-8e61-2c9f0a7b4d13",
+    "name": "5f8b2c1e-9a47-4d3b-8e61-2c9f0a7b4d13",
+    "etag": "\"2a00c4d1-0000-0d00-0000-670b9e3c0000\"",
+    "type": "Microsoft.SecurityInsights/Incidents",
     "properties": {
-      "title": "Brute force attack against Azure Portal",
-      "description": "Identifies evidence of brute force activity against Azure Portal by highlighting multiple authentication failures followed by a successful login for the same user within a short time window.",
-      "severity": "Medium",
+      "title": "Brute force attack against an Entra ID account",
+      "description": "Identifies evidence of brute force activity against a user based on multiple authentication failures and at least one successful authentication within a given time window.",
+      "severity": "High",
       "status": "New",
-      "incidentNumber": 3177,
-      "incidentUrl": "https://portal.azure.com/#asset/Microsoft_Azure_Security_Insights/Incident/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5",
-      "providerName": "Azure Sentinel",
-      "providerIncidentId": "3177",
-      "createdTimeUtc": "2026-10-09T02:14:07Z",
-      "lastModifiedTimeUtc": "2026-10-09T02:14:07Z",
-      "firstActivityTimeUtc": "2026-10-09T01:58:41Z",
-      "lastActivityTimeUtc": "2026-10-09T02:09:12Z",
-      "labels": [],
       "owner": {
         "objectId": null,
         "email": null,
         "assignedTo": null,
         "userPrincipalName": null
       },
-      "relatedAnalyticRuleIds": [
-        "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/alertRules/fab3d2d4-747f-46a7-8ef0-9c0be8112bf7"
-      ],
+      "labels": [],
+      "firstActivityTimeUtc": "2026-10-13T02:41:07.113Z",
+      "lastActivityTimeUtc": "2026-10-13T02:52:48.902Z",
+      "lastModifiedTimeUtc": "2026-10-13T03:01:22.475Z",
+      "createdTimeUtc": "2026-10-13T03:01:22.475Z",
+      "incidentNumber": 4821,
       "additionalData": {
         "alertsCount": 1,
         "bookmarksCount": 0,
@@ -97,83 +100,107 @@ Spike receives the incident exactly as Sentinel hands it to the playbook:
         ],
         "tactics": [
           "CredentialAccess"
+        ],
+        "techniques": [
+          "T1110"
         ]
       },
-      "Alerts": [
+      "relatedAnalyticRuleIds": [
+        "/subscriptions/7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/alertRules/0c8f3b6e-27d1-4a59-9e4c-b1d7a2f5e830"
+      ],
+      "incidentUrl": "https://portal.azure.com/#asset/Microsoft_Azure_Security_Insights/Incident/subscriptions/7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/Incidents/5f8b2c1e-9a47-4d3b-8e61-2c9f0a7b4d13",
+      "providerName": "Azure Sentinel",
+      "providerIncidentId": "4821",
+      "alerts": [
         {
-          "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/entities/2f9c1d7e-8a4b-4c3d-9e6f-0a1b2c3d4e5f",
-          "name": "2f9c1d7e-8a4b-4c3d-9e6f-0a1b2c3d4e5f",
+          "id": "/subscriptions/7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/Entities/9e2d4a7c-1b63-4f08-a5d9-6c3e8b1f2a74",
+          "type": "Microsoft.SecurityInsights/Entities",
+          "kind": "SecurityAlert",
           "properties": {
-            "alertDisplayName": "Brute force attack against Azure Portal",
-            "description": "Identifies evidence of brute force activity against Azure Portal by highlighting multiple authentication failures followed by a successful login for the same user within a short time window.",
-            "severity": "Medium",
-            "status": "New",
-            "productName": "Azure Sentinel",
-            "compromisedEntity": "jane.doe@contoso.com",
+            "systemAlertId": "9e2d4a7c-1b63-4f08-a5d9-6c3e8b1f2a74",
             "tactics": [
               "CredentialAccess"
             ],
-            "timeGenerated": "2026-10-09T02:14:05Z",
-            "startTimeUtc": "2026-10-09T01:58:41Z",
-            "endTimeUtc": "2026-10-09T02:09:12Z"
+            "alertDisplayName": "Brute force attack against an Entra ID account",
+            "description": "Identifies evidence of brute force activity against a user based on multiple authentication failures and at least one successful authentication within a given time window.",
+            "severity": "High",
+            "productName": "Azure Sentinel",
+            "alertType": "7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47_0c8f3b6e-27d1-4a59-9e4c-b1d7a2f5e830",
+            "status": "New",
+            "startTimeUtc": "2026-10-13T02:41:07.113Z",
+            "endTimeUtc": "2026-10-13T02:52:48.902Z",
+            "timeGenerated": "2026-10-13T03:01:19.640Z",
+            "providerAlertId": "3c71f0b8-5d24-49ae-8b16-0f9a2e6d4c51",
+            "friendlyName": "Brute force attack against an Entra ID account"
           }
         }
-      ]
+      ],
+      "bookmarks": [],
+      "relatedEntities": [
+        {
+          "id": "/subscriptions/7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/Entities/a4c8e1f2-7b39-4d06-9e25-1f6b3a8c0d97",
+          "type": "Microsoft.SecurityInsights/Entities",
+          "kind": "Account",
+          "properties": {
+            "accountName": "jdoe",
+            "upnSuffix": "contoso.com",
+            "friendlyName": "jdoe@contoso.com"
+          }
+        },
+        {
+          "id": "/subscriptions/7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/Entities/d27b9f4a-3e18-4c65-b0a1-8f5c2e7d9b30",
+          "type": "Microsoft.SecurityInsights/Entities",
+          "kind": "Ip",
+          "properties": {
+            "address": "185.220.101.47",
+            "friendlyName": "185.220.101.47"
+          }
+        }
+      ],
+      "comments": []
     }
   }
 }
 ```
 
-When an analyst closes the incident, the playbook sends the same body with `status` set to `Closed`, the classification fields and an `incidentUpdates` block:
+When an analyst closes the incident, the playbook sends the same incident with `status` set to `Closed` and the classification fields:
 
 ```json
 {
+  "eventUniqueId": "f07c2d95-3a81-4e6b-9d24-5b1a8e3c6f02",
+  "objectSchemaType": "Incident",
+  "objectEventType": "Update",
   "workspaceInfo": {
-    "SubscriptionId": "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0",
+    "SubscriptionId": "7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47",
     "ResourceGroupName": "rg-secops-prod",
     "WorkspaceName": "law-sentinel-prod"
   },
-  "workspaceId": "5b1f7a2e-3c4d-4e8f-9a0b-1c2d3e4f5a6b",
-  "incidentUpdates": {
-    "updatedFields": [
-      "Status",
-      "Classification"
-    ],
-    "updatedTime": "2026-10-09T03:02:44Z",
-    "updatedBy": {
-      "source": "User",
-      "name": "sam.analyst@contoso.com"
-    }
-  },
+  "workspaceId": "e41a6b2d-0c7f-4e93-b815-3d9f62a1c7e8",
   "object": {
-    "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5",
-    "name": "73e01a99-5cd7-4139-a149-9f2736ff2ab5",
+    "id": "/subscriptions/7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/Incidents/5f8b2c1e-9a47-4d3b-8e61-2c9f0a7b4d13",
+    "name": "5f8b2c1e-9a47-4d3b-8e61-2c9f0a7b4d13",
+    "etag": "\"2a00f87e-0000-0d00-0000-670bc1a40000\"",
+    "type": "Microsoft.SecurityInsights/Incidents",
     "properties": {
-      "title": "Brute force attack against Azure Portal",
-      "description": "Identifies evidence of brute force activity against Azure Portal by highlighting multiple authentication failures followed by a successful login for the same user within a short time window.",
-      "severity": "Medium",
+      "title": "Brute force attack against an Entra ID account",
+      "description": "Identifies evidence of brute force activity against a user based on multiple authentication failures and at least one successful authentication within a given time window.",
+      "severity": "High",
       "status": "Closed",
       "classification": "TruePositive",
       "classificationReason": "SuspiciousActivity",
-      "classificationComment": "Password reset and sessions revoked for jane.doe@contoso.com",
-      "incidentNumber": 3177,
-      "incidentUrl": "https://portal.azure.com/#asset/Microsoft_Azure_Security_Insights/Incident/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5",
-      "providerName": "Azure Sentinel",
-      "providerIncidentId": "3177",
-      "createdTimeUtc": "2026-10-09T02:14:07Z",
-      "lastModifiedTimeUtc": "2026-10-09T03:02:44Z",
-      "firstActivityTimeUtc": "2026-10-09T01:58:41Z",
-      "lastActivityTimeUtc": "2026-10-09T02:09:12Z",
-      "labels": [],
+      "classificationComment": "Password reset and sessions revoked for jdoe; source IP blocked at the firewall.",
       "owner": {
         "objectId": "2046feea-040d-4a46-9e2b-91c2941bfa70",
-        "email": "sam.analyst@contoso.com",
-        "assignedTo": "Sam Analyst",
-        "userPrincipalName": "sam.analyst@contoso.com"
+        "email": "priya.nair@contoso.com",
+        "assignedTo": "Priya Nair",
+        "userPrincipalName": "priya.nair@contoso.com"
       },
-      "relatedAnalyticRuleIds": [
-        "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/alertRules/fab3d2d4-747f-46a7-8ef0-9c0be8112bf7"
-      ],
+      "labels": [],
+      "firstActivityTimeUtc": "2026-10-13T02:41:07.113Z",
+      "lastActivityTimeUtc": "2026-10-13T02:52:48.902Z",
+      "lastModifiedTimeUtc": "2026-10-13T05:32:16.208Z",
+      "createdTimeUtc": "2026-10-13T03:01:22.475Z",
+      "incidentNumber": 4821,
       "additionalData": {
         "alertsCount": 1,
         "bookmarksCount": 0,
@@ -183,8 +210,63 @@ When an analyst closes the incident, the playbook sends the same body with `stat
         ],
         "tactics": [
           "CredentialAccess"
+        ],
+        "techniques": [
+          "T1110"
         ]
-      }
+      },
+      "relatedAnalyticRuleIds": [
+        "/subscriptions/7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/alertRules/0c8f3b6e-27d1-4a59-9e4c-b1d7a2f5e830"
+      ],
+      "incidentUrl": "https://portal.azure.com/#asset/Microsoft_Azure_Security_Insights/Incident/subscriptions/7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/Incidents/5f8b2c1e-9a47-4d3b-8e61-2c9f0a7b4d13",
+      "providerName": "Azure Sentinel",
+      "providerIncidentId": "4821",
+      "alerts": [
+        {
+          "id": "/subscriptions/7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/Entities/9e2d4a7c-1b63-4f08-a5d9-6c3e8b1f2a74",
+          "type": "Microsoft.SecurityInsights/Entities",
+          "kind": "SecurityAlert",
+          "properties": {
+            "systemAlertId": "9e2d4a7c-1b63-4f08-a5d9-6c3e8b1f2a74",
+            "tactics": [
+              "CredentialAccess"
+            ],
+            "alertDisplayName": "Brute force attack against an Entra ID account",
+            "severity": "High",
+            "productName": "Azure Sentinel",
+            "status": "Resolved",
+            "startTimeUtc": "2026-10-13T02:41:07.113Z",
+            "endTimeUtc": "2026-10-13T02:52:48.902Z",
+            "timeGenerated": "2026-10-13T03:01:19.640Z",
+            "friendlyName": "Brute force attack against an Entra ID account"
+          }
+        }
+      ],
+      "bookmarks": [],
+      "relatedEntities": [
+        {
+          "id": "/subscriptions/7d3c9a52-4b1e-4f8a-9c26-1e5b8f0a3d47/resourceGroups/rg-secops-prod/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-prod/providers/Microsoft.SecurityInsights/Entities/a4c8e1f2-7b39-4d06-9e25-1f6b3a8c0d97",
+          "type": "Microsoft.SecurityInsights/Entities",
+          "kind": "Account",
+          "properties": {
+            "accountName": "jdoe",
+            "upnSuffix": "contoso.com",
+            "friendlyName": "jdoe@contoso.com"
+          }
+        }
+      ],
+      "comments": [
+        {
+          "properties": {
+            "message": "Password reset and sessions revoked for jdoe; source IP blocked at the firewall.",
+            "createdTimeUtc": "2026-10-13T05:31:58.044Z",
+            "author": {
+              "name": "Priya Nair",
+              "email": "priya.nair@contoso.com"
+            }
+          }
+        }
+      ]
     }
   }
 }
@@ -199,7 +281,7 @@ Sentinel needs permission to run playbooks in the resource group that holds the 
 
 #### Step 4: Create the automation rules
 
-Create two rules under **Configuration** > **Automation** > **Create** > **Automation rule**.
+Create two rules under **Configuration** > **Automation** > **Create** > **Automation rule**. If your workspace is onboarded to the Microsoft Defender portal, the same page is under **Microsoft Sentinel** > **Configuration** > **Automation** in [security.microsoft.com](https://security.microsoft.com), and Sentinel's Azure portal experience is retired after 31 March 2027.
 
 **Rule 1: new incidents**
 
@@ -212,12 +294,13 @@ Create two rules under **Configuration** > **Automation** > **Create** > **Autom
 
 1. **Name**: `Spike: incident closed`.
 2. **Trigger**: `When incident is updated`.
-3. **Conditions**: `Status` `Changed to` `Closed`.
-4. **Actions**: `Run playbook`, then select the same playbook.
-5. Select **Apply**.
+3. **Actions**: `Run playbook`, then select the same playbook.
+4. Select **Apply**.
+
+Leave the conditions empty so that closes and reopens are both sent. Other updates, such as a new owner or comment, are sent too and join the open Spike incident without paging again.
 
 {% hint style="info" %}
-Both rules run the same playbook. You do not need a separate one for closing: the incident's `status` in the body tells Spike whether to open or resolve.
+Both rules run the same playbook. You do not need a separate one for closing: the incident's `status` in the body tells Spike whether to open or resolve. In the Defender portal, several changes made within 5 to 10 minutes can arrive as a single update.
 {% endhint %}
 
 #### Step 5: Test it
@@ -226,8 +309,10 @@ Open an incident in Sentinel and run the playbook on it manually: **Incidents**,
 
 ### Good to know
 
-* The Spike incident title is the incident `description`, which by default is the description of the analytics rule. When it is empty, Spike uses the incident title, severity and workspace name instead.
-* The rules above only send an incident when it is created or when its status changes to `Closed`. Other updates, such as a reopen, are not sent.
+* The Spike incident title is the incident `description`, which by default is the description of the analytics rule. Whitespace is collapsed and a long description is cut at a clause or word boundary to 200 characters.
+* When `description` is empty or missing, the title is `{title} in {WorkspaceName}`. Without a workspace it is `{title}`. With neither, it is `Microsoft Sentinel incident in {WorkspaceName}` or `Microsoft Sentinel incident with no details`.
+* On close, the Spike message is `{title} closed in Microsoft Sentinel as {classification}`. Without a classification it is `{title} closed in Microsoft Sentinel`, and without a title `Microsoft Sentinel incident closed`.
+* Spike finds the open incident by the incident ID, not by the title, so an analyst editing the title or description in Sentinel does not break the close.
 * Resolving an incident in Spike does not close it in Sentinel. Close it in Sentinel and let the playbook resolve the Spike incident.
 
 Disclaimer: These integration instructions are offered independently by Spike, and Spike is not affiliated with nor a partner of Microsoft Corporation.
