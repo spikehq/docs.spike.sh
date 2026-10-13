@@ -77,7 +77,7 @@ The `severity` field (SL1's `%S`) is read as text and shown on the incident's se
 ## Prerequisites
 
 * An SL1 (Skylar One) account that can manage **Run Book** automation: actions and automation policies
-* The **Make an HTTP Request** action type available in your SL1. It comes from the HTTP Action Type PowerPack; if it is missing from the action type list, install that PowerPack first
+* The **HTTP Action Type PowerPack, version 102 or later**, installed in your SL1. It provides the **Make an HTTP Request** action type. Older versions (for example v100) do not substitute the run book variables inside `payload`, so every event arrives as the literal text `%e`, `%M`, `%X` and so on. Update the PowerPack first if you are on an older version
 * A ScienceLogic SL1 integration in Spike and its webhook URL
 * Outbound HTTPS from the SL1 system that runs the automation to `hooks.spike.sh`
 
@@ -99,15 +99,23 @@ You create two actions, one for each status. They differ only in the `status` li
 2. **Name it and choose the action type:**
    Give the action a name your team will recognise, for example `Spike - event active`, and set **Action Type** to **Make an HTTP Request**.
 
-3. **Fill in the request.** Required fields:
-   * **HTTP Method** — `POST`
-   * **URL** — the webhook URL from Step 1, with nothing appended
-   * **Headers** — `Content-Type: application/json`
-   * **Payload** — the JSON from the next section, with `"status": "active"`
+3. **Fill in the Input Parameters.** The **Make an HTTP Request** action takes one **Input Parameters** JSON document rather than separate method, URL and header fields. Enter the JSON below, replacing the URL with the webhook URL from Step 1 (nothing appended) and using the payload from the next section with `"status": "active"`:
 
-   The token in the URL is the credential, so no username, password or authorization header is needed. Treat the URL like a password, and if it leaks, archive the integration and create a new one.
+   ```json
+   {
+     "credential_id": 0,
+     "url_override": "https://hooks.spike.sh/<your-token>/push-events",
+     "payload_type": "json",
+     "payload": { ... the payload from the next section ... }
+   }
+   ```
 
-4. **Save the action,** then repeat for a second action named `Spike - event cleared`, using the same URL and the payload with `"status": "cleared"`.
+   * `credential_id` — `0`. SL1 requires this when `url_override` is used, and it is correct: the token in the URL is the credential, so no username, password or authorization header is needed.
+   * `url_override` — the Spike webhook URL. Treat it like a password, and if it leaks, archive the integration and create a new one.
+   * `payload_type` — `json`. Without it SL1 does not send the payload as JSON to the webhook.
+   * `payload` — the JSON body from the next section.
+
+4. **Save the action,** then repeat for a second action named `Spike - event cleared`, with the same `credential_id`, `url_override` and `payload_type` and the payload with `"status": "cleared"`.
 
 {% content-ref url="archive-an-integration.md" %}
 [archive-an-integration.md](archive-an-integration.md)
@@ -115,7 +123,7 @@ You create two actions, one for each status. They differ only in the `status` li
 
 ## The payload
 
-Paste this into the **Payload** field of the active action. Keep the field names exactly as written, and keep every field, since each is what the responder reads on the incident page. The `%`-prefixed tokens are SL1 run book variables and SL1 substitutes them each time the policy runs; keep them in quotes.
+Use this as the `payload` value in the Input Parameters of the active action. Keep the field names exactly as written, and keep every field, since each is what the responder reads on the incident page. The `%`-prefixed tokens are SL1 run book variables and SL1 substitutes them each time the policy runs; keep them in quotes.
 
 ```json
 {
@@ -166,7 +174,9 @@ For the cleared action, the payload is the same with the first line changed:
 ```
 
 {% hint style="warning" %}
-Check on the first real event that SL1 sends the request with `Content-Type: application/json`. If your SL1 version does not let the HTTP action set it, use a credential with JSON content encoding. Depending on your SL1 version, the action's input parameters may take the payload as a JSON object or as a JSON-encoded string. If SL1 shows the payload as a string field, paste the JSON as it is shown above and check on the first real event that the incident page shows the fields separately rather than one long string.
+Check on the first real event that the incident page shows the fields separately and that the values are real (an event id and a device name), not the literal tokens `%e` and `%X`. Literal tokens mean the HTTP Action Type PowerPack is older than v102. If the request does not arrive as JSON, SL1 may need a SOAP/XML credential with JSON content encoding instead of `credential_id` `0`; ScienceLogic does not document which your version needs.
+
+If every event carries literal tokens, all of them share one title and one open incident, so later faults do not page and the first cleared delivery closes it.
 {% endhint %}
 
 ## Step 3 — Create the automation policies
@@ -278,7 +288,7 @@ Spike resolves on `status` `cleared` and only while the incident is still open. 
 
 <summary>The fields show up as literal %-tokens</summary>
 
-SL1 did not substitute that variable. Spike treats a raw token as empty, so the title falls back to the policy and device. Check the variable spelling in the payload against the table above, and that the variable exists in your SL1 version. If `%_event_policy_name` is not substituted, a firing event with an id still uses SL1's event message, and a recovery falls back to `ScienceLogic event on <entity_name> cleared`.
+SL1 did not substitute that variable. If all of them are literal tokens, the HTTP Action Type PowerPack is older than v102: update it. Spike treats a raw token as empty, so the title falls back to the policy and device. Check the variable spelling in the payload against the table above, and that the variable exists in your SL1 version. If `%_event_policy_name` is not substituted, a firing event with an id still uses SL1's event message, and a recovery falls back to `ScienceLogic event on <entity_name> cleared`.
 
 </details>
 
