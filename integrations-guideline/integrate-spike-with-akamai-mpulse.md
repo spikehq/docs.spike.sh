@@ -39,14 +39,21 @@ mPulse does not document a notification when an alert clears, so Spike cannot re
 1. **Log in to mPulse** with a user who can edit alerts for your app.
 
 2. **Open the alert:**
-   Go to **Alerts**, then create a new alert or open the alert definition you want to send to Spike.
+   Go to **Alerts**, then select **New** to create an alert, or open the alert definition you want to send to Spike.
 
-3. **Add a webhook action:**
-   In the alert's notification settings, add a **Webhook** and paste the **webhook URL** from Spike into the URL field.
-   Set the method to `POST` and the content type to `application/json`.
+3. **Add the webhook notification:**
+   Add a notification and choose **Call Webhook**. Set:
+   * **Method**: `POST`
+   * **URL**: the Spike webhook URL, `https://hooks.spike.sh/<token>/push-events`
+   * **Header**: `Content-Type: application/json`
+   * **Mode**: `Custom`
+
+   {% hint style="warning" %}
+   Keep the mode on **Custom**. With the default mode mPulse sends its own payload, which has no `alert_name` or `app_name`, so every alert gets the title `Akamai mPulse alert with no details` and they all merge into one incident.
+   {% endhint %}
 
 4. **Set the body:**
-   Paste the following JSON as the body. Replace each value with the matching mPulse attribute:
+   In the body, use this JSON. Replace each value by dragging the matching mPulse attribute in between the quotes:
 
    ```json
    {
@@ -76,6 +83,10 @@ mPulse does not document a notification when an alert clears, so Spike cannot re
    | `page_load_time`, `dns_resolution_time`, `dom_load_time`, `dom_ready_time`, `back_end_time`, `ssl_time`, `front_end_time`, `tcp_time` | No | Timer readings at alert time, sent as strings with their unit. Context only. |
 
    Spike builds the incident title as `<alert_name> on <app_name>`, for example `Checkout page load time above 4s on shop-production`. The `on <app_name>` part is left out when the alert name already contains the app name as a whole word, and the title is cut to 200 characters. Readings and severity never appear in the title, so a repeat with new readings joins the open incident. If `alert_name` is missing, the title is `Akamai mPulse alert on <app_name>`; with neither, it is `Akamai mPulse alert with no details`.
+
+   {% hint style="warning" %}
+   Do not add a top-level `message` key to the body, for example `"message": "<Alert Name> fired"`. Spike then uses that text as the title for every alert instead of building it from `alert_name` and `app_name`.
+   {% endhint %}
 
    {% hint style="warning" %}
    If an attribute is left unexpanded (it arrives as text such as `$alert_name`, `{{alert_name}}` or `%alert_name%`), Spike treats it as missing. Two different alerts then cannot be told apart by name, so check that each value is replaced by the real mPulse attribute.
