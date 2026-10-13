@@ -27,7 +27,7 @@ Spike identifies the monitor by an `alertKey` built from the subject: lowercased
 The `FAILED` and `SUCCESSFUL` words are not something Reveille adds. You set them yourself in the Monitor Status Email's error and no-error subjects (Step 2). Any other wording opens incidents but will not resolve them.
 {% endhint %}
 
-If the subject gives no usable `alertKey`, Spike matches by title instead. That happens when the subject is empty, holds only outcome words, or still holds an unexpanded variable such as `$name`, `${name}`, `{{name}}`, `%name%` or `<%=name%>`. A variable that was not replaced is never treated as a monitor name, so two different monitors that both arrive with `${name}` open two incidents.
+If the subject gives no usable `alertKey`, Spike matches by title instead. That happens when the subject is empty, holds only outcome words, or still holds an unexpanded variable such as `$name`, `${name}`, `{{name}}`, `%name%` or `<%=name%>`. A variable that was not replaced is never treated as a monitor name. Every email without a usable key is titled `Reveille monitor check failed`, so they all join the same open incident, whichever monitor sent them, and none of them resolves automatically: the matching success email is titled `Reveille monitor check successful`, which never matches. Resolve these in Spike, and give every monitor a real name in its subjects.
 
 ## Incident title
 
@@ -53,7 +53,7 @@ Reveille's own default message, `The following items need to be addressed.`, nam
 
 ## Prerequisites
 
-* A Reveille Local Monitor Server where you can edit the **Alerts** tab and the Monitor Status Email settings
+* A Reveille installation where you can edit `MonitorStatusTemplate.xml` and schedule `ReveilleMonitorStatus.exe`
 * Permission to set the mail server and the From address Reveille sends with
 * A Spike email integration and its address
 
@@ -67,23 +67,27 @@ In Spike, go to **Integrations → Add integration → Reveille**, attach it to 
 
 ## Step 2 — Configure the Monitor Status Email in Reveille
 
-1. **Open the Local Monitor Server** and go to the **Alerts** tab. Set the mail server and the sender address Reveille sends from. That address shows as `from` on the incident page. Spike does not use it for routing.
+Reveille sends this email through `ReveilleMonitorStatus.exe`, which reads its settings from an XML file, `MonitorStatusTemplate.xml`. Edit a copy of that file for each Spike address you want to notify.
 
-2. **Open the Monitor Status Email settings** for the monitor and add the Spike address from Step 1 as a recipient.
+1. **Set the mail server and sender** in the file's mail settings as you do for your other Monitor Status Emails. The sender shows as `from` on the incident page. Spike does not use it for routing.
 
-3. **Set the subjects.** Both are required for auto-resolve:
-   * **SubjectError** — `<Monitor name> CHECK – FAILED`
-   * **SubjectNoError** — `<Monitor name> CHECK – SUCCESSFUL`
+2. **Add the Spike address** from Step 1 as a `<To>` under `<Recipients>`.
+
+3. **Set the subjects** under `<Message>`. Both are required for auto-resolve:
+   * `<SubjectError>` — `<Monitor name> CHECK – FAILED`
+   * `<SubjectNoError>` — `<Monitor name> CHECK – SUCCESSFUL`
 
    Use the same monitor name in both, for example `OnBase-Prod CHECK – FAILED` and `OnBase-Prod CHECK – SUCCESSFUL`.
 
-4. **Set the messages.**
-   * **MessageError** — one sentence that names the system and what failed, for example `OnBase production checks failed on OnBase-Prod: the Unity Scheduler is down.` It must be the first line of the body, because it becomes the incident title.
-   * **MessageNoError** — for example `OnBase production checks on OnBase-Prod are back to normal. No action needed at this time.`
+4. **Set the messages,** also under `<Message>`:
+   * `<MessageError>` — one sentence that names the system and what failed, for example `OnBase production checks failed on OnBase-Prod: the Unity Scheduler is down.` It must be the first line of the body, because it becomes the incident title.
+   * `<MessageNoError>` — for example `OnBase production checks on OnBase-Prod are back to normal. No action needed at this time.`
 
-5. **Repeat for each monitor,** with a different monitor name in each subject.
+5. **Set `<OnlySendOnError>false</OnlySendOnError>`** under `<Message>`. With `true`, Reveille never sends the success email and incidents stay open until you resolve them in Spike.
 
-6. **Save,** then run the Monitor Status Email once so the first failure and success emails are sent.
+6. **Choose the monitors** the email covers under `<StatusItems>`. Use one file, with its own subjects, for each monitor name you want as a separate incident.
+
+7. **Schedule `ReveilleMonitorStatus.exe`** with that file (for example as a Windows scheduled task), and run it once so the first failure and success emails are sent.
 
 ## Step 3 — Confirm it end to end
 
@@ -163,7 +167,7 @@ The title is your `MessageError` sentence. If it reads `The following items need
 
 <summary>An incident titled "Reveille alert with no details" opened</summary>
 
-The email had neither a subject nor a body line. Check the Monitor Status Email settings in Step 2.
+The email had neither a subject nor a body line. Check the `<Message>` settings in Step 2.
 
 </details>
 
@@ -171,7 +175,7 @@ The email had neither a subject nor a body line. Check the Monitor Status Email 
 
 <summary>Nothing arrives in Spike</summary>
 
-Check that the Spike address is a recipient of the Monitor Status Email and that the Local Monitor Server can send mail to the outside. Test by sending a message to the address from any mail client.
+Check that the Spike address is a `<To>` under `<Recipients>` in the file you scheduled and that the server running `ReveilleMonitorStatus.exe` can send mail to the outside. Test by sending a message to the address from any mail client.
 
 </details>
 
