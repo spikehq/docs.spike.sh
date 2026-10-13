@@ -135,6 +135,8 @@ The same task when it is completed, which resolves the incident:
 }
 ```
 
+Type `completed` as `false` or `true` without quotes, and quote `gid`. Spike also accepts `"true"` as text, in case your tool sends it that way.
+
 If a task belongs to several projects, your tool may give you the project names as one comma-joined text; that text is shown as the project in the title.
 
 From a script, `POST` the same JSON to the webhook URL with the header `Content-Type: application/json`.
