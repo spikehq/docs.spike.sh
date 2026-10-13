@@ -65,11 +65,17 @@ The built-in `is_incident` filter passes failing events and the event that resol
 
 ## Step 4 — Add the pipeline to your checks
 
-In the Web UI open **Configuration → Checks**, edit a check, and under **Pipelines** add `spike_alerts`. With `sensuctl`:
+In the Web UI open **Configuration → Checks**, edit a check, and under **Pipelines** add `spike_alerts`. With `sensuctl`, run `sensuctl edit check check-disk-usage` and add a `pipelines` entry to the check's `spec`:
 
-```bash
-sensuctl check set-pipelines check-disk-usage spike_alerts
+```yaml
+spec:
+  pipelines:
+    - name: spike_alerts
+      type: Pipeline
+      api_version: core/v2
 ```
+
+Or put the same `pipelines` list in the check's YAML and apply it with `sensuctl create`. `sensuctl` has no `set-pipelines` subcommand, so the pipeline has to be listed in the check definition.
 
 ## Step 5 — Confirm it with a failing check
 
