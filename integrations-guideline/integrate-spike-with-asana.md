@@ -74,7 +74,7 @@ In Spike, go to **Integrations → Add integration → Asana**, attach it to a s
 Create two automations, one for a new task and one for a completed task. Both send a `POST` request to the webhook URL from Step 1 with the header `Content-Type: application/json`.
 
 1. **Trigger on the Asana task.** In Zapier choose the **Asana** app as the trigger and pick the new-task event for the first automation and the completed-task event for the second. In Make, add an **Asana** module that watches tasks in the project.
-2. **Add the request step.** In Zapier add **Webhooks by Zapier → POST**. In Make add **HTTP → Make a request**. Set the URL to your Spike webhook URL, the method to `POST`, and the body type to JSON.
+2. **Add the request step.** In Zapier add **Webhooks by Zapier → Custom Request**, not the plain **POST** action: **POST** only takes flat key/value fields and cannot build the nested `data` object. Set **Method** to `POST`, **URL** to your Spike webhook URL, **Data** to the raw JSON below with the Asana fields mapped in, and add the header `Content-Type: application/json` under **Headers**. In Make add **HTTP → Make a request**, set the URL to your Spike webhook URL, the method to `POST`, the body type to **Raw** and the content type to **JSON (application/json)**.
 3. **Build the body** so that it has exactly the shape below, filling the fields from the Asana task. Send `"completed": false` from the new-task automation and `"completed": true` from the completed-task automation. If a variable is left unexpanded, Spike treats it as missing.
 
 A task body that opens an incident:
