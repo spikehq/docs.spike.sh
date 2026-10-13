@@ -17,29 +17,30 @@ Auto-resolution is supported for this integration. Spike also groups repeated no
 
 ## How Spike identifies an alert
 
-Spike identifies the incident by the alert's `fingerprint`. OpsPilot generates the same fingerprint for the same rule and labels, so a repeat notification joins the open incident and the recovery notification resolves it, even when the readings in the summary have changed.
+Spike identifies the incident by `alerts[0].fingerprint`, the stable hash of the alert's labels. It is the same on the firing and the resolved notification, so a repeat joins the open incident and the recovery resolves it, even when the readings in the summary have changed.
 
-* If a notification carries no `fingerprint`, Spike falls back to the notification's `groupKey`.
-* If it carries neither, Spike can only match by incident title. In that case the title is the plain `<alertname> on <instance>` with no readings, so that it is identical at firing and at recovery.
+* If `alerts[0].fingerprint` is empty or an unexpanded template such as `{{ .Fingerprint }}`, Spike uses the notification's `groupKey` under the same rule.
+* If neither is usable, Spike can only match by incident title. In that case the title is the plain `<alertname> on <where>` with no readings, so it is identical at firing and at recovery.
+* A `resolved` notification (`status` `resolved`, or `state` `ok`) only closes an incident and never opens one.
 
 ## Incident title
 
 The title is the sentence you set in the contact point's **Message** setting (see Step 2), with whitespace collapsed and capped at 200 characters:
 
 ```
-High CPU on production-server-01: 94.2%
+Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)
 ```
 
 If **Message** is empty, or is still Grafana's default multi-line template (it starts with `**Firing**` or `**Resolved**`), Spike falls back in this order:
 
-1. The summary shared by every alert in the notification (`commonAnnotations.summary`)
-2. The shared description (`commonAnnotations.description`)
-3. For a single alert, that alert's `summary`, then its `description`
-4. For several firing alerts: `3 alerts firing for High CPU - Any Instance: production-server-01, production-server-02 +1 more`
-5. `<alertname> on <instance>`, where the place is the `instance` label, then `job`, then `group`
+1. The first alert's `annotations.summary`
+2. `commonAnnotations.summary`
+3. The first alert's `annotations.description`
+4. `<alertname> on <where>`, for example `High CPU usage on checkout-api-02`. The alert name is the first alert's `alertname` label, then `commonLabels.alertname`. The place is the `instance` label (first alert, then `commonLabels`), then `grafana_folder`; ` on <where>` is left out when there is none.
+5. When several alerts arrive together and there is no sentence: `4 alerts in Production: High CPU usage, Low disk space +2 more`. It names at most two distinct rules.
 6. `OpsPilot alert with no details`
 
-A recovery is titled `Resolved: <alertname> on <instance>`. Spike resolves by fingerprint, so this title may differ from the one the incident opened with.
+A recovery is titled `<alertname> on <where> resolved`. Spike resolves by fingerprint, so this title may differ from the one the incident opened with. The readings in `values` never appear in a title.
 
 Use a [Title Remapper](../alerts/title-remapper.md) if you want a different title.
 
@@ -105,21 +106,19 @@ Spike reads the following fields. `alerts[].fingerprint`, `status` and `alerts` 
 | Field | Used for |
 | --- | --- |
 | `message` | The incident title |
-| `status` | `firing` while any alert in the group fires, `resolved` when the group has recovered |
-| `state` | `alerting` when firing, `ok` on recovery (a secondary recovery signal) |
-| `groupKey` | Identity fallback when alerts carry no fingerprint |
+| `status` | `firing` opens or joins an incident, `resolved` closes it and never opens one |
+| `state` | `alerting` when firing, `ok` on recovery (used when `status` is missing) |
 | `alerts` | The grouped alert instances. The number of alerts is the batch count |
-| `alerts[].status` | `firing` or `resolved` for each alert |
+| `alerts[].status` | `firing` or `resolved` for each alert. If the first alert is `resolved`, no new incident is opened |
 | `alerts[].fingerprint` | The stable id of the alert, used to join repeats and to resolve |
-| `alerts[].labels.alertname` | The rule name |
-| `alerts[].labels.instance` | The instance the alert is about, first choice for the place in a title |
-| `alerts[].labels.job` | The application name, second choice |
-| `alerts[].labels.group` | The instance group, third choice |
-| `alerts[].annotations.summary` | What happened, usually with the reading |
-| `alerts[].annotations.description` | Why it matters |
-| `commonLabels.alertname` | The rule name shared by every alert in a batch |
-| `commonAnnotations.summary` | The summary shared by every alert in the group |
-| `commonAnnotations.description` | The description shared by every alert in the group |
+| `groupKey` | Identity fallback when the first alert has no usable fingerprint |
+| `alerts[].annotations.summary` | First title fallback |
+| `commonAnnotations.summary` | Second title fallback |
+| `alerts[].annotations.description` | Third title fallback |
+| `alerts[].labels.alertname` | The rule name in `<alertname> on <where>` and in batch titles |
+| `commonLabels.alertname` | The rule name when the first alert has none |
+| `alerts[].labels.instance` | The host the alert is about, first choice for `<where>` (present only if the rule's query returns it) |
+| `alerts[].labels.grafana_folder` | `<where>` when there is no instance, and the group name in a batch title |
 
 ### Firing example
 
@@ -132,50 +131,49 @@ Spike reads the following fields. `alerts[].fingerprint`, `status` and `alerts` 
     {
       "status": "firing",
       "labels": {
-        "alertname": "High CPU - Any Instance",
-        "instance": "production-server-01",
-        "job": "checkout-api",
-        "group": "production",
-        "channel": "spike"
+        "alertname": "High CPU usage",
+        "grafana_folder": "Production",
+        "instance": "checkout-api-02",
+        "severity": "critical"
       },
       "annotations": {
-        "summary": "High CPU on production-server-01: 94.2%",
-        "description": "CPU usage has been above 90% for over 2 minutes on production-server-01."
+        "summary": "Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)",
+        "description": "The FusionReactor agent on checkout-api-02 reports sustained high process CPU."
       },
-      "startsAt": "2026-10-09T02:14:00Z",
+      "startsAt": "2026-10-13T03:12:00Z",
       "endsAt": "0001-01-01T00:00:00Z",
-      "generatorURL": "https://app.fusionreactor.io/alerting/grafana/c3b1f7e2/view",
-      "fingerprint": "6a2f9c1d8e4b7035",
-      "silenceURL": "https://app.fusionreactor.io/alerting/silence/new?matchers=alertname%3DHigh%20CPU%20-%20Any%20Instance%2Cinstance%3Dproduction-server-01",
+      "generatorURL": "https://app.opspilot.com/alerting/grafana/c1a9e7f2/view",
+      "fingerprint": "8b3a1f0c9d2e4b71",
+      "silenceURL": "https://app.opspilot.com/alerting/silence/new?matcher=alertname%3DHigh+CPU+usage&matcher=instance%3Dcheckout-api-02",
       "dashboardURL": "",
       "panelURL": "",
       "values": {
         "A": 94.2,
-        "B": 1
+        "C": 1
       }
     }
   ],
   "groupLabels": {
-    "alertname": "High CPU - Any Instance"
+    "alertname": "High CPU usage",
+    "grafana_folder": "Production"
   },
   "commonLabels": {
-    "alertname": "High CPU - Any Instance",
-    "instance": "production-server-01",
-    "job": "checkout-api",
-    "group": "production",
-    "channel": "spike"
+    "alertname": "High CPU usage",
+    "grafana_folder": "Production",
+    "instance": "checkout-api-02",
+    "severity": "critical"
   },
   "commonAnnotations": {
-    "summary": "High CPU on production-server-01: 94.2%",
-    "description": "CPU usage has been above 90% for over 2 minutes on production-server-01."
+    "summary": "Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)",
+    "description": "The FusionReactor agent on checkout-api-02 reports sustained high process CPU."
   },
-  "externalURL": "https://app.fusionreactor.io/",
+  "externalURL": "https://app.opspilot.com/",
   "version": "1",
-  "groupKey": "{}/{channel=~\".*spike.*\"}:{alertname=\"High CPU - Any Instance\"}",
+  "groupKey": "{}/{__grafana_receiver__=\"Spike\"}:{alertname=\"High CPU usage\", grafana_folder=\"Production\"}",
   "truncatedAlerts": 0,
-  "title": "[FIRING:1] High CPU - Any Instance (production-server-01 checkout-api production spike)",
+  "title": "[FIRING:1] High CPU usage Production (checkout-api-02 critical)",
   "state": "alerting",
-  "message": "High CPU on production-server-01: 94.2%"
+  "message": "Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)"
 }
 ```
 
@@ -192,50 +190,49 @@ The same alert with the same `fingerprint`, once it has recovered. Spike resolve
     {
       "status": "resolved",
       "labels": {
-        "alertname": "High CPU - Any Instance",
-        "instance": "production-server-01",
-        "job": "checkout-api",
-        "group": "production",
-        "channel": "spike"
+        "alertname": "High CPU usage",
+        "grafana_folder": "Production",
+        "instance": "checkout-api-02",
+        "severity": "critical"
       },
       "annotations": {
-        "summary": "High CPU on production-server-01: 41.7%",
-        "description": "CPU usage has been above 90% for over 2 minutes on production-server-01."
+        "summary": "Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)",
+        "description": "The FusionReactor agent on checkout-api-02 reports sustained high process CPU."
       },
-      "startsAt": "2026-10-09T02:14:00Z",
-      "endsAt": "2026-10-09T02:31:00Z",
-      "generatorURL": "https://app.fusionreactor.io/alerting/grafana/c3b1f7e2/view",
-      "fingerprint": "6a2f9c1d8e4b7035",
-      "silenceURL": "https://app.fusionreactor.io/alerting/silence/new?matchers=alertname%3DHigh%20CPU%20-%20Any%20Instance%2Cinstance%3Dproduction-server-01",
+      "startsAt": "2026-10-13T03:12:00Z",
+      "endsAt": "2026-10-13T03:31:00Z",
+      "generatorURL": "https://app.opspilot.com/alerting/grafana/c1a9e7f2/view",
+      "fingerprint": "8b3a1f0c9d2e4b71",
+      "silenceURL": "https://app.opspilot.com/alerting/silence/new?matcher=alertname%3DHigh+CPU+usage&matcher=instance%3Dcheckout-api-02",
       "dashboardURL": "",
       "panelURL": "",
       "values": {
         "A": 41.7,
-        "B": 0
+        "C": 0
       }
     }
   ],
   "groupLabels": {
-    "alertname": "High CPU - Any Instance"
+    "alertname": "High CPU usage",
+    "grafana_folder": "Production"
   },
   "commonLabels": {
-    "alertname": "High CPU - Any Instance",
-    "instance": "production-server-01",
-    "job": "checkout-api",
-    "group": "production",
-    "channel": "spike"
+    "alertname": "High CPU usage",
+    "grafana_folder": "Production",
+    "instance": "checkout-api-02",
+    "severity": "critical"
   },
   "commonAnnotations": {
-    "summary": "High CPU on production-server-01: 41.7%",
-    "description": "CPU usage has been above 90% for over 2 minutes on production-server-01."
+    "summary": "Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)",
+    "description": "The FusionReactor agent on checkout-api-02 reports sustained high process CPU."
   },
-  "externalURL": "https://app.fusionreactor.io/",
+  "externalURL": "https://app.opspilot.com/",
   "version": "1",
-  "groupKey": "{}/{channel=~\".*spike.*\"}:{alertname=\"High CPU - Any Instance\"}",
+  "groupKey": "{}/{__grafana_receiver__=\"Spike\"}:{alertname=\"High CPU usage\", grafana_folder=\"Production\"}",
   "truncatedAlerts": 0,
-  "title": "[RESOLVED] High CPU - Any Instance (production-server-01 checkout-api production spike)",
+  "title": "[RESOLVED] High CPU usage Production (checkout-api-02 critical)",
   "state": "ok",
-  "message": "High CPU on production-server-01: 41.7%"
+  "message": "Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)"
 }
 ```
 
