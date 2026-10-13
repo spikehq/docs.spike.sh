@@ -17,18 +17,18 @@ Make sure to add a StatusGator integration and copy the webhook URL.
 
 **Step 1**
 
-In StatusGator, open the notification settings of the board or monitor you want to be paged for and choose **Add notification**, then **Webhook**.
+In StatusGator, go to **Integrations → Webhooks** and choose **Add**.
 
 **Step 2**
 
-Paste the Spike webhook URL. Send the notification as a `POST` with a JSON body. StatusGator documents no signing or auth header for webhooks; the token in the Spike URL is the credential, so treat the URL like a password.
+Enter the Spike webhook URL and **Save**. StatusGator documents no signing or auth header for webhooks; the token in the Spike URL is the credential, so treat the URL like a password.
 
 **Step 3**
 
-Tick the events you want to be notified about: status changes and, if you want to hear about suspected outages before the vendor confirms them, early warnings. Save.
+Send a test notification from the webhook's page in StatusGator. A real status change then opens, joins or resolves incidents as described below.
 
 {% hint style="info" %}
-The screen names above follow StatusGator's webhook documentation. StatusGator changes its dashboard from time to time, so if a label differs, look for the webhook option under the notification settings.
+StatusGator disables a webhook after five responses that are not `200`. If incidents stop arriving, check the integration's **Logs** tab in StatusGator and re-enable the webhook.
 {% endhint %}
 
 ## What Spike does with each event
