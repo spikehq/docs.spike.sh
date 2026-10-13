@@ -111,19 +111,15 @@ helm upgrade robusta robusta/robusta -f ./generated_values.yaml --set clusterNam
 
 ## Step 3 — Check it works
 
-Trigger a test finding from a pod with Robusta's CLI, for example:
-
-```bash
-robusta playbooks trigger prometheus_alert alert_name=KubePodCrashLooping namespace=default pod_name=<a-pod>
-```
-
-The incident should appear in Spike within seconds. You can also post a body by hand:
+Wait for the next alert Robusta forwards, or post a test finding by hand. A firing alert opens an incident, and posting the same body again with `"title": "[RESOLVED] Pod is crash looping."` and the same `fingerprint` resolves it:
 
 ```bash
 curl -X POST "https://hooks.spike.sh/<your-token>/push-events" \
   -H "Content-Type: application/json" \
-  -d @robusta-firing.json
+  -d '{"title": "Pod is crash looping.", "description": "Pod default/checkout-api is in waiting state.", "cluster_name": "prod-eu-1", "aggregation_key": "KubePodCrashLooping", "fingerprint": "a3f6c2b19d8e4f70", "subject": {"name": "checkout-api", "namespace": "default"}}'
 ```
+
+The full body Robusta sends is in the payload reference below.
 
 ## Payload reference
 
