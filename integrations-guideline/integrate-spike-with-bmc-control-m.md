@@ -43,14 +43,14 @@ Auto-resolution is supported for this integration. Spike will also automatically
 
 {% tabs %}
 {% tab title="Setup on Control-M" %}
-1. Enable external alerts for your Control-M environment and choose the alert types to send (the `enableExternalAlerts` and `externalAlertTypes` settings, described in BMC's "Sending events to external monitoring tools" tutorial). Choose the alert types you want in Spike, for example job alerts.
-2. Keep the **default alert template**. Control-M then passes each alert to the **alerts listener** as `name: value` arguments that use the field names in the table below (`eventType`, `id`, `status`, `message`, `jobName`, `host` and so on). Do not rename them.
-3. Save the listener script below on the machine that runs the alerts listener, and make it executable. It joins every token up to the next `name:` token into one value, because a value such as `Ended not OK` can arrive as several arguments. Replace `SPIKE_WEBHOOK_URL` with the URL from Step 1.
+1. Enable external alerts for your Control-M environment and choose the alert types to send (the `enableExternalAlerts` and `externalAlertTypes` settings, described in BMC's "Sending events to external monitoring tools" tutorial). Set `externalAlertTypes` to `{"value": "Alerts"}` so that only job alerts are sent. Control-M system alerts use different status codes and have no `id`, so Spike does not support them: do not send them to this integration.
+2. Keep the **default alert template**. Control-M then passes each alert to the **alerts listener** as `name: ` and `value ` arguments that use the field names in the table below (`eventType`, `id`, `status`, `message`, `jobName`, `host` and so on). Do not rename them.
+3. Save the listener script below on the machine that runs the alerts listener, and make it executable. Control-M passes each field name as one argument with a trailing space (`id: `) and each value as the next argument (`4127 `). The script trims both and ignores template fields it does not know, such as `closedByControlM` and `ticketNumber`. Replace `SPIKE_WEBHOOK_URL` with the URL from Step 1.
 4. Register the script as the listener's command, following BMC's tutorial for your version, then restart the listener.
 
 ```bash
 #!/bin/bash
-# Turns Control-M "name: value" arguments into a JSON body and posts it to Spike.
+# Turns Control-M "name: " / "value " arguments into a JSON body and posts it to Spike.
 SPIKE_WEBHOOK_URL="https://hooks.spike.sh/..."
 FIELDS=" eventType id server fileName runId severity status time user updateTime message runAs subApplication application jobName host type runNo notes "
 
@@ -63,13 +63,14 @@ flush() {
   fi
 }
 for token in "$@"; do
-  key="${token%:}"
-  if [[ "$token" == *: && "$FIELDS" == *" $key "* ]]; then
+  trimmed="${token%"${token##*[![:space:]]}"}"
+  if [[ "$trimmed" =~ ^[A-Za-z]+:$ ]]; then
     flush
-    name="$key"
+    key="${trimmed%:}"
+    if [[ "$FIELDS" == *" $key "* ]]; then name="$key"; else name=""; fi
     value=""
   else
-    value="${value:+$value }$token"
+    value="${value:+$value }$trimmed"
   fi
 done
 flush
@@ -166,7 +167,7 @@ Alert ids may not be unique across separate Control-M environments. Create one S
 {% endhint %}
 
 ## Test the integration
-1. Make a Control-M job end not OK so that it raises an alert, or run the listener script by hand with the first body above.
+1. Make a Control-M job end not OK so that it raises an alert, or run the listener script by hand, for example `./listener.sh "eventType: " "I " "id: " "4127 " "status: " "0 " "message: " "Ended not OK " "jobName: " "NightlySettlement " "host: " "batch-node-07 "`. It posts the first body above, limited to the fields you pass.
 2. Verify a new incident titled `Ended not OK (NightlySettlement on batch-node-07)` is created in Spike.
-3. In Control-M, handle (close) the alert, or send the second body above.
+3. In Control-M, handle (close) the alert, or run the script again with `"status: " "2 "` and the same `id`.
 4. Confirm Spike auto-resolves the incident for that `id`.
