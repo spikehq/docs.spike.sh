@@ -11,13 +11,15 @@ Point a webhook action at a Spike integration URL and a firing alarm pages your 
 
 ## What Spike does with each alarm event
 
-Every delivery carries `alert.type.eventType`, and that field decides what Spike does with it.
+Every delivery carries `event_type`, filled from `{{alert.type.eventType}}`, and that field decides what Spike does with it. It is compared ignoring spaces and letter case.
 
-| `alert.type.eventType` | What Spike does |
+| `event_type` | What Spike does |
 | --- | --- |
 | `NewAlarm` | Opens an incident and pages. |
-| `Reminder` | A repeat notification for an alarm that is still active. It joins the open incident for the same `alert.id` and never opens a new one. |
-| `AlarmConditionEnded` | The alarm condition has cleared. Resolves the open incident. |
+| `Reminder` | A repeat notification for an alarm that is still active. It joins the open incident with the same `alert_id`, and opens an incident when none is open. |
+| `AlarmConditionEnded` | The alarm condition has cleared. Resolves the open incident with the same `alert_id`. Dropped when nothing is open. |
+
+Any other or missing `event_type` opens an incident and never resolves one.
 
 {% hint style="info" %}
 Observe only sends `AlarmConditionEnded` when end notifications are enabled on the action. Without them nothing tells Spike the alarm has cleared and the incident has to be resolved by hand.
@@ -25,18 +27,33 @@ Observe only sends `AlarmConditionEnded` when end notifications are enabled on t
 
 ## Incident identity
 
-Spike identifies the incident by `alert.id`, the alarm's UUID. It is not the monitor's numeric id. Observe repeats it on `NewAlarm`, `Reminder` and `AlarmConditionEnded`, so one alarm's whole life reads as one Spike incident: it pages once, reminders join it, and the end notification resolves it.
+Spike identifies the incident by `alert_id`, filled from `{{alert.id}}`: the alarm's UUID, not the monitor's numeric id. Observe is expected to repeat it on `NewAlarm`, `Reminder` and `AlarmConditionEnded`, so one alarm's whole life reads as one Spike incident: it pages once, reminders join it, and the end notification resolves it.
 
-If `alert.id` is missing, Spike falls back to matching on the incident title. In that case keep the monitor title free of changing readings, so the opening and closing notifications produce the same title.
+A value counts as an id when it is not empty and is not a template variable left unexpanded (for example `$alert_id`, `${alert_id}`, `{{alert.id}}` or `%alert_id%`). Two alarms that both send an unexpanded `alert_id` are two incidents.
+
+If `alert_id` is missing, Spike falls back to matching on the incident title. The title never holds readings, timestamps, ids or URLs, so a repeat of the same alarm still produces the same title and joins the open incident.
 
 ## What the incident title looks like
 
-* **Your monitor title.** If you set a title on the monitor, that sentence is the incident title (whitespace collapsed, up to 200 characters), for example `Checkout API 5xx error rate above 5% in us-east-1`. Write it as the sentence you want to read at 3am.
-* **Built from the alarm.** With no monitor title, Spike builds one from the monitor name, the severity, the captured reading and the group-by values, for example `Checkout API error rate (Critical): error_rate 7.4 on checkout-api, us-east-1`. Severity and readings only appear when `alert.id` is present.
-* **Recovery.** `Alarm ended: <monitor name> on <group-by values>`.
+* **Your monitor title.** `summary`, filled from `{{monitor.variables.title}}`, is the incident title, with whitespace collapsed. For example `High CPU utilization for container checkout-api in prod-us-east-1`.
+* **No monitor title.** When `summary` is empty or an unexpanded variable, the title is `monitor_name`, for example `Container CPU utilization`.
 * **Nothing usable.** `Observe alert with no details`.
+* **Recovery.** `AlarmConditionEnded` gives `Alarm ended: ` followed by the same title, for example `Alarm ended: High CPU utilization for container checkout-api in prod-us-east-1`. Spike matches it to the open incident through `alert_id`, or through the plain firing title when there is no id.
+* **Length.** The whole title, prefix included, is capped at 200 characters, cut at a word boundary and ended with `...`.
 
-`alert.url` links to the alarm in the Observe console. Spike keeps it in the payload so responders can open it, but it is not used in the title.
+`alert_message`, `description`, timestamps and URLs are never part of the title. They are kept on the incident for responders.
+
+## Severity
+
+Spike reads the top-level `severity` field, filled from `{{alert.severity.level}}`:
+
+| Observe severity | Severity in Spike |
+| --- | --- |
+| `Critical` | SEV1 |
+| `Error` | SEV2 |
+| `Warning` | SEV2 |
+| `Informational` | SEV3 |
+| `NoData` | Left unset |
 
 ## Set up instructions
 
@@ -61,7 +78,7 @@ If `alert.id` is missing, Spike falls back to matching on the incident title. In
 
 1. Open the monitor, or create a new one, and go to its **Actions** step.
 2. Add the webhook action you just created.
-3. Optionally set the monitor's **title** variable (`monitor.variables.title`) to the sentence you want as the incident title.
+3. Set the monitor's **title** variable (`monitor.variables.title`) to the sentence you want as the incident title. Keep readings that change between notifications out of it.
 4. Save the monitor.
 
 ## Webhook body
@@ -70,33 +87,21 @@ Paste this body into the action. Observe fills in the `{{…}}` variables when i
 
 ```
 {
-  "monitor": {
-    "name": "{{monitor.name}}",
-    "variables": {
-      "title": "{{monitor.variables.title}}"
-    }
-  },
-  "alert": {
-    "id": "{{alert.id}}",
-    "type": {
-      "eventType": "{{alert.type.eventType}}"
-    },
-    "severity": {
-      "level": "{{alert.severity.level}}"
-    },
-    "url": "{{alert.url}}",
-    "values": [
-      {{#alert.values}}
-      {
-        "name": "{{name}}",
-        "value": "{{value}}",
-        "type": {
-          "isGroupBy": "{{type.isGroupBy}}"
-        }
-      }{{^last}},{{/last}}
-      {{/alert.values}}
-    ]
-  }
+  "event_type": "{{alert.type.eventType}}",
+  "alert_id": "{{alert.id}}",
+  "summary": "{{monitor.variables.title}}",
+  "monitor_name": "{{monitor.name}}",
+  "severity": "{{alert.severity.level}}",
+  "alert_message": "{{monitor.variables.message}}",
+  "description": "{{monitor.description}}",
+  "monitor_id": "{{monitor.id}}",
+  "monitor_type": "{{monitor.type}}",
+  "is_active": "{{alert.isActive}}",
+  "start_time": "{{alert.start.rfc3339}}",
+  "end_time": "{{alert.end.rfc3339}}",
+  "timestamp": "{{alert.timestamp.rfc3339}}",
+  "alert_url": "{{alert.url}}",
+  "monitor_url": "{{monitor.url}}"
 }
 ```
 
@@ -104,15 +109,21 @@ Paste this body into the action. Observe fills in the `{{…}}` variables when i
 
 | Field | Required | What Spike uses it for |
 | --- | --- | --- |
-| `alert.type.eventType` | Yes | `NewAlarm` and `Reminder` are firing, `AlarmConditionEnded` is recovery. |
-| `alert.id` | Strongly recommended | The alarm UUID. Identity of the incident across all three events. |
-| `monitor.variables.title` | No | Your own title sentence. Used as the incident title when not empty. |
-| `monitor.name` | Yes | The monitor name, used in the built and recovery titles. |
-| `alert.severity.level` | No | `Critical`, `Error`, `Warning`, `Informational` or `NoData`. Appears in the built title when `alert.id` is present. |
-| `alert.values[].name` | No | Column name of one captured value, for example `error_rate`. |
-| `alert.values[].value` | No | The captured value. Group-by values say where; aggregation values are the readings. |
-| `alert.values[].type.isGroupBy` | No | `true` marks a group-by value; anything else marks an aggregation reading. |
-| `alert.url` | No | Link to the alarm in the Observe console. Kept for responders. |
+| `event_type` | Yes | `NewAlarm` opens, `Reminder` joins, `AlarmConditionEnded` resolves. |
+| `alert_id` | Strongly recommended | The alarm UUID. Identity of the incident across all three events. |
+| `summary` | No | Your own title sentence. Used as the incident title when not empty. |
+| `monitor_name` | Yes | Title when `summary` is empty. |
+| `severity` | No | Sets the incident severity, see the table above. |
+| `alert_message` | No | Your longer alert message. Shown on the incident, never in the title. Not named `message` on purpose: a top-level `message` makes Spike skip the Observe parser. |
+| `description` | No | Monitor description. Display only. |
+| `monitor_id` | No | The monitor's numeric id. Display only, not an alarm identity. |
+| `monitor_type` | No | `Count`, `Promote`, `Threshold` or `Anomaly`. Display only. |
+| `is_active` | No | `true` while the condition is triggering, `false` after it clears. Display only; `event_type` decides. |
+| `start_time` | No | When the condition started. Display only. |
+| `end_time` | No | When the condition ended, empty while active. Display only. |
+| `timestamp` | No | When Observe evaluated this notification. Changes on every delivery. Display only. |
+| `alert_url` | No | Link to the alarm in the Observe console. Display only. |
+| `monitor_url` | No | Link to the monitor in the Observe console. Display only. |
 
 ## Example payloads
 
@@ -120,45 +131,21 @@ A firing alarm (`NewAlarm`):
 
 ```json
 {
-  "monitor": {
-    "name": "Checkout API error rate",
-    "variables": {
-      "title": "Checkout API 5xx error rate above 5% in us-east-1"
-    }
-  },
-  "alert": {
-    "id": "8c2f4a1e-6b7d-4f3a-9e21-5d0c7b3a9f64",
-    "type": {
-      "eventType": "NewAlarm"
-    },
-    "severity": {
-      "level": "Critical"
-    },
-    "url": "https://123456789012.observeinc.com/workspace/41000001/monitor/41203877?alarmId=8c2f4a1e-6b7d-4f3a-9e21-5d0c7b3a9f64&alertStartTime=1791515520000",
-    "values": [
-      {
-        "name": "service_name",
-        "value": "checkout-api",
-        "type": {
-          "isGroupBy": "true"
-        }
-      },
-      {
-        "name": "region",
-        "value": "us-east-1",
-        "type": {
-          "isGroupBy": "true"
-        }
-      },
-      {
-        "name": "error_rate",
-        "value": "7.4",
-        "type": {
-          "isGroupBy": "false"
-        }
-      }
-    ]
-  }
+  "event_type": "NewAlarm",
+  "alert_id": "5f3c2a9e-8b1d-4e7a-9c62-0d4b7e1a3f58",
+  "summary": "High CPU utilization for container checkout-api in prod-us-east-1",
+  "monitor_name": "Container CPU utilization",
+  "severity": "Critical",
+  "alert_message": "Container checkout-api in prod-us-east-1 has been using more than 90% of its CPU limit for the last 10 minutes. Runbook: https://wiki.example.com/runbooks/container-cpu",
+  "description": "Fires when a container uses more than 90% of its CPU limit for 10 minutes.",
+  "monitor_id": "41234567",
+  "monitor_type": "Threshold",
+  "is_active": "true",
+  "start_time": "2026-10-13T02:47:10Z",
+  "end_time": "",
+  "timestamp": "2026-10-13T02:57:12Z",
+  "alert_url": "https://123456789012.observeinc.com/workspace/41000100/alert/5f3c2a9e-8b1d-4e7a-9c62-0d4b7e1a3f58",
+  "monitor_url": "https://123456789012.observeinc.com/workspace/41000100/monitor/41234567"
 }
 ```
 
@@ -166,54 +153,31 @@ The same alarm once the condition has cleared (`AlarmConditionEnded`):
 
 ```json
 {
-  "monitor": {
-    "name": "Checkout API error rate",
-    "variables": {
-      "title": "Checkout API 5xx error rate above 5% in us-east-1"
-    }
-  },
-  "alert": {
-    "id": "8c2f4a1e-6b7d-4f3a-9e21-5d0c7b3a9f64",
-    "type": {
-      "eventType": "AlarmConditionEnded"
-    },
-    "severity": {
-      "level": "Critical"
-    },
-    "url": "https://123456789012.observeinc.com/workspace/41000001/monitor/41203877?alarmId=8c2f4a1e-6b7d-4f3a-9e21-5d0c7b3a9f64&alertStartTime=1791515520000&alertEndTime=1791516420000",
-    "values": [
-      {
-        "name": "service_name",
-        "value": "checkout-api",
-        "type": {
-          "isGroupBy": "true"
-        }
-      },
-      {
-        "name": "region",
-        "value": "us-east-1",
-        "type": {
-          "isGroupBy": "true"
-        }
-      },
-      {
-        "name": "error_rate",
-        "value": "3.1",
-        "type": {
-          "isGroupBy": "false"
-        }
-      }
-    ]
-  }
+  "event_type": "AlarmConditionEnded",
+  "alert_id": "5f3c2a9e-8b1d-4e7a-9c62-0d4b7e1a3f58",
+  "summary": "High CPU utilization for container checkout-api in prod-us-east-1",
+  "monitor_name": "Container CPU utilization",
+  "severity": "Critical",
+  "alert_message": "Container checkout-api in prod-us-east-1 is back below 90% of its CPU limit. Runbook: https://wiki.example.com/runbooks/container-cpu",
+  "description": "Fires when a container uses more than 90% of its CPU limit for 10 minutes.",
+  "monitor_id": "41234567",
+  "monitor_type": "Threshold",
+  "is_active": "false",
+  "start_time": "2026-10-13T02:47:10Z",
+  "end_time": "2026-10-13T03:21:40Z",
+  "timestamp": "2026-10-13T03:22:05Z",
+  "alert_url": "https://123456789012.observeinc.com/workspace/41000100/alert/5f3c2a9e-8b1d-4e7a-9c62-0d4b7e1a3f58",
+  "monitor_url": "https://123456789012.observeinc.com/workspace/41000100/monitor/41234567"
 }
 ```
 
 ## Test the integration
 
-Trigger a test notification from the action in Observe, or send the firing example above to your Spike webhook URL with `curl`. An incident should open. Send the recovery example with the same `alert.id` and it should resolve.
+Trigger a test notification from the action in Observe, or send the firing example above to your Spike webhook URL with `curl`. An incident titled `High CPU utilization for container checkout-api in prod-us-east-1` should open. Send the recovery example with the same `alert_id` and it should resolve.
 
 ## Troubleshooting
 
-* **The incident never resolves.** End notifications are off on the action, or the recovery's `alert.id` differs from the opening one.
-* **Every reminder opens a new incident.** `alert.id` is missing from the body, so Spike is matching on the title. Confirm the body above is pasted as written, and keep changing readings out of the monitor title.
-* **The title is built from the monitor name instead of your sentence.** `monitor.variables.title` is empty on that monitor.
+* **The incident never resolves.** End notifications are off on the action, or the recovery's `alert_id` differs from the opening one.
+* **Every reminder opens a new incident.** `alert_id` is missing or arrives unexpanded, so Spike is matching on the title. Confirm the body above is pasted as written, and keep changing readings out of the monitor title.
+* **The title is the monitor name instead of your sentence.** `monitor.variables.title` is empty on that monitor.
+* **Spike ignores the fields.** Check the body has no top-level `message` field.
