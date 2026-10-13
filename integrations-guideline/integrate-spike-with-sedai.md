@@ -29,7 +29,7 @@ Sedai does not publish a webhook schema. The body below is the shape Spike reads
 * Set the method to `POST` and the content type to `application/json`. Sedai's documentation does not describe other form fields, so leave any others at their defaults.
 * Select the alert and event types you want delivered to Spike, then save.
 
-**Step 3:** Make sure the body Sedai sends has the fields below, and send a test.
+**Step 3:** Make sure the body Sedai sends has the fields below, and choose JSON (not YAML) as the format. Send a test.
 
 ## What Sedai sends
 
@@ -40,7 +40,7 @@ When an alert fires, Spike expects a JSON body like this:
   "eventId": "evt-839201",
   "eventType": "Availability",
   "title": "High Error Rate Detected",
-  "message": "Error rate for service 'checkout-api' exceeded 5% threshold.",
+  "message": "Error rate for checkout-api exceeded the 5% threshold",
   "severity": "CRITICAL",
   "status": "OPEN",
   "resource": {
@@ -60,7 +60,7 @@ When the alert recovers, the same `eventId` comes back with a `status` of `RESOL
   "eventId": "evt-839201",
   "eventType": "Availability",
   "title": "High Error Rate Detected",
-  "message": "Error rate for service 'checkout-api' has returned to normal levels.",
+  "message": "Error rate for checkout-api has returned to normal levels",
   "severity": "INFO",
   "status": "RESOLVED",
   "resource": {
@@ -69,36 +69,47 @@ When the alert recovers, the same `eventId` comes back with a `status` of `RESOL
     "region": "us-west-2"
   },
   "timestamp": "2023-11-15T10:15:00Z",
-  "resolvedAt": "2023-11-15T10:15:00Z"
+  "resolvedAt": "2023-11-15T10:15:00Z",
+  "link": "https://dashboard.sedai.io/events/evt-839201"
 }
 ```
 
 | Field | Required | What Spike does with it |
 | --- | --- | --- |
-| `eventId` | Yes, for grouping and auto-resolve | Identifies one Sedai alert across firing and recovery. A repeat with the same id joins the open incident, and a recovery resolves it. |
-| `status` | Yes, for auto-resolve | `RESOLVED` (any letter case) marks a recovery. Any other value, such as `OPEN`, is treated as a firing alert. |
-| `message` | Recommended | Sedai's sentence about what is wrong. It becomes the incident title. |
-| `title` | Recommended | The alert's name. Used in the title when `message` is empty. |
-| `resource.name` | Recommended | The affected service, workload or host. Used in the title when `message` is empty. |
-| `eventType`, `severity`, `resource.type`, `resource.region`, `timestamp`, `link`, `resolvedAt` | No | Kept on the incident for context. |
+| `eventId` | Yes, for grouping and auto-resolve | Identifies one Sedai alert across firing and recovery. A string with text in it or a number (0 included) counts; an unexpanded template variable such as `$x`, `${x}`, `{{x}}` or `%x%` does not. A repeat with the same id joins the open incident, and a recovery resolves it. |
+| `status` | Yes, for auto-resolve | `OPEN` opens an incident or joins the open one with the same `eventId`. `RESOLVED` marks a recovery (any letter case, surrounding spaces ignored); `CLOSED` and `OK` close too. A recovery with nothing open is dropped. Any other or missing value opens or joins and never closes. |
+| `message` | Recommended | Sedai's sentence about what is wrong. It becomes the incident title when `eventId` is present. It is left out of the title when there is no `eventId`. |
+| `title` | Recommended | The alert's name. Used in the title when `message` is empty or there is no `eventId`. |
+| `resource.name` | Recommended | The affected service, workload or host. Added to the title as ` on {resource.name}`. |
+| `eventType` | No | Only used in the last-resort title `Sedai {eventType} alert on {resource.name}`. |
+| `severity` | No | Kept on the incident and used for its priority. Never part of the title. |
+| `resource.type`, `resource.region`, `timestamp`, `link`, `resolvedAt` | No | Kept on the incident for context. |
 
 ## Incident identity
 
 Spike identifies the incident by `eventId`. Sedai repeats it on the recovery, so one alert reads as one incident: it pages once, repeats join it, and the `RESOLVED` body resolves it.
 
-If a body has no `eventId`, Spike matches by title instead, so the title is built only from `title` and `resource.name` and is the same on firing and recovery.
+If a body has no usable `eventId`, Spike matches by title instead, so the title is built only from `title` and `resource.name` and is the same on firing and recovery. `message` is never used on that path.
 
 ## Incident title
 
-The title is Sedai's own `message`, with whitespace collapsed and cut at 200 characters:
+With an `eventId`, the title is Sedai's `message` with whitespace collapsed, plus ` on {resource.name}` when the sentence does not already contain the resource name:
 
 ```
-Error rate for service 'checkout-api' exceeded 5% threshold.
+Error rate for checkout-api exceeded the 5% threshold
 ```
 
-If `message` is empty, the title is built from what is there: `{title} on {resource.name}`, then `{title}`, then `{resource.name}`, then `Sedai alert with no details`. A recovery with no `message` reads `{title} resolved on {resource.name}`.
+If `message` is empty, the title is built from what is there: `{title} on {resource.name}`, then `{title}`, then `Sedai {eventType} alert on {resource.name}`, then `Sedai alert with no details`.
 
-A body with no `eventId` always gets `{title} on {resource.name}`, for example `Optimization Recommendation on billing-worker`, whatever its `message` says.
+A recovery gets the same title with `[RESOLVED] ` in front:
+
+```
+[RESOLVED] Error rate for checkout-api has returned to normal levels
+```
+
+A body with no `eventId` always gets `{title} on {resource.name}`, for example `High Error Rate Detected on checkout-api`, whatever its `message` says. Its recovery is `[RESOLVED] {title} on {resource.name}` and closes the incident by status alone.
+
+The title is at most 200 characters, `[RESOLVED] ` and the resource included. The resource name is never cut; the sentence is shortened at a word boundary and ends in `...`.
 
 {% hint style="info" %}
 Spike will automatically group repeated incidents and also suppress alerts while an incident is open. You can set up [alert rules](https://docs.spike.sh/alerts/alert-rules) to determine incident severity and take actions accordingly.
@@ -107,5 +118,5 @@ Spike will automatically group repeated incidents and also suppress alerts while
 ## Troubleshooting
 
 * **The incident did not resolve.** Check that the recovery body carries the same `eventId` as the firing one and a `status` of `RESOLVED`. If Sedai does not send recoveries to custom webhooks, resolve the incident in Spike.
-* **Optimization or remediation events create odd titles.** Those events may lack `eventId`, `status` or `message`. They then use the `{title} on {resource.name}` title.
+* **Optimization or remediation events create odd titles.** Those events may lack `eventId`, `status` or `message`. Without an `eventId` they use the `{title} on {resource.name}` title.
 * **Nothing arrives.** Confirm the webhook URL is the one from Step 1 and that the alert type is selected in Sedai's notification settings.
