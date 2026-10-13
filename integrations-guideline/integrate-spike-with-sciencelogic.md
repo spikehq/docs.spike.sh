@@ -32,34 +32,36 @@ Identity is the event, not the device. Two different events on `db-prod-03` are 
 A `cleared` payload that arrives with no matching open incident is dropped rather than turned into a new incident. That happens when the incident was already resolved in Spike, or when the Active Events policy never ran for that event. Resolving an incident in Spike does not clear the event in SL1; clear it in SL1 and let the Cleared Events policy resolve the incident to keep the two sides in step.
 {% endhint %}
 
-If `event_id` is missing, empty, or still the raw `%e` token because SL1 did not substitute it, Spike falls back to matching on the incident title. Keep `event_id` in both payloads so matching does not depend on the title.
+If `event_id` is missing, empty, or still an unexpanded template token such as `%e`, `$event_id`, `${event_id}`, `{{event_id}}` or `%event_id%`, Spike treats the payload as having no id and falls back to matching on the incident title. A number counts as an id (`0` too). Keep `event_id` in both payloads so matching does not depend on the title.
+
+Spike uses the id exactly as SL1 sends it. When it compares the Active Events and Cleared Events ids it ignores surrounding spaces. A `cleared` payload resolves the open incident only when the ids match, or when neither side has a usable id and the title matches instead.
 
 ## Incident title
 
-The title is SL1's own sentence about the fault, taken from `event_message`:
+With a usable `event_id`, the title is SL1's own sentence about the fault, followed by the device:
 
 ```
-Physical Memory has exceeded threshold: (90%) currently (96%)
+Physical memory usage has exceeded threshold: (90%) currently (95.3%) on db-prod-03
 ```
 
-It is whitespace-collapsed and capped at 200 characters. When `event_message` is empty, the title is the policy and the device:
+` on <entity_name>` is added only when the sentence does not already name the device as a whole word. The title is whitespace-collapsed and capped at 200 characters; when the sentence has to be cut, it is cut at a word boundary and the device stays whole. If `event_message` is empty, the title falls back to `event_policy_name` on `entity_name`, then `event_policy_name`, then `ScienceLogic event on <entity_name>`, then `ScienceLogic event with no details`.
 
-```
-Host Resource: Physical Memory Utilization Exceeded Threshold on db-prod-03
-```
+Because the id is what ties a repeat to its incident, the title is display only. A repeat that changes the reading in `event_message`, `last_occurrence` or `event_count` joins the open incident.
 
 A recovery is written as a recovery, naming the policy and the device:
 
 ```
-Host Resource: Physical Memory Utilization Exceeded Threshold cleared on db-prod-03
+Linux: Physical Memory Usage Exceeded Threshold on db-prod-03 cleared
 ```
 
-When a payload has no usable `event_id`, the title is always the plain `event_policy_name` on `entity_name` form for both the firing and the recovery payload, because the title is then the only thing that ties the two together and SL1's sentence carries readings that change between runs.
+It falls back to `ScienceLogic event on <entity_name> cleared`, then `ScienceLogic event cleared`.
 
-Any field SL1 left as a raw token such as `%M` is treated as empty. The device name is always kept whole; a long policy name is shortened instead. If nothing usable remains, the title is `ScienceLogic SL1 alert with no details`.
+When a payload has no usable `event_id`, the title is the plain `event_policy_name` on `entity_name` form (then `event_policy_name`, `ScienceLogic event on <entity_name>`, `ScienceLogic event with no details`), because the title is then the only thing that ties the firing and the recovery together and `event_message` carries readings that change between runs. A recovery with no id resolves the incident that has that plain title.
+
+Any field SL1 left as an unexpanded token such as `%M` is treated as empty.
 
 {% hint style="info" %}
-A recovery reads differently from the notification that opened the incident, on purpose: the person scanning an event list needs to know which of their open incidents went away. It still resolves the right incident, because matching is done on `event_id` and never on the title.
+A recovery reads differently from the notification that opened the incident, on purpose: the person scanning an event list needs to know which of their open incidents went away. It still resolves the right incident, because matching is done on `event_id` and not on the title.
 {% endhint %}
 
 Use a [Title Remapper](../alerts/title-remapper.md) if your team reads events by device and policy rather than by SL1's sentence:
@@ -70,9 +72,7 @@ Use a [Title Remapper](../alerts/title-remapper.md) if your team reads events by
 
 ## Severity
 
-Spike does not set the severity badge from SL1's `severity`. The value is kept on the incident, so incidents open at your integration's default.
-
-If you want SL1's levels on the badge, write an [alert rule](../alerts/alert-rules.md) on `severity`. Alert rules can also route an incident to another service or escalation policy, or suppress it entirely. Read more about [priority and severity](../incidents/priority-and-severity.md).
+The `severity` field (SL1's `%S`) is read as text and shown on the incident's severity badge. SL1 documents the range as HEALTHY to CRITICAL; the exact text `%S` produces is not documented, so check on the first real event that the badge matches what you expect. If it does not, write an [alert rule](../alerts/alert-rules.md) on `severity` to set the level you want. Alert rules can also route an incident to another service or escalation policy, or suppress it entirely. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
 ## Prerequisites
 
@@ -124,10 +124,12 @@ Paste this into the **Payload** field of the active action. Keep the field names
   "event_message": "%M",
   "severity": "%S",
   "entity_name": "%X",
-  "event_policy_name": "%_event_policy_name",
   "organization": "%O",
-  "ip_address": "%a",
-  "url_to_event": "%H"
+  "event_policy_name": "%_event_policy_name",
+  "first_occurrence": "%D",
+  "last_occurrence": "%d",
+  "event_count": "%c",
+  "event_url": "%H"
 }
 ```
 
@@ -136,12 +138,14 @@ Paste this into the **Payload** field of the active action. Keep the field names
 | `status` | typed literal: `active` or `cleared` | Tells Spike whether to open or resolve. **Required** |
 | `event_id` | `%e` (Event ID) | Identity of the incident. **Required**: without it matching falls back to the title |
 | `event_message` | `%M` (Event message) | The firing title. **Required** |
-| `event_policy_name` | `%_event_policy_name` | The policy name in the fallback and recovery titles. **Required** |
-| `entity_name` | `%X` (Entity name) | The device in the fallback and recovery titles. **Required** |
-| `severity` | `%S` (Severity) | Shown on the incident. Optional |
-| `organization` | `%O` (Organization) | Context for MSPs. Optional |
-| `ip_address` | `%a` (IP address) | Shown on the incident. Optional |
-| `url_to_event` | `%H` (URL link to event) | Link back to the event in SL1. Optional |
+| `event_policy_name` | `%_event_policy_name` | The subject of the recovery and no-id titles. **Required** |
+| `entity_name` | `%X` (Entity name) | The device in every title. **Required** |
+| `severity` | `%S` (Severity) | Severity badge. Optional |
+| `organization` | `%O` (Organization) | Context for MSPs. Display only. Optional |
+| `first_occurrence` | `%D` (Date/time of first occurrence) | Display only. Optional |
+| `last_occurrence` | `%d` (Date/time of last occurrence) | Display only. Optional |
+| `event_count` | `%c` (Event counter) | Display only. Optional |
+| `event_url` | `%H` (URL link to event) | Link back to the event in SL1. Display only. Optional |
 
 For the cleared action, the payload is the same with the first line changed:
 
@@ -152,15 +156,17 @@ For the cleared action, the payload is the same with the first line changed:
   "event_message": "%M",
   "severity": "%S",
   "entity_name": "%X",
-  "event_policy_name": "%_event_policy_name",
   "organization": "%O",
-  "ip_address": "%a",
-  "url_to_event": "%H"
+  "event_policy_name": "%_event_policy_name",
+  "first_occurrence": "%D",
+  "last_occurrence": "%d",
+  "event_count": "%c",
+  "event_url": "%H"
 }
 ```
 
 {% hint style="warning" %}
-Depending on your SL1 version, the action's input parameters may take the payload as a JSON object or as a JSON-encoded string. If SL1 shows the payload as a string field, paste the JSON as it is shown above and check on the first real event that the incident page shows the fields separately rather than one long string.
+Check on the first real event that SL1 sends the request with `Content-Type: application/json`. If your SL1 version does not let the HTTP action set it, use a credential with JSON content encoding. Depending on your SL1 version, the action's input parameters may take the payload as a JSON object or as a JSON-encoded string. If SL1 shows the payload as a string field, paste the JSON as it is shown above and check on the first real event that the incident page shows the fields separately rather than one long string.
 {% endhint %}
 
 ## Step 3 — Create the automation policies
@@ -203,14 +209,16 @@ An active event, which opens the incident:
 ```json
 {
   "status": "active",
-  "event_id": "1874532",
-  "event_message": "Physical Memory has exceeded threshold: (90%) currently (96%)",
-  "severity": "Critical",
+  "event_id": "482913",
+  "event_message": "Physical memory usage has exceeded threshold: (90%) currently (95.3%)",
+  "severity": "MAJOR",
   "entity_name": "db-prod-03",
-  "event_policy_name": "Host Resource: Physical Memory Utilization Exceeded Threshold",
   "organization": "Acme Corp",
-  "ip_address": "10.20.4.13",
-  "url_to_event": "https://sl1.acme.example/em7/index.em7?exec=events&q_type=aid&q_arg=1874532"
+  "event_policy_name": "Linux: Physical Memory Usage Exceeded Threshold",
+  "first_occurrence": "2026-10-13 03:02:11",
+  "last_occurrence": "2026-10-13 03:12:11",
+  "event_count": "3",
+  "event_url": "https://sl1.acme.example/em7/index.em7?exec=events&q_id=482913"
 }
 ```
 
@@ -219,22 +227,24 @@ The same event cleared, which resolves it:
 ```json
 {
   "status": "cleared",
-  "event_id": "1874532",
-  "event_message": "Physical Memory has exceeded threshold: (90%) currently (96%)",
-  "severity": "Critical",
+  "event_id": "482913",
+  "event_message": "Physical memory usage has exceeded threshold: (90%) currently (95.3%)",
+  "severity": "MAJOR",
   "entity_name": "db-prod-03",
-  "event_policy_name": "Host Resource: Physical Memory Utilization Exceeded Threshold",
   "organization": "Acme Corp",
-  "ip_address": "10.20.4.13",
-  "url_to_event": "https://sl1.acme.example/em7/index.em7?exec=events&q_type=aid&q_arg=1874532"
+  "event_policy_name": "Linux: Physical Memory Usage Exceeded Threshold",
+  "first_occurrence": "2026-10-13 03:02:11",
+  "last_occurrence": "2026-10-13 03:41:11",
+  "event_count": "6",
+  "event_url": "https://sl1.acme.example/em7/index.em7?exec=events&q_id=482913"
 }
 ```
 
 They produce these titles:
 
 ```
-Physical Memory has exceeded threshold: (90%) currently (96%)
-Host Resource: Physical Memory Utilization Exceeded Threshold cleared on db-prod-03
+Physical memory usage has exceeded threshold: (90%) currently (95.3%) on db-prod-03
+Linux: Physical Memory Usage Exceeded Threshold on db-prod-03 cleared
 ```
 
 Spike keeps the whole body on the incident, so every field is available to [alert rules](../alerts/alert-rules.md) and the [Title Remapper](../alerts/title-remapper.md) as `data.body.<field>`.
@@ -260,7 +270,7 @@ Check that the URL in the action is the full `https://hooks.spike.sh/<your-token
 
 <summary>The incident never resolves</summary>
 
-Spike resolves on `status` `cleared` and only while the incident is still open. Confirm that the event actually clears in SL1, that the Cleared Events policy matches the same events as the Active Events policy, and that the cleared payload carries the same `event_id` as the active one. If `event_id` arrives empty or as a literal `%e`, matching falls back to the title and a recovery will not find the incident.
+Spike resolves on `status` `cleared` and only while the incident is still open. Confirm that the event actually clears in SL1, that the Cleared Events policy matches the same events as the Active Events policy, and that the cleared payload carries the same `event_id` as the active one. If `event_id` arrives empty or as an unexpanded token on only one of the two payloads, the ids do not agree and the recovery does not resolve the incident. If it is missing on both, matching falls back to the title.
 
 </details>
 
@@ -268,7 +278,7 @@ Spike resolves on `status` `cleared` and only while the incident is still open. 
 
 <summary>The fields show up as literal %-tokens</summary>
 
-SL1 did not substitute that variable. Spike treats a raw token as empty, so the title falls back to the policy and device. Check the variable spelling in the payload against the table above, and that the variable exists in your SL1 version. If `%_event_policy_name` is not substituted, the title falls back to SL1's event message when there is an id.
+SL1 did not substitute that variable. Spike treats a raw token as empty, so the title falls back to the policy and device. Check the variable spelling in the payload against the table above, and that the variable exists in your SL1 version. If `%_event_policy_name` is not substituted, a firing event with an id still uses SL1's event message, and a recovery falls back to `ScienceLogic event on <entity_name> cleared`.
 
 </details>
 
@@ -284,7 +294,7 @@ An event message containing a double quote or a line break can produce invalid J
 
 <summary>The severity badge ignores SL1's severity</summary>
 
-Expected. The badge is not set from `severity`. The value is still on the incident, so an [alert rule](../alerts/alert-rules.md) matching `severity` can set whatever severity you want, and can also route or suppress the incident.
+Spike reads `severity` as the text SL1 sends. If the text `%S` produces on your SL1 is not one Spike recognises, the badge may stay unset. The value is still on the incident, so an [alert rule](../alerts/alert-rules.md) matching `severity` can set whatever severity you want, and can also route or suppress the incident.
 
 </details>
 
