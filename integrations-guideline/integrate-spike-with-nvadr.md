@@ -7,7 +7,7 @@ description: >-
 
 [NVADR](https://redhuntlabs.com) is RedHunt Labs' attack surface management platform. It watches your internet-facing assets and raises issues in its Issue Tracker for security risks, unknown assets, third-party assets, data leaks and dark web mentions.
 
-Send each NVADR issue to a Spike integration URL and an open issue pages your on-call rotation, while closing the issue resolves the incident.
+Send each NVADR issue to a Spike integration URL and an open issue pages your on-call rotation, while closing the issue, or marking it `WON'T FIX`, resolves the incident.
 
 {% hint style="warning" %}
 NVADR does not document a generic outbound webhook. Its notification destinations are Slack, Email, Jira, the Issue Tracker and PagerDuty. To reach Spike you run a small forwarder of your own (a script, a workflow tool or a serverless function) that reads an NVADR issue and POSTs the body below to your Spike URL. The body is defined by Spike, not captured from NVADR, so the field names are ones you map to in your forwarder.
@@ -30,77 +30,107 @@ In Spike, go to **Integrations → Add integration → NVADR (RedHunt Labs)**, a
 ## Step 2 — Find the issues in NVADR
 
 1. Sign in to NVADR and open **Issue Tracker**.
-2. Open an issue. Note its **ID**, **Status**, **Priority** and **Assignee**, and the risk, description and asset it was raised on. Your forwarder reads these.
+2. Open an issue. Note its **ID**, **Status**, **Priority** and **Assignee**, and the risk, asset, severity and category it was raised on. Your forwarder reads these.
 
 ## Step 3 — Send the issue to Spike
 
-POST JSON to the webhook URL when an issue is opened or its status changes. Send one issue per request.
+POST JSON to the webhook URL when an issue is opened or its status changes. Send one issue per request, with exactly these fields.
 
 ```json
 {
   "id": 48213,
-  "status": "OPEN",
   "title": "Exposed Git Repository",
-  "description": "The /.git/ directory on staging.acme-corp.com is publicly accessible, exposing source code and commit history.",
-  "severity": "HIGH",
-  "priority": "P1",
   "category": "Security Risk",
-  "asset": "staging.acme-corp.com",
-  "assignee": "secops@acme-corp.com"
+  "asset": "https://staging.acme-corp.com",
+  "severity": "CRITICAL",
+  "status": "OPEN",
+  "priority": "P1",
+  "assignee": "secops@acme-corp.com",
+  "first_seen": "2026-10-12T21:47:05Z",
+  "last_seen": "2026-10-13T03:12:40Z"
 }
 ```
 
-When the issue is closed, send the same body with `status` changed:
+When the issue is closed, send the same body with `status` changed (and the current `last_seen`):
 
 ```json
 {
   "id": 48213,
-  "status": "CLOSED",
   "title": "Exposed Git Repository",
-  "description": "The /.git/ directory on staging.acme-corp.com is publicly accessible, exposing source code and commit history.",
-  "severity": "HIGH",
-  "priority": "P1",
   "category": "Security Risk",
-  "asset": "staging.acme-corp.com",
-  "assignee": "secops@acme-corp.com"
+  "asset": "https://staging.acme-corp.com",
+  "severity": "CRITICAL",
+  "status": "CLOSED",
+  "priority": "P1",
+  "assignee": "secops@acme-corp.com",
+  "first_seen": "2026-10-12T21:47:05Z",
+  "last_seen": "2026-10-13T09:58:21Z"
 }
 ```
 
 | Field | Required | Meaning |
 | --- | --- | --- |
-| `id` | Yes | The NVADR Issue Tracker issue id. It is the same on the open and the close, and it is how Spike matches the two. |
-| `status` | Yes | `OPEN` or `IN PROGRESS` opens or updates an incident. `CLOSED` or `WON'T FIX` resolves it. Case does not matter. |
-| `description` | Recommended | NVADR's sentence about what is wrong. It becomes the incident title. |
-| `title` | Recommended | The risk name, such as `Exposed Git Repository`. Used for the title only when `description` is empty. |
-| `asset` | Recommended | The host, domain, IP or cloud asset the risk was found on. |
-| `category` | Optional | `Security Risk`, `Asset`, `Third Party Asset`, `Data Leak` or `Dark Web`. |
-| `severity` | Optional | `CRITICAL`, `HIGH`, `MEDIUM`, `LOW` or `INFO`. Not in the title. Use it in an [alert rule](../alerts/alert-rules.md). |
-| `priority` | Optional | NVADR priority, `P0` to `P4`. Not in the title. Use it in an alert rule. |
-| `assignee` | Optional | Email of the NVADR user the issue is assigned to. Informational. |
+| `id` | Yes | The NVADR Issue Tracker issue id, a number or a string. It is the same on every delivery about one issue and is how Spike matches them. Never in the title. |
+| `status` | Yes | `OPEN`, `IN PROGRESS`, `WON'T FIX` or `CLOSED`. Case, underscores and the apostrophe do not matter, so `In_Progress` and `WONT_FIX` work. |
+| `title` | Recommended | The risk name, such as `Exposed Git Repository`. |
+| `asset` | Recommended | The host, IP or URL the risk was found on. A URL is shown as its host (and port) only. |
+| `severity` | Recommended | `critical`, `high`, `moderate` or `low`, in any case. Shown in the title as `[Critical]` and so on. Any other value leaves the bracket out. Sets the incident severity. |
+| `category` | Optional | `Security Risk` or `Data Leak`. Used in the title only when `title` is missing. |
+| `priority` | Optional | NVADR priority, `P0` to `P4`. P1 to P4 set the incident priority; P0 is ignored. Not in the title. |
+| `assignee` | Optional | Email of the NVADR user the issue is assigned to. Shown on the incident, not in the title. |
+| `first_seen` | Optional | ISO 8601 time NVADR first saw the risk. Display only. |
+| `last_seen` | Optional | ISO 8601 time NVADR last saw the risk. Moves on every rescan. Display only. |
+
+A value left as an unexpanded template variable (`$id`, `${id}`, `{{id}}`, `%id%`, `<id>`) counts as missing.
+
+## What each status does
+
+| `status` | With no open incident for the `id` | With an open incident |
+| --- | --- | --- |
+| `OPEN` | Opens an incident | Joins it, no new page |
+| `IN PROGRESS` | Opens an incident, because the risk is still live | Joins it |
+| `CLOSED` | Dropped | Resolves it |
+| `WON'T FIX` | Dropped | Resolves it |
+| missing or unknown | Treated as firing | Treated as firing, never resolves |
 
 ## Incident identity
 
-Spike identifies the incident by `id`. A repeat of the same issue joins the open incident instead of paging again, and a `CLOSED` or `WON'T FIX` status resolves it. A closing status never opens a new incident. A body with no `id` falls back to matching on the title.
+Spike identifies the incident by `id`, so the title is display only. A repeat that changes only `last_seen`, `priority` or `assignee` joins the open incident instead of paging again. Two different issues with different ids are two incidents. A body with no usable `id` falls back to matching on the title, which is built to stay identical across deliveries.
 
 ## Incident title
 
-The title is the `description` sentence, with whitespace collapsed and capped at 200 characters:
+NVADR sends no sentence about the fault, so Spike builds the title from `severity`, `title` and `asset`:
 
 ```
-The /.git/ directory on staging.acme-corp.com is publicly accessible, exposing source code and commit history.
+[Critical] Exposed Git Repository on staging.acme-corp.com
 ```
 
-When `description` is empty it falls back to `{title} on {asset}`, then `{title}`, then `{category} on {asset}`, and finally `NVADR alert with no details`. The id, status, severity, priority and assignee are never in the title.
+A closed issue replaces the severity bracket with NVADR's status word:
 
-A closed issue reads `[RESOLVED] <title>`. A `WON'T FIX` issue reads `<title> (won't fix)`, because the risk is accepted rather than fixed. Both resolve the incident.
+```
+[Closed] Exposed Git Repository on staging.acme-corp.com
+[Won't fix] Exposed Git Repository on staging.acme-corp.com
+```
+
+When a part is missing the title falls back in this order:
+
+* No recognised severity: `Exposed Git Repository on staging.acme-corp.com`
+* No asset: `[Critical] Exposed Git Repository`
+* No `title`: `[High] NVADR security risk on 203.0.113.24` (the `category` lower-cased, or `NVADR issue` without it)
+* Neither `title` nor `asset`: `NVADR issue with no details`
+
+` on {asset}` is left out when the title already names that host. Whitespace is collapsed, and the whole title is capped at 200 characters: the severity bracket and the asset host are kept whole and the `title` is cut at a word boundary with `...`. The id, priority, assignee, `first_seen` and `last_seen` are never in the title.
+
+Use a [Title Remapper](../alerts/title-remapper.md) if you would rather read incidents another way.
 
 {% hint style="info" %}
-`WON'T FIX` resolves the incident in Spike. The exposure may still exist, so the `(won't fix)` wording on the event list is the only trace of that decision.
+`WON'T FIX` resolves the incident in Spike. The exposure may still exist, so the `[Won't fix]` wording on the event list is the only trace of that decision.
 {% endhint %}
-
-Use a [Title Remapper](../alerts/title-remapper.md) if you would rather read incidents as the risk name and asset.
 
 ## Step 4 — Confirm it end to end
 
-1. Send the firing body with a test `id` and check an incident opens on your service with the `description` as its title.
-2. Send the same body with `"status": "CLOSED"` and check the incident resolves.
+1. Send the firing body with a test `id` and check an incident opens on your service titled `[Critical] Exposed Git Repository on staging.acme-corp.com`.
+2. Send it again with a newer `last_seen` and check it joins the same incident.
+3. Send the body with `"status": "CLOSED"` and check the incident resolves.
+
+Disclaimer: These integration instructions are offered independently by Spike.sh, and Spike.sh is not affiliated with nor a partner of RedHunt Labs.
