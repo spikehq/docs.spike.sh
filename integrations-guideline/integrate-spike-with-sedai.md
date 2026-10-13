@@ -21,15 +21,19 @@ Sedai does not publish a webhook schema. The body below is the shape Spike reads
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-**Step 2:** Add a custom webhook in Sedai.
+**Step 2:** Add a webhook integration in Sedai.
 
-* In Sedai, go to **Settings → Notifications**.
-* Choose **Custom Webhook** and add a new webhook.
-* Paste the Spike webhook URL from Step 1 into the webhook URL field. This is the only required field.
-* Set the method to `POST` and the content type to `application/json`. Sedai's documentation does not describe other form fields, so leave any others at their defaults.
-* Select the alert and event types you want delivered to Spike, then save.
+* In Sedai, go to **Settings → Integrations → Add Integration → Notifications** and choose **Webhook**.
+* Paste the Spike webhook URL from Step 1 into the webhook URL field.
+* Set the method to `POST` and the format to JSON, not YAML. Spike cannot read a YAML body. Leave any other fields at their defaults.
+* Save the integration.
 
-**Step 3:** Make sure the body Sedai sends has the fields below, and choose JSON (not YAML) as the format. Send a test.
+**Step 3:** Subscribe the integration to alerts in Sedai.
+
+* Go to **Settings → Notifications**.
+* For each notification category you want in Spike, choose the webhook integration from Step 2 in the dropdown.
+
+**Step 4:** Send a test, then check in Spike that the incident has an `eventId` and `status` as shown below. Sedai does not let you edit the body it sends, so if a field is missing, see Troubleshooting.
 
 ## What Sedai sends
 
