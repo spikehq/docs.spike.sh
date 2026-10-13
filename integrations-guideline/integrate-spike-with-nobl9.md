@@ -13,7 +13,7 @@ Nothing is installed anywhere. One webhook alert method, attached to the alert p
 
 ## What Spike does with each notification
 
-Every notification Nobl9 sends through the webhook opens an incident, or lands on the incident already open for the same alert.
+Every notification Nobl9 sends through the webhook opens an incident, or lands on the incident already open for the same alert. The webhook only receives alerts that have triggered.
 
 Nobl9 does not send resolutions to webhook alert methods, so **Spike never resolves a Nobl9 incident on its own.** Resolve it in Spike when the SLO has recovered, or set a [resolve timer](../incidents/resolve-timer.md) on the service.
 
@@ -21,27 +21,29 @@ Nobl9 does not send resolutions to webhook alert methods, so **Spike never resol
 
 Spike identifies the incident by `alert_id`, the unique id Nobl9 gives the alert (`$alert_id`). A repeat notification carrying the same `alert_id` joins the incident that is already open instead of paging again.
 
-If a notification arrives without a usable `alert_id`, Spike falls back to matching on the incident title. The title only holds the policy's own wording and the SLO it fired on, so it is the same every time for the same policy and SLO.
+If a notification arrives without a usable `alert_id` (empty, or still the literal `$alert_id`), Spike falls back to matching on the incident title. The title holds no readings, ids or timestamps, so it is the same every time for the same policy and SLO.
 
 ## Incident title
 
-The title is Nobl9's own sentence about the conditions that fired, followed by where it fired:
+The title is the description you wrote on the alert policy, followed by the SLO and its service:
 
 ```
-Remaining error budget is 10%, Error budget would be exhausted in 15 minutes and this condition lasts for 1 hour — SLO checkout-availability in checkout
+Checkout API is burning its error budget more than 5x faster than allowed (checkout-api-availability in checkout)
 ```
 
-When Nobl9 sends no conditions sentence, Spike builds the title from the next best thing it has, in this order:
+Other shapes, used when the description is empty or the alert is a no-data alert:
 
-1. A no-data anomaly, when `anomaly_type` is `noData`: `No data for 15m from SLO checkout-availability in checkout`
-2. The description you wrote on the alert policy, when it fits on one line: `Checkout availability is burning error budget too fast — SLO checkout-availability in checkout`
-3. The condition that describes the budget pace, from the conditions array: `Error budget would be exhausted in 15 minutes — SLO checkout-availability in checkout`
-4. The alert policy name: `fast-burn on SLO checkout-availability in checkout`
-5. `Nobl9 alert with no details` when the notification has none of the above
+| When | Title |
+| --- | --- |
+| The policy has no description | `fast-burn: Average burn rate is ≥ 5 and this condition lasts for 5 minutes (checkout-api-availability in checkout)` |
+| The policy has no description and no conditions text | `fast-burn (checkout-api-availability in checkout)` |
+| `anomaly_type` is `noData` | `No data from SLO for 15m (checkout-api-availability in checkout)` |
+| `anomaly_type` is `noData` and `no_data_alert_after` is empty | `No data from SLO (checkout-api-availability in checkout)` |
+| Nothing usable in the notification | `Nobl9 alert with no details` |
 
-The part after the dash is the SLO (`slo_name`) and its service (`service_name`). When the service is missing it uses the Nobl9 project (`project_name`) instead, and missing parts are left out. Titles are capped at 200 characters and carry no ids, links or timestamps; those are on the incident page.
+A trailing full stop on the description is removed. The ` in checkout` part is left out when `service_name` is empty, and the parentheses are left out when both `slo_name` and `service_name` are empty. An empty value or an unexpanded variable such as `$slo_name` counts as missing. Titles are capped at 200 characters by shortening the sentence, so the `(slo in service)` part is always kept whole. The project, objective, severity and timestamp are on the incident page, not in the title.
 
-Use a [Title Remapper](../alerts/title-remapper.md) if your team reads Nobl9 alerts by policy name rather than by the conditions sentence:
+Use a [Title Remapper](../alerts/title-remapper.md) if your team reads Nobl9 alerts by policy name rather than by description:
 
 ```handlebars
 {{data.body.alert_policy_name}} on {{data.body.slo_name}}
@@ -49,9 +51,9 @@ Use a [Title Remapper](../alerts/title-remapper.md) if your team reads Nobl9 ale
 
 ## Severity
 
-Spike does not read `severity` from the Nobl9 payload. It is kept on the incident, but incidents open at your integration's default severity.
+Spike's integration code does not read `severity`, but Spike lifts a `severity` field from the payload and maps it to a severity badge, so Nobl9's `High`, `Medium` and `Low` can show on the incident. The casing Nobl9 renders is not documented; the match ignores case.
 
-If you want Nobl9's `high`, `medium` and `low` on the badge, write an [alert rule](../alerts/alert-rules.md) on `severity`. Alert rules can also route an incident to another service or escalation policy, or suppress it. Read more about [priority and severity](../incidents/priority-and-severity.md).
+[Alert rules](../alerts/alert-rules.md) can override severity, route the incident to another service or escalation policy, or suppress it. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
 ## Prerequisites
 
@@ -79,40 +81,35 @@ In Spike, go to **Integrations → Add integration → Nobl9**, attach it to a s
    * **Display name** and **Description** — optional
    * **URL** — the webhook URL from Step 1. *Required*
 
-4. **Set Notification Details to Custom** and paste the body below. Every field is optional on the Spike side, but send all of them: the title and the incident identity are read from them.
+4. **Set Notification Details to Custom** and paste the body below exactly as written. Spike reads `alert_id`, `alert_policy_description`, `alert_policy_name`, `alert_policy_conditions_text`, `slo_name`, `service_name`, `anomaly_type` and `no_data_alert_after`; `severity` becomes the badge. Nothing is rejected if a field is missing, but the title and the incident identity come from these, so send all of them. The rest is kept on the incident for responders and alert rules.
 
 ```json
 {
   "alert_id": "$alert_id",
-  "severity": "$severity",
   "alert_policy_name": "$alert_policy_name",
   "alert_policy_description": "$alert_policy_description",
-  "alert_policy_conditions": [$alert_policy_conditions[]],
   "alert_policy_conditions_text": "$alert_policy_conditions_text",
+  "severity": "$severity",
   "slo_name": "$slo_name",
   "objective_name": "$objective_name",
   "service_name": "$service_name",
   "project_name": "$project_name",
   "organization": "$organization",
   "slo_details_link": "$slo_details_link",
+  "iso_timestamp": "$iso_timestamp",
   "anomaly_type": "$anomaly_type",
-  "no_data_alert_after": "$no_data_alert_after",
-  "iso_timestamp": "$iso_timestamp"
+  "no_data_alert_after": "$no_data_alert_after"
 }
 ```
-
-{% hint style="warning" %}
-`$alert_policy_conditions[]` is deliberately **not** wrapped in quotes. Nobl9 inserts the conditions as a list of quoted strings, so the template needs the square brackets around the variable and nothing else.
-{% endhint %}
 
 5. **Save** the alert method.
 
 {% hint style="danger" %}
-**Never add a top-level `message` key to the template,** even though Nobl9's own webhook example has one. When the body has a `message` key Spike treats it as an already-written title and skips the Nobl9 parsing, so the incident loses its conditions sentence and SLO details.
+**Do not add a top-level `message` key to the template,** even though Nobl9's own webhook example has one. The body above is the one Spike builds titles from.
 {% endhint %}
 
 {% hint style="info" %}
-If you would rather use Nobl9's standard mode and pick variables as fields, include the same names as the keys above. Spike reads `alert_id`, `alert_policy_conditions_text`, `alert_policy_conditions` (or `alert_policy_conditions[]`), `anomaly_type`, `no_data_alert_after`, `alert_policy_description`, `alert_policy_name`, `slo_name`, `service_name` and `project_name`. The rest are kept on the incident for alert rules.
+If you would rather use Nobl9's standard mode and pick variables as fields, include the same names as the keys above.
 {% endhint %}
 
 ## Step 3 — Attach it to your alert policies
@@ -127,7 +124,7 @@ An alert method receives nothing until an alert policy uses it.
 
 ## Step 4 — Confirm it end to end
 
-Nobl9 can send a sample through the alert method. In **Integrations → Alert Methods**, open the Spike webhook and use its test option, or trigger a real alert on a test SLO. An incident opens in Spike with Nobl9's conditions sentence as the title, on the service you attached, escalating through your policy. Acknowledge and resolve it in Spike once you have seen it.
+Trigger a real alert on a test SLO, for example by attaching the policy to an SLO with a low threshold. An incident opens in Spike with the policy description and SLO as the title, on the service you attached, escalating through your policy. Acknowledge and resolve it in Spike once you have seen it.
 
 ## Payload reference
 
@@ -137,30 +134,28 @@ A burn-rate alert, which opens the incident:
 
 ```json
 {
-  "alert_id": "6f1c9b52-3d7e-4a8f-b2c4-9e0d1a5f7c33",
-  "severity": "high",
+  "alert_id": "8f3b1c52-6d4e-4a7b-9c21-5e0f7a9d3b64",
   "alert_policy_name": "fast-burn",
-  "alert_policy_description": "Checkout availability is burning error budget too fast",
-  "alert_policy_conditions": [
-    "Remaining error budget is 10%",
-    "Error budget would be exhausted in 15 minutes and this condition lasts for 1 hour"
-  ],
-  "alert_policy_conditions_text": "Remaining error budget is 10%, Error budget would be exhausted in 15 minutes and this condition lasts for 1 hour",
-  "slo_name": "checkout-availability",
-  "objective_name": "good-requests",
+  "alert_policy_description": "Checkout API is burning its error budget more than 5x faster than allowed",
+  "alert_policy_conditions_text": "Average burn rate is ≥ 5 and this condition lasts for 5 minutes",
+  "severity": "High",
+  "slo_name": "checkout-api-availability",
+  "objective_name": "ok",
   "service_name": "checkout",
   "project_name": "payments",
   "organization": "acme-prod",
-  "slo_details_link": "https://app.nobl9.com/slo/details?project=payments&name=checkout-availability",
+  "slo_details_link": "https://app.nobl9.com/slo/details?project=payments&name=checkout-api-availability",
+  "iso_timestamp": "2026-10-13T03:12:45Z",
   "anomaly_type": "",
-  "no_data_alert_after": "",
-  "iso_timestamp": "2026-10-09T03:12:45Z"
+  "no_data_alert_after": ""
 }
 ```
 
 ```
-Remaining error budget is 10%, Error budget would be exhausted in 15 minutes and this condition lasts for 1 hour — SLO checkout-availability in checkout
+Checkout API is burning its error budget more than 5x faster than allowed (checkout-api-availability in checkout)
 ```
+
+The values above are illustrative; only the field names come from Nobl9's template variables.
 
 ## Things worth knowing
 
@@ -183,7 +178,7 @@ Check that the URL on the alert method is the full `https://hooks.spike.sh/<your
 
 <summary>The title is "Nobl9 alert with no details"</summary>
 
-The notification carried none of the fields Spike builds a title from. Open the incident and look at the payload: if the values are literal `$alert_policy_conditions_text` style text, the template was saved with a variable misspelled. Compare it with the one in Step 2.
+The notification carried none of the fields Spike builds a title from. Open the incident and look at the payload: if the values are literal `$alert_policy_name` style text, the template was saved with a variable misspelled. Compare it with the one in Step 2.
 
 </details>
 
@@ -191,7 +186,7 @@ The notification carried none of the fields Spike builds a title from. Open the 
 
 <summary>The same alert pages more than once</summary>
 
-Open two of the incidents and compare `alert_id` in their payloads. If it is missing or empty, Spike can only match on the title, which is the same for the same policy and SLO but differs between policies. Check that `"alert_id": "$alert_id"` is in the template.
+Open two of the incidents and compare `alert_id` in their payloads. If it is missing or empty, Spike can only match on the title, which is the same for the same policy and SLO. Check that `"alert_id": "$alert_id"` is in the template.
 
 </details>
 
@@ -205,9 +200,9 @@ Expected. Nobl9 sends no recovery notification. Resolve the incident in Spike or
 
 <details>
 
-<summary>The severity badge ignores Nobl9's severity</summary>
+<summary>The severity badge is missing or wrong</summary>
 
-Expected. Spike does not set severity from the Nobl9 payload. An [alert rule](../alerts/alert-rules.md) on `severity` can set it, route the incident or suppress it.
+Open the incident and check the `severity` value in the payload. If it is empty or a literal `$severity`, fix the template. If it holds something other than `High`, `Medium` or `Low`, an [alert rule](../alerts/alert-rules.md) on `severity` can set the badge you want.
 
 </details>
 
