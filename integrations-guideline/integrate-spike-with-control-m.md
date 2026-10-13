@@ -34,13 +34,43 @@ Auto-resolution is supported for this integration. Spike will also automatically
 
 {% tabs %}
 {% tab title="Setup on Control-M" %}
-1. In Control-M, set up the **alerts listener**: the external script that Control-M runs for each alert. Follow BMC's "Alerts" documentation for your version to register the script (BMC calls this sending alerts to an external program).
-2. Write the listener script. Control-M calls it with `name: value` arguments (`call_type`, `alert_id`, `data_center`, `memname`, `order_id`, `severity`, `status`, `send_time`, `last_user`, `last_time`, `message`, `run_as`, `application`, `sub_application`, `job_name`, `host_id`, `alert_type`, `closed_from_em`, `ticket_number`, `run_counter`, `notes`).
-3. In the script, join every token up to the next `name:` token into one value, because a value such as `Ended not OK` contains spaces.
-4. Make the script post a JSON body to the Spike webhook URL, using the field mapping below.
-5. Restart the Control-M/EM server components so the listener is picked up.
+1. Enable external alerts for your Control-M environment and choose the alert types to send (the `enableExternalAlerts` and `externalAlertTypes` settings, described in BMC's "Sending events to external monitoring tools" tutorial). Choose the alert types you want in Spike, for example job alerts.
+2. Keep the **default alert template**. Control-M then passes each alert to the **alerts listener** as `name: value` arguments that use the field names in the table below (`eventType`, `id`, `status`, `message`, `jobName`, `host` and so on). Do not rename them.
+3. Save the listener script below on the machine that runs the alerts listener, and make it executable. It joins every token up to the next `name:` token into one value, because a value such as `Ended not OK` can arrive as several arguments. Replace `SPIKE_WEBHOOK_URL` with the URL from Step 1.
+4. Register the script as the listener's command, following BMC's tutorial for your version, then restart the listener.
 
-Send exactly this body for a new alert:
+```bash
+#!/bin/bash
+# Turns Control-M "name: value" arguments into a JSON body and posts it to Spike.
+SPIKE_WEBHOOK_URL="https://hooks.spike.sh/..."
+FIELDS=" eventType id server fileName runId runNo severity status time user updateTime message runAs application subApplication jobName host type notes component_name component_machine "
+
+body='{}'
+name=""
+value=""
+flush() {
+  if [ -n "$name" ]; then
+    body=$(printf '%s' "$body" | jq -c --arg k "$name" --arg v "$value" '. + {($k): $v}')
+  fi
+}
+for token in "$@"; do
+  key="${token%:}"
+  if [[ "$token" == *: && "$FIELDS" == *" $key "* ]]; then
+    flush
+    name="$key"
+    value=""
+  else
+    value="${value:+$value }$token"
+  fi
+done
+flush
+
+curl -sS -X POST -H 'Content-Type: application/json' -d "$body" "$SPIKE_WEBHOOK_URL"
+```
+
+The script needs `jq` and `curl`. A field with no value, such as `user:`, is sent as an empty string.
+
+The script produces this body for a new alert:
 
 ```json
 {
@@ -66,7 +96,7 @@ Send exactly this body for a new alert:
 }
 ```
 
-When an operator handles (closes) the alert, send the same body with `eventType` `U` and `status` `2`:
+When an operator handles (closes) the alert, the script sends the same body with `eventType` `U` and `status` `2`:
 
 ```json
 {
@@ -96,7 +126,7 @@ When an operator handles (closes) the alert, send the same body with `eventType`
 
 ### Fields
 
-| Field | Control-M name | Meaning |
+| Field | Control-M source | Meaning |
 | --- | --- | --- |
 | `eventType` | `call_type` | `I` = new alert, `U` = update of an existing alert. |
 | `id` | `alert_id` | **Required for resolving.** Unique key of the alert, the same across its `I` and `U` events. |
