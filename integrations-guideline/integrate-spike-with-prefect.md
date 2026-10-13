@@ -6,34 +6,37 @@ description: >-
 # How Spike Integrates with Prefect
 
 ## Overview
-[Prefect](https://www.prefect.io) is a workflow orchestration platform for building, scheduling, and monitoring data pipelines. Prefect Automations can call a webhook when a flow run changes state.
+[Prefect](https://www.prefect.io) is a workflow orchestration platform for building, scheduling, and monitoring data pipelines. A Prefect automation can call a webhook when its trigger fires, and again when the trigger resolves.
 
-With Spike’s Prefect integration, a failed, timed out, crashed or late flow run opens an incident, and a later completed run of the same deployment resolves it.
+With Spike's Prefect integration, an automation that fires opens an incident, and the same automation resolving closes it.
 
 ## How it works
-Spike reads the state of the flow run from the webhook body:
+Spike reads these fields from the webhook body:
 
-* `alert_id` identifies one alert across firing and recovery. It is the deployment the flow run belongs to, or the flow when the run has no deployment. It is not the run id: every scheduled run gets a new run id, so a run-id key would open a new incident each night and never resolve.
-* `state_name` (trimmed, not case-sensitive) decides what happens:
-  * `Failed`, `TimedOut`, `Crashed` and `Late` open an incident, or join the one already open with the same `alert_id`.
-  * `Completed` and `Cached` resolve the open incident with the same `alert_id`.
-  * `Scheduled`, `AwaitingRetry`, `AwaitingConcurrencySlot`, `Resuming`, `Pending`, `Submitting`, `InfrastructurePending`, `Running`, `Retrying`, `Paused`, `Suspended`, `Cancelling`, `Cancelled` and `RolledBack` neither open nor resolve anything.
-  * A missing, empty or unknown `state_name` is treated as firing, so a broken template still pages.
-* An `alert_id` is usable when it is a non-empty value that is not `None` and not an unexpanded template variable (text containing `{{` or `}}`, or written as `$name`, `${name}` or `%name%`). Two alerts that both arrive with an unexpanded `alert_id` open two incidents. Without a usable `alert_id`, Spike matches a repeat by title and does not auto-resolve a recovery.
-* `state_message` is Prefect's sentence about what went wrong. A message that is empty, `None` or an unexpanded variable is ignored.
+* `alert_id` identifies one alert across firing and recovery: one automation on one flow run. You build it as `{{ automation.id }}:{{ event.resource.id }}`. Spike uses it to join repeats to the open incident and to resolve it.
+* `status` is typed by you as a fixed word in each action: `Triggered` in the action that runs when the automation fires, and `Resolved` in the copy that runs when it resolves. It is trimmed and not case-sensitive.
+  * `Triggered` opens an incident, or joins the open one with the same `alert_id`.
+  * `Resolved` never opens an incident. It joins the open incident with the same `alert_id`, which Spike then resolves. If nothing is open, it is dropped.
+  * A missing or unknown `status` opens an incident and never resolves one, so a broken template still pages.
+* `automation`, `flow` and `flow_run` (the automation name, the flow name and the flow run name) build the title.
+* `state_message` is Prefect's sentence about the run's current state. It arrives as a JSON string, or `null` when Prefect has none. `null`, an empty string, `None` and `null` as text are ignored.
+* `state`, `event`, `url` and `occurred` are shown on the incident. They are never part of the title.
 
-The incident title depends on the body:
+An `alert_id` is usable when it is a number, or text that is not empty after trimming, has at least one letter or digit, and holds no unexpanded template variable (`{{...}}`, `{%...%}`, `$name`, `${name}` or `%name%`). Two alerts that both arrive with an unexpanded `alert_id` open two incidents. Without a usable `alert_id`, Spike matches a repeat by title, and a `Resolved` delivery does not close anything.
 
-| Body | Title |
+A repeat that changes only `state`, `state_message`, `event` or `occurred` joins the open incident.
+
+The incident title is the first of these that applies. Whitespace is collapsed.
+
+| Case | Title |
 | --- | --- |
-| Firing with an `alert_id` and a usable `state_message` | `{state_message} in {flow_name}/{deployment_name}`, for example `Flow run encountered an exception: KeyError: 'customer_id' in nightly-orders-etl/production`. Whitespace is collapsed. Over 200 characters, `state_message` is shortened with an ellipsis and ` in {flow_name}/{deployment_name}` is kept whole. |
-| Firing with an `alert_id` and no usable `state_message` | `Flow run {state_name} in {flow_name}/{deployment_name}`, for example `Flow run Late in hourly-sync` |
-| Firing without a usable `alert_id` | Always `Flow run {state_name} in {flow_name}/{deployment_name}`, never the message, so a repeat gets the same title and joins the open incident |
-| Recovery (`Completed` or `Cached`) | `Flow run completed in {flow_name}/{deployment_name}` |
-| No `flow_name` and no `deployment_name` | `Prefect flow run {state_name}` |
+| `status` is `Resolved` | `{automation} resolved on {flow}/{flow_run}`, for example `Nightly ETL still running after 30 minutes resolved on warehouse-etl/crimson-fox` |
+| Usable `alert_id` and a `state_message` | `{state_message} in {flow}/{flow_run}`, for example `Flow run failed after 3 retries. in warehouse-etl/crimson-fox` |
+| Otherwise, with an `automation` | `{automation} on {flow}/{flow_run}`, for example `Nightly ETL still running after 30 minutes on warehouse-etl/crimson-fox`. This is the only form used without a usable `alert_id`, and it never contains `state`, `state_message` or `occurred`. |
+| No `automation`, but `flow` or `flow_run` | `Prefect alert on {flow}/{flow_run}` |
 | Nothing usable | `Prefect alert with no details` |
 
-If only one of `flow_name` and `deployment_name` is present, only that one is used. A missing `state_name` reads `failed`. Titles are at most 200 characters. Run names, run ids, URLs and timestamps are never part of a title. A recovery is resolved by `alert_id` only, so its title may differ from the title of the incident it closes.
+If only one of `flow` and `flow_run` is present, only that one is used. If both are absent, the "where" is dropped together with its `in` or `on`. A value that is an unexpanded template variable, `None` or `null` counts as absent. Titles are at most 200 characters: the "where" is kept whole and the first part is cut at a word boundary with `...`. If the "where" alone is over 100 characters, the title is cut plainly instead.
 
 {% hint style="success" %}
 Auto-resolution is supported for this integration. Spike will also automatically group repeated incidents and suppress alerts while an incident is open.
@@ -58,7 +61,7 @@ Auto-resolution is supported for this integration. Spike will also automatically
 3. Enter a **Block Name**, for example `spike`.
 4. Set **Method** to `POST`.
 5. Paste the Spike webhook URL into the **URL** field.
-6. In **Headers**, enter the JSON below. This header is required: without it Spike cannot read the body.
+6. In **Headers**, enter the JSON below. This is required: Prefect sends the body without a content type, and Spike cannot read it without this header.
 
 ```json
 {"Content-Type": "application/json"}
@@ -66,77 +69,81 @@ Auto-resolution is supported for this integration. Spike will also automatically
 
 7. Click **Create**.
 
-**Create the Automations**
+**Create the Automation**
 
-Create one automation that handles both failures and recoveries.
+Create one automation. Its action when it fires and its action when it resolves use the same payload, apart from `status`.
 
 1. Open **Automations** and click **Add Automation** (the **+** button).
-2. **Trigger:** choose **Flow run state**. Select the flows you want to monitor (or all flows), choose the states **Failed**, **Crashed**, **TimedOut**, **Late** and **Completed**, and set it to trigger **Immediately**. Click **Next**.
-3. **Actions:** choose **Call a webhook**, select the `spike` block, and paste the payload below into the **Payload** field. Click **Next**.
-4. Enter a name, for example `Spike - flow run state`, and click **Save**.
+2. **Trigger:** choose the trigger for the problem you want to catch, and click **Next**. Pick a trigger that can resolve, so that Prefect can send a recovery. For example, a **Flow run state** trigger that fires when a run stays in a state (such as **Running**) longer than a set time resolves when the run leaves that state.
+3. **Actions:** choose **Call a webhook**, select the `spike` block, and paste the payload below into the **Payload** field. Keep `"status": "Triggered"`.
+4. Add the same **Call a webhook** action to the automation's on-resolve actions, with the same payload but `"status": "Resolved"`.
+5. Enter a name for the automation. This name becomes `automation` in the incident title, so write it as a sentence, for example `Nightly ETL still running after 30 minutes`. Click **Save**.
 
-Prefect sends one webhook per state change. Spike opens an incident for Failed, TimedOut, Crashed and Late runs and resolves it on a later Completed run of the same deployment (or flow, when there is no deployment).
+If your Prefect version does not show on-resolve actions in the automation form, create the automation with the same two action lists (`actions_on_trigger` and `actions_on_resolve`) through the Prefect API or Python SDK. Without a `Resolved` delivery, Spike never closes the incident.
 
-All fields in the payload are required to be present. `alert_id` and `state_name` decide whether the incident is opened, grouped or resolved; `state_message`, `flow_name` and `deployment_name` build the title; `flow_run_name`, `flow_run_id`, `state_timestamp` and `flow_run_url` are shown on the incident.
+All fields are required to be present. `alert_id` and `status` decide whether the incident is opened, joined or resolved; `automation`, `flow`, `flow_run` and `state_message` build the title; `state`, `event`, `url` and `occurred` are shown on the incident.
 
-`alert_id` uses the deployment id and falls back to the flow id, so that a run without a deployment is still grouped and resolved correctly.
+Write `state_message` exactly as shown, without quotes around it: the `tojson` filter adds them and writes `null` when Prefect has no message.
 
 ```json
 {
-  "alert_id": "{{ flow_run.deployment_id or flow_run.flow_id }}",
-  "state_name": "{{ flow_run.state.name }}",
-  "state_message": "{{ flow_run.state.message }}",
-  "flow_name": "{{ flow.name }}",
-  "deployment_name": "{{ deployment.name }}",
-  "flow_run_name": "{{ flow_run.name }}",
-  "flow_run_id": "{{ flow_run.id }}",
-  "state_timestamp": "{{ flow_run.state.timestamp }}",
-  "flow_run_url": "{{ flow_run|ui_url }}"
+  "alert_id": "{{ automation.id }}:{{ event.resource.id }}",
+  "status": "Triggered",
+  "automation": "{{ automation.name }}",
+  "event": "{{ event.event }}",
+  "flow": "{{ flow.name }}",
+  "flow_run": "{{ flow_run.name }}",
+  "state": "{{ flow_run.state.name }}",
+  "state_message": {{ flow_run.state.message | tojson }},
+  "url": "{{ flow_run|ui_url }}",
+  "occurred": "{{ event.occurred }}"
 }
 ```
 {% endtab %}
 
 {% tab title="Example payload" %}
-When a flow run fails, Prefect sends a body like this:
+When the automation fires, Prefect sends a body like this:
 
 ```json
 {
-  "alert_id": "3f6c2a9e-1b7d-4e85-a0c4-92d17be5f0a3",
-  "state_name": "Failed",
-  "state_message": "Flow run encountered an exception: KeyError: 'customer_id'",
-  "flow_name": "nightly-orders-etl",
-  "deployment_name": "production",
-  "flow_run_name": "crimson-otter",
-  "flow_run_id": "0671a3c2-58e4-7b1f-8000-4c9e2d7a1f36",
-  "state_timestamp": "2026-10-13T02:14:07.512338+00:00",
-  "flow_run_url": "https://app.prefect.cloud/account/9b1e6d4a-2c37-4f80-b5a1-7e3d0c8f2a91/workspace/c4a87e10-6f2b-4d93-8e5c-1a0b9d3f7e62/runs/flow-run/0671a3c2-58e4-7b1f-8000-4c9e2d7a1f36"
+  "alert_id": "6d2a5c8e-3f1b-4b7a-9e0d-2c4f8a1b7e93:prefect.flow-run.e3755d32-cec5-42ca-9bcd-af236e308ba6",
+  "status": "Triggered",
+  "automation": "Nightly ETL still running after 30 minutes",
+  "event": "prefect.flow-run.Running",
+  "flow": "warehouse-etl",
+  "flow_run": "crimson-fox",
+  "state": "Running",
+  "state_message": null,
+  "url": "https://app.prefect.cloud/account/9b3f6c1e-2a4d-4e8b-b7c5-1f0a2d3e4c5b/workspace/4e7d2a9c-8b1f-4c3e-a6d5-7f9e0b1c2d3a/runs/flow-run/e3755d32-cec5-42ca-9bcd-af236e308ba6",
+  "occurred": "2026-10-13T02:30:04.118204+00:00"
 }
 ```
 
-Spike opens an incident titled `Flow run encountered an exception: KeyError: 'customer_id' in nightly-orders-etl/production`.
+Spike opens an incident titled `Nightly ETL still running after 30 minutes on warehouse-etl/crimson-fox`.
 
-When a later run completes, the body looks like this:
+When the automation resolves, the body looks like this:
 
 ```json
 {
-  "alert_id": "3f6c2a9e-1b7d-4e85-a0c4-92d17be5f0a3",
-  "state_name": "Completed",
-  "state_message": "None",
-  "flow_name": "nightly-orders-etl",
-  "deployment_name": "production",
-  "flow_run_name": "amber-heron",
-  "flow_run_id": "0671f8d9-0e27-7a64-8000-b13c5e8f2d90",
-  "state_timestamp": "2026-10-14T02:09:51.208114+00:00",
-  "flow_run_url": "https://app.prefect.cloud/account/9b1e6d4a-2c37-4f80-b5a1-7e3d0c8f2a91/workspace/c4a87e10-6f2b-4d93-8e5c-1a0b9d3f7e62/runs/flow-run/0671f8d9-0e27-7a64-8000-b13c5e8f2d90"
+  "alert_id": "6d2a5c8e-3f1b-4b7a-9e0d-2c4f8a1b7e93:prefect.flow-run.e3755d32-cec5-42ca-9bcd-af236e308ba6",
+  "status": "Resolved",
+  "automation": "Nightly ETL still running after 30 minutes",
+  "event": "prefect.flow-run.Completed",
+  "flow": "warehouse-etl",
+  "flow_run": "crimson-fox",
+  "state": "Completed",
+  "state_message": "All states completed.",
+  "url": "https://app.prefect.cloud/account/9b3f6c1e-2a4d-4e8b-b7c5-1f0a2d3e4c5b/workspace/4e7d2a9c-8b1f-4c3e-a6d5-7f9e0b1c2d3a/runs/flow-run/e3755d32-cec5-42ca-9bcd-af236e308ba6",
+  "occurred": "2026-10-13T03:07:41.502913+00:00"
 }
 ```
 
-Spike resolves the open incident with the same `alert_id`. The recovery title would be `Flow run completed in nightly-orders-etl/production`.
+Spike resolves the open incident with the same `alert_id`. The recovery title is `Nightly ETL still running after 30 minutes resolved on warehouse-etl/crimson-fox`.
 {% endtab %}
 {% endtabs %}
 
 ## Test the integration
-1. Run a flow that fails (for example, raise an exception in a test flow).
+1. Trigger the automation (for example, start a flow run that stays in the trigger's state past its time limit).
 2. Confirm the automation fires and a new incident is created in Spike.
-3. Run the same deployment again and let it complete.
-4. Confirm Spike auto-resolves the incident for that deployment.
+3. Let the run leave that state, so that the automation resolves.
+4. Confirm Spike auto-resolves the incident.
