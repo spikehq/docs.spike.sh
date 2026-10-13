@@ -11,28 +11,29 @@ description: >-
 With Spike’s dbt Cloud integration, a job run that errors creates an incident, and the incident resolves itself when the same job next succeeds.
 
 ## How it works
-Spike reads `eventType`, `data.runStatusCode` and `data.runStatus` of each dbt Cloud webhook:
+Spike decides what a webhook means from the run status, in this order:
 
-| Event | What Spike does |
+| What Spike reads | What Spike does |
 | --- | --- |
-| `job.run.errored` | Creates an incident, or joins the open incident for the same job |
-| `job.run.completed` with `data.runStatusCode` `20` (or `data.runStatus` `Errored` / `Error`) | Creates an incident, or joins the open incident for the same job |
-| `job.run.completed` with `data.runStatusCode` `10` (or `data.runStatus` `Success`) | Resolves the open incident for the same job; never creates one |
-| `job.run.started`, or any other status code | Ignored: never creates or resolves an incident |
+| `data.runStatusCode` `20` (Errored) | Creates an incident, or joins the open incident for the same job |
+| `data.runStatusCode` `10` (Success) | Resolves the open incident for the same job; never creates one |
+| `data.runStatusCode` `3` (Running) or any other number | Ignored: never creates or resolves an incident |
 
-* `data.runStatusCode` can arrive as a number or a numeric string. Only when it is missing or not a number does Spike fall back to `data.runStatus`.
-* `eventType` is compared exactly after trimming spaces.
-* If you subscribe to both **Run errored** and **Run completed**, a failed run may send two webhooks; the second joins the incident that is already open.
+* `data.runStatusCode` can arrive as a number or a numeric string.
+* Only when `data.runStatusCode` is missing or not a number does Spike read `data.runStatus`, compared case-insensitively after trimming: `Errored` or `Error` creates or joins, `Success` resolves, anything else is ignored.
+* Only when neither is readable does Spike use `eventType`: `job.run.errored` creates or joins, while `job.run.started` and `job.run.completed` are ignored.
+* If you subscribe to both **Run errored** and **Run completed**, a failed run sends `job.run.errored` and then `job.run.completed` with code `20`; the second joins the incident that is already open.
 
-Spike identifies the incident by `data.jobId`, the dbt Cloud job. It stays the same from run to run, so every failed run of a job groups into one incident and the job's next successful run resolves it. If `data.jobId` is missing, a failure is matched to an open incident by its title instead, and a success cannot resolve anything.
+Spike identifies the incident by `data.jobId`, the dbt Cloud job. It stays the same from run to run, so every failed run of a job groups into one incident and the job's next successful run resolves it. A value counts as an id when it is a non-empty string or a number (`0` is an id). If `data.jobId` is missing, a failure is matched to an open incident by its title instead, and a success cannot resolve anything. Resolving needs an exact `data.jobId` match between the failure and the success.
 
 ### Incident title
-* Failure, when `data.runStatusMessage` holds a real sentence (not empty and not `None`): the first line of the sentence, then the job and environment, as `{data.runStatusMessage} — {data.jobName} in {data.environmentName}`. dbt Cloud sends `None` in its documented examples, so you will normally see the next form.
-* Failure otherwise: `dbt job Nightly build (dbt build) failed in Production (Analytics Warehouse)`. A missing part is dropped with its connector words. With no job name, `data.jobId` is used: `dbt job 184562 failed in Production`.
-* Success: `dbt job Nightly build (dbt build) recovered in Production (Analytics Warehouse)`.
-* With nothing usable the title is `dbt Cloud alert with no details`.
+* Failure, when `data.runStatusMessage` holds a real sentence (not empty, not `None`/`null`) and `data.jobId` is present: `{data.runStatusMessage} — {data.jobName} in {data.environmentName}`. dbt Cloud sends `None` in its documented examples, so you will normally see the next form.
+* Failure otherwise: `dbt Cloud job Nightly build (dbt build) failed in Production`. With no job name it is `dbt Cloud job failed in Production`; with no environment ` in …` is dropped.
+* Success: `dbt Cloud job Nightly build (dbt build) recovered in Production`.
+* Runs that are ignored (for example Running) get the plain failure form but never create an incident.
+* With neither a job name nor an environment the title is `dbt Cloud alert with no details`.
 
-Titles never contain run ids, links, timestamps or the run reason, and are cut at 200 characters.
+Whitespace is collapsed and titles never contain run ids, links, timestamps or the run reason. Titles are cut at 200 characters; a long `data.runStatusMessage` is shortened with `...` so the job and environment stay whole.
 
 {% hint style="success" %}
 Auto-resolution is supported for this integration. Spike will also automatically group repeated incidents and suppress alerts while an incident is open.
@@ -58,7 +59,7 @@ Auto-resolution is supported for this integration. Spike will also automatically
 6. Paste the Spike webhook URL into the **Endpoint** field.
 7. Click **Save**.
 
-The **Webhook name**, **Events** and **Endpoint** fields are required. Spike needs `eventType`, `data.jobId` and `data.runStatusCode` on every delivery; dbt Cloud includes all three. dbt Cloud shows a secret key for the webhook after saving; Spike does not use it, because the token in the webhook URL is the credential.
+The **Webhook name**, **Events** and **Endpoint** fields are required. Spike needs `data.jobId` and `data.runStatusCode` on every delivery; dbt Cloud includes both. Send all jobs of one Spike integration from a single dbt Cloud account, because job ids are not known to be unique across accounts. dbt Cloud shows a secret key for the webhook after saving; Spike does not use it, because the token in the webhook URL is the credential.
 
 **Run errored** opens the incident and **Run completed** resolves it when the job next succeeds. Without **Run completed**, incidents never auto-resolve.
 {% endtab %}
@@ -70,25 +71,25 @@ dbt Cloud sends the following when a job run errors:
 
 ```json
 {
-  "accountId": 43127,
-  "webhookId": "wsu_2Lq8Hk4nV0bXcR7tYpW1mZ9aE3s",
-  "eventId": "wev_2Q7mXb9Kc4TzVnR1sLp8YdHf6Ga",
+  "accountId": 70403103932011,
+  "webhookId": "wsu_2fJq8bXkT0mNc4Rz",
+  "eventId": "wev_2nV7hQeXcL1pZ9aKdR3sYtB6uWm",
   "timestamp": "2026-10-13T06:15:20.419714619Z",
   "eventType": "job.run.errored",
-  "webhookName": "Spike - production failures",
+  "webhookName": "Spike on-call",
   "data": {
-    "jobId": "184562",
+    "jobId": "418236",
     "jobName": "Nightly build (dbt build)",
-    "runId": "297431058",
-    "environmentId": "92311",
+    "runId": "70403139217654",
+    "environmentId": "218544",
     "environmentName": "Production",
-    "dbtVersion": "1.8.0",
+    "dbtVersion": "1.9.0",
     "projectName": "Analytics Warehouse",
-    "projectId": "167194",
+    "projectId": "312077",
     "runStatus": "Errored",
     "runStatusCode": 20,
     "runStatusMessage": "None",
-    "runReason": "Kicked off by schedule",
+    "runReason": "Kicked off by the scheduler",
     "runStartedAt": "2026-10-13T06:00:04Z",
     "runErroredAt": "2026-10-13T06:15:20Z"
   }
@@ -99,32 +100,32 @@ When the same job next succeeds, dbt Cloud sends the following, and Spike resolv
 
 ```json
 {
-  "accountId": 43127,
-  "webhookId": "wsu_2Lq8Hk4nV0bXcR7tYpW1mZ9aE3s",
-  "eventId": "wev_2Q9rTa3Nd8WuKmB5vHq2ZeJc7Lx",
-  "timestamp": "2026-10-14T06:12:41.789265936Z",
+  "accountId": 70403103932011,
+  "webhookId": "wsu_2fJq8bXkT0mNc4Rz",
+  "eventId": "wev_2nVbR4kTzQ8xMw2cHs7LpE1aYfD",
+  "timestamp": "2026-10-13T07:42:35.789265936Z",
   "eventType": "job.run.completed",
-  "webhookName": "Spike - production failures",
+  "webhookName": "Spike on-call",
   "data": {
-    "jobId": "184562",
+    "jobId": "418236",
     "jobName": "Nightly build (dbt build)",
-    "runId": "297688214",
-    "environmentId": "92311",
+    "runId": "70403139288120",
+    "environmentId": "218544",
     "environmentName": "Production",
-    "dbtVersion": "1.8.0",
+    "dbtVersion": "1.9.0",
     "projectName": "Analytics Warehouse",
-    "projectId": "167194",
+    "projectId": "312077",
     "runStatus": "Success",
     "runStatusCode": 10,
     "runStatusMessage": "None",
-    "runReason": "Kicked off by schedule",
-    "runStartedAt": "2026-10-14T06:00:03Z",
-    "runFinishedAt": "2026-10-14T06:12:38Z"
+    "runReason": "Kicked off from the UI by maria.lopez@example.com",
+    "runStartedAt": "2026-10-13T07:30:11Z",
+    "runFinishedAt": "2026-10-13T07:42:32Z"
   }
 }
 ```
 
-The fields Spike reads are `eventType`, `data.jobId`, `data.jobName`, `data.projectName`, `data.environmentName`, `data.runStatus`, `data.runStatusCode` and `data.runStatusMessage`. Every other field is kept on the incident.
+The fields Spike reads are `eventType`, `data.jobId`, `data.jobName`, `data.environmentName`, `data.runStatus`, `data.runStatusCode` and `data.runStatusMessage`. Every other field is kept on the incident.
 
 ## Test the integration
 1. Run a dbt Cloud job that fails (for example, a job with a model that does not compile).
