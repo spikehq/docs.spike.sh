@@ -28,25 +28,30 @@ Spike identifies the incident by `alert_rule_id`, the UUID of the alert rule, wh
 
 ## Incident title
 
-The title is the rule's own description, which you write in LangSmith, with whitespace collapsed and cut at 200 characters:
+The title is the rule's `alert_rule_description`, which you write in LangSmith, with whitespace collapsed and cut at 200 characters (the cut ends in `...`):
 
 ```
-Support bot runs are failing: more than 10 errored runs in 5 minutes
+More than 10 support agent runs errored in the last 5 minutes
 ```
 
-A rule with no description is titled from its name, the metric, the readings and the project:
+A rule with no description is titled from its name, the metric, the readings and the project (or the workspace when the project is empty):
 
 ```
-Support bot error spike: error count 42 above 10 threshold in support-bot-prod
+Support agent error spike: errors 42 above threshold 10 in support-agent-prod
+Answer quality drop: feedback score 0.62 below threshold 0.8 in rag-prod
 ```
 
-The readings appear only when the delivery carries an `alert_rule_id`, the rule type is `threshold` (or absent), and the metric value and threshold are both numbers that differ. Without them the title is the rule name and project:
+* The metric reads `errors`, `feedback score`, `latency` or `cost` for `error_count`, `feedback_score`, `latency` and `cost`. Any other `alert_rule_attribute` is shown with underscores replaced by spaces.
+* `above` or `below` is worked out by comparing `triggered_metric_value` with `triggered_threshold`, because the operator is not in the payload.
+* Numbers from ten up are whole with thousands separators (`1,250`), and below ten they keep two significant digits. No units are shown, because LangSmith does not say which unit a value is in.
+
+The readings appear only when the delivery carries a usable `alert_rule_id` and both numbers are present, numeric and different. Without them the title is the rule name and project:
 
 ```
-Support bot error spike in support-bot-prod
+Support agent error spike in support-agent-prod
 ```
 
-If the rule has no name either, the metric stands in (`latency alert in support-bot-prod`), and a delivery with nothing usable is titled `LangSmith alert with no details`. Titles never contain ids, URLs or timestamps; those are on the incident page. If a fallback title would pass 200 characters, the rule name is shortened and the project is kept whole.
+If the rule has no name, `LangSmith errors alert` (or `LangSmith alert` with no metric) stands in. A delivery with nothing usable is titled `LangSmith alert with no details`. Titles never contain ids, URLs or timestamps; those are on the incident page. A fallback title is also capped at 200 characters: the rule name is shortened and ` in {project}` is kept whole.
 
 Use a [Title Remapper](../alerts/title-remapper.md) if you want a different format.
 
@@ -79,7 +84,7 @@ In Spike, go to **Integrations → Add integration → LangSmith**, attach it to
    * **Request Body Template** (required for Spike) — enter exactly `{}`. LangSmith adds its alert fields at the top level of whatever template you send, so Spike receives only those fields
 5. **Save the rule.**
 
-With the template `{}`, the delivery is the body below. Spike reads `alert_rule_id`, `alert_rule_description`, `alert_rule_name`, `project_name`, `alert_rule_attribute`, `alert_rule_type`, `triggered_metric_value` and `triggered_threshold`. `workspace_name`, `alert_rule_url`, `runs_url` and `timestamp` are kept on the incident page but are not used. Of these only `alert_rule_id` matters for joining repeat firings of one rule into one incident; the others only shape the title. Spike does not require any of them, but LangSmith always sends all twelve.
+With the template `{}`, the delivery is the body below. Spike reads `alert_rule_id`, `alert_rule_description`, `alert_rule_name`, `alert_rule_attribute`, `triggered_metric_value`, `triggered_threshold`, `project_name` and `workspace_name`. `alert_rule_type`, `alert_rule_url`, `runs_url` and `timestamp` are kept on the incident page but are not used. Only `alert_rule_id` decides whether a repeat firing of one rule joins the open incident; the others only shape the title. Spike does not require any of them, but LangSmith sends all twelve.
 
 {% hint style="warning" %}
 Treat the webhook URL like a password. If it leaks, archive the integration in Spike and create a new one, then update the URL on each rule.
@@ -101,25 +106,25 @@ Send a test request with the example body below, or trigger the rule in LangSmit
 curl -X POST "https://hooks.spike.sh/<your-token>/push-events" \
   -H "Content-Type: application/json" \
   -d '{
-    "project_name": "support-bot-prod",
+    "project_name": "support-agent-prod",
     "workspace_name": "Acme AI",
-    "alert_rule_id": "5f1c2a9e-8b3d-4c7a-9e21-6d0f4b7a3c18",
-    "alert_rule_name": "Support bot error spike",
-    "alert_rule_description": "Support bot runs are failing: more than 10 errored runs in 5 minutes",
+    "alert_rule_id": "5f0d3c2a-8b1e-4f6a-9c7d-2e4b1a6f8d93",
+    "alert_rule_name": "Support agent error spike",
+    "alert_rule_description": "More than 10 support agent runs errored in the last 5 minutes",
     "alert_rule_type": "threshold",
     "alert_rule_attribute": "error_count",
-    "alert_rule_url": "https://smith.langchain.com/o/2b7c9d10-4e5f-4a6b-8c7d-1e2f3a4b5c6d/projects/p/9a8b7c6d-5e4f-4321-9876-0fedcba98765?tab=alerts",
-    "runs_url": "https://smith.langchain.com/o/2b7c9d10-4e5f-4a6b-8c7d-1e2f3a4b5c6d/projects/p/9a8b7c6d-5e4f-4321-9876-0fedcba98765?runtab=0",
+    "alert_rule_url": "https://smith.langchain.com/o/0c4f1d2e-7a8b-4c3d-9e1f-2a3b4c5d6e7f/projects/p/9a8b7c6d-5e4f-4a3b-8c2d-1e0f9a8b7c6d?tab=alerts",
+    "runs_url": "https://smith.langchain.com/o/0c4f1d2e-7a8b-4c3d-9e1f-2a3b4c5d6e7f/projects/p/9a8b7c6d-5e4f-4a3b-8c2d-1e0f9a8b7c6d?timeModel=%7B%22start_time%22%3A%222026-10-13T03%3A07%3A45Z%22%2C%22end_time%22%3A%222026-10-13T03%3A12%3A45Z%22%7D",
     "triggered_metric_value": 42,
     "triggered_threshold": 10,
-    "timestamp": "2026-10-09T03:12:00Z"
+    "timestamp": "2026-10-13T03:12:45.118Z"
   }'
 ```
 
 An incident opens on your service, titled:
 
 ```
-Support bot runs are failing: more than 10 errored runs in 5 minutes
+More than 10 support agent runs errored in the last 5 minutes
 ```
 
 Send it again and the second delivery lands on the same incident without paging. Resolve the test incident when you are done.
@@ -128,18 +133,18 @@ Send it again and the second delivery lands on the same incident without paging.
 
 ```json
 {
-  "project_name": "support-bot-prod",
+  "project_name": "support-agent-prod",
   "workspace_name": "Acme AI",
-  "alert_rule_id": "5f1c2a9e-8b3d-4c7a-9e21-6d0f4b7a3c18",
-  "alert_rule_name": "Support bot error spike",
-  "alert_rule_description": "Support bot runs are failing: more than 10 errored runs in 5 minutes",
+  "alert_rule_id": "5f0d3c2a-8b1e-4f6a-9c7d-2e4b1a6f8d93",
+  "alert_rule_name": "Support agent error spike",
+  "alert_rule_description": "More than 10 support agent runs errored in the last 5 minutes",
   "alert_rule_type": "threshold",
   "alert_rule_attribute": "error_count",
-  "alert_rule_url": "https://smith.langchain.com/o/2b7c9d10-4e5f-4a6b-8c7d-1e2f3a4b5c6d/projects/p/9a8b7c6d-5e4f-4321-9876-0fedcba98765?tab=alerts",
-  "runs_url": "https://smith.langchain.com/o/2b7c9d10-4e5f-4a6b-8c7d-1e2f3a4b5c6d/projects/p/9a8b7c6d-5e4f-4321-9876-0fedcba98765?runtab=0",
+  "alert_rule_url": "https://smith.langchain.com/o/0c4f1d2e-7a8b-4c3d-9e1f-2a3b4c5d6e7f/projects/p/9a8b7c6d-5e4f-4a3b-8c2d-1e0f9a8b7c6d?tab=alerts",
+  "runs_url": "https://smith.langchain.com/o/0c4f1d2e-7a8b-4c3d-9e1f-2a3b4c5d6e7f/projects/p/9a8b7c6d-5e4f-4a3b-8c2d-1e0f9a8b7c6d?timeModel=%7B%22start_time%22%3A%222026-10-13T03%3A07%3A45Z%22%2C%22end_time%22%3A%222026-10-13T03%3A12%3A45Z%22%7D",
   "triggered_metric_value": 42,
   "triggered_threshold": 10,
-  "timestamp": "2026-10-09T03:12:00Z"
+  "timestamp": "2026-10-13T03:12:45.118Z"
 }
 ```
 
@@ -147,12 +152,12 @@ Send it again and the second delivery lands on the same incident without paging.
 | --- | --- | --- |
 | `alert_rule_id` | Recommended | Identifies the incident, and enables readings in the fallback title |
 | `alert_rule_description` | No | The title, when it is not empty |
-| `alert_rule_name` | No | The fallback title |
-| `project_name` | No | The fallback title, always kept whole |
-| `alert_rule_attribute` | No | The metric in words: `error_count`, `feedback_score`, `latency`, `run_latency`, `run_count`, `cost` and `total_cost` |
-| `alert_rule_type` | No | Readings are added only for `threshold` (or when absent) |
+| `alert_rule_name` | No | The start of the fallback title |
+| `project_name` | No | The `in ...` part of the fallback title, always kept whole |
+| `workspace_name` | No | Used instead of `project_name` when the project is empty |
+| `alert_rule_attribute` | No | The metric in words: `error_count`, `feedback_score`, `latency` and `cost` |
 | `triggered_metric_value`, `triggered_threshold` | No | The readings and whether the value is above or below the threshold. A number or a numeric string |
-| `workspace_name`, `alert_rule_url`, `runs_url`, `timestamp` | No | Kept on the incident page, never used |
+| `alert_rule_type`, `alert_rule_url`, `runs_url`, `timestamp` | No | Kept on the incident page, never used |
 
 Spike keeps the whole body on the incident, so every field is available to [alert rules](../alerts/alert-rules.md) and the [Title Remapper](../alerts/title-remapper.md) as `data.body.<field>`.
 
@@ -192,7 +197,7 @@ Compare `alert_rule_id` on two incidents. If it is missing from the payload, Spi
 
 <summary>The title has no readings</summary>
 
-Readings only appear on the fallback title, and only when the delivery has an `alert_rule_id`, a `threshold` rule type, and two different numbers for `triggered_metric_value` and `triggered_threshold`.
+Readings only appear on the fallback title, and only when the delivery has an `alert_rule_id` and two different numbers for `triggered_metric_value` and `triggered_threshold`.
 
 </details>
 
