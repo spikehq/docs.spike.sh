@@ -75,12 +75,14 @@ Prefect sends one webhook per state change. Spike opens an incident for Failed, 
 
 All fields in the payload are used by Spike. `state_name` and `deployment_id` are required for the incident to be opened, grouped and resolved correctly; `state_message`, `flow_name` and `deployment_name` build the title; the rest are shown on the incident.
 
+`deployment_name` uses `default(none)` so that a run without a deployment (for example `python flow.py`) renders `null` instead of making Prefect fail the action with a template error; without it no webhook is sent for such runs.
+
 ```json
 {
   "state_name": "{{ flow_run.state.name }}",
   "state_message": {{ flow_run.state.message | tojson }},
   "flow_name": {{ flow.name | tojson }},
-  "deployment_name": {{ deployment.name | tojson }},
+  "deployment_name": {{ deployment.name | default(none) | tojson }},
   "deployment_id": "{{ flow_run.deployment_id }}",
   "flow_id": "{{ flow.id }}",
   "flow_run_id": "{{ flow_run.id }}",
