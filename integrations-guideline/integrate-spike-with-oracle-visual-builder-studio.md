@@ -5,7 +5,7 @@ description: "Send Oracle Visual Builder Studio build results to Spike so a fail
 
 ## Overview
 
-[Oracle Visual Builder Studio](https://docs.oracle.com/en/cloud/paas/visual-builder-studio/) (VBS) is Oracle's hosted development platform. It combines Git repositories, issue tracking, code review and build pipelines in one project.
+[Oracle Visual Builder Studio](https://www.oracle.com/application-development/visual-builder-studio/) (VBS) is Oracle's hosted development platform. It combines Git repositories, issue tracking, code review and build pipelines in one project.
 
 Point a VBS **Generic webhook** at a Spike integration URL and Spike will:
 
