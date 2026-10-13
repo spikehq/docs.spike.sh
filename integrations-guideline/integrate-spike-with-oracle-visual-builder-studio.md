@@ -49,10 +49,10 @@ Only `BUILD` events are alerts. Issue, push, review and activity events are acce
 
 **Required fields in the payload:**
 
-* `events[].eventId` must be `BUILD`.
-* `events[].data.jobName` identifies the build job.
-* `events[].data.details.result` carries the build result (`FAILURE`, `UNSTABLE` or `SUCCESS`).
-* `projectId` names the project. If it is missing at the top level, Spike uses `events[].projectId`.
+* `events[].eventId` must be `BUILD`. The first `BUILD` entry in `events` is the one Spike reads.
+* `events[].data.jobName` identifies the build job. It is required: without a usable job name Spike cannot tell jobs apart.
+* `events[].data.details.result` carries the build result (`FAILURE`, `UNSTABLE` or `SUCCESS`, exactly in uppercase).
+* `events[].projectId` names the project. It is optional, but when it is present it keeps two jobs with the same name in different projects apart. The Message-level `projectId` is not read.
 
 VBS sends these fields itself; you do not build the body.
 
@@ -71,23 +71,23 @@ Oracle Visual Builder Studio sends a body like this when a build fails:
 ```json
 {
   "apiVersion": "1.0",
-  "messageId": "9c1e5f0a-7b2d-4c8e-a3f1-2d6b8e4f7a19",
-  "timestamp": 1760169482311,
+  "messageId": "9d1f7c42-3b6e-4f0a-8c21-5e7a2b94d310",
+  "timestamp": 1760352612481,
   "testEvent": false,
-  "projectId": "order-portal",
+  "projectId": "acme-dev_payments-service",
   "events": [
     {
       "eventId": "BUILD",
-      "projectId": "order-portal",
-      "timestamp": 1760169482309,
+      "projectId": "payments-service",
+      "timestamp": 1760352612480,
       "data": {
-        "jobName": "order-portal-build",
+        "jobName": "payments-api-main",
         "details": {
-          "timestamp": 1760169301877,
-          "number": 218,
-          "url": "https://acme-vbs.developer.ocp.oraclecloud.com/acme/s/order-portal/hudson/job/order-portal.order-portal-build/218/",
+          "timestamp": 1760352425138,
+          "number": 214,
+          "url": "https://vbstudio-acme.developer.ocp.oraclecloud.com/acme-dev/s1/payments-service/hudson/job/payments-service.payments-api-main/214/",
           "result": "FAILURE",
-          "duration": 180432,
+          "duration": 187342,
           "artifacts": []
         }
       }
@@ -101,28 +101,28 @@ The next successful build of the same job arrives as:
 ```json
 {
   "apiVersion": "1.0",
-  "messageId": "3f7a2b91-0d4e-4a6c-9b5e-81c2d7e4f036",
-  "timestamp": 1760171127540,
+  "messageId": "5b0e8a17-c6d4-4a39-9f02-71d3e8b6a4c9",
+  "timestamp": 1760353518902,
   "testEvent": false,
-  "projectId": "order-portal",
+  "projectId": "acme-dev_payments-service",
   "events": [
     {
       "eventId": "BUILD",
-      "projectId": "order-portal",
-      "timestamp": 1760171127538,
+      "projectId": "payments-service",
+      "timestamp": 1760353518900,
       "data": {
-        "jobName": "order-portal-build",
+        "jobName": "payments-api-main",
         "details": {
-          "timestamp": 1760170911204,
-          "number": 219,
-          "url": "https://acme-vbs.developer.ocp.oraclecloud.com/acme/s/order-portal/hudson/job/order-portal.order-portal-build/219/",
+          "timestamp": 1760353307714,
+          "number": 215,
+          "url": "https://vbstudio-acme.developer.ocp.oraclecloud.com/acme-dev/s1/payments-service/hudson/job/payments-service.payments-api-main/215/",
           "result": "SUCCESS",
-          "duration": 214806,
+          "duration": 201876,
           "artifacts": [
             {
-              "fileName": "order-portal-2.4.1.jar",
-              "relativePath": "order-portal/target/order-portal-2.4.1.jar",
-              "url": "https://acme-vbs.developer.ocp.oraclecloud.com/acme/s/order-portal/hudson/job/order-portal.order-portal-build/219/artifact/order-portal/target/order-portal-2.4.1.jar"
+              "fileName": "payments-api-2.8.1.jar",
+              "relativePath": "payments-api/target/payments-api-2.8.1.jar",
+              "url": "https://vbstudio-acme.developer.ocp.oraclecloud.com/acme-dev/s1/payments-service/hudson/job/payments-service.payments-api-main/215/artifact/payments-api/target/payments-api-2.8.1.jar"
             }
           ]
         }
@@ -133,18 +133,28 @@ The next successful build of the same job arrives as:
 ```
 
 **Key fields:**
-* `projectId` - the VBS project; falls back to `events[].projectId` when empty.
-* `events[].eventId` - only `BUILD` events are alerts.
-* `events[].data.jobName` - the build job. Together with `projectId` it identifies the incident, so every build of the same job joins or resolves the same incident. The build number is deliberately not part of the identity.
-* `events[].data.details.result` - `FAILURE` or `UNSTABLE` opens or joins an incident; `SUCCESS` resolves it. Spike reads `data.details.result` first and `data.result` as a fallback.
+* `events[].eventId` - only `BUILD` is an alert. Every other value (`ISSUE`, `PUSH`, `REVIEW`, `ACTIVITY`) is ignored, including an `ACTIVITY` event named `BUILD`, which repeats the build event.
+* `events[].data.jobName` - the build job. Together with `events[].projectId` it identifies the incident, so every build of the same job joins or resolves the same incident. The build number and URL are deliberately not part of the identity.
+* `events[].data.details.result` - `FAILURE` or `UNSTABLE` opens an incident or joins the one already open for the same job; `SUCCESS` resolves it and never opens one. `ABORTED`, `NOT_BUILT`, a missing result or any other value only joins an open incident for the same job; it never opens or closes one.
+* An empty job name, or one that is an unexpanded template variable (for example `${JOB}`), is not an identity. Such alerts are matched by title instead.
 
 ## Incident titles
 
-Spike builds the title because the payload has no sentence about the fault:
+Spike builds the title because the payload has no sentence about the fault. It is built from the first `BUILD` event and never contains the build number, URL, message id or timestamps:
 
-* One build: `order-portal-build build failed in order-portal`, or `build unstable` for an unstable build.
-* Recovery: `order-portal-build build recovered in order-portal`.
-* Several failing builds in one message: the jobs are named by result, for example `order-portal-build, order-portal-deploy failed +1 more in order-portal`.
+* `FAILURE`: `payments-api-main build failed in payments-service`
+* `UNSTABLE`: `payments-api-main build is unstable in payments-service`
+* `SUCCESS`: `payments-api-main build succeeded in payments-service`
+* `ABORTED`: `payments-api-main build was aborted in payments-service`
+* `NOT_BUILT`, or a missing or unknown result: `payments-api-main build was not built in payments-service`
+* Two or more failing or unstable `BUILD` events in one message: `3 failed builds in payments-service: payments-api-main, payments-ui-main +1 more` (at most two jobs named).
+* Job name unusable: `Visual Builder Studio build failed in payments-service` for both failures and unstable builds, and a success resolves the incident with that same title.
+* No `BUILD` event: `Visual Builder Studio PUSH event in payments-service`, which opens no incident.
+* Nothing usable: `Oracle Visual Builder Studio alert with no details`.
+
+` in <projectId>` is dropped when the event has no usable `projectId`. Titles are whitespace-collapsed and capped at 200 characters, shortening the job name first.
+
+The incident is found by job name and project, so the title is for display only (except when the job name is unusable, where the title is what matches the recovery).
 
 {% hint style="success" %}
 This integration supports auto-resolution. When a later build of the same job in the same project succeeds, the open incident resolves.
