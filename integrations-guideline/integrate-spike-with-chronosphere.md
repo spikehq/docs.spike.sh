@@ -18,46 +18,48 @@ The top-level `status` and each alert's `status` decide what Spike does:
 | `status` | What Spike does |
 | --- | --- |
 | `firing` | Opens an incident and pages. A repeat for the same alert joins the incident already open |
-| `resolved` | Resolves the incident, once every alert in the notification is resolved |
+| `resolved` | Resolves the incident, once every alert in the notification is `resolved` |
 
-A `resolved` notification with no matching open incident is dropped rather than turned into a new incident.
+Any other or missing `status` is treated as `firing`. A `resolved` notification with no matching open incident is dropped rather than turned into a new incident.
 
 ## Incident identity
 
-Spike identifies the incident by `alerts[0].fingerprint`, the stable hash of the alert's labels that Chronosphere repeats on the firing notification and on the recovery. Because identity is the fingerprint, the title is for display only: a repeat joins the open incident even when the reading in the sentence has moved, and the recovery resolves the right incident whatever it is titled.
+Spike identifies the incident by `alerts[].fingerprint`, the stable hash of the alerting series' labels that Chronosphere repeats on every firing notification and on the recovery. Spike looks for an open incident holding any fingerprint in the notification, so a notification that carries several series still finds its incident. Because identity is the fingerprint, the title is for display only: a repeat joins the open incident even when the reading in the sentence, or `commonAnnotations.summary` or `commonAnnotations.description`, has changed, and the recovery resolves the right incident whatever it is titled.
 
-A notification with no fingerprint cannot be matched that way. Spike then matches by title, so the title is built from the monitor's name, severity and place only, never from the sentence, which can carry a changing reading.
+A fingerprint counts when it is a non-blank string or a number. One that still contains an unexpanded template (`{{`, `${`, a leading `$`, `%var%`) does not count. A notification with no usable fingerprint cannot be matched that way. Spike then matches by title, so the title is built from the monitor's name and place only, never from the sentence, which can carry a changing reading.
 
 ## Incident title
 
-Chronosphere's monitor annotations carry your own sentence about what is wrong, so the title is that sentence whenever there is one. Spike reads `commonAnnotations.summary`, then `alerts[0].annotations.summary`, then `commonAnnotations.description`, then `alerts[0].annotations.description`:
+Chronosphere's monitor annotations carry your own sentence about what is wrong, so the title is that sentence whenever the first alert has a fingerprint. Spike uses the first of these that is set:
+
+1. `alerts[0].annotations.summary`
+2. `commonAnnotations.summary`
+3. `alerts[0].annotations.description`
+4. `commonAnnotations.description`
+5. `alerts[0].annotations.message`
 
 ```
-Checkout API 5xx error rate is 7.3%, above the 5% threshold for 5 minutes
+Checkout API 5xx error rate is 7.4% on checkout-api-7d9f8c6b5-x2kqp, above the 5% threshold
 ```
 
-Whitespace is collapsed and the title is capped at 200 characters. When one notification carries several alerts, the sentence is followed by the count:
+Whitespace is collapsed, a Go-template `<no value>` counts as empty, and the title is capped at 200 characters, cut at a word boundary with `...`. When the notification carries further alerts with the same status as the first, the count is added:
 
 ```
-Checkout API 5xx error rate is 7.3%, above the 5% threshold for 5 minutes (2 alerts)
+Checkout API 5xx error rate is 7.4% on checkout-api-7d9f8c6b5-x2kqp, above the 5% threshold (+2 more)
 ```
 
-With no sentence, or no fingerprint, the title is the monitor name, the severity and where it fired:
+With no sentence, or no fingerprint on the first alert, the title is the monitor name and where it fired:
 
 ```
-Checkout API high error rate (critical) on checkout-api
+Checkout API error rate high on checkout-api-7d9f8c6b5-x2kqp
 ```
 
-The monitor name is `commonLabels.alertname`, then `alerts[0].labels.alertname`, then `alerts[0].annotations.monitor_slug`. The severity is `labels.severity`. The place is the first of `labels.service`, `labels.instance`, `labels.pod_name` and `labels.job` that is set. A batch with no shared monitor name is titled by the names of its alerts:
+The monitor name is `alerts[0].labels.alertname`, then `commonLabels.alertname`, `groupLabels.alertname`, `alerts[0].annotations.monitor_slug` and `commonAnnotations.monitor_slug`. The place is `alerts[0].labels.instance`, or `alerts[0].labels.service` when there is no instance; with neither, the title is the monitor name alone. The whole title never exceeds 200 characters: when it is too long the place is kept and the monitor name is shortened.
+
+A recovery (top-level `status` of `resolved`) is written as one, with no readings:
 
 ```
-3 alerts firing: Disk almost full, Memory pressure +1 more
-```
-
-A recovery is written as one, with no readings:
-
-```
-Checkout API high error rate on checkout-api resolved
+Resolved: Checkout API error rate high on checkout-api-7d9f8c6b5-x2kqp
 ```
 
 A notification with nothing usable is titled `Chronosphere alert with no details`.
@@ -70,7 +72,7 @@ Use a [Title Remapper](../alerts/title-remapper.md) if your team reads Chronosph
 
 ## Severity
 
-Spike does not read a severity from the payload. `labels.severity` is kept on the incident and shown in the fallback title, but incidents open at your integration's default. Write an [alert rule](../alerts/alert-rules.md) on `severity` if you want Chronosphere's levels on the badge. Read more about [priority and severity](../incidents/priority-and-severity.md).
+Spike reads `alerts[0].labels.severity` (for example `critical` or `warn`) and uses it for the incident's severity where it matches one of Spike's levels. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
 ## Prerequisites
 
@@ -115,13 +117,9 @@ A notifier receives nothing until a notification policy sends alerts to it.
 
 ## Step 4 — Write the sentence you want as the title
 
-Spike uses your monitor's own `summary` annotation as the incident title, and falls back to `description`. In each monitor, under **Annotations**, add a `summary` that says what is wrong in one line. Chronosphere renders annotation templates when it sends, so you can include the value:
+Spike uses your monitor's own `summary` annotation as the incident title, and falls back to `description`, then `message`. In each monitor, under **Annotations**, add a `summary` that says what is wrong in one line. Chronosphere renders annotation templates when it sends, so you can include the value.
 
-```
-Checkout API 5xx error rate is {{ $value | humanizePercentage }}, above the 5% threshold for 5 minutes
-```
-
-Add the labels you want in the title and incident, for example a `service` label on the monitor or its series. These are optional: the notification works without them.
+Add the labels you want in the title and incident, for example an `instance` or `service` label on the monitor or its series. These are optional: the notification works without them.
 
 ## Step 5 — Confirm it end to end
 
@@ -132,54 +130,52 @@ If the incident opens but never resolves, check that **Send resolved notificatio
 
 ## Payload reference
 
-Chronosphere sends its own payload and there is no template to edit, so this section is a reference for what lands on the incident page and for what [alert rules](../alerts/alert-rules.md) and the [Title Remapper](../alerts/title-remapper.md) can read as `data.body.<field>`.
+Chronosphere sends its own payload and there is no template to edit. Send exactly this body: Spike reads the fields below, and `alerts[]` can hold more than one alert. The same body is available to [alert rules](../alerts/alert-rules.md) and the [Title Remapper](../alerts/title-remapper.md) as `data.body.<field>`.
 
 A firing notification, which opens the incident:
 
 ```json
 {
-  "notifier": "spike-oncall-webhook",
+  "notifier": "spike-oncall",
   "status": "firing",
   "alerts": [
     {
       "status": "firing",
       "labels": {
-        "alertname": "Checkout API high error rate",
-        "severity": "critical",
+        "alertname": "Checkout API error rate high",
         "service": "checkout-api",
-        "instance": "checkout-api-7d9f6c5b8-x2kqp:8080",
+        "instance": "checkout-api-7d9f8c6b5-x2kqp",
         "job": "checkout-api",
-        "pod_name": "checkout-api-7d9f6c5b8-x2kqp"
+        "severity": "critical"
       },
       "annotations": {
-        "summary": "Checkout API 5xx error rate is 7.3%, above the 5% threshold for 5 minutes",
-        "description": "HTTP 5xx responses from checkout-api have exceeded 5% of requests in us-east-1. Check recent deploys and the payments dependency.",
-        "ruleid": "8c1f2e7a-4b3d-4f6a-9e21-5d7c0b9a3f14",
-        "monitor_slug": "checkout-api-high-error-rate",
+        "summary": "Checkout API 5xx error rate is 7.4% on checkout-api-7d9f8c6b5-x2kqp, above the 5% threshold",
+        "description": "More than 5% of checkout requests have returned 5xx for the last 5 minutes.",
+        "ruleid": "32bb3fbe-c10b-44bb-a4c0-3d053f4a08cd",
+        "monitor_slug": "checkout-api-error-rate",
         "notification_policy_slug": "payments-oncall"
       },
-      "startsAt": "2026-10-11T03:12:41.52Z",
+      "startsAt": "2026-10-13T03:12:41.68227886Z",
       "endsAt": "0001-01-01T00:00:00Z",
-      "fingerprint": "5f3c9a1e7b20d4c8"
+      "fingerprint": "9c1e4a7b2f6d3e81"
     }
   ],
   "groupLabels": {
-    "alertname": "Checkout API high error rate",
+    "alertname": "Checkout API error rate high",
     "severity": "critical"
   },
   "commonLabels": {
-    "alertname": "Checkout API high error rate",
-    "severity": "critical",
+    "alertname": "Checkout API error rate high",
     "service": "checkout-api",
-    "instance": "checkout-api-7d9f6c5b8-x2kqp:8080",
+    "instance": "checkout-api-7d9f8c6b5-x2kqp",
     "job": "checkout-api",
-    "pod_name": "checkout-api-7d9f6c5b8-x2kqp"
+    "severity": "critical"
   },
   "commonAnnotations": {
-    "summary": "Checkout API 5xx error rate is 7.3%, above the 5% threshold for 5 minutes",
-    "description": "HTTP 5xx responses from checkout-api have exceeded 5% of requests in us-east-1. Check recent deploys and the payments dependency.",
-    "ruleid": "8c1f2e7a-4b3d-4f6a-9e21-5d7c0b9a3f14",
-    "monitor_slug": "checkout-api-high-error-rate",
+    "summary": "Checkout API 5xx error rate is 7.4% on checkout-api-7d9f8c6b5-x2kqp, above the 5% threshold",
+    "description": "More than 5% of checkout requests have returned 5xx for the last 5 minutes.",
+    "ruleid": "32bb3fbe-c10b-44bb-a4c0-3d053f4a08cd",
+    "monitor_slug": "checkout-api-error-rate",
     "notification_policy_slug": "payments-oncall"
   },
   "version": "4"
@@ -189,55 +185,53 @@ A firing notification, which opens the incident:
 It opens an incident titled:
 
 ```
-Checkout API 5xx error rate is 7.3%, above the 5% threshold for 5 minutes
+Checkout API 5xx error rate is 7.4% on checkout-api-7d9f8c6b5-x2kqp, above the 5% threshold
 ```
 
 The recovery for the same alert. `alerts[0].fingerprint` is the one the firing notification carried, and that is what joins the two:
 
 ```json
 {
-  "notifier": "spike-oncall-webhook",
+  "notifier": "spike-oncall",
   "status": "resolved",
   "alerts": [
     {
       "status": "resolved",
       "labels": {
-        "alertname": "Checkout API high error rate",
-        "severity": "critical",
+        "alertname": "Checkout API error rate high",
         "service": "checkout-api",
-        "instance": "checkout-api-7d9f6c5b8-x2kqp:8080",
+        "instance": "checkout-api-7d9f8c6b5-x2kqp",
         "job": "checkout-api",
-        "pod_name": "checkout-api-7d9f6c5b8-x2kqp"
+        "severity": "critical"
       },
       "annotations": {
-        "summary": "Checkout API 5xx error rate is 7.3%, above the 5% threshold for 5 minutes",
-        "description": "HTTP 5xx responses from checkout-api have exceeded 5% of requests in us-east-1. Check recent deploys and the payments dependency.",
-        "ruleid": "8c1f2e7a-4b3d-4f6a-9e21-5d7c0b9a3f14",
-        "monitor_slug": "checkout-api-high-error-rate",
+        "summary": "Checkout API 5xx error rate is 1.2% on checkout-api-7d9f8c6b5-x2kqp, above the 5% threshold",
+        "description": "More than 5% of checkout requests have returned 5xx for the last 5 minutes.",
+        "ruleid": "32bb3fbe-c10b-44bb-a4c0-3d053f4a08cd",
+        "monitor_slug": "checkout-api-error-rate",
         "notification_policy_slug": "payments-oncall"
       },
-      "startsAt": "2026-10-11T03:12:41.52Z",
-      "endsAt": "2026-10-11T03:41:06.18Z",
-      "fingerprint": "5f3c9a1e7b20d4c8"
+      "startsAt": "2026-10-13T03:12:41.68227886Z",
+      "endsAt": "2026-10-13T03:41:11.20314455Z",
+      "fingerprint": "9c1e4a7b2f6d3e81"
     }
   ],
   "groupLabels": {
-    "alertname": "Checkout API high error rate",
+    "alertname": "Checkout API error rate high",
     "severity": "critical"
   },
   "commonLabels": {
-    "alertname": "Checkout API high error rate",
-    "severity": "critical",
+    "alertname": "Checkout API error rate high",
     "service": "checkout-api",
-    "instance": "checkout-api-7d9f6c5b8-x2kqp:8080",
+    "instance": "checkout-api-7d9f8c6b5-x2kqp",
     "job": "checkout-api",
-    "pod_name": "checkout-api-7d9f6c5b8-x2kqp"
+    "severity": "critical"
   },
   "commonAnnotations": {
-    "summary": "Checkout API 5xx error rate is 7.3%, above the 5% threshold for 5 minutes",
-    "description": "HTTP 5xx responses from checkout-api have exceeded 5% of requests in us-east-1. Check recent deploys and the payments dependency.",
-    "ruleid": "8c1f2e7a-4b3d-4f6a-9e21-5d7c0b9a3f14",
-    "monitor_slug": "checkout-api-high-error-rate",
+    "summary": "Checkout API 5xx error rate is 1.2% on checkout-api-7d9f8c6b5-x2kqp, above the 5% threshold",
+    "description": "More than 5% of checkout requests have returned 5xx for the last 5 minutes.",
+    "ruleid": "32bb3fbe-c10b-44bb-a4c0-3d053f4a08cd",
+    "monitor_slug": "checkout-api-error-rate",
     "notification_policy_slug": "payments-oncall"
   },
   "version": "4"
@@ -247,7 +241,7 @@ The recovery for the same alert. `alerts[0].fingerprint` is the one the firing n
 It resolves the incident, and the event reads:
 
 ```
-Checkout API high error rate on checkout-api resolved
+Resolved: Checkout API error rate high on checkout-api-7d9f8c6b5-x2kqp
 ```
 
 Spike keeps the whole body on the incident, so every field above is available to alert rules and the Title Remapper.
@@ -257,15 +251,15 @@ Spike keeps the whole body on the incident, so every field above is available to
 | Field | Required | Used for |
 | --- | --- | --- |
 | `status` | Yes | `firing` opens, `resolved` resolves |
-| `alerts[].status` | Yes | A resolved alert never opens an incident; every alert must be resolved to resolve |
-| `alerts[].fingerprint` | Yes | Identity of the incident across firing and recovery |
-| `alerts[].labels.alertname` | No | Monitor name in the fallback title |
-| `alerts[].labels.severity` | No | Severity in the fallback title |
-| `alerts[].labels.service`, `instance`, `pod_name`, `job` | No | Where it fired, first one set wins |
-| `alerts[].annotations.summary`, `description` | No | The title sentence |
-| `alerts[].annotations.monitor_slug` | No | Monitor name when `alertname` is missing |
-| `commonLabels.alertname`, `severity` | No | Preferred over the first alert's labels |
-| `commonAnnotations.summary`, `description` | No | Preferred title sentence |
+| `alerts[].status` | Yes | Every alert must be `resolved` to resolve the incident. The count in `(+N more)` is the alerts sharing the first alert's status |
+| `alerts[].fingerprint` | Yes | Identity of the incident across firing and recovery. Without it the title is the fallback |
+| `alerts[0].annotations.summary`, `description`, `message` | No | The title sentence, in that order |
+| `commonAnnotations.summary`, `description` | No | Title sentence when the first alert lacks one |
+| `alerts[0].labels.alertname` | No | Monitor name in the fallback and recovery titles |
+| `commonLabels.alertname`, `groupLabels.alertname` | No | Monitor name when the first alert lacks it |
+| `alerts[0].annotations.monitor_slug`, `commonAnnotations.monitor_slug` | No | Monitor name when no `alertname` is set |
+| `alerts[0].labels.instance`, `alerts[0].labels.service` | No | Where it fired, `instance` first |
+| `alerts[0].labels.severity` | No | Incident severity |
 
 ## Things worth knowing
 
@@ -296,7 +290,7 @@ Check that **Send resolved notifications** is on for the notifier. Spike resolve
 
 <summary>The title is the monitor name, not my sentence</summary>
 
-The monitor has no `summary` or `description` annotation, or Chronosphere did not include it in the notification. Add a `summary` annotation to the monitor and open the payload on the incident page to confirm it arrives under `alerts[0].annotations`. A notification with no `fingerprint` is also titled by monitor name, severity and place.
+The monitor has no `summary` or `description` or `message` annotation, or Chronosphere did not include it in the notification. Add a `summary` annotation to the monitor and open the payload on the incident page to confirm it arrives under `alerts[0].annotations`. A notification with no `fingerprint` is also titled by monitor name and place.
 
 </details>
 
