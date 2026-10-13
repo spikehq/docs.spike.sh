@@ -50,9 +50,9 @@ Only `BUILD` events are alerts. Issue, push, review and activity events are acce
 **Required fields in the payload:**
 
 * `events[].eventId` must be `BUILD`. The first `BUILD` entry in `events` is the one Spike reads.
+* `projectId` (the Message-level project identifier) is the project half of the identity. It is required to keep two jobs with the same name in different projects apart. If it is missing, Spike falls back to `events[].projectId` for the title only.
 * `events[].data.jobName` identifies the build job. It is required: without a usable job name Spike cannot tell jobs apart.
-* `events[].data.details.result` carries the build result (`FAILURE`, `UNSTABLE` or `SUCCESS`, exactly in uppercase).
-* `events[].projectId` names the project. It is optional, but when it is present it keeps two jobs with the same name in different projects apart. The Message-level `projectId` is not read.
+* `events[].data.details.result` carries the build result (`FAILURE`, `UNSTABLE` or `SUCCESS`, exactly in uppercase). If it is not there, Spike reads `events[].data.result`.
 
 VBS sends these fields itself; you do not build the body.
 
@@ -71,23 +71,23 @@ Oracle Visual Builder Studio sends a body like this when a build fails:
 ```json
 {
   "apiVersion": "1.0",
-  "messageId": "9d1f7c42-3b6e-4f0a-8c21-5e7a2b94d310",
-  "timestamp": 1760352612481,
+  "messageId": "9c1f2e7a-3b44-4d5e-8a61-2f0b7c9d4e13",
+  "timestamp": 1760351413257,
   "testEvent": false,
   "projectId": "acme-dev_payments-service",
   "events": [
     {
       "eventId": "BUILD",
       "projectId": "payments-service",
-      "timestamp": 1760352612480,
+      "timestamp": 1760351413256,
       "data": {
         "jobName": "payments-api-main",
         "details": {
-          "timestamp": 1760352425138,
-          "number": 214,
-          "url": "https://vbstudio-acme.developer.ocp.oraclecloud.com/acme-dev/s1/payments-service/hudson/job/payments-service.payments-api-main/214/",
+          "timestamp": 1760351290256,
+          "number": 482,
+          "url": "https://vbstudio.example.oraclecloud.com/acme-dev/s/acme-dev_payments-service/hudson/job/payments-api-main/482/",
           "result": "FAILURE",
-          "duration": 187342,
+          "duration": 122905,
           "artifacts": []
         }
       }
@@ -101,28 +101,28 @@ The next successful build of the same job arrives as:
 ```json
 {
   "apiVersion": "1.0",
-  "messageId": "5b0e8a17-c6d4-4a39-9f02-71d3e8b6a4c9",
-  "timestamp": 1760353518902,
+  "messageId": "1e6a0b3d-7f2c-4a8e-9d15-6c3b2a7e8f40",
+  "timestamp": 1760352215774,
   "testEvent": false,
   "projectId": "acme-dev_payments-service",
   "events": [
     {
       "eventId": "BUILD",
       "projectId": "payments-service",
-      "timestamp": 1760353518900,
+      "timestamp": 1760352215773,
       "data": {
         "jobName": "payments-api-main",
         "details": {
-          "timestamp": 1760353307714,
-          "number": 215,
-          "url": "https://vbstudio-acme.developer.ocp.oraclecloud.com/acme-dev/s1/payments-service/hudson/job/payments-service.payments-api-main/215/",
+          "timestamp": 1760352101773,
+          "number": 483,
+          "url": "https://vbstudio.example.oraclecloud.com/acme-dev/s/acme-dev_payments-service/hudson/job/payments-api-main/483/",
           "result": "SUCCESS",
-          "duration": 201876,
+          "duration": 114002,
           "artifacts": [
             {
-              "fileName": "payments-api-2.8.1.jar",
-              "relativePath": "payments-api/target/payments-api-2.8.1.jar",
-              "url": "https://vbstudio-acme.developer.ocp.oraclecloud.com/acme-dev/s1/payments-service/hudson/job/payments-service.payments-api-main/215/artifact/payments-api/target/payments-api-2.8.1.jar"
+              "fileName": "payments-api-2.14.0.jar",
+              "relativePath": "payments-api/target/payments-api-2.14.0.jar",
+              "url": "https://vbstudio.example.oraclecloud.com/acme-dev/s/acme-dev_payments-service/hudson/job/payments-api-main/483/artifact/payments-api/target/payments-api-2.14.0.jar"
             }
           ]
         }
@@ -133,28 +133,28 @@ The next successful build of the same job arrives as:
 ```
 
 **Key fields:**
-* `events[].eventId` - only `BUILD` is an alert. Every other value (`ISSUE`, `PUSH`, `REVIEW`, `ACTIVITY`) is ignored, including an `ACTIVITY` event named `BUILD`, which repeats the build event.
-* `events[].data.jobName` - the build job. Together with `events[].projectId` it identifies the incident, so every build of the same job joins or resolves the same incident. The build number and URL are deliberately not part of the identity.
-* `events[].data.details.result` - `FAILURE` or `UNSTABLE` opens an incident or joins the one already open for the same job; `SUCCESS` resolves it and never opens one. `ABORTED`, `NOT_BUILT`, a missing result or any other value only joins an open incident for the same job; it never opens or closes one.
-* An empty job name, or one that is an unexpanded template variable (for example `${JOB}`), is not an identity. Such alerts are matched by title instead.
+* `events[].eventId` - only `BUILD` is an alert. Every other value (`ISSUE`, `PUSH`, `REVIEW`, `ACTIVITY`) is acknowledged and ignored: no incident is opened or resolved.
+* `projectId` and `events[].data.jobName` - together they identify the incident, so every build of the same job in the same project joins or resolves the same incident. The build number, URL, message id and timestamps are deliberately not part of the identity.
+* `events[].data.details.result` - `FAILURE` or `UNSTABLE` opens an incident, or joins the one already open for the same project and job; `SUCCESS` resolves it and never opens one. `ABORTED`, `NOT_BUILT`, a missing result or any other value is ignored: it neither opens, joins nor closes an incident.
+* `events[].projectId` - used only as the project shown in the title when the Message-level `projectId` is not usable. It is never part of the identity.
+* `events[].data.details.number`, `url` and `duration` - shown in the incident body only.
+* `testEvent` - does not change processing.
+* An empty job name, or one that is an unexpanded template variable (for example `${JOB_NAME}`), is not an identity. Such alerts are matched by title instead. For the title only, Spike then takes the job name from the `/job/<name>/` part of `details.url` when there is one.
 
 ## Incident titles
 
 Spike builds the title because the payload has no sentence about the fault. It is built from the first `BUILD` event and never contains the build number, URL, message id or timestamps:
 
-* `FAILURE`: `payments-api-main build failed in payments-service`
-* `UNSTABLE`: `payments-api-main build is unstable in payments-service`
-* `SUCCESS`: `payments-api-main build succeeded in payments-service`
-* `ABORTED`: `payments-api-main build was aborted in payments-service`
-* `NOT_BUILT`, or a missing or unknown result: `payments-api-main build was not built in payments-service`
-* Two or more failing or unstable `BUILD` events in one message: `3 failed builds in payments-service: payments-api-main, payments-ui-main +1 more` (at most two jobs named).
-* Job name unusable: `Visual Builder Studio build failed in payments-service` for both failures and unstable builds, and a success resolves the incident with that same title.
-* No `BUILD` event: `Visual Builder Studio PUSH event in payments-service`, which opens no incident.
+* `FAILURE`: `payments-api-main build failed in acme-dev_payments-service`
+* `UNSTABLE`: `payments-api-main build unstable in acme-dev_payments-service`
+* `SUCCESS` (recovery): `payments-api-main build back to normal in acme-dev_payments-service`
+* `ABORTED`, `NOT_BUILT` or a missing result: a title is built (for example `payments-api-main build was aborted in acme-dev_payments-service`) but no incident is opened or resolved.
+* Job name unusable: `Oracle Visual Builder Studio build failed in acme-dev_payments-service` (or `unstable`).
 * Nothing usable: `Oracle Visual Builder Studio alert with no details`.
 
-` in <projectId>` is dropped when the event has no usable `projectId`. Titles are whitespace-collapsed and capped at 200 characters, shortening the job name first.
+The project is the Message-level `projectId`, then `events[].projectId`; ` in <projectId>` is dropped when neither is usable. Titles are whitespace-collapsed and capped at 200 characters, shortening the job name and never cutting the project.
 
-The incident is found by job name and project, so the title is for display only (except when the job name is unusable, where the title is what matches the recovery).
+The incident is found by project and job name, so the title is for display only (except when the job name is unusable, where the title is what matches the recovery).
 
 {% hint style="success" %}
 This integration supports auto-resolution. When a later build of the same job in the same project succeeds, the open incident resolves.
