@@ -7,7 +7,7 @@ description: >-
 
 [Centreon](https://www.centreon.com) is an IT infrastructure monitoring platform built on Centreon Engine. It runs checks on your hosts and services and tells people through notification commands.
 
-A notification command can run any shell command, so you can make it post to a Spike integration URL. A problem on a host or a service then pages your on-call rotation, repeat notifications for the same problem land on the incident already open, and the recovery notification resolves it.
+A notification command can run any shell command, so you can make it post to a Spike integration URL. A problem on a host or a service then pages your on-call rotation, repeat notifications for the same alert land on the incident already open, and the recovery notification resolves it.
 
 ### Service and Integration
 
@@ -19,89 +19,125 @@ Make sure to make a Centreon integration and copy the webhook URL.
 
 ## What to send
 
-Centreon expands `$MACRO$` placeholders in the command line before running it. Send this body, field for field, as JSON with a `POST`:
+Centreon expands `$MACRO$` placeholders in the command line before running it. You need two commands: one for service notifications and one for host notifications. Each posts a JSON body with a `POST`.
+
+The service notification body:
 
 ```json
 {
-  "NOTIFICATIONTYPE": "PROBLEM",
-  "HOSTNAME": "db-prod-03",
-  "HOSTADDRESS": "10.20.4.13",
-  "HOSTSTATE": "UP",
-  "HOSTOUTPUT": "OK - 10.20.4.13 rta 0.412ms lost 0%",
-  "HOSTPROBLEMID": "0",
-  "LASTHOSTPROBLEMID": "1187",
-  "SERVICEDESC": "Cpu",
-  "SERVICESTATE": "CRITICAL",
-  "SERVICEOUTPUT": "CRITICAL: CPU(s) average usage is 97.31 %",
-  "SERVICEPROBLEMID": "48213",
-  "LASTSERVICEPROBLEMID": "47950",
-  "LONGDATETIME": "Sun Oct 11 03:12:44 CEST 2026"
+  "notification_type": "PROBLEM",
+  "host_name": "srv-db-01",
+  "host_alias": "Primary PostgreSQL server",
+  "host_address": "10.20.0.15",
+  "host_state": "UP",
+  "service_description": "Disk-/var",
+  "service_state": "CRITICAL",
+  "service_state_type": "HARD",
+  "service_output": "CRITICAL: Storage /var Usage Total: 50.00 GB Used: 48.10 GB (96.20%) Free: 1.90 GB (3.80%)",
+  "severity": "CRITICAL",
+  "problem_id": "48213",
+  "notification_number": "1",
+  "notification_author": "",
+  "notification_comment": "",
+  "timestamp": "1760342400"
 }
 ```
 
-In your command each value is the matching macro, for example `"NOTIFICATIONTYPE": "$NOTIFICATIONTYPE$"` and `"SERVICEPROBLEMID": "$SERVICEPROBLEMID$"`.
+In your command each value is the matching macro, for example `"host_name": "$HOSTNAME$"`.
 
 | Field | Macro | Used for |
 | --- | --- | --- |
-| `NOTIFICATIONTYPE` | `$NOTIFICATIONTYPE$` | **Required.** `PROBLEM` opens an incident. `RECOVERY` resolves it. |
-| `HOSTNAME` | `$HOSTNAME$` | **Required.** The host, always in the title. |
-| `HOSTADDRESS` | `$HOSTADDRESS$` | Incident details only. |
-| `HOSTSTATE` | `$HOSTSTATE$` | `UP`, `DOWN` or `UNREACHABLE`. Used for host notifications. |
-| `HOSTOUTPUT` | `$HOSTOUTPUT$` | The host check's output. |
-| `HOSTPROBLEMID` | `$HOSTPROBLEMID$` | **Required for host notifications.** Identifies the host problem. |
-| `LASTHOSTPROBLEMID` | `$LASTHOSTPROBLEMID$` | **Required for host recovery.** Carries the id of the problem that just cleared. |
-| `SERVICEDESC` | `$SERVICEDESC$` | **Required for service notifications.** Empty means a host notification. |
-| `SERVICESTATE` | `$SERVICESTATE$` | `OK`, `WARNING`, `CRITICAL` or `UNKNOWN`. |
-| `SERVICEOUTPUT` | `$SERVICEOUTPUT$` | The service check's output. |
-| `SERVICEPROBLEMID` | `$SERVICEPROBLEMID$` | **Required for service notifications.** Identifies the service problem. |
-| `LASTSERVICEPROBLEMID` | `$LASTSERVICEPROBLEMID$` | **Required for service recovery.** Carries the id of the problem that just cleared. |
-| `LONGDATETIME` | `$LONGDATETIME$` | Incident details only. |
+| `notification_type` | `$NOTIFICATIONTYPE$` | **Required.** `PROBLEM` opens an incident. `RECOVERY` resolves it. See [below](#what-spike-does-with-each-notification). |
+| `host_name` | `$HOSTNAME$` | **Required.** The host's short name. It identifies the alert and is always in the title. |
+| `host_alias` | `$HOSTALIAS$` | The host's long name. Used in the title only when `host_name` is missing. |
+| `host_address` | `$HOSTADDRESS$` | Used in the title only when `host_name` and `host_alias` are missing. |
+| `host_state` | `$HOSTSTATE$` | `UP`, `DOWN` or `UNREACHABLE`. Information on a service notification. |
+| `service_description` | `$SERVICEDESC$` | **Required for service notifications.** The service's name. It identifies the alert together with `host_name`. |
+| `service_state` | `$SERVICESTATE$` | **Required for service notifications.** `OK`, `WARNING`, `CRITICAL` or `UNKNOWN`. `OK` means recovered when `notification_type` is not a known word. |
+| `service_state_type` | `$SERVICESTATETYPE$` | `HARD` or `SOFT`. For alert rules only. |
+| `service_output` | `$SERVICEOUTPUT$` | The first line of the plugin's output. It is the incident title. |
+| `severity` | `$SERVICESTATE$` | The state word again. Spike maps `CRITICAL` to sev1, `WARNING` to sev2 and `UNKNOWN` or `OK` to sev3. |
+| `problem_id` | `$SERVICEPROBLEMID$` | Shown on the incident page. Centreon sets it to `0` when the service is OK. |
+| `notification_number` | `$SERVICENOTIFICATIONNUMBER$` | Counts re-notifications. Shown on the incident page. |
+| `notification_author` | `$NOTIFICATIONAUTHOR$` | Who acknowledged or scheduled downtime. Empty on a problem or a recovery. |
+| `notification_comment` | `$NOTIFICATIONCOMMENT$` | The acknowledgement or downtime comment. |
+| `timestamp` | `$TIMET$` | Unix seconds when the notification ran. Shown on the incident page. |
 
-On a recovery Centreon sends the same fields, with the state back to `OK` or `UP`, the current problem id at `0` and the cleared id in the `LAST...PROBLEMID` field:
+On a recovery Centreon sends the same fields, with the state back to `OK` and the problem id at `0`:
 
 ```json
 {
-  "NOTIFICATIONTYPE": "RECOVERY",
-  "HOSTNAME": "db-prod-03",
-  "HOSTADDRESS": "10.20.4.13",
-  "HOSTSTATE": "UP",
-  "HOSTOUTPUT": "OK - 10.20.4.13 rta 0.398ms lost 0%",
-  "HOSTPROBLEMID": "0",
-  "LASTHOSTPROBLEMID": "1187",
-  "SERVICEDESC": "Cpu",
-  "SERVICESTATE": "OK",
-  "SERVICEOUTPUT": "OK: CPU(s) average usage is 12.04 %",
-  "SERVICEPROBLEMID": "0",
-  "LASTSERVICEPROBLEMID": "48213",
-  "LONGDATETIME": "Sun Oct 11 03:27:44 CEST 2026"
+  "notification_type": "RECOVERY",
+  "host_name": "srv-db-01",
+  "host_alias": "Primary PostgreSQL server",
+  "host_address": "10.20.0.15",
+  "host_state": "UP",
+  "service_description": "Disk-/var",
+  "service_state": "OK",
+  "service_state_type": "HARD",
+  "service_output": "OK: Storage /var Usage Total: 50.00 GB Used: 31.40 GB (62.80%) Free: 18.60 GB (37.20%)",
+  "severity": "OK",
+  "problem_id": "0",
+  "notification_number": "0",
+  "notification_author": "",
+  "notification_comment": "",
+  "timestamp": "1760346000"
 }
 ```
 
+The host notification body leaves out `service_description`, `service_state`, `service_state_type` and `service_output`, and adds `host_output` and `host_state_type`. `severity` carries `$HOSTSTATE$`, `problem_id` carries `$HOSTPROBLEMID$` and `notification_number` carries `$HOSTNOTIFICATIONNUMBER$`:
+
+```json
+{
+  "notification_type": "PROBLEM",
+  "host_name": "srv-web-01",
+  "host_alias": "Public web server",
+  "host_address": "10.20.0.21",
+  "host_state": "DOWN",
+  "host_state_type": "HARD",
+  "host_output": "CRITICAL: Packets lost: 100%",
+  "severity": "DOWN",
+  "problem_id": "1195",
+  "notification_number": "1",
+  "notification_author": "",
+  "notification_comment": "",
+  "timestamp": "1760342400"
+}
+```
+
+Do not add a field called `message`: Spike would use it as the title and ignore the rest.
+
 ## Setup
 
-Use the same command line for the host notification and the service notification. Centreon leaves the macros that do not apply empty, which is how Spike tells a host notification (`SERVICEDESC` empty) from a service one.
+#### Step 1: Create the notification commands
 
-#### Step 1: Create the notification command
+In Centreon go to **Configuration** -> **Commands** -> **Notifications** and click **Add**. Create two commands. For each, fill in:
 
-In Centreon go to **Configuration** -> **Commands** -> **Notifications** and click **Add**. Fill in:
-
-* **Command Name**: `Notify Spike`
+* **Command Name**: `Notify Spike service` for the first, `Notify Spike host` for the second.
 * **Command Type**: `Notification`
-* **Command Line**: the command below, with your webhook URL.
+* **Command Line**: the matching command below, with your webhook URL.
 * Tick **Enable shell**, so the quoting in the command line is interpreted.
 
+Service command line:
+
 ```
-/usr/bin/curl -s -m 10 -X POST -H "Content-Type: application/json" -d '{"NOTIFICATIONTYPE": "$NOTIFICATIONTYPE$", "HOSTNAME": "$HOSTNAME$", "HOSTADDRESS": "$HOSTADDRESS$", "HOSTSTATE": "$HOSTSTATE$", "HOSTOUTPUT": "$HOSTOUTPUT$", "HOSTPROBLEMID": "$HOSTPROBLEMID$", "LASTHOSTPROBLEMID": "$LASTHOSTPROBLEMID$", "SERVICEDESC": "$SERVICEDESC$", "SERVICESTATE": "$SERVICESTATE$", "SERVICEOUTPUT": "$SERVICEOUTPUT$", "SERVICEPROBLEMID": "$SERVICEPROBLEMID$", "LASTSERVICEPROBLEMID": "$LASTSERVICEPROBLEMID$", "LONGDATETIME": "$LONGDATETIME$"}' "YOUR_SPIKE_WEBHOOK_URL"
+/usr/bin/curl -s -m 10 -X POST -H "Content-Type: application/json" -d '{"notification_type": "$NOTIFICATIONTYPE$", "host_name": "$HOSTNAME$", "host_alias": "$HOSTALIAS$", "host_address": "$HOSTADDRESS$", "host_state": "$HOSTSTATE$", "service_description": "$SERVICEDESC$", "service_state": "$SERVICESTATE$", "service_state_type": "$SERVICESTATETYPE$", "service_output": "$SERVICEOUTPUT$", "severity": "$SERVICESTATE$", "problem_id": "$SERVICEPROBLEMID$", "notification_number": "$SERVICENOTIFICATIONNUMBER$", "notification_author": "$NOTIFICATIONAUTHOR$", "notification_comment": "$NOTIFICATIONCOMMENT$", "timestamp": "$TIMET$"}' "YOUR_SPIKE_WEBHOOK_URL"
+```
+
+Host command line:
+
+```
+/usr/bin/curl -s -m 10 -X POST -H "Content-Type: application/json" -d '{"notification_type": "$NOTIFICATIONTYPE$", "host_name": "$HOSTNAME$", "host_alias": "$HOSTALIAS$", "host_address": "$HOSTADDRESS$", "host_state": "$HOSTSTATE$", "host_state_type": "$HOSTSTATETYPE$", "host_output": "$HOSTOUTPUT$", "severity": "$HOSTSTATE$", "problem_id": "$HOSTPROBLEMID$", "notification_number": "$HOSTNOTIFICATIONNUMBER$", "notification_author": "$NOTIFICATIONAUTHOR$", "notification_comment": "$NOTIFICATIONCOMMENT$", "timestamp": "$TIMET$"}' "YOUR_SPIKE_WEBHOOK_URL"
 ```
 
 Click **Save**. Use the absolute path to `curl` that `which curl` shows on your Centreon poller.
 
-#### Step 2: Use the command in your contact
+#### Step 2: Use the commands in your contact
 
 Go to **Configuration** -> **Users** -> **Contacts / Users** and open the contact that should send to Spike, or add one. Under **Notifications**:
 
-* Enable host notifications and select `Notify Spike` in **Host Notification Commands**.
-* Enable service notifications and select `Notify Spike` in **Service Notification Commands**.
+* Enable host notifications and select `Notify Spike host` in **Host Notification Commands**.
+* Enable service notifications and select `Notify Spike service` in **Service Notification Commands**.
 * Set the notification options so that **Down**, **Unreachable** and **Recovery** (hosts) and **Warning**, **Critical**, **Unknown** and **Recovery** (services) are ticked. Without Recovery the incident never resolves.
 
 Make sure the contact is attached to the hosts and services you want to page for, directly or through a contact group, and that notifications are enabled on those hosts and services.
@@ -112,31 +148,39 @@ Go to **Configuration** -> **Pollers** -> **Export configuration**, select your 
 
 #### Step 4: Test
 
-On **Monitoring** -> **Status Details** -> **Services**, open a service and use **Submit result** to set it to `Critical`, or use a **Custom notification** from the host or service actions. The incident should appear in Spike. Submit `OK` to see it resolve.
+On **Monitoring** -> **Status Details** -> **Services**, open a service and use **Submit result** to set it to `Critical`. The incident should appear in Spike. Submit `OK` to see it resolve.
 
 ## What Spike does with each notification
 
-| `NOTIFICATIONTYPE` | Result |
+| `notification_type` | Result |
 | --- | --- |
 | `PROBLEM` | Opens an incident. |
-| `RECOVERY` | Resolves the incident whose problem id matches. Never opens one. |
-| `ACKNOWLEDGEMENT`, `FLAPPINGSTART`, `FLAPPINGSTOP`, `FLAPPINGDISABLED`, `DOWNTIMESTART`, `DOWNTIMEEND`, `DOWNTIMECANCELLED` | Joins an open incident when an id matches. `FLAPPINGSTART` can open one. The others never do. |
+| `RECOVERY` | Resolves the open incident for the same check. Dropped when nothing is open. |
+| `ACKNOWLEDGEMENT`, `FLAPPINGSTART`, `FLAPPINGSTOP`, `FLAPPINGDISABLED`, `DOWNTIMESTART`, `DOWNTIMEEND`, `DOWNTIMECANCELLED`, `CUSTOM` | Joins the open incident. Dropped when nothing is open. |
+
+The type is compared ignoring case and surrounding spaces. When it is missing, unexpanded or not one of these words, the state decides: a service `OK` or a host `UP` is a recovery, and any other state (or none) opens an incident.
 
 ## Incident identity
 
-Spike identifies the incident by the problem id. For a service notification this is `SERVICEPROBLEMID`, which stays the same when the service goes from `WARNING` to `CRITICAL`. For a host notification (`SERVICEDESC` empty) it is `HOSTPROBLEMID`. A recovery carries the cleared id in `LASTSERVICEPROBLEMID` or `LASTHOSTPROBLEMID`, which Spike matches to the open incident. An id of `0` means "no problem" and is not used.
+Spike identifies the alert by `host_name`, and for a service check also by `service_description`. A service check is a notification with a `service_description` or `service_state`. Repeat notifications, including a move from `WARNING` to `CRITICAL`, join the open incident, and a recovery resolves it. A host check only matches host incidents, never a service incident on the same host.
 
-If a notification carries no usable id, Spike falls back to matching on the title.
+Names are compared exactly as sent, including case. A value left as an unexpanded variable (`$HOSTNAME$`, `${host_name}`, `{{host_name}}`, `%HOSTNAME%` and similar) or an empty one does not count as a name. If a notification has no usable name, Spike falls back to matching on the title.
 
 ## Incident title
 
-The title uses the check's own output where it reads as a sentence, followed by the service and host:
+With a usable identity the title is the check's output followed by the host:
 
 ```
-CRITICAL: CPU(s) average usage is 97.31 % — Cpu on db-prod-03
+CRITICAL: Storage /var Usage Total: 50.00 GB Used: 48.10 GB (96.20%) Free: 1.90 GB (3.80%) on srv-db-01
 ```
 
-When the output is empty or is not readable text (for instance `rta nan, lost 100%`), the title is built from the state instead: `Cpu is CRITICAL on db-prod-03` for a service, `Host web-prod-01 is DOWN` for a host. A recovery reads `Cpu recovered on db-prod-03` or `Host web-prod-01 recovered`. Addresses, ids and timestamps are kept out of the title and shown in the incident details.
+For a host check the output is `host_output`, for example `CRITICAL: Packets lost: 100% on srv-web-01`. Whitespace in the output is collapsed, and ` on <host_name>` is left out when the output already names the host as a whole word.
+
+When the output is empty or unexpanded, the title is `Disk-/var on srv-db-01 is CRITICAL` for a service and `Host srv-web-01 is DOWN` for a host. A recovery reads `Disk-/var on srv-db-01 is OK` or `Host srv-web-01 is UP`, never with the output.
+
+Without a usable identity the title holds only stable fields, so a repeat still matches: `Disk-/var on Primary PostgreSQL server` (the service description, then `host_name`, else `host_alias`, else `host_address`). A part that is not usable is skipped, and `Centreon alert with no details` is used when none is. It never contains output, state or numbers.
+
+Titles are cut to 200 characters. The ` on <host>` part is kept whole and the output is cut at a word boundary with `...`.
 
 {% hint style="warning" %}
 Quotes or other special characters in plugin output can break the JSON body, and Centreon's documentation does not say whether they are removed. If an alert does not arrive, check the poller's notification log for the command that ran.
