@@ -60,7 +60,9 @@ When the body has no usable `fingerprint`, Spike matches by title instead, so it
 
 ## Severity
 
-Spike does not read a severity from the Robusta payload. `severity` is kept on the incident, but incidents open at your integration's default. Write an [alert rule](../alerts/alert-rules.md) on `severity` to set it, route to another escalation policy, or suppress. Read more about [priority and severity](../incidents/priority-and-severity.md).
+Spike takes the incident severity from the payload's `severity` keys before alert rules run. A Robusta body has two: Robusta's own `severity` (`LOW`, `HIGH`, and so on) and, for Prometheus alerts, the alert's `severity` label at `subject.labels.severity` (such as `warning` or `critical`). When both are present the Prometheus label wins, so the severity Spike uses, and the value an [alert rule](../alerts/alert-rules.md) sees as `severity`, is the label's. In the example body that is `warning`, which Spike treats as SEV2, not Robusta's `LOW`.
+
+To route or suppress by severity, write the rule on the label values (`warning`, `critical`). Rules that match `HIGH` or `LOW` only match findings that carry no Prometheus `severity` label, such as native Kubernetes findings. Robusta's original value stays in the body on the incident page. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
 ## Prerequisites
 
