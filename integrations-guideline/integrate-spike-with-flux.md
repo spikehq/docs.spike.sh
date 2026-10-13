@@ -14,7 +14,7 @@ With Spike's integration, you can receive real-time alerts when Flux reports pro
 * **Build and fetch failures**: Kustomize builds, Git clones or artifact downloads fail.
 * **Helm action failures**: Helm installs, upgrades, tests or rollbacks fail.
 
-Spike uses the Kubernetes UID of the Flux object (the Kustomization, HelmRelease, GitRepository and so on) to group repeated failures into one incident and to resolve it when the same object reports a successful reconciliation.
+Spike uses the Kubernetes UID of the Flux object (the Kustomization, HelmRelease, GitRepository and so on) to group repeated failures into one incident and to resolve it when the same object reports a successful reconciliation. The UID is what identifies the incident, so the title is for display only.
 
 {% hint style="info" %}
 Spike will automatically group repeated incidents and also suppress alerts while incident is open. You can set up [alert rules](https://docs.spike.sh/alerts/alert-rules) to determine incident severity and take actions accordingly.
@@ -81,14 +81,12 @@ You send events to Spike with a Flux `Provider` of type `generic` and an `Alert`
          name: '*'
        - kind: GitRepository
          name: '*'
-     eventMetadata:
-       cluster: prod-eu-1
    ```
 
    * **providerRef** (required): the Provider created in the previous step.
    * **eventSources** (required): the Flux objects to watch. Add or remove kinds as needed, and set `namespace` on a source to limit it to one namespace.
    * **eventSeverity** (required for auto-resolution): use `info` so Flux also sends success events. With `error`, incidents open but never resolve automatically.
-   * **eventMetadata.cluster** (optional): the name of your cluster. Spike shows it in the incident title as `in <cluster>`, which helps when several clusters send to the same integration.
+   * **eventMetadata** (optional): any keys you add are sent in `metadata` and kept on the incident, but Spike does not read them.
 
 4. **Apply the manifests:**
 
@@ -98,7 +96,7 @@ You send events to Spike with a Flux `Provider` of type `generic` and an `Alert`
 
 5. **Test the Integration:**
    * Make a Kustomization fail, for example by committing an invalid manifest to the watched path.
-   * Verify that a new incident appears in Spike with Flux's error message and the object name.
+   * Verify that a new incident appears in Spike titled with Flux's error message.
    * Fix the manifest and verify that the incident resolves after the next successful reconciliation.
 
 {% endtab %}
@@ -118,8 +116,7 @@ Flux sends each event to Spike as a JSON payload. A failure looks like this:
     "uid": "7d0cdc51-ddcf-4743-b223-83ca5c699632"
   },
   "metadata": {
-    "revision": "main@sha1:731f7eaddfb6af01cb2173e18f0f75b0ba780ef1",
-    "cluster": "prod-eu-1"
+    "kustomize.toolkit.fluxcd.io/revision": "main/731f7eaddfb6af01cb2173e18f0f75b0ba780ef1"
   },
   "severity": "error",
   "reason": "ValidationFailed",
@@ -142,30 +139,37 @@ When the same object reconciles successfully, Flux sends a recovery event:
     "uid": "7d0cdc51-ddcf-4743-b223-83ca5c699632"
   },
   "metadata": {
-    "revision": "main@sha1:9b2e41c07d5f3a8e6c1d0f4b7a2e9c3d8f6a1b05",
-    "commit_status": "update",
-    "cluster": "prod-eu-1"
+    "kustomize.toolkit.fluxcd.io/revision": "main/8b2e4f0c1d9a7e6b5c4d3e2f1a0b9c8d7e6f5a4b"
   },
   "severity": "info",
   "reason": "ReconciliationSucceeded",
-  "message": "Reconciliation finished in 1.204s, next run in 10m0s",
+  "message": "Reconciliation finished in 1.42s, next run in 10m0s",
   "reportingController": "kustomize-controller",
   "reportingInstance": "kustomize-controller-7c7b47f5f-8bhrp",
-  "timestamp": "2022-10-28T07:41:22Z"
+  "timestamp": "2022-10-28T07:41:03Z"
 }
 ```
 
 **Key Fields:**
-* `involvedObject.uid` - Kubernetes UID of the Flux object. Spike uses it to match repeat and recovery events to the open incident. If it is missing, Spike matches on `kind`, `namespace` and `name` together.
-* `involvedObject.kind`, `involvedObject.namespace`, `involvedObject.name` - The Flux object the event is about. They appear in the incident title.
-* `severity` - `error` opens an incident. `info` with a `reason` ending in `Succeeded` resolves it. Other `info` events and `trace` events never open or resolve an incident.
-* `reason` - Machine-readable reason, for example `ValidationFailed` or `ReconciliationSucceeded`.
+* `involvedObject.uid` - Kubernetes UID of the Flux object. Spike uses it to match repeat and recovery events to the open incident. It must be a non-empty string or a number, not an unexpanded template such as `$uid` or `{{ .uid }}`. An event without a usable UID is not matched to an incident.
+* `involvedObject.kind`, `involvedObject.namespace`, `involvedObject.name` - The Flux object the event is about. They appear in the fallback and recovery titles.
+* `severity` - `error` opens an incident, or joins the open one for the same UID. `info` resolves the open incident for the same UID only when `reason` is a success reason. Every other `info` event (for example `Progressing` or `DependencyNotReady`) is accepted and ignored, and so is any other severity such as `trace`.
+* `reason` - Taken from the object's Ready condition, for example `ValidationFailed`, `ReconciliationFailed` or `HealthCheckFailed`. The success reasons that resolve an incident are `ReconciliationSucceeded`, `Succeeded`, `InstallSucceeded`, `UpgradeSucceeded` and `TestSucceeded`.
 * `message` - Flux's description of what happened. It becomes the incident title.
-* `metadata.cluster` - Optional cluster name from `eventMetadata`.
 
-The remaining fields (`apiVersion`, `metadata.revision`, `reportingController`, `reportingInstance`, `timestamp`) are sent by Flux and are not used to open or resolve incidents.
+The remaining fields (`apiVersion`, `metadata`, `reportingController`, `reportingInstance`, `timestamp`) are sent by Flux and are not used to open or resolve incidents. Keys you add through `eventMetadata` appear in `metadata` and are kept on the incident, not read.
 
-An incident from the first payload is titled: `service/apps/webapp validation error: spec.type: Unsupported value: Ingress — Kustomization apps/webapp in prod-eu-1`.
+## Incident titles
+
+| Event | Title |
+| --- | --- |
+| Failure | Flux's `message`, whitespace collapsed and cut at 200 characters |
+| Failure with an empty `message` | `{reason} on {kind} {namespace}/{name}` |
+| Failure with neither | `Flux alert with no details` |
+| Recovery | `{kind} {namespace}/{name} reconciled successfully` |
+| Recovery when the object is not named | `Flux alert recovered` |
+
+The first payload above creates an incident titled `service/apps/webapp validation error: spec.type: Unsupported value: Ingress`. The second resolves it, and the recovery title is `Kustomization apps/webapp reconciled successfully`. The recovery title leaves out `message` because it carries durations.
 
 ## Troubleshooting
 
@@ -177,10 +181,7 @@ An incident from the first payload is titled: `service/apps/webapp validation er
 
 **Incidents do not resolve:**
 * Set `eventSeverity: info` on the Alert so Flux sends success events.
-* Resolution happens when the same object sends an `info` event whose `reason` ends in `Succeeded`, such as `ReconciliationSucceeded`.
-
-**Cluster name missing from the title:**
-* Add `cluster` under the Alert's `spec.eventMetadata`.
+* Resolution happens when the same object (same `involvedObject.uid`) sends an `info` event whose `reason` is `ReconciliationSucceeded`, `Succeeded`, `InstallSucceeded`, `UpgradeSucceeded` or `TestSucceeded`. Only `ReconciliationSucceeded` (kustomize-controller) has been confirmed against Flux's source.
 
 {% hint style="success" %}
 This integration auto resolves
