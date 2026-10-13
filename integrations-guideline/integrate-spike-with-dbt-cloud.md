@@ -50,14 +50,14 @@ Auto-resolution is supported for this integration. Spike will also automatically
 1. Log in to dbt Cloud and open **Account settings**.
 2. In the left menu, click **Webhooks**, then **Create webhook**.
 3. Enter a **Webhook name** (for example `Spike on-call`) and, if you like, a **Description**.
-4. Under **Events**, select **Run completed (any status)** and **Run completed (errored)**. Optionally add **Run started**; Spike ignores it.
-5. Under **Jobs**, choose **All jobs** or select the specific jobs you want Spike to page on.
+4. Under **Events**, select **Run completed**. Optionally add **Run started**; Spike ignores it.
+5. Under **Jobs**, select the specific jobs you want Spike to page on, or leave it empty to cover all jobs.
 6. Paste the Spike webhook URL into the **Endpoint** field.
 7. Click **Save**.
 
-The **Webhook name**, **Events**, **Jobs** and **Endpoint** fields are required. Spike needs `data.jobId` and `data.runStatusCode` on every delivery; dbt Cloud includes both. dbt Cloud shows a secret key for the webhook after saving; Spike does not use it, because the token in the webhook URL is the credential.
+The **Webhook name**, **Events** and **Endpoint** fields are required. Spike needs `data.jobId` and `data.runStatusCode` on every delivery; dbt Cloud includes both. dbt Cloud shows a secret key for the webhook after saving; Spike does not use it, because the token in the webhook URL is the credential.
 
-Select **Run completed (any status)** as well as **Run completed (errored)**. The success delivery that resolves the incident is a `job.run.completed` event, so without it incidents never auto-resolve.
+Select **Run completed** only. It fires for both failed and successful runs, so one event covers the failure that opens the incident and the success that resolves it. Also selecting **Run errored** is harmless but unnecessary: dbt Cloud then sends a second webhook for every failed run, and Spike joins it to the incident that is already open as a repeated event. Without **Run completed**, incidents never auto-resolve.
 {% endtab %}
 {% endtabs %}
 
