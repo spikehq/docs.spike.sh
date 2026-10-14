@@ -90,12 +90,12 @@ In Spike, go to **Integrations → Add integration → Chronosphere**, attach it
 
 ## Step 2 — Create a webhook notifier in Chronosphere
 
-1. **Sign in to Chronosphere** and open **Alerts → Notifiers** (in older tenants the notifier screens sit under **Platform → Notifiers**).
+1. **Sign in to Chronosphere** and open **Alerting → Notifiers**.
 2. **Create a new notifier** and select **Webhook** as its type.
 3. **Fill in the notifier.**
    * **Name** (required) — something your team will recognise, for example `spike-oncall-webhook`. Chronosphere sends it as `notifier` in every body.
    * **URL** (required) — the URL from Step 1.
-   * **Send resolved notifications** — keep it on, which is the default. Without it Chronosphere never sends the recovery and incidents do not resolve themselves.
+   * **Notify when resolved** — an optional checkbox that is not selected by default in the web UI, so select it. Without it Chronosphere never sends the recovery and incidents do not resolve themselves. If you manage notifiers with Chronoctl, set `skip_resolved: false` (the scaffold ships `true`); in Terraform, set `send_resolved = true`.
    * Leave any HTTP basic-auth or bearer-token settings empty. The token already in the webhook URL is the credential.
 4. **Save** the notifier.
 
@@ -111,7 +111,7 @@ Treat the webhook URL like a password. If it leaks, archive the integration in S
 
 A notifier receives nothing until a notification policy sends alerts to it.
 
-1. Open **Alerts → Notification Policies** and open the policy that routes the monitors you want paged, or create one.
+1. Open **Alerting → Notification Policies** and open the policy that routes the monitors you want paged, or create one.
 2. **Add the notifier** from Step 2 as a route for the severities you want Spike to receive (for example `critical` and `warn`), and save the policy.
 3. Make sure each monitor you care about uses that policy, either directly or through the policy you edited.
 
@@ -126,7 +126,7 @@ Add the labels you want in the title and incident, for example an `instance` or 
 1. Let a monitor fire, or lower its threshold briefly. An incident opens in Spike with your sentence as the title, on the service you attached, escalating through your policy.
 2. Let the monitor recover. The incident resolves itself.
 
-If the incident opens but never resolves, check that **Send resolved notifications** is on for the notifier.
+If the incident opens but never resolves, check that **Notify when resolved** is selected for the notifier.
 
 ## Payload reference
 
@@ -282,7 +282,7 @@ Check that the notifier URL is the full `https://hooks.spike.sh/<your-token>/pus
 
 <summary>Incidents never resolve</summary>
 
-Check that **Send resolved notifications** is on for the notifier. Spike resolves only when every alert in the notification is `resolved`, and only while the incident is still open.
+Check that **Notify when resolved** is selected for the notifier. Spike resolves only when every alert in the notification is `resolved`, and only while the incident is still open.
 
 </details>
 
