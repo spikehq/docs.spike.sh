@@ -11,7 +11,7 @@ Nothing is installed anywhere. One webhook, configured once in FME, covers every
 
 ## What Spike does with each alert
 
-Every delivery with `type` set to `METRIC_ALERT` opens an incident and pages. A repeat of the same alert joins the incident that is already open instead of paging again. Both `ALERT_POLICY` and `SIGNIFICANCE` alerts open incidents, and so do alerts where `data.direction` is `DESIRED`.
+Every metric alert FME sends (`type` is `METRIC_ALERT`) opens an incident and pages. A repeat of the same alert joins the incident that is already open instead of paging again. Alerts where `data.direction` is `DESIRED` open incidents too. Nothing in the body closes one.
 
 {% hint style="info" %}
 Harness documents no recovery or resolve webhook, so **Spike never resolves a Harness FME incident by itself.** Resolve it in Spike once the flag or metric is dealt with. A [resolve timer](../incidents/resolve-timer.md) is a reasonable backstop.
@@ -19,48 +19,45 @@ Harness documents no recovery or resolve webhook, so **Spike never resolves a Ha
 
 ## Incident identity
 
-Spike identifies the alert by these fields together:
+Spike identifies the alert by these three fields together:
 
 | Field | What it is |
 | --- | --- |
-| `source.id` | Id of the feature flag or experiment that caused the alert |
+| `source.id` | Id of the feature flag or experiment |
 | `data.environment.id` | The FME environment |
-| `data.metric.id` | The degraded metric |
-| `data.alertType` | `ALERT_POLICY` or `SIGNIFICANCE` |
-| `data.alertPolicy.name` | The alert policy, only when it is a non-empty string |
+| `data.metric.id` | The metric |
 
-The same flag degrading the same metric in the same environment, for the same kind of alert and policy, is one incident. A different metric, environment or policy is a separate incident. A significance notice never joins an alert-policy alert.
+The same flag moving the same metric in the same environment is one incident, even when the readings, policy name or threshold change between sends. A different metric, flag or environment is a separate incident.
 
-An id counts only if it is a non-empty string or a number, and is not an unexpanded template variable (starting with `$` or `%`, or wrapped in `{{ }}`). If `source.id`, `data.environment.id` or `data.metric.id` is unusable, Spike matches on the incident title instead, and the title then carries no readings.
+An id counts only if it is a non-empty string (after trimming) or a number (`0` counts), and is not an unexpanded template variable such as `$id`, `${id}`, `{{id}}` or `%id%`. Ids are matched exactly as sent. If any of the three is unusable, Spike matches on the incident title instead, and the title then carries no readings.
 
 ## Incident title
 
-The payload has no sentence from Harness about the fault, so Spike builds the title. When all three ids are usable and both values are numbers (or numeric strings), the baseline is not `0`, the values differ and the change is at least 1%:
+The payload has no sentence from Harness about the fault, so Spike builds the title. When all three ids are usable and both values are numbers (or numeric strings), the baseline is not `0` and the change is at least 1%, the title carries the readings:
 
 ```
-checkout_conversion_rate down 18% (0.027 on vs 0.033 off) on new_checkout_flow in Production
+Checkout conversion rate down 16% (on 0.035 vs off 0.041), undesired — new_checkout_flow in Production
 ```
 
-* The percentage is `|comparisonValue - baselineValue| / |baselineValue|`, rounded, computed from the two values. `data.relativeImpact` is not read because its units are undocumented.
-* `up` or `down` comes from the values, not from `data.direction`.
+* The percentage is `(comparisonValue - baselineValue) / |baselineValue| × 100`, rounded, computed from the two values. `data.relativeImpact` is not read because its scale is undocumented.
+* `up` or `down` comes from the sign of that change. `, undesired` or `, desired` comes from `data.direction` and is left out for any other value.
 * Numbers from 10 up are whole with thousands separators (`1,480`); below 10 they keep two significant digits. An empty treatment name is left out.
 
-Otherwise the title is fixed text and identical every time:
+Otherwise the title is plain and identical on every send:
 
-* `ALERT_POLICY` with a policy name: `checkout_conversion_rate breached Checkout conversion drop on new_checkout_flow in Production`
-* Anything else: `checkout_conversion_rate significant impact on new_checkout_flow in Production`
-* Missing parts are dropped: no `on` without a flag name, no `in` without an environment.
-* A `type` other than `METRIC_ALERT`, or no metric, flag and environment at all: `Harness FME alert with no details`.
+```
+Checkout conversion rate degraded — new_checkout_flow in Production
+```
 
-Titles are capped at 200 characters, shortening the metric or readings first so the flag and environment stay whole. Ids, URLs and timestamps never appear in the title.
+* The word is `degraded` for `UNDESIRED`, `improved` for `DESIRED` and `alert` for anything else or a missing direction. With no metric name it starts `Metric`.
+* Missing parts are dropped with their separator words: no `in` without an environment, no `—` without a flag and environment.
+* With no metric, flag or environment name at all: `Harness FME alert with no details`.
+
+Whitespace is collapsed and titles are capped at 200 characters: the readings in brackets are cut first, then the metric name, and the flag and environment stay whole. Ids, URLs and timestamps never appear in the title.
 
 ## Severity
 
-Spike does not read a severity from the payload, so incidents open at your integration's default. To set severity from the alert, write an [alert rule](../alerts/alert-rules.md) on `data.direction` or `data.alertType`. Read more about [priority and severity](../incidents/priority-and-severity.md).
-
-## Severity
-
-Spike does not read a severity from the payload, so incidents open at your integration's default. To set severity from the alert, write an [alert rule](../alerts/alert-rules.md) on `data.direction` or `data.alertType`. Read more about [priority and severity](../incidents/priority-and-severity.md).
+Spike does not read a severity from the payload, so incidents open at your integration's default. To set severity from the alert, write an [alert rule](../alerts/alert-rules.md) on `data.direction`. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
 ## Prerequisites
 
@@ -95,7 +92,7 @@ A webhook only receives alerts that FME raises. In FME, make sure an **alert pol
 
 ## Step 4 — Confirm it end to end
 
-Send a test message, or wait for the first real alert. An incident opens in Spike on the service you attached, with the metric, flag and environment in the title.
+Send a test message, or wait for the first real alert. An incident opens in Spike on the service you attached, with the metric, flag and environment in the title. A test message that names none of them opens one titled `Harness FME alert with no details`.
 
 ## Payload reference
 
@@ -104,34 +101,34 @@ FME sends a JSON `POST` with `Content-Type: application/json`. A full alert look
 ```json
 {
   "type": "METRIC_ALERT",
-  "firedAt": "2026-10-13T08:42:17Z",
-  "firedAtMs": 1791880937000,
-  "integrationId": "5f2c9a10-7d3e-11ef-9b1a-0a58a9feac02",
+  "firedAt": "2026-10-14T03:12:45Z",
+  "firedAtMs": 1791947565000,
+  "integrationId": "5a8f2c10-7d3e-11ef-9a1b-0242ac120002",
   "source": {
-    "id": "a1d4e6f0-3b2c-11ef-8e7a-12b5c3d4e5f6",
+    "id": "8c3b9e40-5f21-11ef-b8d4-12a9c3e5f7a1",
     "name": "new_checkout_flow",
     "type": "FEATURE_FLAG",
-    "url": "https://app.split.io/org/0a1b2c3d/ws/4e5f6a7b/splits/a1d4e6f0-3b2c-11ef-8e7a-12b5c3d4e5f6"
+    "url": "https://app.split.io/org/2f1c6a30-1b4e-11ee-9c5d-0a58a9feac02/ws/2f4d8e20-1b4e-11ee-9c5d-0a58a9feac02/splits/8c3b9e40-5f21-11ef-b8d4-12a9c3e5f7a1/env/3a7e1d50-1b4e-11ee-9c5d-0a58a9feac02/definition"
   },
   "data": {
     "alertType": "ALERT_POLICY",
     "baselineTreatment": "off",
     "comparisonTreatment": "on",
-    "baselineValue": 0.0331,
-    "comparisonValue": 0.0271,
-    "absoluteImpact": -0.006,
-    "relativeImpact": -0.1813,
-    "pValue": 0.0042,
+    "baselineValue": 0.0412,
+    "comparisonValue": 0.0347,
+    "absoluteImpact": -0.0065,
+    "relativeImpact": -0.1578,
+    "pValue": 0.003,
     "direction": "UNDESIRED",
     "targetingRule": "default rule",
     "environment": {
-      "id": "c7e8f9a0-3b2c-11ef-8e7a-12b5c3d4e5f6",
+      "id": "3a7e1d50-1b4e-11ee-9c5d-0a58a9feac02",
       "name": "Production"
     },
     "metric": {
-      "id": "d2e3f4a5-3b2c-11ef-8e7a-12b5c3d4e5f6",
-      "name": "checkout_conversion_rate",
-      "url": "https://app.split.io/org/0a1b2c3d/ws/4e5f6a7b/metrics/d2e3f4a5-3b2c-11ef-8e7a-12b5c3d4e5f6"
+      "id": "b71e5c90-6a02-11ef-8f3e-0242ac120002",
+      "name": "Checkout conversion rate",
+      "url": "https://app.split.io/org/2f1c6a30-1b4e-11ee-9c5d-0a58a9feac02/ws/2f4d8e20-1b4e-11ee-9c5d-0a58a9feac02/metrics/b71e5c90-6a02-11ef-8f3e-0242ac120002"
     },
     "metricCategory": {
       "id": "ALERT_POLICY",
@@ -139,7 +136,7 @@ FME sends a JSON `POST` with `Content-Type: application/json`. A full alert look
     },
     "alertPolicy": {
       "name": "Checkout conversion drop",
-      "threshold": 10,
+      "threshold": 5,
       "thresholdType": "RELATIVE"
     }
   }
@@ -150,26 +147,24 @@ FME sends a JSON `POST` with `Content-Type: application/json`. A full alert look
 
 | Field | Required | Used for |
 | --- | --- | --- |
-| `type` | Yes | Must be `METRIC_ALERT`; anything else gets the no-details title |
 | `source.id` | Yes | Incident identity |
 | `data.environment.id` | Yes | Incident identity |
 | `data.metric.id` | Yes | Incident identity |
-| `data.alertType` | Yes | Incident identity; picks the fallback title wording |
-| `data.alertPolicy.name` | No | Incident identity when non-empty; fallback title |
+| `data.metric.name` | No | Title: starts it (`Metric` when empty) |
 | `source.name` | No | Title: the flag or experiment |
-| `data.metric.name` | No | Title: starts it |
 | `data.environment.name` | No | Title: where it happened |
+| `data.direction` | No | Title: `undesired` / `desired`, or `degraded` / `improved` |
 | `data.comparisonValue` | No | Title: reading and percentage (number or numeric string) |
 | `data.baselineValue` | No | Title: reading and percentage (number or numeric string) |
 | `data.comparisonTreatment` | No | Title: name beside the comparison reading |
 | `data.baselineTreatment` | No | Title: name beside the baseline reading |
 
-Every other field (`firedAt`, `firedAtMs`, `integrationId`, `source.type`, `source.url`, `absoluteImpact`, `relativeImpact`, `pValue`, `direction`, `targetingRule`, `metric.url`, `metricCategory.*`, `alertPolicy.threshold` and `alertPolicy.thresholdType`) is kept on the incident and visible on the incident page, but does not change the title or identity.
+Every other field (`type`, `firedAt`, `firedAtMs`, `integrationId`, `source.type`, `source.url`, `alertType`, `absoluteImpact`, `relativeImpact`, `pValue`, `targetingRule`, `metric.url`, `metricCategory.*` and `alertPolicy.*`) is kept on the incident and visible on the incident page, but does not change the title or identity.
 
 ## Things worth knowing
 
 * **No recovery.** Resolve incidents in Spike yourself; Harness FME does not tell Spike when an alert clears.
-* **Repeats.** Harness does not document whether FME re-sends an alert. If it does, a repeat with the same identity joins the open incident.
+* **Repeats.** Harness does not document whether FME re-sends an alert. If it does, a repeat with the same identity joins the open incident, even when the readings have moved.
 * **Several Spike integrations are fine.** Create one per team and point the matching FME webhook at each.
 * **Unverified.** This guide follows Harness's published schema; the sample values are illustrative.
 
@@ -187,7 +182,7 @@ Check that the webhook URL is the full `https://hooks.spike.sh/<your-token>/push
 
 <summary>Every alert opens its own incident</summary>
 
-Open two incidents and compare the payloads. If `source.id`, `data.metric.id`, `data.environment.id`, `data.alertType` or `data.alertPolicy.name` differ, they are separate alerts and separate incidents by design. If `source.id`, `data.environment.id` or `data.metric.id` is unusable, Spike matches on the title instead.
+Open two incidents and compare the payloads. If `source.id`, `data.metric.id` or `data.environment.id` differ, they are separate alerts and separate incidents by design. If `source.id`, `data.environment.id` or `data.metric.id` is unusable, Spike matches on the title instead.
 
 </details>
 
