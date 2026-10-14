@@ -19,7 +19,7 @@ Make sure to make a Centreon integration and copy the webhook URL.
 
 ## What to send
 
-Centreon expands `$MACRO$` placeholders in the command line before running it. You need two commands: one for service notifications and one for host notifications. Each posts a JSON body with a `POST`.
+Centreon expands `$MACRO$` placeholders in the command line before running it. You need two commands: one for service notifications and one for host notifications. Each sends the fields below with a `POST`, as a form body (`--data-urlencode`). Spike reads it as the JSON object shown. A form body is used on purpose: Centreon puts plugin output and host aliases into the command unescaped, and a backslash (a Windows path such as `C:\`) or a quote in a JSON string would make the body invalid and lose the notification.
 
 The service notification body:
 
@@ -43,7 +43,7 @@ The service notification body:
 }
 ```
 
-In your command each value is the matching macro, for example `"host_name": "$HOSTNAME$"`.
+In your command each field is sent as its matching macro, for example `--data-urlencode "host_name=$HOSTNAME$"`.
 
 | Field | Macro | Used for |
 | --- | --- | --- |
@@ -121,13 +121,13 @@ In Centreon go to **Configuration** -> **Commands** -> **Notifications** and cli
 Service command line:
 
 ```
-/usr/bin/curl -s -m 10 -X POST -H "Content-Type: application/json" -d '{"notification_type": "$NOTIFICATIONTYPE$", "host_name": "$HOSTNAME$", "host_alias": "$HOSTALIAS$", "host_address": "$HOSTADDRESS$", "host_state": "$HOSTSTATE$", "service_description": "$SERVICEDESC$", "service_state": "$SERVICESTATE$", "service_state_type": "$SERVICESTATETYPE$", "service_output": "$SERVICEOUTPUT$", "severity": "$SERVICESTATE$", "problem_id": "$SERVICEPROBLEMID$", "notification_number": "$SERVICENOTIFICATIONNUMBER$", "notification_author": "$NOTIFICATIONAUTHOR$", "notification_comment": "$NOTIFICATIONCOMMENT$", "timestamp": "$TIMET$"}' "YOUR_SPIKE_WEBHOOK_URL"
+/usr/bin/curl -s -m 10 -X POST --data-urlencode "notification_type=$NOTIFICATIONTYPE$" --data-urlencode "host_name=$HOSTNAME$" --data-urlencode "host_alias=$HOSTALIAS$" --data-urlencode "host_address=$HOSTADDRESS$" --data-urlencode "host_state=$HOSTSTATE$" --data-urlencode "service_description=$SERVICEDESC$" --data-urlencode "service_state=$SERVICESTATE$" --data-urlencode "service_state_type=$SERVICESTATETYPE$" --data-urlencode "service_output=$SERVICEOUTPUT$" --data-urlencode "severity=$SERVICESTATE$" --data-urlencode "problem_id=$SERVICEPROBLEMID$" --data-urlencode "notification_number=$SERVICENOTIFICATIONNUMBER$" --data-urlencode "notification_author=$NOTIFICATIONAUTHOR$" --data-urlencode "notification_comment=$NOTIFICATIONCOMMENT$" --data-urlencode "timestamp=$TIMET$" "YOUR_SPIKE_WEBHOOK_URL"
 ```
 
 Host command line:
 
 ```
-/usr/bin/curl -s -m 10 -X POST -H "Content-Type: application/json" -d '{"notification_type": "$NOTIFICATIONTYPE$", "host_name": "$HOSTNAME$", "host_alias": "$HOSTALIAS$", "host_address": "$HOSTADDRESS$", "host_state": "$HOSTSTATE$", "host_state_type": "$HOSTSTATETYPE$", "host_output": "$HOSTOUTPUT$", "severity": "$HOSTSTATE$", "problem_id": "$HOSTPROBLEMID$", "notification_number": "$HOSTNOTIFICATIONNUMBER$", "notification_author": "$NOTIFICATIONAUTHOR$", "notification_comment": "$NOTIFICATIONCOMMENT$", "timestamp": "$TIMET$"}' "YOUR_SPIKE_WEBHOOK_URL"
+/usr/bin/curl -s -m 10 -X POST --data-urlencode "notification_type=$NOTIFICATIONTYPE$" --data-urlencode "host_name=$HOSTNAME$" --data-urlencode "host_alias=$HOSTALIAS$" --data-urlencode "host_address=$HOSTADDRESS$" --data-urlencode "host_state=$HOSTSTATE$" --data-urlencode "host_state_type=$HOSTSTATETYPE$" --data-urlencode "host_output=$HOSTOUTPUT$" --data-urlencode "severity=$HOSTSTATE$" --data-urlencode "problem_id=$HOSTPROBLEMID$" --data-urlencode "notification_number=$HOSTNOTIFICATIONNUMBER$" --data-urlencode "notification_author=$NOTIFICATIONAUTHOR$" --data-urlencode "notification_comment=$NOTIFICATIONCOMMENT$" --data-urlencode "timestamp=$TIMET$" "YOUR_SPIKE_WEBHOOK_URL"
 ```
 
 Click **Save**. Use the absolute path to `curl` that `which curl` shows on your Centreon poller.
@@ -183,5 +183,5 @@ Without a usable identity the title holds only stable fields, so a repeat still 
 Titles are cut to 200 characters. The ` on <host>` part is kept whole and the output is cut at a word boundary with `...`.
 
 {% hint style="warning" %}
-Quotes or other special characters in plugin output can break the JSON body, and Centreon's documentation does not say whether they are removed. If an alert does not arrive, check the poller's notification log for the command that ran.
+The commands are built so that a backslash or an apostrophe in a value (`C:\` in plugin output, `Bob's laptop` as a host alias) does not break the body. Each value sits inside double quotes for the shell, so a double quote, a backtick or a `$` inside a value (for example in `$HOSTALIAS$` or the acknowledgement comment, which Centreon does not clean) can still break the command. Keep those characters out of host aliases and comments. If an alert does not arrive, check the poller's notification log for the command that ran.
 {% endhint %}
