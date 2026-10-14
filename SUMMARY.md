@@ -210,6 +210,7 @@
 * [Integrate Spike with Pulseway](integrations-guideline/integrate-spike-with-pulseway.md)
 * [Integrate Spike with Raygun](integrations-guideline/integrate-spike-with-raygun.md)
 * [Integrate Spike with Render](integrations-guideline/integrate-spike-with-render.md)
+* [Integrate Spike with Reveille](integrations-guideline/integrate-spike-with-reveille.md)
 * [Integrate Spike with Robotalp](integrations-guideline/integrate-spike-with-robotalp.md)
 * [Integrate Spike with Robusta](integrations-guideline/integrate-spike-with-robusta.md)
 * [Integrate Spike with Rollbar](integrations-guideline/integrate-spike-with-rollbar.md)
