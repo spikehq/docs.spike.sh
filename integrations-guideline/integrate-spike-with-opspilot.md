@@ -17,30 +17,32 @@ Auto-resolution is supported for this integration. Spike also groups repeated no
 
 ## How Spike identifies an alert
 
-Spike identifies the incident by `alerts[0].fingerprint`, the stable hash of the alert's labels. It is the same on the firing and the resolved notification, so a repeat joins the open incident and the recovery resolves it, even when the readings in the summary have changed.
+Spike identifies the incident by the notification's top-level `groupKey`, which names one alert group. A firing notification opens an incident or joins the open one with the same `groupKey`, and the `resolved` notification for that group closes it, even when the readings in the summary have changed.
 
-* If `alerts[0].fingerprint` is empty or an unexpanded template such as `{{ .Fingerprint }}`, Spike uses the notification's `groupKey` under the same rule.
-* If neither is usable, Spike can only match by incident title. In that case the title is the plain `<alertname> on <where>` with no readings, so it is identical at firing and at recovery.
-* A `resolved` notification (`status` `resolved`, or `state` `ok`) only closes an incident and never opens one.
+* `groupKey` counts as an id only when it is a non-empty string (after trimming) or a number. Spike matches it exactly as sent.
+* If there is no usable `groupKey`, Spike can only match by incident title. The title is then always the plain `<alertname> on <where>` with no sentence and no readings, so it is identical at firing and at recovery.
+* A top-level `status` of `resolved` (trimmed, case-insensitive) only closes an incident and never opens one. Any other value opens an incident. `state` is not read.
+* In a batch, only alerts whose own `status` is `firing` are counted.
 
 ## Incident title
 
 The title is the sentence you set in the contact point's **Message** setting (see Step 2), with whitespace collapsed and capped at 200 characters:
 
 ```
-Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)
+CPU usage on app-prod-02 is 96.4%, above the 90% threshold
 ```
 
-If **Message** is empty, or is still Grafana's default multi-line template (it starts with `**Firing**` or `**Resolved**`), Spike falls back in this order:
+If **Message** is empty, or is still Grafana's default multi-line template (it starts with `**Firing**` or `**Resolved**`, or has `Labels:`, `Annotations:` or `Source: http` lines), Spike falls back in this order:
 
 1. The first alert's `annotations.summary`
-2. `commonAnnotations.summary`
-3. The first alert's `annotations.description`
-4. `<alertname> on <where>`, for example `High CPU usage on checkout-api-02`. The alert name is the first alert's `alertname` label, then `commonLabels.alertname`. The place is the `instance` label (first alert, then `commonLabels`), then `grafana_folder`; ` on <where>` is left out when there is none.
-5. When several alerts arrive together and there is no sentence: `4 alerts in Production: High CPU usage, Low disk space +2 more`. It names at most two distinct rules.
-6. `OpsPilot alert with no details`
+2. The first alert's `annotations.description`
+3. `<alertname> on <where>`, for example `High CPU usage on app-prod-02`. The place is the first alert's `instance` label, then its `grafana_folder` label.
+4. When more than one alert is firing and there is no sentence: `2 alerts in Production: High CPU usage, Low disk space`. It names at most two alerts and adds `+K more` for the rest.
+5. `OpsPilot alert with no details` when nothing is usable.
 
-A recovery is titled `<alertname> on <where> resolved`. Spike resolves by fingerprint, so this title may differ from the one the incident opened with. The readings in `values` never appear in a title.
+Every title is capped at 200 characters, however long the values in it are.
+
+A recovery is titled `<alertname> on <where> resolved`. Spike resolves by `groupKey`, so this title may differ from the one the incident opened with. The readings in `values` never appear in a title.
 
 Use a [Title Remapper](../alerts/title-remapper.md) if you want a different title.
 
@@ -101,24 +103,22 @@ The only required field is the **URL**. **Message** only sets the title; the res
 
 ## What OpsPilot sends
 
-Spike reads the following fields. `alerts[].fingerprint`, `status` and `alerts` are the ones that open and resolve incidents; the rest build the title and the incident details.
+The body below is exactly what the webhook contact point sends; Spike reads only the fields in this table. `groupKey`, `status` and `alerts[].status` are the ones that open and resolve incidents.
 
 | Field | Used for |
 | --- | --- |
-| `message` | The incident title |
+| `message` | The incident title, when it is a usable sentence |
 | `status` | `firing` opens or joins an incident, `resolved` closes it and never opens one |
-| `state` | `alerting` when firing, `ok` on recovery (used when `status` is missing) |
-| `alerts` | The grouped alert instances. The number of alerts is the batch count |
-| `alerts[].status` | `firing` or `resolved` for each alert. If the first alert is `resolved`, no new incident is opened |
-| `alerts[].fingerprint` | The stable id of the alert, used to join repeats and to resolve |
-| `groupKey` | Identity fallback when the first alert has no usable fingerprint |
+| `groupKey` | The identity of the alert group, used to join repeats and to resolve |
+| `alerts` | The grouped alert instances. The number of firing alerts is the batch count |
+| `alerts[].status` | `firing` or `resolved` for each alert. In a batch only firing alerts are counted |
 | `alerts[].annotations.summary` | First title fallback |
-| `commonAnnotations.summary` | Second title fallback |
-| `alerts[].annotations.description` | Third title fallback |
+| `alerts[].annotations.description` | Second title fallback |
 | `alerts[].labels.alertname` | The rule name in `<alertname> on <where>` and in batch titles |
-| `commonLabels.alertname` | The rule name when the first alert has none |
-| `alerts[].labels.instance` | The host the alert is about, first choice for `<where>` (present only if the rule's query returns it) |
+| `alerts[].labels.instance` | The host the alert is about, first choice for `<where>` |
 | `alerts[].labels.grafana_folder` | `<where>` when there is no instance, and the group name in a batch title |
+
+Repeats that change only `message`, `title`, `commonAnnotations.summary` or `commonAnnotations.description` join the open incident.
 
 ### Firing example
 
@@ -133,24 +133,27 @@ Spike reads the following fields. `alerts[].fingerprint`, `status` and `alerts` 
       "labels": {
         "alertname": "High CPU usage",
         "grafana_folder": "Production",
-        "instance": "checkout-api-02",
+        "instance": "app-prod-02",
+        "service": "checkout-api",
         "severity": "critical"
       },
       "annotations": {
-        "summary": "Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)",
-        "description": "The FusionReactor agent on checkout-api-02 reports sustained high process CPU."
+        "summary": "CPU usage on app-prod-02 is 96.4%, above the 90% threshold",
+        "description": "checkout-api on app-prod-02 has been above 90% CPU for 5 minutes.",
+        "runbook_url": "https://wiki.example.com/runbooks/high-cpu"
       },
-      "startsAt": "2026-10-13T03:12:00Z",
+      "startsAt": "2026-10-14T03:12:30Z",
       "endsAt": "0001-01-01T00:00:00Z",
-      "generatorURL": "https://app.opspilot.com/alerting/grafana/c1a9e7f2/view",
-      "fingerprint": "8b3a1f0c9d2e4b71",
-      "silenceURL": "https://app.opspilot.com/alerting/silence/new?matcher=alertname%3DHigh+CPU+usage&matcher=instance%3Dcheckout-api-02",
+      "generatorURL": "https://app.fusionreactor.io/alerting/grafana/aez1k9qf/view?orgId=1",
+      "fingerprint": "8f3b2c1d9e0a4f57",
+      "silenceURL": "https://app.fusionreactor.io/alerting/silence/new?alertmanager=grafana&matcher=alertname%3DHigh+CPU+usage&matcher=instance%3Dapp-prod-02",
       "dashboardURL": "",
       "panelURL": "",
       "values": {
-        "A": 94.2,
+        "A": 96.4,
         "C": 1
-      }
+      },
+      "valueString": "[ var='A' labels={instance=app-prod-02} value=96.4 ], [ var='C' labels={instance=app-prod-02} value=1 ]"
     }
   ],
   "groupLabels": {
@@ -160,26 +163,28 @@ Spike reads the following fields. `alerts[].fingerprint`, `status` and `alerts` 
   "commonLabels": {
     "alertname": "High CPU usage",
     "grafana_folder": "Production",
-    "instance": "checkout-api-02",
+    "instance": "app-prod-02",
+    "service": "checkout-api",
     "severity": "critical"
   },
   "commonAnnotations": {
-    "summary": "Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)",
-    "description": "The FusionReactor agent on checkout-api-02 reports sustained high process CPU."
+    "summary": "CPU usage on app-prod-02 is 96.4%, above the 90% threshold",
+    "description": "checkout-api on app-prod-02 has been above 90% CPU for 5 minutes.",
+    "runbook_url": "https://wiki.example.com/runbooks/high-cpu"
   },
-  "externalURL": "https://app.opspilot.com/",
+  "externalURL": "https://app.fusionreactor.io/",
   "version": "1",
-  "groupKey": "{}/{__grafana_receiver__=\"Spike\"}:{alertname=\"High CPU usage\", grafana_folder=\"Production\"}",
+  "groupKey": "{}/{}:{alertname=\"High CPU usage\", grafana_folder=\"Production\"}",
   "truncatedAlerts": 0,
-  "title": "[FIRING:1] High CPU usage Production (checkout-api-02 critical)",
+  "title": "[FIRING:1] High CPU usage Production (app-prod-02 checkout-api critical)",
   "state": "alerting",
-  "message": "Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)"
+  "message": "CPU usage on app-prod-02 is 96.4%, above the 90% threshold"
 }
 ```
 
 ### Recovery example
 
-The same alert with the same `fingerprint`, once it has recovered. Spike resolves the open incident:
+The same alert group with the same `groupKey`, once it has recovered. Spike resolves the open incident and titles the recovery `High CPU usage on app-prod-02 resolved`:
 
 ```json
 {
@@ -192,24 +197,27 @@ The same alert with the same `fingerprint`, once it has recovered. Spike resolve
       "labels": {
         "alertname": "High CPU usage",
         "grafana_folder": "Production",
-        "instance": "checkout-api-02",
+        "instance": "app-prod-02",
+        "service": "checkout-api",
         "severity": "critical"
       },
       "annotations": {
-        "summary": "Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)",
-        "description": "The FusionReactor agent on checkout-api-02 reports sustained high process CPU."
+        "summary": "CPU usage on app-prod-02 is 41.2%, above the 90% threshold",
+        "description": "checkout-api on app-prod-02 has been above 90% CPU for 5 minutes.",
+        "runbook_url": "https://wiki.example.com/runbooks/high-cpu"
       },
-      "startsAt": "2026-10-13T03:12:00Z",
-      "endsAt": "2026-10-13T03:31:00Z",
-      "generatorURL": "https://app.opspilot.com/alerting/grafana/c1a9e7f2/view",
-      "fingerprint": "8b3a1f0c9d2e4b71",
-      "silenceURL": "https://app.opspilot.com/alerting/silence/new?matcher=alertname%3DHigh+CPU+usage&matcher=instance%3Dcheckout-api-02",
+      "startsAt": "2026-10-14T03:12:30Z",
+      "endsAt": "2026-10-14T03:27:30Z",
+      "generatorURL": "https://app.fusionreactor.io/alerting/grafana/aez1k9qf/view?orgId=1",
+      "fingerprint": "8f3b2c1d9e0a4f57",
+      "silenceURL": "https://app.fusionreactor.io/alerting/silence/new?alertmanager=grafana&matcher=alertname%3DHigh+CPU+usage&matcher=instance%3Dapp-prod-02",
       "dashboardURL": "",
       "panelURL": "",
       "values": {
-        "A": 41.7,
+        "A": 41.2,
         "C": 0
-      }
+      },
+      "valueString": "[ var='A' labels={instance=app-prod-02} value=41.2 ], [ var='C' labels={instance=app-prod-02} value=0 ]"
     }
   ],
   "groupLabels": {
@@ -219,25 +227,27 @@ The same alert with the same `fingerprint`, once it has recovered. Spike resolve
   "commonLabels": {
     "alertname": "High CPU usage",
     "grafana_folder": "Production",
-    "instance": "checkout-api-02",
+    "instance": "app-prod-02",
+    "service": "checkout-api",
     "severity": "critical"
   },
   "commonAnnotations": {
-    "summary": "Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)",
-    "description": "The FusionReactor agent on checkout-api-02 reports sustained high process CPU."
+    "summary": "CPU usage on app-prod-02 is 41.2%, above the 90% threshold",
+    "description": "checkout-api on app-prod-02 has been above 90% CPU for 5 minutes.",
+    "runbook_url": "https://wiki.example.com/runbooks/high-cpu"
   },
-  "externalURL": "https://app.opspilot.com/",
+  "externalURL": "https://app.fusionreactor.io/",
   "version": "1",
-  "groupKey": "{}/{__grafana_receiver__=\"Spike\"}:{alertname=\"High CPU usage\", grafana_folder=\"Production\"}",
+  "groupKey": "{}/{}:{alertname=\"High CPU usage\", grafana_folder=\"Production\"}",
   "truncatedAlerts": 0,
-  "title": "[RESOLVED] High CPU usage Production (checkout-api-02 critical)",
+  "title": "[RESOLVED] High CPU usage Production (app-prod-02 checkout-api critical)",
   "state": "ok",
-  "message": "Process CPU on checkout-api-02 has been above 90% for 5 minutes (currently 94%)"
+  "message": "CPU usage on app-prod-02 is 41.2%, above the 90% threshold"
 }
 ```
 
 ## Troubleshooting
 
-* **The title is a rule name, not a sentence.** **Message** is empty or still the default template, and the rule has no `summary` annotation. Set **Message** as in Step 2 or add a `summary` annotation to the rule.
-* **Repeats open new incidents.** Check that the payload carries `alerts[].fingerprint`. Without it Spike matches by title.
-* **The incident does not resolve.** Check that the contact point is set to send resolved notifications (leave **Disable resolved message** off) and that the resolved notification carries the same `fingerprint`.
+* **The title is a rule name, not a sentence.** **Message** is empty or still the default template, and the rule has no `summary` or `description` annotation. Set **Message** as in Step 2 or add a `summary` annotation to the rule.
+* **Repeats open new incidents.** Check that the payload carries a non-empty `groupKey`. Without it Spike matches by title.
+* **The incident does not resolve.** Check that the contact point is set to send resolved notifications (leave **Disable resolved message** off) and that the resolved notification carries the same `groupKey` as the firing one.
