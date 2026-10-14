@@ -129,6 +129,7 @@
 * [Integrate Spike with BugBase](integrations-guideline/integrate-spike-with-bugbase.md)
 * [Integrate Spike with Bugsnag](integrations-guideline/integrate-spike-with-bugsnag.md)
 * [Integrate Spike with Buildkite](integrations-guideline/integrate-spike-with-buildkite.md)
+* [Integrate Spike with Centreon](integrations-guideline/integrate-spike-with-centreon.md)
 * [Integrate Spike with Checkly](integrations-guideline/integrate-spike-with-checkly.md)
 * [Integrate Spike with Checkmk](integrations-guideline/integrate-spike-with-checkmk.md)
 * [Integrate Spike with CloudAMQP](integrations-guideline/integrate-spike-with-cloudamqp.md)
