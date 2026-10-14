@@ -126,7 +126,6 @@
 * [Integrate Spike with Bitbucket Pipelines](integrations-guideline/integrate-spike-with-bitbucket-pipelines.md)
 * [Integrate Spike with Blackfire.io](integrations-guideline/integrate-spike-with-blackfire.md)
 * [Integrate Spike with Blue Triangle](integrations-guideline/integrate-spike-with-blue-triangle.md)
-* [Integrate Spike with BMC Control-M](integrations-guideline/integrate-spike-with-bmc-control-m.md)
 * [Integrate Spike with BugBase](integrations-guideline/integrate-spike-with-bugbase.md)
 * [Integrate Spike with Bugsnag](integrations-guideline/integrate-spike-with-bugsnag.md)
 * [Integrate Spike with Buildkite](integrations-guideline/integrate-spike-with-buildkite.md)
