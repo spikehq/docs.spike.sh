@@ -9,7 +9,7 @@ description: >-
 
 Argo CD Notifications can post to any webhook. Point one at a Spike integration URL and a failed sync or a degraded application pages your on-call rotation, repeats join the incident already open, and the incident resolves itself when Argo CD reports the application healthy and synced.
 
-Nothing is installed in your cluster. The setup is one webhook service, one template and a few triggers in the `argocd-notifications-cm` ConfigMap, plus a subscription on the applications you want to watch.
+Nothing is installed in your cluster. The setup is one webhook service, two templates and two triggers in the `argocd-notifications-cm` ConfigMap, plus a subscription on the applications you want to watch.
 
 ## How Spike reads a notification
 
