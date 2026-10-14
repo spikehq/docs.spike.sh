@@ -131,6 +131,7 @@
 * [Integrate Spike with Buildkite](integrations-guideline/integrate-spike-with-buildkite.md)
 * [Integrate Spike with Checkly](integrations-guideline/integrate-spike-with-checkly.md)
 * [Integrate Spike with Checkmk](integrations-guideline/integrate-spike-with-checkmk.md)
+* [Integrate Spike with ClickStack](integrations-guideline/integrate-spike-with-clickstack.md)
 * [Integrate Spike with CloudAMQP](integrations-guideline/integrate-spike-with-cloudamqp.md)
 * [Integrate Spike with Cloudflare](integrations-guideline/integrate-spike-with-cloudflare.md)
 * [Integrate Spike with CloudQA](integrations-guideline/integrate-spike-with-cloudqa.md)
