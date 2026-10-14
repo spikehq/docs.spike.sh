@@ -22,7 +22,7 @@ Every delivery carries `event_type`, filled from `{{alert.type.eventType}}`, and
 Any other or missing `event_type` opens an incident and never resolves one.
 
 {% hint style="info" %}
-Observe only sends `AlarmConditionEnded` when end notifications are enabled on the action. Without them nothing tells Spike the alarm has cleared and the incident has to be resolved by hand.
+Observe only sends `AlarmConditionEnded` when **Send an update when the monitor has stopped triggering** is on for the action. Without them nothing tells Spike the alarm has cleared and the incident has to be resolved by hand.
 {% endhint %}
 
 ## Incident identity
@@ -71,7 +71,7 @@ Spike reads the top-level `severity` field, filled from `{{alert.severity.level}
 4. Paste the Spike webhook URL into the **URL** field. This field is required.
 5. Set the method to `POST` and add the header `Content-Type: application/json`.
 6. Paste the body from the next section into the **Body** (template) field. This field is required.
-7. Enable **Send end notifications** so Observe sends `AlarmConditionEnded` and Spike can resolve the incident.
+7. Turn on **Send an update when the monitor has stopped triggering** so Observe sends `AlarmConditionEnded` and Spike can resolve the incident.
 8. Save the action.
 
 **Step 3:** Attach the action to your monitors.
@@ -177,7 +177,7 @@ Trigger a test notification from the action in Observe, or send the firing examp
 
 ## Troubleshooting
 
-* **The incident never resolves.** End notifications are off on the action, or the recovery's `alert_id` differs from the opening one.
+* **The incident never resolves.** **Send an update when the monitor has stopped triggering** is off on the action, or the recovery's `alert_id` differs from the opening one.
 * **Every reminder opens a new incident.** `alert_id` is missing or arrives unexpanded, so Spike is matching on the title. Confirm the body above is pasted as written, and keep changing readings out of the monitor title.
 * **The title is the monitor name instead of your sentence.** `monitor.variables.title` is empty on that monitor.
 * **Spike ignores the fields.** Check the body has no top-level `message` field.
