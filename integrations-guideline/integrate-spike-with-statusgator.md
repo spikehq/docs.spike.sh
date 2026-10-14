@@ -42,7 +42,7 @@ The `type` field decides what Spike does.
 | `StatusChange` with any other or missing `status` | Treated as firing: opens or joins. |
 | `EarlyWarningSignal` | Has no `status`. Opens, or joins, the incident for that monitor. It never resolves it. |
 
-`status` is compared exactly after trimming and ignoring case. `maintenance` is treated as firing.
+`status` is compared after trimming and ignoring case. `maintenance` is treated as firing.
 
 {% hint style="info" %}
 An early warning that StatusGator never follows with a `StatusChange` stays open until someone resolves it by hand.
@@ -52,27 +52,27 @@ An early warning that StatusGator never follows with a `StatusChange` stays open
 
 Spike identifies the incident by `monitor.id`, the stable id of your StatusGator monitor. The firing, the early warning and the recovery of one monitor are therefore one incident, and a recovery only closes the incident of the same monitor. The title is for display only.
 
-`monitor.id` counts as an id when it is a non-empty string or a number, and is not an unexpanded template variable such as `$monitor_id` or `{{monitor.id}}`. Without a usable id Spike falls back to matching by title, which is why that shape gets the plain title described below.
+`monitor.id` counts as an id when it is a non-empty string or a finite number, and is not an unexpanded template variable such as `$x`, `${x}`, `{{x}}` or `%x%`. Without a usable id Spike falls back to matching by title, which is why that shape gets the plain title described below.
 
 ## Incident title
 
-With a `monitor.id`, the title is `{message} - {where} {state}`:
+With a `monitor.id`, a firing `StatusChange` is titled `{message} ({where} {level})`:
 
-* Firing: `Elevated Error Rate on ChatGPT - OpenAI down`
-* `status` `warn`: `Increased latency - OpenAI degraded`
-* `status` `maintenance`: `Scheduled database upgrade - OpenAI under maintenance`
-* Missing or unknown `status`: `Elevated Error Rate on ChatGPT - OpenAI status changed`
-* Empty `message`, naming up to two components whose `current_status` is not `up`: `Chat, Images down on OpenAI` or `Chat, Images +2 more down on OpenAI`; with no components, `OpenAI is down`
-* Early warning: `Service outage - possible outage on OpenAI`, or `Possible outage on OpenAI (early warning)` when `summary` is empty
-* Recovery: `OpenAI is back up`
-* No usable `monitor.id`: `OpenAI status alert`, for both firing and recovery
+* `down`: `Elevated Error Rate on ChatGPT (OpenAI down)`
+* `warn`: `Increased latency (OpenAI degraded)`
+* `maintenance`: `Scheduled database upgrade (OpenAI under maintenance)`
+* Missing or unknown `status`: the level is left out, `Elevated Error Rate on ChatGPT (OpenAI)`
+* Empty `message`, naming up to two components whose `current_status` is not `up`: `Chat, Images down on OpenAI` or `Chat, Images +2 more down on OpenAI`; with no such components, `OpenAI is down`
+* Early warning: `Service outage reported for OpenAI (early warning)`, or `Possible outage reported for OpenAI (early warning)` when `summary` is empty
+* Recovery (`status` `up`): `OpenAI is back up`, without the message
+* No usable `monitor.id`: `StatusGator alert for OpenAI`, identical for firing and recovery, because Spike matches these by title
 * Nothing usable in the body: `StatusGator alert with no details`
 
-`where` is `monitor.display_name`, then `service.name`, then `monitor.host`; never a URL or an id. Whitespace is collapsed and titles are capped at 200 characters, shortening the sentence and never the name. A long `message` is cut at its first clause.
+`where` is the first non-empty of `monitor.display_name`, `service.name` and `monitor.host`, else `StatusGator monitor`. Titles never hold ids, URLs or timestamps. Whitespace is collapsed and titles are capped at 200 characters; to fit, the sentence is cut and the parenthesised name and level are kept whole.
 
 ## Fields
 
-Required: `type` and `monitor.id`. `status` is required to resolve; without it a `StatusChange` is treated as firing.
+Required: `type` and `monitor.id`. `status` is required to resolve; without it a `StatusChange` is treated as firing. `StatusChange` with `up` and nothing open is dropped; it never opens an incident.
 
 Read when present: `message`, `summary` (early warnings), `monitor.display_name`, `service.name`, `monitor.host`, `component_status_changes[].name` and `component_status_changes[].current_status`.
 
@@ -85,7 +85,7 @@ Everything else in the body is kept on the incident page.
 ```json
 {
   "type": "StatusChange",
-  "recorded_at": "2026-10-13T02:20:45Z",
+  "recorded_at": "2026-10-14T03:12:08Z",
   "service": {
     "id": "OUQJLhNcSb",
     "name": "OpenAI",
@@ -108,17 +108,11 @@ Everything else in the body is kept on the incident page.
   "status": "down",
   "previous_status": "up",
   "message": "Elevated Error Rate on ChatGPT",
-  "details": "We have identified that users are experiencing elevated errors for the impacted services. We are working on implementing a mitigation.",
+  "details": "We are investigating elevated error rates for ChatGPT requests. Some users may see failed or slow responses.",
   "component_status_changes": [
     {
       "group_name": "APIs",
       "name": "Chat",
-      "last_status": "up",
-      "current_status": "down"
-    },
-    {
-      "group_name": "APIs",
-      "name": "Images",
       "last_status": "up",
       "current_status": "down"
     }
@@ -131,7 +125,7 @@ Everything else in the body is kept on the incident page.
 ```json
 {
   "type": "StatusChange",
-  "recorded_at": "2026-10-13T03:05:12Z",
+  "recorded_at": "2026-10-14T04:05:51Z",
   "service": {
     "id": "OUQJLhNcSb",
     "name": "OpenAI",
@@ -154,17 +148,11 @@ Everything else in the body is kept on the incident page.
   "status": "up",
   "previous_status": "down",
   "message": "Elevated Error Rate on ChatGPT",
-  "details": "This incident has been resolved.",
+  "details": "This incident has been resolved. ChatGPT error rates have returned to normal.",
   "component_status_changes": [
     {
       "group_name": "APIs",
       "name": "Chat",
-      "last_status": "down",
-      "current_status": "up"
-    },
-    {
-      "group_name": "APIs",
-      "name": "Images",
       "last_status": "down",
       "current_status": "up"
     }
