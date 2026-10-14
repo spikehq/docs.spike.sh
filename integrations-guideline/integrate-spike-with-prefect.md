@@ -83,16 +83,16 @@ If your Prefect version does not show on-resolve actions in the automation form,
 
 All fields are required to be present. `alert_id` and `status` decide whether the incident is opened, joined or resolved; `automation`, `flow`, `flow_run` and `state_message` build the title; `state`, `event`, `url` and `occurred` are shown on the incident.
 
-Write `state_message` exactly as shown, without quotes around it: the `tojson` filter adds them and writes `null` when Prefect has no message.
+Write `automation`, `flow`, `flow_run` and `state_message` exactly as shown, without quotes around them: the `tojson` filter adds the quotes and escapes any quote or backslash in a name, so the body stays valid JSON (a name such as `Nightly "warehouse" ETL late` would otherwise break it and Spike would reject the request). For `state_message` it also writes `null` when Prefect has no message.
 
 ```json
 {
   "alert_id": "{{ automation.id }}:{{ event.resource.id }}",
   "status": "Triggered",
-  "automation": "{{ automation.name }}",
+  "automation": {{ automation.name | tojson }},
   "event": "{{ event.event }}",
-  "flow": "{{ flow.name }}",
-  "flow_run": "{{ flow_run.name }}",
+  "flow": {{ flow.name | tojson }},
+  "flow_run": {{ flow_run.name | tojson }},
   "state": "{{ flow_run.state.name }}",
   "state_message": {{ flow_run.state.message | tojson }},
   "url": "{{ flow_run|ui_url }}",
