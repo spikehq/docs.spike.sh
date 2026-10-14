@@ -240,7 +240,7 @@ Always subscribe the recovery trigger with the failure triggers. Without `on-spi
 
    ```bash
    argocd admin notifications template notify spike-firing checkout-prod \
-     --recipient webhook:spike
+     --recipient spike
    ```
 
 2. Check the incident that opens in Spike. Its page shows the application name, UID, phase and health status.
