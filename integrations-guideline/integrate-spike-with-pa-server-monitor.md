@@ -60,8 +60,8 @@ In Spike, go to **Integrations → Add integration → PA Server Monitor**, atta
 ## Step 2 — Create the alert action
 
 1. In the PA Server Monitor console, open **Actions** and add a new action of type **Call URL**. Name it, for example, `Spike - alert`.
-2. Set the **URL** to the webhook URL from Step 1 and the method to **POST**.
-3. Set the content type to `application/json` and the body to the template below. Keep the field names exactly as written.
+2. Set the **URL** to the webhook URL from Step 1 and select **Custom POST**, with `application/json` as the encoding. Plain **POST** sends name/value pairs as a form post and cannot carry this body.
+3. Paste the template below into the **Parameters** section. Keep the field names exactly as written.
 4. Save the action.
 
 ```json
@@ -107,7 +107,7 @@ PA Server Monitor documents no JSON escaping. A backslash in an expanded value (
 {% endhint %}
 
 {% hint style="info" %}
-Spike has not seen a captured payload from PA Server Monitor. The body above is Spike's template built from PA Server Monitor's documented variables, so check the first real alert on the incident page, including that `details` and the Call URL body options match what your PA Server Monitor version offers.
+Spike has not seen a captured payload from PA Server Monitor. The body above is Spike's template built from PA Server Monitor's documented variables, so check the first real alert on the incident page, including that `details` expands as expected in your PA Server Monitor version.
 {% endhint %}
 
 ## Step 3 — Attach the action to your monitors
@@ -121,7 +121,7 @@ Spike has not seen a captured payload from PA Server Monitor. The body above is 
 
 A recovery is a second action with the same URL, method and body, run when the monitor is fixed.
 
-1. Add another **Call URL** action, for example `Spike - recovery`, with the same URL, **POST** and body as Step 2.
+1. Add another **Call URL** action, for example `Spike - recovery`, with the same URL, **Custom POST** (`application/json`) and body as Step 2.
 2. On each monitor, add `Spike - recovery` to its **Resolved/Fixed Actions**. `$Status$` should then expand to `msOK` and `$StatusText$` to `OK`.
 
 {% hint style="info" %}
@@ -188,7 +188,7 @@ Spike keeps the whole body on the incident, so [alert rules](../alerts/alert-rul
 
 <summary>Nothing arrives in Spike</summary>
 
-Check that the URL is the full webhook URL with nothing appended, that the action is set to POST with a JSON body, and that the monitor's Error actions include the Spike action. If the body is not valid JSON (a backslash or double quote in a title or message), Spike cannot read it. Also check that the integration is not archived in Spike.
+Check that the URL is the full webhook URL with nothing appended, that the action is set to **Custom POST** with `application/json` and the JSON template in Parameters, and that the monitor's Error actions include the Spike action. If the body is not valid JSON (a backslash or double quote in a title or message), Spike cannot read it. Also check that the integration is not archived in Spike.
 
 </details>
 
