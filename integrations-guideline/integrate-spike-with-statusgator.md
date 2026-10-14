@@ -25,6 +25,14 @@ Enter the Spike webhook URL and **Save**. StatusGator documents no signing or au
 
 **Step 3**
 
+Set the webhook's payload schema to **v3.0**. Spike reads only the v3.0 fields (`type`, `monitor`, `service`, `status`). The v2.0 schema has no `type` and no `monitor`, so its deliveries all get the title `StatusGator alert with no details`, are not told apart by monitor and never auto resolve.
+
+**Step 4**
+
+Choose which statuses notify. Keep **up** enabled: it is the status that resolves the incident, so without it incidents stay open until someone resolves them by hand. Enable **down** and **warn** to open incidents. If you also enable **maintenance**, a maintenance window opens an incident too.
+
+**Step 5**
+
 Send a test notification from the webhook's page in StatusGator. A real status change then opens, joins or resolves incidents as described below.
 
 {% hint style="info" %}
@@ -63,6 +71,7 @@ With a `monitor.id`, a firing `StatusChange` is titled `{message} ({where} {leve
 * `maintenance`: `Scheduled database upgrade (OpenAI under maintenance)`
 * Missing or unknown `status`: the level is left out, `Elevated Error Rate on ChatGPT (OpenAI)`
 * Empty `message`, naming up to two components whose `current_status` is not `up`: `Chat, Images down on OpenAI` or `Chat, Images +2 more down on OpenAI`; with no such components, `OpenAI is down`
+* Unknown or missing `status` with an empty `message`: `Chat changed on OpenAI` (components named) or `OpenAI status changed`
 * Early warning: `Service outage reported for OpenAI (early warning)`, or `Possible outage reported for OpenAI (early warning)` when `summary` is empty
 * Recovery (`status` `up`): `OpenAI is back up`, without the message
 * No usable `monitor.id`: `StatusGator alert for OpenAI`, identical for firing and recovery, because Spike matches these by title
