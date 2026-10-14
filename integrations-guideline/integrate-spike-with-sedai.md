@@ -10,7 +10,7 @@ description: >-
 Point that webhook at a Spike integration URL and an alert from Sedai pages your on-call rotation when it fires. The incident resolves itself when Sedai sends the same alert again with a `status` of `RESOLVED`.
 
 {% hint style="warning" %}
-Sedai does not publish a webhook schema. The body below is the shape Spike reads, based on a third-party guide that calls its examples representative. Send a test from Sedai and check the incident in Spike before you rely on it for paging.
+Sedai does not publish a webhook schema. The body below is the shape Spike reads, based on a third-party guide that calls its examples representative. Trigger an alert, or use a test option if Sedai offers one, and check the incident in Spike before you rely on it for paging.
 {% endhint %}
 
 ## Set up instructions
@@ -23,17 +23,19 @@ Sedai does not publish a webhook schema. The body below is the shape Spike reads
 
 **Step 2:** Add a webhook integration in Sedai.
 
-* In Sedai, go to **Settings → Integrations → Add Integration → Notifications** and choose **Webhook**.
-* Paste the Spike webhook URL from Step 1 into the webhook URL field.
-* Set the method to `POST` and the format to JSON, not YAML. Spike cannot read a YAML body. Leave any other fields at their defaults.
+* In Sedai, go to **Settings → Integrations**, click **Add Integration**, select **Notifications** and choose **Webhook**.
+* In **Name**, enter a name you will recognise, such as `Spike`.
+* Paste the Spike webhook URL from Step 1 into the **URL** field.
+* Set the method to `POST` and the format to JSON, not YAML. Spike cannot read a YAML body.
 * Save the integration.
 
 **Step 3:** Subscribe the integration to alerts in Sedai.
 
 * Go to **Settings → Notifications**.
-* For each notification category you want in Spike, choose the webhook integration from Step 2 in the dropdown.
+* Select a notification category to see its alerts, and choose the webhook integration from Step 2 in the dropdown.
+* Subscribe only the availability categories. Optimization and remediation notifications may carry no `status`, so Spike would open an incident for each one and nothing would resolve it.
 
-**Step 4:** Send a test, then check in Spike that the incident has an `eventId` and `status` as shown below. Sedai does not let you edit the body it sends, so if a field is missing, see Troubleshooting.
+**Step 4:** Trigger an alert, or use a test option if Sedai offers one, then check in Spike that the incident's payload has an `eventId` and a `status` as shown below. If a field is missing, see Troubleshooting.
 
 ## What Sedai sends
 
@@ -85,15 +87,15 @@ When the alert recovers, the same `eventId` comes back with a `status` of `RESOL
 | `message` | Recommended | Sedai's sentence about what is wrong. It becomes the incident title when `eventId` is present. It is left out of the title when there is no `eventId`. |
 | `title` | Recommended | The alert's name. Used in the title when `message` is empty or there is no `eventId`. |
 | `resource.name` | Recommended | The affected service, workload or host. Added to the title as ` on {resource.name}`. |
-| `eventType` | No | Only used in the last-resort title `Sedai {eventType} alert on {resource.name}`. |
-| `severity` | No | Kept on the incident and used for its priority. Never part of the title. |
+| `eventType` | No | Only used in the last-resort title `Sedai {eventType} alert on {resource.name}`, and only together with `resource.name`. |
+| `severity` | No | Lifted onto the incident as its severity when the incident opens (`CRITICAL` → sev1, `INFO` → sev3). Never part of the title. |
 | `resource.type`, `resource.region`, `timestamp`, `link`, `resolvedAt` | No | Kept on the incident for context. |
 
 ## Incident identity
 
 Spike identifies the incident by `eventId`. Sedai repeats it on the recovery, so one alert reads as one incident: it pages once, repeats join it, and the `RESOLVED` body resolves it.
 
-If a body has no usable `eventId`, Spike matches by title instead, so the title is built only from `title` and `resource.name` and is the same on firing and recovery. `message` is never used on that path.
+If a body has no usable `eventId`, Spike matches by title instead, so the title is built only from `title`, `resource.name` and `eventType` (see below) and is the same on firing and recovery. `message` is never used on that path.
 
 ## Incident title
 
@@ -103,7 +105,14 @@ With an `eventId`, the title is Sedai's `message` with whitespace collapsed, plu
 Error rate for checkout-api exceeded the 5% threshold
 ```
 
-If `message` is empty, the title is built from what is there: `{title} on {resource.name}`, then `{title}`, then `Sedai {eventType} alert on {resource.name}`, then `Sedai alert with no details`.
+If `message` is empty, the title is the first of these that the body has the fields for:
+
+1. `{title} on {resource.name}`
+2. `{title}`
+3. `Sedai {eventType} alert on {resource.name}`
+4. `Sedai alert with no details`
+
+So a body with only an `eventType`, or only a `resource.name`, is titled `Sedai alert with no details`.
 
 A recovery gets the same title with `[RESOLVED] ` in front:
 
@@ -111,7 +120,7 @@ A recovery gets the same title with `[RESOLVED] ` in front:
 [RESOLVED] Error rate for checkout-api has returned to normal levels
 ```
 
-A body with no `eventId` always gets `{title} on {resource.name}`, for example `High Error Rate Detected on checkout-api`, whatever its `message` says. Its recovery is `[RESOLVED] {title} on {resource.name}` and closes the incident by status alone.
+A body with no `eventId` always gets the title from that same list, starting at `{title} on {resource.name}`, for example `High Error Rate Detected on checkout-api`, whatever its `message` says. Its recovery gets the same title with `[RESOLVED] ` in front, and closes the incident by status alone.
 
 The title is at most 200 characters, `[RESOLVED] ` and the resource included. The resource name is never cut; the sentence is shortened at a word boundary and ends in `...`.
 
