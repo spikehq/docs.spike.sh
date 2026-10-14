@@ -294,10 +294,11 @@ Create two rules under **Configuration** > **Automation** > **Create** > **Autom
 
 1. **Name**: `Spike: incident closed`.
 2. **Trigger**: `When incident is updated`.
-3. **Actions**: `Run playbook`, then select the same playbook.
-4. Select **Apply**.
+3. **Conditions**: select **Add** > **Condition (And)**, then set **Status** to **Changed**.
+4. **Actions**: `Run playbook`, then select the same playbook.
+5. Select **Apply**.
 
-Leave the conditions empty so that closes and reopens are both sent. Other updates, such as a new owner or comment, are sent too and join the open Spike incident without paging again.
+The condition sends a notification only when the status changes, so both a close and a reopen reach Spike. If you remove the condition, other updates such as a new owner or comment are sent too and join the open Spike incident without paging again.
 
 {% hint style="info" %}
 Both rules run the same playbook. You do not need a separate one for closing: the incident's `status` in the body tells Spike whether to open or resolve. In the Defender portal, several changes made within 5 to 10 minutes can arrive as a single update.
