@@ -10,12 +10,12 @@ description: >-
 Send each NVADR issue to a Spike integration URL and an open issue pages your on-call rotation, while closing the issue, or marking it `WON'T FIX`, resolves the incident.
 
 {% hint style="warning" %}
-NVADR does not document a generic outbound webhook. Its notification destinations are Slack, Email, Jira, the Issue Tracker and PagerDuty. To reach Spike you run a small forwarder of your own (a script, a workflow tool or a serverless function) that reads an NVADR issue and POSTs the body below to your Spike URL. The body is defined by Spike, not captured from NVADR, so the field names are ones you map to in your forwarder.
+NVADR does not document a generic outbound webhook. Its notification destinations are Slack, Email, Jira, PagerDuty, [Datadog](https://docs.redhuntlabs.com/docs/integrations/integrating-with-datadog) and its own Issue Tracker. To reach Spike you run a small forwarder of your own (a script, a workflow tool or a serverless function) that reads an NVADR issue and POSTs the body below to your Spike URL. The body is defined by Spike, not captured from NVADR, so the field names are ones you map to in your forwarder.
 {% endhint %}
 
 ## Prerequisites
 
-* An NVADR account with access to the **Issue Tracker** and to **Settings → Integrations & API**, where you create a Public API key
+* An NVADR account with access to the **Issue Tracker** and to **Settings → Integrations & API**, where your organisation's Public API key lives
 * An NVADR integration in Spike and its webhook URL
 * A place to run a small forwarder (a script on a schedule, a workflow tool or a serverless function) that can call `https://api.redhuntlabs.com` and POST to `hooks.spike.sh`. NVADR has no trigger that calls a URL when an issue changes, so the forwarder polls for changes
 
@@ -27,26 +27,35 @@ In Spike, go to **Integrations → Add integration → NVADR (RedHunt Labs)**, a
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-## Step 2 — Create an NVADR Public API key
+## Step 2 — Get your NVADR Public API key
 
-1. Sign in to NVADR and go to **Settings → Integrations & API**.
-2. Create a Public API key and copy it. Store it as a secret in your forwarder; it is sent in the `x-api-key` header.
+1. Sign in to NVADR, go to **Settings → Integrations & API** and scroll to the **Public API** section.
+2. If a key is already shown, copy it and use that one. Click **Generate** only when there is no key yet. Store the key as a secret in your forwarder; it is sent in the `x-api-key` header.
 3. Open **Issue Tracker** and look at an issue. Note its **ID**, **Status**, **Priority** and **Assignee**, and the risk, asset, severity and category it was raised on, so you can recognise them in the API response.
+
+{% hint style="warning" %}
+NVADR gives each organisation a single API key, shared by everyone in it. **Regenerate** and **Delete** revoke that key, so they break every other script, SIEM or tool that already uses it. Reuse the existing key rather than regenerating it for Spike.
+{% endhint %}
 
 ## Step 3 — Run a forwarder that sends changes to Spike
 
-NVADR does not push issues anywhere, so your forwarder polls the Issue Tracker API on a schedule, for example every 5 minutes:
+NVADR does not push issues anywhere, so your forwarder polls the Issue Tracker API on a schedule, for example every 5 minutes. The API returns at most 100 issues per request. When there are more, the response carries a `next_page` value, and you ask for that page with the `page` parameter:
 
 ```bash
 curl -s -H "x-api-key: $NVADR_API_KEY" https://api.redhuntlabs.com/api/v1/issue-tracker/
+curl -s -H "x-api-key: $NVADR_API_KEY" "https://api.redhuntlabs.com/api/v1/issue-tracker/?page=$NEXT_PAGE"
 ```
 
 On each run the forwarder should:
 
-1. Read the list of issues from the response.
+1. Fetch every page. Request the first page, then keep requesting `?page=<next_page>` with the value from the last response until a response has no `next_page`. The API is rate-limited and answers `429 Too Many Requests` when it is called too fast (RedHunt does not publish the limits). On a 429, wait and retry the same page with a growing delay (for example 5, 10, then 20 seconds). If it still fails, stop this run without sending or storing anything, and let the next run start again.
 2. Compare each issue's `status` with what it stored on the previous run, keyed by the issue `id`. Store these between runs in a file or small database.
 3. For every issue that is new or whose status changed, map the response fields onto the body below and POST it to your Spike webhook URL with `Content-Type: application/json`. Send one issue per request.
 4. Store the new status only after Spike accepts the POST, so a failed request is retried on the next run.
+
+{% hint style="warning" %}
+**Seed the stored state on the first run.** On a first run every issue already in NVADR looks new, so step 3 would page your rotation once for each open issue, all at once. Run the forwarder once in a mode that fetches every page and stores each issue's `id` and `status` without POSTing anything. From then on only issues that are created or change status after setup reach Spike.
+{% endhint %}
 
 {% hint style="info" %}
 The key names in NVADR's list response are not documented with an example. `id`, `status`, `priority` and `assignee` match NVADR's Update Issue request. Check the others (`title`, `asset`, `severity`, `category`, `first_seen`, `last_seen`) against a real response from your account and map them to the body's names.
@@ -88,7 +97,7 @@ When the issue is closed, send the same body with `status` changed (and the curr
 
 | Field | Required | Meaning |
 | --- | --- | --- |
-| `id` | Yes | The NVADR Issue Tracker issue id, a number or a string. It is the same on every delivery about one issue and is how Spike matches them. Never in the title. |
+| `id` | Yes | The NVADR Issue Tracker issue id, a number or a string. It is the same on every delivery about one issue and is how Spike matches them. Without it a `CLOSED` or `WON'T FIX` cannot resolve the incident. Never in the title. |
 | `status` | Yes | `OPEN`, `IN PROGRESS`, `WON'T FIX` or `CLOSED`. Case, underscores and the apostrophe do not matter, so `In_Progress` and `WONT_FIX` work. |
 | `title` | Recommended | The risk name, such as `Exposed Git Repository`. |
 | `asset` | Recommended | The host, IP or URL the risk was found on. A URL is shown as its host (and port) only. |
@@ -107,13 +116,15 @@ A value left as an unexpanded template variable (`$id`, `${id}`, `{{id}}`, `%id%
 | --- | --- | --- |
 | `OPEN` | Opens an incident | Joins it, no new page |
 | `IN PROGRESS` | Opens an incident, because the risk is still live | Joins it |
-| `CLOSED` | Dropped | Resolves it |
-| `WON'T FIX` | Dropped | Resolves it |
+| `CLOSED` | Dropped | Resolves it when the body carries the same `id` |
+| `WON'T FIX` | Dropped | Resolves it when the body carries the same `id` |
 | missing or unknown | Treated as firing | Treated as firing, never resolves |
+
+A `CLOSED` or `WON'T FIX` body resolves an incident only when both it and the incident carry the same `id`. Without an `id` it joins the incident and leaves it open for someone to resolve by hand.
 
 ## Incident identity
 
-Spike identifies the incident by `id`, so the title is display only. A repeat that changes only `last_seen`, `priority` or `assignee` joins the open incident instead of paging again. Two different issues with different ids are two incidents. A body with no usable `id` falls back to matching on the title, which is built to stay identical across deliveries.
+Spike identifies the incident by `id`, so the title is display only. A repeat that changes only `last_seen`, `priority` or `assignee` joins the open incident instead of paging again. Two different issues with different ids are two incidents. A body with no usable `id` falls back to matching on the title, which is built to stay identical across deliveries. Titles can be shared by different issues (two paths on one host show the same host, and an issue without a `title` reads `NVADR security risk on <host>`), so a body without an `id` never resolves an incident. Always send the `id`.
 
 ## Incident title
 
@@ -135,9 +146,10 @@ When a part is missing the title falls back in this order:
 * No recognised severity: `Exposed Git Repository on staging.acme-corp.com`
 * No asset: `[Critical] Exposed Git Repository`
 * No `title`: `[High] NVADR security risk on 203.0.113.24` (the `category` lower-cased, or `NVADR issue` without it)
+* A GROUPED-mode ticket title, `<asset> - <severity>` such as `staging.acme-corp.com - Critical`, names no risk and repeats the severity, so when its `<asset>` is the body's `asset` host it counts as no `title`: `[Critical] NVADR security risk on staging.acme-corp.com`
 * Neither `title` nor `asset`: `NVADR issue with no details`
 
-` on {asset}` is left out when the title already names that host. Whitespace is collapsed, and the whole title is capped at 200 characters: the severity bracket and the asset host are kept whole and the `title` is cut at a word boundary with `...`. The id, priority, assignee, `first_seen` and `last_seen` are never in the title.
+` on {asset}` is left out when the title already names that host as a whole word. Whitespace is collapsed, and the whole title is capped at 200 characters: the severity bracket and the asset host are kept whole and the `title` is cut at a word boundary with `...`. The id, priority, assignee, `first_seen` and `last_seen` are never in the title.
 
 Use a [Title Remapper](../alerts/title-remapper.md) if you would rather read incidents another way.
 
