@@ -33,7 +33,7 @@ Recoveries exist only for Prometheus alerts. Findings that come from the Kuberne
 Spike identifies the incident by `fingerprint`. For Prometheus alerts that is the Alertmanager alert fingerprint; for everything else Robusta derives it from the subject, `source` and `aggregation_key`. Both are stable, so a firing alert that keeps re-notifying stays one incident, and its recovery finds that same incident. The same rule on two pods has two fingerprints and is two incidents.
 
 {% hint style="warning" %}
-Robusta cuts the body at `size_limit` (default 4096 bytes) by dropping keys, `enrichments` first. We have not confirmed whether `fingerprint` can be dropped when the title or description is very long, so treat a large body as a risk. Without a `fingerprint`, Spike falls back to matching on the incident title, and a recovery can no longer reliably resolve the incident. Raise `size_limit` in the sink (Step 2) if your findings are large.
+Robusta fits the body into `size_limit` (default 4096 bytes) by adding keys in a fixed order: `title`, `description`, `cluster_name`, `account_id`, `severity`, `source`, `finding_type`, `aggregation_key`, `failure`, `fingerprint`, then the timestamps and ids, `subject`, `links` and `enrichments`. It stops at the first key that does not fit and drops that key and every key after it. So a long `title` or `description` drops `fingerprint`, `subject` and everything that follows them. Without a `fingerprint`, Spike matches on `title`, so findings with the same `title` (for a Prometheus alert, its `summary` annotation) merge into one incident, even when they are about different pods. Set `size_limit: 16384` in the sink (Step 2) so the whole finding fits.
 {% endhint %}
 
 ## How incidents are titled
@@ -44,10 +44,10 @@ Robusta's `description` is its own sentence about the fault, so whenever it is n
 Pod payments/checkout-api-7d9f8b6c5-x2k4p (checkout-api) is in waiting state (reason: "CrashLoopBackOff").
 ```
 
-For Prometheus alerts Robusta appends a `LABELS = map[...]` tail to the description; Spike removes it. When `description` is `null` or empty, which happens for some native Kubernetes findings, Spike falls back in this order:
+Some Prometheus rules template the alert's labels into their `description` annotation, which renders as a `LABELS = map[...]` tail. Robusta strips that tail before it sends the finding; if part of it is left over, Spike removes it. When `description` is `null` or empty, which happens for some native Kubernetes findings, Spike falls back in this order:
 
 1. `title`, with a leading `[RESOLVED] ` removed. For example `Pod checkout-api is crash looping`.
-2. `aggregation_key on subject.namespace/subject.name in cluster_name`, for example `KubePodCrashLooping on payments/checkout-api-7d9f8b6c5-x2k4p in prod-us-east-1`. The namespace is left out when it is `null`, and each part is left out when it is missing.
+2. `aggregation_key on subject.namespace/subject.name in cluster_name`, for example `KubePodCrashLooping on payments/checkout-api-7d9f8b6c5-x2k4p in prod-us-east-1`. The namespace is left out when it is `null`, and the resource and cluster are each left out when they are missing. Without an `aggregation_key` this step is skipped.
 3. `Robusta alert with no details`.
 
 A recovery gets this title instead:
@@ -62,7 +62,7 @@ When the body has no usable `fingerprint`, Spike matches by title instead, so it
 
 ## Severity
 
-Spike takes the incident severity from the payload's `severity` keys before alert rules run. A Robusta body has two: Robusta's own `severity` (`LOW`, `HIGH`, and so on) and, for Prometheus alerts, the alert's `severity` label at `subject.labels.severity` (such as `warning` or `critical`). When both are present the Prometheus label wins, so the severity Spike uses, and the value an [alert rule](../alerts/alert-rules.md) sees as `severity`, is the label's. The example body carries no `severity` label, so there Robusta's `LOW` is used.
+Spike takes the incident severity from the payload's `severity` keys before alert rules run. A Robusta body has two: Robusta's own `severity` (`HIGH`, `LOW`, `INFO` or `DEBUG`) and, for Prometheus alerts, the alert's `severity` label at `subject.labels.severity` (such as `warning` or `critical`), because Robusta copies the alert's labels and annotations into `subject.labels` and `subject.annotations`. When both are present the Prometheus label wins, so the severity Spike uses, and the value an [alert rule](../alerts/alert-rules.md) sees as `severity`, is the label's. In the example below the label is `warning`, which Robusta reports as `LOW`, and the incident gets **SEV2**; a `critical` label gives **SEV1**. If `size_limit` cut `subject` from the body, only Robusta's own value is left: `HIGH` gives SEV1, and `LOW`, `INFO` and `DEBUG` give SEV3.
 
 To route or suppress by severity, write the rule on the label values (`warning`, `critical`). Rules that match `HIGH` or `LOW` only match findings that carry no Prometheus `severity` label, such as native Kubernetes findings. Robusta's original value stays in the body on the incident page. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
@@ -98,8 +98,8 @@ sinksConfig:
 | --- | --- |
 | `name` | Required. Anything you will recognise, such as `spike_sink` |
 | `url` | Required. The full Spike webhook URL from Step 1, including `/push-events` |
-| `format` | Set to `json`, so Robusta posts one flat JSON object per finding, as shown in the payload reference |
-| `size_limit` | Optional. Maximum body size in bytes; default 4096. Robusta drops keys to fit, so raise it if your findings are large |
+| `format` | Required: `json`, so Robusta posts one flat JSON object per finding, as shown in the payload reference. Robusta's default is `text`, a plain-text body Spike cannot read: every finding would arrive with no details and land on one incident |
+| `size_limit` | Recommended: `16384`. Maximum body size in bytes; default 4096. Robusta drops the first key that does not fit and every key after it, `fingerprint` included |
 
 Keep your existing sinks in the list; add this one next to them.
 
@@ -120,7 +120,7 @@ Wait for the next alert Robusta forwards, or post a test finding by hand. A firi
 ```bash
 curl -X POST "https://hooks.spike.sh/<your-token>/push-events" \
   -H "Content-Type: application/json" \
-  -d '{"title": "Pod is crash looping.", "description": "Pod payments/checkout-api-7d9f8b6c5-x2k4p (checkout-api) is in waiting state (reason: \"CrashLoopBackOff\").", "cluster_name": "prod-us-east-1", "account_id": "6f1c2a9e-4b7d-4e2a-9c3f-1d8e5b7a0c42", "severity": "LOW", "source": "PROMETHEUS", "finding_type": "ISSUE", "aggregation_key": "KubePodCrashLooping", "failure": true, "fingerprint": "a1f3c9e27b4d6058", "category": null, "service_key": null, "creation_date": "2026-10-14T03:12:41.118205", "investigate_uri": null, "add_silence_url": true, "starts_at": "2026-10-14T03:02:11.402000+00:00", "ends_at": null, "id": "3b9e6d1a-7c2f-4e58-9a01-5d4b8e2f6c13", "service": null, "subject": {"name": "checkout-api-7d9f8b6c5-x2k4p", "kind": "pod", "namespace": "payments", "node": "ip-10-0-3-17.ec2.internal", "container": "checkout-api", "labels": {"app": "checkout-api", "pod-template-hash": "7d9f8b6c5"}, "annotations": {}}, "links": [], "enrichments": []}'
+  -d '{"title": "Pod is crash looping.", "description": "Pod payments/checkout-api-7d9f8b6c5-x2k4p (checkout-api) is in waiting state (reason: \"CrashLoopBackOff\").", "cluster_name": "prod-us-east-1", "account_id": "6f1c2a9e-4b7d-4e2a-9c3f-1d8e5b7a0c42", "severity": "LOW", "source": "PROMETHEUS", "finding_type": "ISSUE", "aggregation_key": "KubePodCrashLooping", "failure": true, "fingerprint": "a1f3c9e27b4d6058", "starts_at": "2026-10-14T03:02:11.402000+00:00", "ends_at": null, "id": "3b9e6d1a-7c2f-4e58-9a01-5d4b8e2f6c13", "category": null, "service": null, "service_key": "", "creation_date": null, "investigate_uri": "https://platform.robusta.dev/graphs", "add_silence_url": true, "subject": {"name": "checkout-api-7d9f8b6c5-x2k4p", "kind": "pod", "namespace": "payments", "node": "ip-10-0-3-17.ec2.internal", "container": "checkout-api", "labels": {"app": "checkout-api", "pod-template-hash": "7d9f8b6c5", "alertname": "KubePodCrashLooping", "container": "checkout-api", "job": "kube-state-metrics", "namespace": "payments", "pod": "checkout-api-7d9f8b6c5-x2k4p", "reason": "CrashLoopBackOff", "severity": "warning"}, "annotations": {"description": "Pod payments/checkout-api-7d9f8b6c5-x2k4p (checkout-api) is in waiting state (reason: \"CrashLoopBackOff\").", "runbook_url": "https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubepodcrashlooping", "summary": "Pod is crash looping."}}, "links": [], "enrichments": []}'
 ```
 
 The same body, formatted, is in the payload reference below. For the recovery, send the second body.
@@ -141,15 +141,15 @@ Robusta posts `application/json`, one finding per request. A firing alert looks 
   "aggregation_key": "KubePodCrashLooping",
   "failure": true,
   "fingerprint": "a1f3c9e27b4d6058",
-  "category": null,
-  "service_key": null,
-  "creation_date": "2026-10-14T03:12:41.118205",
-  "investigate_uri": null,
-  "add_silence_url": true,
   "starts_at": "2026-10-14T03:02:11.402000+00:00",
   "ends_at": null,
   "id": "3b9e6d1a-7c2f-4e58-9a01-5d4b8e2f6c13",
+  "category": null,
   "service": null,
+  "service_key": "",
+  "creation_date": null,
+  "investigate_uri": "https://platform.robusta.dev/graphs",
+  "add_silence_url": true,
   "subject": {
     "name": "checkout-api-7d9f8b6c5-x2k4p",
     "kind": "pod",
@@ -158,9 +158,20 @@ Robusta posts `application/json`, one finding per request. A firing alert looks 
     "container": "checkout-api",
     "labels": {
       "app": "checkout-api",
-      "pod-template-hash": "7d9f8b6c5"
+      "pod-template-hash": "7d9f8b6c5",
+      "alertname": "KubePodCrashLooping",
+      "container": "checkout-api",
+      "job": "kube-state-metrics",
+      "namespace": "payments",
+      "pod": "checkout-api-7d9f8b6c5-x2k4p",
+      "reason": "CrashLoopBackOff",
+      "severity": "warning"
     },
-    "annotations": {}
+    "annotations": {
+      "description": "Pod payments/checkout-api-7d9f8b6c5-x2k4p (checkout-api) is in waiting state (reason: \"CrashLoopBackOff\").",
+      "runbook_url": "https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubepodcrashlooping",
+      "summary": "Pod is crash looping."
+    }
   },
   "links": [],
   "enrichments": []
@@ -181,15 +192,15 @@ The recovery has the same `fingerprint`, a `[RESOLVED] ` prefix on `title`, and 
   "aggregation_key": "KubePodCrashLooping",
   "failure": true,
   "fingerprint": "a1f3c9e27b4d6058",
-  "category": null,
-  "service_key": null,
-  "creation_date": "2026-10-14T03:41:07.553912",
-  "investigate_uri": null,
-  "add_silence_url": true,
   "starts_at": "2026-10-14T03:02:11.402000+00:00",
   "ends_at": "2026-10-14T03:40:41.402000+00:00",
   "id": "c84e2b17-0f6a-4d93-b5e8-27a1f9d03e6b",
+  "category": null,
   "service": null,
+  "service_key": "",
+  "creation_date": null,
+  "investigate_uri": "https://platform.robusta.dev/graphs",
+  "add_silence_url": true,
   "subject": {
     "name": "checkout-api-7d9f8b6c5-x2k4p",
     "kind": "pod",
@@ -198,9 +209,20 @@ The recovery has the same `fingerprint`, a `[RESOLVED] ` prefix on `title`, and 
     "container": "checkout-api",
     "labels": {
       "app": "checkout-api",
-      "pod-template-hash": "7d9f8b6c5"
+      "pod-template-hash": "7d9f8b6c5",
+      "alertname": "KubePodCrashLooping",
+      "container": "checkout-api",
+      "job": "kube-state-metrics",
+      "namespace": "payments",
+      "pod": "checkout-api-7d9f8b6c5-x2k4p",
+      "reason": "CrashLoopBackOff",
+      "severity": "warning"
     },
-    "annotations": {}
+    "annotations": {
+      "description": "Pod payments/checkout-api-7d9f8b6c5-x2k4p (checkout-api) is in waiting state (reason: \"CrashLoopBackOff\").",
+      "runbook_url": "https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubepodcrashlooping",
+      "summary": "Pod is crash looping."
+    }
   },
   "links": [],
   "enrichments": []
@@ -236,7 +258,7 @@ Confirm the sink is in the running config (`helm get values robusta`), that `url
 
 <summary>Incidents open but never resolve</summary>
 
-The recovery needs a `fingerprint`. If `size_limit` is too small, Robusta truncates the body and `fingerprint` can be dropped. Raise `size_limit` and upgrade the release. Also remember that only Prometheus alerts send recoveries.
+The recovery needs the same `fingerprint` as the incident. Robusta adds keys up to `size_limit` and stops at the first that does not fit, so a long `title` or `description` drops `fingerprint` and everything after it; the recovery's title is 11 bytes longer than the firing one (`[RESOLVED] `), so it can lose its `fingerprint` when the firing finding kept it. Set `size_limit: 16384` and upgrade the release. The same cut makes unrelated findings with the same `title` merge into one incident. Also remember that only Prometheus alerts send recoveries.
 
 </details>
 
