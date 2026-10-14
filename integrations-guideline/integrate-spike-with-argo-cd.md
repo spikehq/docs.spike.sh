@@ -133,11 +133,17 @@ data:
             "app_url": "{{ .context.argocdUrl }}/applications/{{ .app.metadata.name }}"
           }
 
-  trigger.on-spike-firing: |
-    - when: >-
-        (app.status.operationState != nil and app.status.operationState.phase in ['Error', 'Failed'])
-        or app.status.health.status in ['Degraded', 'Missing', 'Unknown']
-        or app.status.sync.status == 'Unknown'
+  trigger.on-spike-sync-failed: |
+    - when: app.status.operationState != nil and app.status.operationState.phase in ['Error', 'Failed']
+      send: [spike-firing]
+      oncePer: app.status.operationState.finishedAt
+
+  trigger.on-spike-health-degraded: |
+    - when: app.status.health.status in ['Degraded', 'Missing', 'Unknown']
+      send: [spike-firing]
+
+  trigger.on-spike-sync-status-unknown: |
+    - when: app.status.sync.status == 'Unknown'
       send: [spike-firing]
 
   trigger.on-spike-resolved: |
@@ -199,6 +205,10 @@ And the recovery, once the application is healthy and synced again:
 | `app_namespace`, `project`, `revision`, `destination_server`, `destination_namespace`, `finished_at`, `app_url` | Incident details only |
 
 {% hint style="warning" %}
+Do not add a top-level `message` key to the body. Spike would use it as the incident title and skip the Argo CD parser, so titles, the recovery title and the id rules above would no longer apply.
+{% endhint %}
+
+{% hint style="warning" %}
 `operationState` does not exist until the first sync, so the template guards the `operation_*` and `finished_at` fields with `{{ if .app.status.operationState }}`. A field Argo CD cannot fill may arrive as `<no value>`; Spike treats that as missing. Check the rendered body with a test notification (Step 5) before relying on it.
 {% endhint %}
 
@@ -208,14 +218,16 @@ Subscriptions are annotations. Add them to a single Application, or to an AppPro
 
 ```bash
 kubectl -n argocd annotate application checkout-prod \
-  notifications.argoproj.io/subscribe.on-spike-firing.spike="" \
+  notifications.argoproj.io/subscribe.on-spike-sync-failed.spike="" \
+  notifications.argoproj.io/subscribe.on-spike-health-degraded.spike="" \
+  notifications.argoproj.io/subscribe.on-spike-sync-status-unknown.spike="" \
   notifications.argoproj.io/subscribe.on-spike-resolved.spike=""
 ```
 
 The part after `subscribe.` is the trigger name and the last part, `spike`, is the webhook service from Step 3. The value stays empty because a webhook service has no recipient.
 
 {% hint style="info" %}
-Always subscribe both triggers. Without `on-spike-resolved`, Spike opens incidents and nothing resolves them until somebody does it by hand. A [resolve timer](../incidents/resolve-timer.md) is a reasonable backstop. The recovery is a custom trigger because the catalogue's `on-deployed` fires once per revision, so a health recovery without a new commit would not be reported.
+Always subscribe the recovery trigger with the failure triggers. Without `on-spike-resolved`, Spike opens incidents and nothing resolves them until somebody does it by hand. A [resolve timer](../incidents/resolve-timer.md) is a reasonable backstop. The recovery is a custom trigger because the catalogue's `on-deployed` fires once per revision, so a health recovery without a new commit would not be reported.
 {% endhint %}
 
 {% content-ref url="archive-an-integration.md" %}
@@ -238,7 +250,7 @@ Always subscribe both triggers. Without `on-spike-resolved`, Spike opens inciden
 ## Things worth knowing
 
 * **One service covers every application.** Add the webhook service once; subscribe as many Applications or projects as you like.
-* **Triggers fire when the condition turns true.** A trigger without `oncePer` sends once each time its condition goes from false to true, so a still-failing application does not send repeatedly.
+* **Each fault has its own trigger.** A trigger without `oncePer` sends once each time its condition goes from false to true. Keeping sync failure, health and sync status in separate triggers means a new fault still sends while another is active, for example a failed sync on an application that is already `Degraded`. `on-spike-sync-failed` uses `oncePer` on the operation's `finishedAt`, so each failed operation notifies once.
 * **Resolving in Spike does not touch Argo CD.** The Application keeps its status; the next failure opens a fresh incident.
 
 ## Troubleshooting
