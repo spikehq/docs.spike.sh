@@ -29,16 +29,16 @@ Observe only sends `AlarmConditionEnded` when **Send an update when the monitor 
 
 Spike identifies the incident by `alert_id`, filled from `{{alert.id}}`: the alarm's UUID, not the monitor's numeric id. Observe is expected to repeat it on `NewAlarm`, `Reminder` and `AlarmConditionEnded`, so one alarm's whole life reads as one Spike incident: it pages once, reminders join it, and the end notification resolves it.
 
-A value counts as an id when it is not empty and is not a template variable left unexpanded (for example `$alert_id`, `${alert_id}`, `{{alert.id}}` or `%alert_id%`). Two alarms that both send an unexpanded `alert_id` are two incidents.
+A value counts as an id when it is not empty and is not a template variable left unexpanded (for example `$alert_id`, `${alert_id}`, `{{alert.id}}` or `%alert_id%`). When `alert_id` is missing or arrives unexpanded, Spike has no identity to go on and matches on the incident title instead. The title never holds readings, timestamps, ids or URLs, so a repeat of the same alarm joins the open incident. It also means that different alarms with the same title (for example two group-by alarms of one monitor) are one incident, and the second does not page.
 
-If `alert_id` is missing, Spike falls back to matching on the incident title. The title never holds readings, timestamps, ids or URLs, so a repeat of the same alarm still produces the same title and joins the open incident.
+Without a usable `alert_id` on both the opening and the ending notification, `AlarmConditionEnded` joins the open incident but does not resolve it. Resolving needs the same `alert_id` on both.
 
 ## What the incident title looks like
 
 * **Your monitor title.** `summary`, filled from `{{monitor.variables.title}}`, is the incident title, with whitespace collapsed. For example `High CPU utilization for container checkout-api in prod-us-east-1`.
 * **No monitor title.** When `summary` is empty or an unexpanded variable, the title is `monitor_name`, for example `Container CPU utilization`.
 * **Nothing usable.** `Observe alert with no details`.
-* **Recovery.** `AlarmConditionEnded` gives `Alarm ended: ` followed by the same title, for example `Alarm ended: High CPU utilization for container checkout-api in prod-us-east-1`. Spike matches it to the open incident through `alert_id`, or through the plain firing title when there is no id.
+* **Recovery.** `AlarmConditionEnded` gives `Alarm ended: ` followed by the same title, for example `Alarm ended: High CPU utilization for container checkout-api in prod-us-east-1`. Spike matches it to the open incident through `alert_id`. With no id it joins the open incident through the plain firing title but does not resolve it.
 * **Length.** The whole title, prefix included, is capped at 200 characters, cut at a word boundary and ended with `...`.
 
 `alert_message`, `description`, timestamps and URLs are never part of the title. They are kept on the incident for responders.
@@ -177,7 +177,7 @@ Trigger a test notification from the action in Observe, or send the firing examp
 
 ## Troubleshooting
 
-* **The incident never resolves.** **Send an update when the monitor has stopped triggering** is off on the action, or the recovery's `alert_id` differs from the opening one.
+* **The incident never resolves.** **Send an update when the monitor has stopped triggering** is off on the action, the recovery's `alert_id` differs from the opening one, or `alert_id` is missing or unexpanded on either notification.
 * **Every reminder opens a new incident.** `alert_id` is missing or arrives unexpanded, so Spike is matching on the title. Confirm the body above is pasted as written, and keep changing readings out of the monitor title.
 * **The title is the monitor name instead of your sentence.** `monitor.variables.title` is empty on that monitor.
 * **Spike ignores the fields.** Check the body has no top-level `message` field.
