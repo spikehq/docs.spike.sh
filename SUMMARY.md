@@ -219,6 +219,7 @@
 * [Integrate Spike with Sedai](integrations-guideline/integrate-spike-with-sedai.md)
 * [Integrate Spike with Semaphore](integrations-guideline/integrate-spike-with-semaphore.md)
 * [Integrate Spike with Sematext](integrations-guideline/integrate-spike-with-sematext.md)
+* [Integrate Spike with Sensu Go](integrations-guideline/integrate-spike-with-sensu-go.md)
 * [Integrate Spike with Sentry](integrations-guideline/integrate-spike-with-sentry.md)
 * [Integrate Spike with Server Density](integrations-guideline/integrate-spike-with-server-density.md)
 * [Integrate Spike with Site24x7](integrations-guideline/integrate-spike-with-site24x7.md)
