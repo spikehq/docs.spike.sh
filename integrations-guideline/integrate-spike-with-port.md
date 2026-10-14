@@ -44,14 +44,26 @@ The `status` field, which you type into each automation, decides what Spike does
 
 **Create the firing automation:**
 
-1. In Port, open the **Builder** page and select **Automations**.
-2. Click **+ Automation**.
-3. Give it a title, for example `Page Spike when service health degrades`.
-4. Under **Trigger**, choose **Entity updated** and select your blueprint.
-5. Under **Condition**, add the condition that detects the degradation, for example that `.diff.after.properties.status` is `Unhealthy`.
-6. Under **Backend**, choose **Webhook**.
-7. Set **URL** to the Spike webhook URL copied in Step 1.
-8. Set **Method** to `POST`.
+1. In Port, open the **Automations** page (`https://app.port.io/settings/automations`).
+2. Click **+ Automation** in the top-right corner.
+3. On the **Basic Details** tab, give it a title, for example `Page Spike when service health degrades`.
+4. On the **Trigger** tab, choose **Entity update** and select your blueprint.
+5. At the bottom of the **Trigger** tab, add a **Condition** that fires only on the change into the degraded state, not on every update while it stays degraded:
+
+```json
+{
+  "type": "JQ",
+  "expressions": [
+    ".diff.before.properties.status != \"Unhealthy\"",
+    ".diff.after.properties.status == \"Unhealthy\""
+  ],
+  "combinator": "and"
+}
+```
+
+6. On the **Backend** tab, choose **Webhook**.
+7. Set **Endpoint URL** to the Spike webhook URL copied in Step 1.
+8. Leave **Method** as `POST`.
 9. Set **Body** to the JSON below. Port renders each `{{ ... }}` template when the automation runs. Type `status`, `rule` and `severity` as literal text; adjust the `summary` path to your blueprint's properties.
 
 ```json
@@ -69,7 +81,18 @@ The `status` field, which you type into each automation, decides what Spike does
 
 10. Save the automation.
 
-**Create the recovery automation:** repeat the steps above with a title such as `Resolve Spike incident when service health recovers`, a **Condition** that detects the recovery (for example `.diff.after.properties.status` is `Healthy`), and the same body with `"status": "resolved"` and your own `rule` text, for example `Service health recovered`. Keep `alert_id` identical in both automations.
+**Create the recovery automation:** repeat the steps above with a title such as `Resolve Spike incident when service health recovers`, a **Condition** that fires only on the change out of the degraded state, and the same body with `"status": "resolved"` and your own `rule` text, for example `Service health recovered`. Keep `alert_id` identical in both automations.
+
+```json
+{
+  "type": "JQ",
+  "expressions": [
+    ".diff.before.properties.status == \"Unhealthy\"",
+    ".diff.after.properties.status != \"Unhealthy\""
+  ],
+  "combinator": "and"
+}
+```
 
 **Fields:**
 
@@ -89,7 +112,7 @@ Send exactly these fields and do not rename them, as Spike reads them by these n
 {% endhint %}
 
 {% hint style="info" %}
-`alert_id` only counts as an id when it is non-empty, has no unexpanded template such as `{{ ... }}`, `$alert_id`, `${alert_id}` or `%alert_id%`, and has no empty or `null` part on either side of the `/`. Without a usable id, Spike matches the alert by its title instead, so keep `summary` the same wording for the same alert.
+`alert_id` only counts as an id when it is non-empty, has no unexpanded template such as `{{ ... }}`, `$alert_id`, `${alert_id}` or `%alert_id%`, and has no empty or `null` part on either side of the `/`. Without a usable id, a repeat can still join the open incident when its title matches, but a recovery cannot be matched to the incident, so you have to resolve that incident by hand in Spike.
 {% endhint %}
 
 **Test the Integration:**
@@ -145,7 +168,7 @@ Over 200 characters, ` on {entity}` is kept whole and the rest is cut at a word 
 
 ## Limitations
 
-* A deletion automation (trigger **Entity deleted**) has no `.event.diff.after`, so `summary` and `entity` can be empty and the title falls back as above.
+* A deletion automation (trigger **Entity deletion**) has no `.event.diff.after`, so `summary` and `entity` can be empty and the title falls back as above.
 * Spike does not verify Port's request signature.
 * This format is Spike's own, built from Port's JQ templating. If a template renders empty or as the text `null`, check the path against your blueprint.
 
