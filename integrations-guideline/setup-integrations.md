@@ -81,10 +81,6 @@ Follow the simple instructions on how to setup an integration with Spike.
 [integrate-spike-with-grafana.md](integrate-spike-with-grafana.md)
 {% endcontent-ref %}
 
-{% content-ref url="integrate-spike-with-chronosphere.md" %}
-[integrate-spike-with-chronosphere.md](integrate-spike-with-chronosphere.md)
-{% endcontent-ref %}
-
 {% content-ref url="integrate-spike-with-instana.md" %}
 [integrate-spike-with-instana.md](integrate-spike-with-instana.md)
 {% endcontent-ref %}
