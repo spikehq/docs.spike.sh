@@ -158,6 +158,7 @@
 * [Integrate Spike with Grafana](integrations-guideline/integrate-spike-with-grafana.md)
 * [Integrate Spike with Graylog](integrations-guideline/integrate-spike-with-graylog.md)
 * [Integrate Spike with Harness](integrations-guideline/integrate-spike-with-harness.md)
+* [Integrate Spike with Harness FME](integrations-guideline/integrate-spike-with-harness-fme.md)
 * [Integrate Spike with HEAL](integrations-guideline/integrate-spike-with-heal.md)
 * [Integrate Spike with Healthchecks](integrations-guideline/integrate-healthchecks-with-spike.md)
 * [Integrate Spike with Heroku](integrations-guideline/integrate-spike-with-heroku.md)
