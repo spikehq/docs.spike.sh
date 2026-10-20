@@ -54,7 +54,7 @@ Use a [Title Remapper](../alerts/title-remapper.md) if your team reads Nobl9 ale
 
 ## Severity
 
-Spike's integration code does not read `severity`, but Spike lifts a `severity` field from the payload and maps it to a severity badge, so Nobl9's `High`, `Medium` and `Low` can show on the incident. The casing Nobl9 renders is not documented; the match ignores case.
+Spike's integration code does not read `severity`, but Spike lifts a `severity` field from the payload and maps it to a severity badge, so Nobl9's severity can show on the incident. Nobl9 documents `severity` as `high`, `medium` or `low`; the match ignores case.
 
 [Alert rules](../alerts/alert-rules.md) can override severity, route the incident to another service or escalation policy, or suppress it. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
@@ -141,7 +141,7 @@ A burn-rate alert, which opens the incident:
   "alert_policy_name": "fast-burn",
   "alert_policy_description": "Checkout API is burning its error budget more than 5x faster than allowed",
   "alert_policy_conditions_text": "Average burn rate is ≥ 5 and this condition lasts for 5 minutes",
-  "severity": "High",
+  "severity": "high",
   "slo_name": "checkout-api-availability",
   "objective_name": "ok",
   "service_name": "checkout",
@@ -205,7 +205,7 @@ Expected. Nobl9 sends no recovery notification. Resolve the incident in Spike or
 
 <summary>The severity badge is missing or wrong</summary>
 
-Open the incident and check the `severity` value in the payload. If it is empty or a literal `$severity`, fix the template. If it holds something other than `High`, `Medium` or `Low`, an [alert rule](../alerts/alert-rules.md) on `severity` can set the badge you want.
+Open the incident and check the `severity` value in the payload. If it is empty or a literal `$severity`, fix the template. If it holds something other than `high`, `medium` or `low`, an [alert rule](../alerts/alert-rules.md) on `severity` can set the badge you want.
 
 </details>
 
