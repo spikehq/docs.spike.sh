@@ -19,7 +19,7 @@ Auto-resolution is supported for this integration. Spike also groups repeated no
 
 Spike identifies the incident by the notification's top-level `groupKey`, which names one alert group. A firing notification opens an incident or joins the open one with the same `groupKey`, and the `resolved` notification for that group closes it, even when the readings in the summary have changed.
 
-* `groupKey` counts as an id only when it is a non-empty string (after trimming) or a number. Spike matches it exactly as sent.
+* `groupKey` counts as an id only when it is a non-empty string (after trimming) or a number. Spike matches it as sent, ignoring surrounding spaces and whether it arrives as a number or text.
 * A `groupKey` that is a template variable that was never filled in, such as `$groupKey`, `${groupKey}` or `{{ .GroupKey }}`, counts as no id.
 * If there is no usable `groupKey`, Spike can only match by incident title. The title is then always the plain `<alertname> on <where>` with no sentence and no readings, so it is identical at firing and at recovery.
 * A top-level `status` of `resolved` (trimmed, case-insensitive) only closes an incident and never opens one. Any other value opens an incident. `state` is not read.
