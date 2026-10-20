@@ -206,6 +206,7 @@
 * [Integrate Spike with Oh-Dear](integrations-guideline/integrate-spike-with-oh-dear.md)
 * [Integrate Spike with OpenText SiteScope](integrations-guideline/opentext-sitescope.md)
 * [Integrate Spike with PA Server Monitor](integrations-guideline/integrate-spike-with-pa-server-monitor.md)
+* [Integrate Spike with OpsPilot](integrations-guideline/integrate-spike-with-opspilot.md)
 * [Integrate Spike with Paessler PRTG](integrations-guideline/paessler-prtg.md)
 * [Integrate Spike with Pandora FMS](integrations-guideline/integrate-spike-with-pandorafms.md)
 * [Integrate Spike with Panther](integrations-guideline/integrate-spike-with-panther.md)
