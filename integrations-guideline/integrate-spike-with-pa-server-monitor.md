@@ -62,7 +62,8 @@ In Spike, go to **Integrations → Add integration → PA Server Monitor**, atta
 1. In the PA Server Monitor console, open **Actions** and add a new action of type **Call URL**. Name it, for example, `Spike - alert`.
 2. Set the **URL** to the webhook URL from Step 1 and select **Custom POST**, with `application/json` as the encoding. Plain **POST** sends name/value pairs as a form post and cannot carry this body.
 3. Paste the template below into the **Parameters** section. Keep the field names exactly as written.
-4. Save the action.
+4. Press the action's **Test** button. It builds the request and sends it to Spike, so a test incident should open on the integration's service. If nothing arrives, the body is not valid JSON; see the warning below. Resolve the test incident afterwards.
+5. Save the action.
 
 ```json
 {
@@ -76,7 +77,7 @@ In Spike, go to **Integrations → Add integration → PA Server Monitor**, atta
   "monitor_title": "$MonitorTitle$",
   "monitor_type": "$MonitorType$",
   "monitor_message": "$MonitorMsg$",
-  "details": "$Details_Single_Line['\"',' ']$",
+  "details": "$Details_Single_Line['"',' ']['\','/']$",
   "time_in_error": "$TimeInError$",
   "date": "$Date$",
   "time": "$Time$"
@@ -90,7 +91,7 @@ In Spike, go to **Integrations → Add integration → PA Server Monitor**, atta
 | `machine` | `$Machine$` | The computer, in the title |
 | `monitor_title` | `$MonitorTitle$` | The monitor, in the title |
 | `monitor_message` | `$MonitorMsg$` | The incident title when set |
-| `details` | `$Details_Single_Line$` with double quotes replaced by spaces | Incident page only |
+| `details` | `$Details_Single_Line$` with double quotes replaced by spaces and backslashes by `/` | Incident page only |
 | `status_text` | `$StatusText$` | Incident page only |
 | `alert_id` | `$AlertID$` | Incident page only |
 | `group` | `$Group$` | Incident page only |
@@ -103,7 +104,13 @@ In Spike, go to **Integrations → Add integration → PA Server Monitor**, atta
 `monitor_key` and `status` are the required fields. Without `monitor_message`, `monitor_title` or `machine`, the title falls back to the generic forms above.
 
 {% hint style="warning" %}
-PA Server Monitor documents no JSON escaping. A backslash in an expanded value (a Windows path, `DOMAIN\host`) or a double quote in `$MonitorTitle$` or `$MonitorMsg$` makes the posted body invalid JSON. Avoid them in monitor titles and messages. The replace modifier on `details` swaps double quotes for spaces for the same reason.
+PA Server Monitor pastes each value into the body as plain text and documents no JSON escaping. A double quote or a backslash in any expanded value makes the posted body invalid JSON. Spike then rejects the whole delivery, so no incident opens and nobody is paged.
+
+`$Details$` often holds both, for example a Windows path such as `E:\Backups` or quoted event-log text. The two modifiers on `details` are what keep the body valid JSON: `['"',' ']` turns each double quote into a space, and `['\','/']` turns each backslash into `/`.
+
+If your monitor titles or messages can contain a path, a `DOMAIN\host` name or a double quote, add the same `['"',' ']['\','/']` modifiers to `$MonitorTitle$` and `$MonitorMsg$`. That includes the `$MonitorTitle$` inside `monitor_key`, for example `"$Machine$/$MonitorTitle$['"',' ']['\','/']$"`. The key stays the same on the alert and the recovery, because both are sent with this same body.
+
+The quote modifier is the form PA Server Monitor documents. The backslash form `['\','/']` is **not verified**: PA Server Monitor does not document how it reads a backslash inside a modifier, and its own example `["\r\n",""]` treats the backslash as an escape there. Check your body with the action's **Test** button (Step 2), which builds and sends the real request. If the test alert does not reach Spike, or a later alert's `details` still shows backslashes, change `'\'` to `'\\'` and test again.
 {% endhint %}
 
 {% hint style="info" %}
@@ -188,7 +195,7 @@ Spike keeps the whole body on the incident, so [alert rules](../alerts/alert-rul
 
 <summary>Nothing arrives in Spike</summary>
 
-Check that the URL is the full webhook URL with nothing appended, that the action is set to **Custom POST** with `application/json` and the JSON template in Parameters, and that the monitor's Error actions include the Spike action. If the body is not valid JSON (a backslash or double quote in a title or message), Spike cannot read it. Also check that the integration is not archived in Spike.
+Check that the URL is the full webhook URL with nothing appended, that the action is set to **Custom POST** with `application/json` and the JSON template in Parameters, and that the monitor's Error actions include the Spike action. If the body is not valid JSON (a backslash or double quote in an expanded value that no modifier replaced), Spike rejects the delivery; check it with the action's **Test** button and the warning in Step 2. Also check that the integration is not archived in Spike.
 
 </details>
 
