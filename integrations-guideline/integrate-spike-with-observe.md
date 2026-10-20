@@ -65,18 +65,17 @@ Spike reads the top-level `severity` field, filled from `{{alert.severity.level}
 
 **Step 2:** Create a webhook action in Observe.
 
-1. Sign in to Observe and open **Monitors**.
-2. Open the **Actions** tab and click **New Action** (or edit an existing webhook action).
-3. Choose **Webhook** as the action type.
-4. Paste the Spike webhook URL into the **URL** field. This field is required.
-5. Set the method to `POST` and add the header `Content-Type: application/json`.
-6. Paste the body from the next section into the **Body** (template) field. This field is required.
-7. Turn on **Send an update when the monitor has stopped triggering** so Observe sends `AlarmConditionEnded` and Spike can resolve the incident.
-8. Save the action.
+1. From the left rail open **Monitors**, click **View shared actions**, then **New shared action**.
+2. Set **Action Type** to **Webhook**.
+3. Paste the Spike webhook URL into the **URL** field. This field is required.
+4. Accept the default **Method** of `POST` and, under **Headers**, add `Content-Type: application/json`.
+5. Paste the body from the next section into the **Body** field, replacing the default template. This field is required.
+6. Turn on **Send an update when the monitor has stopped triggering** so Observe sends `AlarmConditionEnded` and Spike can resolve the incident.
+7. Click **Create Shared Action**.
 
 **Step 3:** Attach the action to your monitors.
 
-1. Open the monitor, or create a new one, and go to its **Actions** step.
+1. Open the monitor, or create a new one, and scroll to **Notification actions**.
 2. Add the webhook action you just created.
 3. Set the monitor's **title** variable (`monitor.variables.title`) to the sentence you want as the incident title. Keep readings that change between notifications out of it.
 4. Save the monitor.
