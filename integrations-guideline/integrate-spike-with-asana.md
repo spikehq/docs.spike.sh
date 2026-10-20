@@ -19,10 +19,10 @@ Spike identifies a task by `gid`. Send the task fields at the top level of the b
 
 | Request | What Spike does |
 | --- | --- |
-| `completed` is `false`, missing, or anything other than `true` | Opens an incident, or joins the open incident with the same `gid`, or reopens a resolved one. |
-| `completed` is `true` | Resolves the open incident with the same `gid`. A completion never opens an incident. |
+| `completed` is `false`, missing, or any value not listed in the next row | Opens an incident, or joins the open incident with the same `gid`, or reopens a resolved one. |
+| `completed` is `true`, `1`, `"true"`, `"1"` or `"yes"` | Resolves the open incident with the same `gid`. A completion never opens an incident. |
 
-`completed` may be the boolean `true` or the string `"true"` in any case, because some no-code tools send every value as text.
+Some no-code tools send every value as text, so `completed` counts as completed when it is the boolean `true`, the number `1`, or the text `"true"`, `"1"` or `"yes"` in any case, ignoring surrounding spaces. Anything else, such as `false`, `0`, `"false"` or `"no"`, opens an incident.
 
 A repeat of the same task that changes only `modified_at`, `notes`, `assignee.name`, `assignee.gid` or `priority` joins the open incident.
 
@@ -37,10 +37,10 @@ A repeat of the same task that changes only `modified_at`, `notes`, `assignee.na
 For example, `Checkout API returning 502 errors for EU customers`, and on completion `Checkout API returning 502 errors for EU customers marked complete`.
 
 * Whitespace in the name is collapsed, and the name is cut at a word so that the title is at most 200 characters. On a completion the name is cut so that ` marked complete` stays whole within 200.
-* A completion also carries the open title, so a completion without a usable `gid` still resolves the open incident with the same name.
+* A completion also carries the open title, so a completion without a usable `gid` resolves an open incident with the same name that was also opened without a usable `gid`. A completion without a `gid` never closes an incident whose task sent one.
 * The title never holds a gid, URL, timestamp, note, assignee or priority.
 
-A usable `gid` is a number, or text that is not empty after trimming and is not an unexpanded template variable such as `$gid`, `${gid}`, `{{gid}}`, `{{1.gid}}`, `%gid%` or `<gid>`. Spike matches the value exactly as sent. Without a usable `gid`, Spike matches on the title instead.
+A usable `gid` is a number other than `0`, or text that is not empty after trimming, is not an unexpanded template variable such as `$gid`, `${gid}`, `{{gid}}`, `{{1.gid}}`, `%gid%` or `<gid>`, and is not a word such as `null` or `undefined`. Spike matches the value as sent, ignoring surrounding spaces. Without a usable `gid`, Spike matches on the title, and only against incidents that were also opened without one.
 
 ## Fields
 
@@ -162,7 +162,7 @@ The same task when it is completed, which resolves the incident:
 }
 ```
 
-Type `completed` as `false` or `true` without quotes, and quote `gid`. Spike also accepts `"true"` as text, in case your tool sends it that way.
+From Make or a script, send `completed` as `false` or `true` without quotes, and quote `gid`. Spike also accepts `completed` as text, as Zapier sends it.
 
 Without `projects`, as from a Zapier **POST**, the incident still works. Only the `Asana task in <project>` title for a task with no name is lost.
 
@@ -174,6 +174,6 @@ Without `projects`, as from a Zapier **POST**, the incident still works. Only th
 
 ## Good to know
 
-* **Rename the task before it is completed** and the completion still resolves the right incident, because Spike matches on `gid`. If your tool does not send a usable `gid`, Spike matches on the title instead, so the name must not change in between, or a second incident opens.
+* **Rename the task before it is completed** and the completion still resolves the right incident, because Spike matches on `gid`. If your tool does not send a usable `gid`, Spike matches on the title instead, so the name must not change in between, or the incident stays open. Send the `gid` from both automations: a completion without one never closes an incident whose task sent one.
 * **Severity** is not read from Asana. Use an [alert rule](../alerts/alert-rules.md) to set severity, route to another service, or suppress incidents from certain projects.
 * Spike groups repeats of the same task and suppresses new alerts while its incident is open.
