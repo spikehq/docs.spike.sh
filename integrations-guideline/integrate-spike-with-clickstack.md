@@ -102,7 +102,7 @@ Which of these Spike relies on:
 Older or managed ClickStack versions render the newer variables (`eventId`, `alertId`, `groupKey` and so on) as empty strings. Spike copes: it falls back to matching by title. Send a test alert and check the incident to see what your deployment fills in.
 {% endhint %}
 
-If you leave **Webhook Body** blank, HyperDX sends its default, `{"text": "title | body | link | state | startTime | endTime | eventId"}`. Spike reads the title and the state from it, but cannot read the `eventId` there, so it always matches by title. Use the body above.
+If you leave **Webhook Body** blank, HyperDX sends its default, `{"text": "title | body | link | state | startTime | endTime | eventId"}`. Spike reads the title, the state and the `eventId` (the last part) from that text, so repeats still join the open incident and the recovery still resolves it. The default carries no `groupKey` or `alertId`, though, so the title cannot name the group the alert fired for. Paste the body above so it does.
 
 Save the webhook.
 
