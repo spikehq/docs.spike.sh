@@ -20,6 +20,7 @@ Auto-resolution is supported for this integration. Spike also groups repeated no
 Spike identifies the incident by the notification's top-level `groupKey`, which names one alert group. A firing notification opens an incident or joins the open one with the same `groupKey`, and the `resolved` notification for that group closes it, even when the readings in the summary have changed.
 
 * `groupKey` counts as an id only when it is a non-empty string (after trimming) or a number. Spike matches it exactly as sent.
+* A `groupKey` that is a template variable that was never filled in, such as `$groupKey`, `${groupKey}` or `{{ .GroupKey }}`, counts as no id.
 * If there is no usable `groupKey`, Spike can only match by incident title. The title is then always the plain `<alertname> on <where>` with no sentence and no readings, so it is identical at firing and at recovery.
 * A top-level `status` of `resolved` (trimmed, case-insensitive) only closes an incident and never opens one. Any other value opens an incident. `state` is not read.
 * In a batch, alerts whose own `status` is `resolved` are not counted.
@@ -251,5 +252,5 @@ The same alert group with the same `groupKey`, once it has recovered. Spike reso
 ## Troubleshooting
 
 * **The title is a rule name, not a sentence.** **Message** is empty or still the default template, and the rule has no `summary` or `description` annotation. Set **Message** as in Step 2 or add a `summary` annotation to the rule.
-* **Repeats open new incidents.** Check that the payload carries a non-empty `groupKey`. Without it Spike matches by title.
+* **Repeats open new incidents.** Check that the payload carries a non-empty `groupKey` that is not an unfilled template variable such as `{{ .GroupKey }}`. Without one Spike matches by title.
 * **The incident does not resolve.** Check that the contact point is set to send resolved notifications (leave **Disable resolved message** off) and that the resolved notification carries the same `groupKey` as the firing one.
