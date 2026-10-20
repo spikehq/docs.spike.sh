@@ -5,13 +5,13 @@ description: >-
 
 # Integrate Spike with PA Server Monitor
 
-[PA Server Monitor](https://www.poweradmin.com/server-monitor/) (by Power Admin) watches Windows and Linux servers with monitors for disk space, CPU, services, event logs, ping and more. When a monitor finds a problem it runs the actions you attached to it. A **Call URL** action posts that alert to Spike, and a second Call URL action in the monitor's **Resolved/Fixed Actions** tells Spike when the monitor is back to normal.
+[PA Server Monitor](https://www.poweradmin.com/server-monitor/) (by Power Admin) watches Windows and Linux servers with monitors for disk space, CPU, services, event logs, ping and more. When a monitor finds a problem it runs the actions you attached to it. One **Call URL** action posts that alert to Spike, and the same action in the monitor's error resolved actions tells Spike when the monitor is back to normal.
 
 Spike opens one incident per monitor on one computer. A repeat from the same monitor lands on the incident already open instead of paging again, and the incident resolves itself when PA Server Monitor reports the monitor as OK.
 
 ## Incident identity and title
 
-Spike identifies the incident by `monitor_key`. You build it from two PA Server Monitor variables as `$Machine$/$MonitorTitle$`, so one monitor on one computer has the same key on its error delivery, every escalation re-delivery and its resolved delivery, for example `SQL-PROD-02/Disk Space C:`. Spike compares it exactly as sent.
+Spike identifies the incident by `monitor_key`. You build it from two PA Server Monitor variables as `$Machine$/$MonitorTitle$`, so one monitor on one computer has the same key on its error delivery, every escalation re-delivery and its resolved delivery, for example `SQL-PROD-02/Disk Space C:`. Spike compares it as text: letter case counts, spaces around the value do not, and `42` matches `"42"`.
 
 `monitor_key` is not an id when it is empty, or when it still contains a variable PA Server Monitor did not expand: a `$Name$` token anywhere in it (`$Machine$/$MonitorTitle$`, `SQL-PROD-02/$MonitorTitle$`), or a value that is only `$name`, `${name}`, `{{name}}` or `%name%`. Two alerts that both carry an unexpanded key are two incidents. When there is no usable key, Spike matches the next event by title instead.
 
@@ -57,10 +57,12 @@ In Spike, go to **Integrations → Add integration → PA Server Monitor**, atta
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-## Step 2 — Create the alert action
+## Step 2 — Create the Call URL action
 
-1. In the PA Server Monitor console, open **Actions** and add a new action of type **Call URL**. Name it, for example, `Spike - alert`.
-2. Set the **URL** to the webhook URL from Step 1 and select **Custom POST**, with `application/json` as the encoding. Plain **POST** sends name/value pairs as a form post and cannot carry this body.
+One action sends both the alert and the recovery.
+
+1. In the PA Server Monitor console, create a **Call URL** action. Either select **All Actions** in the left pane, right-click **Call URL Action** and choose **Add Action**, or open a monitor's **Actions** dialog and click **New ...** above the list of global actions. Name it, for example, `Spike`.
+2. Set **URL to call** to the webhook URL from Step 1 and pass the parameters as **Custom POST**, with `application/json` as the encoding. Plain **POST** sends name/value pairs as a form post and cannot carry this body.
 3. Paste the template below into the **Parameters** section. Keep the field names exactly as written.
 4. Press the action's **Test** button. It builds the request and sends it to Spike, so a test incident should open on the integration's service. If nothing arrives, the body is not valid JSON; see the warning below. Resolve the test incident afterwards.
 5. Save the action.
@@ -119,23 +121,17 @@ Spike has not seen a captured payload from PA Server Monitor. The body above is 
 
 ## Step 3 — Attach the action to your monitors
 
-1. Open the monitor you want to page on and go to its **Actions** settings.
-2. Under the **Error** actions, add `Spike - alert`.
-3. Repeat for each monitor, or use a shared action list if you have one.
+1. Open the monitor you want to page on and go to its **Actions** dialog.
+2. Move `Spike` from the global action list into the node that runs when the monitor fails. Current versions label it **Do Immediately**; older versions and some guides call it **Error Actions**. Monitors with escalation also show escalation nodes, which you can leave as they are.
+3. Add the same `Spike` action to the monitor's error resolved actions, labelled **Error Resolved Actions**, **Resolved Actions** or **Fixed Actions** depending on the version. `$Status$` should then expand to `msOK` and `$StatusText$` to `OK`.
 4. Under **Advanced Monitor Options**, write the monitor's message. It becomes the incident title.
-
-## Step 4 — Create the recovery action
-
-A recovery is a second action with the same URL, method and body, run when the monitor is fixed.
-
-1. Add another **Call URL** action, for example `Spike - recovery`, with the same URL, **Custom POST** (`application/json`) and body as Step 2.
-2. On each monitor, add `Spike - recovery` to its **Resolved/Fixed Actions**. `$Status$` should then expand to `msOK` and `$StatusText$` to `OK`.
+5. Repeat for each monitor you want to page on.
 
 {% hint style="info" %}
-Attach both actions to every monitor you want to page on. PA Server Monitor does not document whether `$Machine$` and `$MonitorTitle$` expand the same in the resolved action as in the error action, or that `$Status$` is `msOK` there. If either differs, Spike cannot match the recovery and the incident stays open; compare `monitor_key` and `status` on both events if incidents do not resolve. Event-type monitors fire on every detection and never run resolved actions, so their repeats join the open incident until you resolve it by hand.
+Attach the action to both lists on every monitor you want to page on. PA Server Monitor does not document whether `$Machine$` and `$MonitorTitle$` expand the same in the resolved action as in the error action, or that `$Status$` is `msOK` there. If either differs, Spike cannot match the recovery and the incident stays open; compare `monitor_key` and `status` on both events if incidents do not resolve. Event-type monitors fire on every detection and never run resolved actions, so their repeats join the open incident until you resolve it by hand.
 {% endhint %}
 
-## Step 5 — Test it
+## Step 4 — Test it
 
 Lower a monitor's threshold until it alerts, then restore it, and check that:
 
@@ -195,7 +191,7 @@ Spike keeps the whole body on the incident, so [alert rules](../alerts/alert-rul
 
 <summary>Nothing arrives in Spike</summary>
 
-Check that the URL is the full webhook URL with nothing appended, that the action is set to **Custom POST** with `application/json` and the JSON template in Parameters, and that the monitor's Error actions include the Spike action. If the body is not valid JSON (a backslash or double quote in an expanded value that no modifier replaced), Spike rejects the delivery; check it with the action's **Test** button and the warning in Step 2. Also check that the integration is not archived in Spike.
+Check that the URL is the full webhook URL with nothing appended, that the action is set to **Custom POST** with `application/json` and the JSON template in Parameters, and that the monitor's **Do Immediately** (Error Actions) node includes the Spike action. If the body is not valid JSON (a backslash or double quote in an expanded value that no modifier replaced), Spike rejects the delivery; check it with the action's **Test** button and the warning in Step 2. Also check that the integration is not archived in Spike.
 
 </details>
 
@@ -203,7 +199,7 @@ Check that the URL is the full webhook URL with nothing appended, that the actio
 
 <summary>Incidents never resolve</summary>
 
-Check that `Spike - recovery` is in the monitor's Resolved/Fixed Actions, that its `status` arrives as `msOK`, and that `monitor_key` is identical on the alert and the recovery.
+Check that the `Spike` action is in the monitor's error resolved actions, that its `status` arrives as `msOK`, and that `monitor_key` is identical on the alert and the recovery.
 
 </details>
 
