@@ -29,7 +29,7 @@ Spike identifies the alert by these three fields together:
 
 The same flag moving the same metric in the same environment is one incident, even when the readings, policy name or threshold change between sends. A different metric, flag or environment is a separate incident.
 
-An id counts only if it is a non-empty string (after trimming) or a number (`0` counts), and is not an unexpanded template variable such as `$id`, `${id}`, `{{id}}` or `%id%`. Ids are matched exactly as sent. If any of the three is unusable, Spike matches on the incident title instead, and the title then carries no readings.
+An id counts only if it is a non-empty string (after trimming) or a number (`0` counts), and is not an unexpanded template variable such as `$id`, `${id}`, `{{id}}` or `%id%`. Ids are matched however they are spelled (number or text, surrounding spaces ignored). If any of the three is unusable, Spike matches on the incident title instead, and the title then carries no readings.
 
 ## Incident title
 
