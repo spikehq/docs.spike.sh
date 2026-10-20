@@ -21,15 +21,15 @@ Make a Sensu Go integration, attach it to a service and an escalation policy, an
 
 ## Step 2 — Create a pipe handler in Sensu Go
 
-A pipe handler runs a command and writes the event to its standard input. Spike receives that event JSON, unchanged, as the request body. Run this on a machine with `sensuctl` configured, or use the Sensu Web UI: go to your namespace, then **Configuration → Handlers** and click **Add Handler → Pipe**. Replace `<your-spike-webhook-url>` with the URL you copied.
+A pipe handler runs a command and writes the event to its standard input. Spike receives that event JSON, unchanged, as the request body. Run this on a machine with `sensuctl` configured, in the namespace of your checks. Replace `<your-spike-webhook-url>` with the URL you copied.
 
 ```bash
 sensuctl handler create spike --type pipe \
-  --command "curl -s -X POST -H 'Content-Type: application/json' -d @- <your-spike-webhook-url>" \
+  --command "curl -sS --fail -X POST -H 'Content-Type: application/json' --data-binary @- <your-spike-webhook-url>" \
   --timeout 10
 ```
 
-`-d @-` makes `curl` post the event read from standard input as the body.
+`--data-binary @-` makes `curl` post the event read from standard input as the body, byte for byte. `--fail` makes `curl` exit non-zero when Spike answers with an error, so a failed post shows up in the `sensu-backend` log.
 
 {% hint style="warning" %}
 This command is Spike's suggestion, not one from Sensu's documentation. Sensu documents that a handler receives the event on standard input, and the community `sensu-http-handler` asset ships standard input as a request body in the same way, but nobody has published a Sensu-tested handler for Spike. After setting it up, check on the first incident's page that the payload arrived as the event JSON.
@@ -37,7 +37,7 @@ This command is Spike's suggestion, not one from Sensu's documentation. Sensu do
 
 ## Step 3 — Create a pipeline that uses the handler
 
-In the Web UI go to **Configuration → Pipelines** and click **Add Pipeline**, or run `sensuctl create` with this resource:
+Save this resource as `spike-pipeline.yml` and run `sensuctl create --file spike-pipeline.yml`:
 
 ```yaml
 type: Pipeline
@@ -61,11 +61,11 @@ spec:
         api_version: core/v2
 ```
 
-The built-in `is_incident` filter passes failing events and the event that resolves them, so Spike gets both the alert and its recovery. Do not remove it: without the recovery event nothing resolves.
+The built-in `is_incident` filter passes failing events and the event that resolves them, so Spike gets both the alert and its recovery. Keep it: without `is_incident` the pipeline posts every passing check result to Spike, not only the one that resolves an incident.
 
 ## Step 4 — Add the pipeline to your checks
 
-In the Web UI open **Configuration → Checks**, edit a check, and under **Pipelines** add `spike_alerts`. With `sensuctl`, run `sensuctl edit check check-disk-usage` and add a `pipelines` entry to the check's `spec`:
+Run `sensuctl edit check check-disk-usage` (with your check's name) and add a `pipelines` entry to the check's `spec`:
 
 ```yaml
 spec:
@@ -98,9 +98,9 @@ Spike reads these fields from the event Sensu sends. You do not build the body y
 ### What opens, joins and resolves an incident
 
 * **Opens or joins:** any event whose `check.status` is not `0`. A status that is missing or unreadable also opens or joins, and never resolves.
-* **Resolves:** an event whose `check.status` is the number `0` or the string `"0"`, for the same entity, check and namespace as the open incident. This includes a flapping check that reports status 0.
+* **Resolves:** an event whose `check.status` is the number `0` or the string `"0"`, for the same entity, check and namespace as the open incident. Both events must name the entity and the check. This includes a flapping check that reports status 0.
 * **Identity:** `entity.metadata.name` plus `check.metadata.name`, scoped by `entity.metadata.namespace` when present. A name counts only when it is a non-empty string or a number. Everything else in the event can change between deliveries (timestamps, `sequence`, `check.output`, `check.history`, counters, `check.status`) and a repeat still joins the open incident.
-* **No identity:** if either `entity.metadata.name` or `check.metadata.name` is missing, Spike falls back to matching by title, so it uses the plain title below without the plugin output.
+* **No identity:** if either `entity.metadata.name` or `check.metadata.name` is missing, Spike falls back to matching by title, so it uses the plain title below without the plugin output. Such an event never resolves an incident: its recovery joins the open incident, which you resolve in Spike.
 
 ## Incident title
 
@@ -110,7 +110,7 @@ The title is the plugin's output followed by the entity:
 {check.output} on {entity.metadata.name}
 ```
 
-* The output line is the first non-empty line of `check.output`, with everything from the first ` |` (Nagios performance data) dropped and whitespace collapsed.
+* The output line is the first non-empty line of `check.output`, with everything from the first `|` (Nagios performance data, with or without a space before it) dropped and whitespace collapsed.
 * ` on {entity.metadata.name}` is added only when the line does not already name the entity as a whole word.
 * The title is at most 200 characters. A longer line is cut at a word boundary and ends in `...`, and the ` on {entity}` part is kept whole.
 * If `check.output` is empty: `{check.metadata.name} on {entity.metadata.name}`.
