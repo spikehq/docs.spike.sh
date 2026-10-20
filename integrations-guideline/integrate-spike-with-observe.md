@@ -22,7 +22,7 @@ Every delivery carries `event_type`, filled from `{{alert.type.eventType}}`, and
 Any other or missing `event_type` opens an incident and never resolves one.
 
 {% hint style="info" %}
-Observe only sends `AlarmConditionEnded` when **Send an update when the monitor has stopped triggering** is on for the action. Without them nothing tells Spike the alarm has cleared and the incident has to be resolved by hand.
+Observe only sends `AlarmConditionEnded` when **Send an update when the monitor has stopped triggering** is on for the action in each monitor. Without it nothing tells Spike the alarm has cleared and the incident has to be resolved by hand.
 {% endhint %}
 
 ## Incident identity
@@ -70,13 +70,12 @@ Spike reads the top-level `severity` field, filled from `{{alert.severity.level}
 3. Paste the Spike webhook URL into the **URL** field. This field is required.
 4. Accept the default **Method** of `POST` and, under **Headers**, add `Content-Type: application/json`.
 5. Paste the body from the next section into the **Body** field, replacing the default template. This field is required.
-6. Turn on **Send an update when the monitor has stopped triggering** so Observe sends `AlarmConditionEnded` and Spike can resolve the incident.
-7. Click **Create Shared Action**.
+6. Click **Create Shared Action**.
 
 **Step 3:** Attach the action to your monitors.
 
 1. Open the monitor, or create a new one, and scroll to **Notification actions**.
-2. Add the webhook action you just created.
+2. Add the webhook action you just created. Beneath the action, turn on **Send an update when the monitor has stopped triggering** so Observe sends `AlarmConditionEnded` and Spike can resolve the incident.
 3. Set the monitor's **title** variable (`monitor.variables.title`) to the sentence you want as the incident title. Keep readings that change between notifications out of it.
 4. Save the monitor.
 
@@ -176,7 +175,7 @@ Trigger a test notification from the action in Observe, or send the firing examp
 
 ## Troubleshooting
 
-* **The incident never resolves.** **Send an update when the monitor has stopped triggering** is off on the action, the recovery's `alert_id` differs from the opening one, or `alert_id` is missing or unexpanded on either notification.
+* **The incident never resolves.** **Send an update when the monitor has stopped triggering** is off on the monitor's action, the recovery's `alert_id` differs from the opening one, or `alert_id` is missing or unexpanded on either notification.
 * **Every reminder opens a new incident.** `alert_id` is missing or arrives unexpanded, so Spike is matching on the title. Confirm the body above is pasted as written, and keep changing readings out of the monitor title.
 * **The title is the monitor name instead of your sentence.** `monitor.variables.title` is empty on that monitor.
 * **Spike ignores the fields.** Check the body has no top-level `message` field.
