@@ -108,7 +108,7 @@ Save the webhook.
 
 ## Step 4 — Select the webhook on your alerts
 
-Open a saved search, or a dashboard chart tile, and create an alert from its **Alerts** option. Set the threshold and interval as you normally would, then under **Notify** (the channel selector) choose **Webhook** and pick the webhook you created in Step 2. Save the alert.
+Open a saved search, or a dashboard chart tile, and create an alert from its **Alerts** option. Set the threshold and interval as you normally would, then under **Send to**, open **Select a Webhook** and pick the webhook you created in Step 2. Save the alert.
 
 Repeat for every alert that should page on-call.
 
