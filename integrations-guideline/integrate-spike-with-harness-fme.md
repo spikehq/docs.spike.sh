@@ -61,7 +61,8 @@ Spike does not read a severity from the payload, so incidents open at your integ
 
 ## Prerequisites
 
-* A Harness FME account with permission to manage alert policies and webhooks
+* **FME Administrator** access in Harness, which creating the webhook requires
+* Permission to create or edit Harness connectors (`core_connector_edit`) at the account level. Harness implements metric alert webhooks as connectors
 * A Harness FME integration in Spike and its webhook URL
 * Nothing to open on your own network. FME calls out to Spike
 
@@ -75,20 +76,22 @@ In Spike, go to **Integrations → Add integration → Harness FME**, attach it 
 
 ## Step 2 — Add the webhook in Harness FME
 
-1. **Sign in to Harness** and open the **Feature Management & Experimentation** module for your project.
-2. **Open the metric alert webhook settings.** In FME's integrations / alerting settings, add a webhook for metric alerts.
-3. **Paste the URL** from Step 1 as the webhook URL. Harness documents no signing header or secret for this webhook, so there is nothing else to fill in. The token in the URL is the credential; treat it like a password.
-4. **Save,** then use **Send Test Message** to check the connection.
+1. From the Harness FME navigation menu, click **FME Settings → Integrations** and select **Webhooks** from the categories menu.
+2. Click **Add** on the **Outgoing Webhook (Metric Alerts)** integration and select the project to add the webhook to.
+3. Under **Environments**, select the environments whose alerts should page through Spike.
+4. Select the alert types that should be sent: **All alert policies**, **Metric alert policies**, **Key metric significance** or **Guardrail metric significance**. They apply to both feature flag and experiment alerts.
+5. Paste the URL from Step 1 as the webhook URL. Harness documents no signing header or secret for this webhook, so there is nothing else to fill in. The token in the URL is the credential; treat it like a password. Click **Send Test Message** to check the connection.
+6. Click **Save** to create the webhook.
 
 {% hint style="warning" %}
 Harness does not document what **Send Test Message** posts. If it names no flag, metric or environment, Spike opens an incident titled `Harness FME alert with no details`. Run the test before you attach a live escalation policy, or expect one incident to acknowledge and resolve afterwards.
 {% endhint %}
 
-The menu names above follow Harness's published schema; Harness changes its screens often, so follow the closest equivalent if a label differs.
+These steps follow Harness's [metric alert webhook setup docs](https://developer.harness.io/docs/feature-management-experimentation/api/webhooks/metric-alerts). If a label in your account differs, follow the closest equivalent there.
 
 ## Step 3 — Make sure alerts are switched on
 
-A webhook only receives alerts that FME raises. In FME, make sure an **alert policy** exists on the metrics you care about, and that significance alerts are enabled on key and guardrail metrics if you want those too.
+A webhook only receives alerts that FME raises. In FME, make sure an **alert policy** exists on the metrics you care about. Significance alerts on key and guardrail metrics reach Spike when you selected those alert types in Step 2.
 
 ## Step 4 — Confirm it end to end
 
