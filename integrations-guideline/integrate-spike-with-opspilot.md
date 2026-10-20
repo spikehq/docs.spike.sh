@@ -22,7 +22,7 @@ Spike identifies the incident by the notification's top-level `groupKey`, which 
 * `groupKey` counts as an id only when it is a non-empty string (after trimming) or a number. Spike matches it exactly as sent.
 * If there is no usable `groupKey`, Spike can only match by incident title. The title is then always the plain `<alertname> on <where>` with no sentence and no readings, so it is identical at firing and at recovery.
 * A top-level `status` of `resolved` (trimmed, case-insensitive) only closes an incident and never opens one. Any other value opens an incident. `state` is not read.
-* In a batch, only alerts whose own `status` is `firing` are counted.
+* In a batch, alerts whose own `status` is `resolved` are not counted.
 
 ## Incident title
 
@@ -34,11 +34,13 @@ CPU usage on app-prod-02 is 96.4%, above the 90% threshold
 
 If **Message** is empty, or is still Grafana's default multi-line template (it starts with `**Firing**` or `**Resolved**`, or has `Labels:`, `Annotations:` or `Source: http` lines), Spike falls back in this order:
 
-1. The first alert's `annotations.summary`
-2. The first alert's `annotations.description`
-3. `<alertname> on <where>`, for example `High CPU usage on app-prod-02`. The place is the first alert's `instance` label, then its `grafana_folder` label.
-4. When more than one alert is firing and there is no sentence: `2 alerts in Production: High CPU usage, Low disk space`. It names at most two alerts and adds `+K more` for the rest.
+1. When more than one alert is firing: `2 alerts in Production: High CPU usage, Low disk space`. The batch title wins over any alert's summary. It names at most two alerts and adds `+K more` for the rest.
+2. The first alert's `annotations.summary`
+3. The first alert's `annotations.description`
+4. `<alertname> on <where>`, for example `High CPU usage on app-prod-02`. The place is the first alert's `instance` label, then its `grafana_folder` label.
 5. `OpsPilot alert with no details` when nothing is usable.
+
+`{{ .CommonAnnotations.summary }}` renders empty when the alerts in one notification have different summaries, for example several hosts each reporting their own reading. **Message** is then empty, so a notification with more than one firing alert gets the batch title from item 1.
 
 Every title is capped at 200 characters, however long the values in it are.
 
@@ -110,8 +112,8 @@ The body below is exactly what the webhook contact point sends; Spike reads only
 | `message` | The incident title, when it is a usable sentence |
 | `status` | `firing` opens or joins an incident, `resolved` closes it and never opens one |
 | `groupKey` | The identity of the alert group, used to join repeats and to resolve |
-| `alerts` | The grouped alert instances. The number of firing alerts is the batch count |
-| `alerts[].status` | `firing` or `resolved` for each alert. In a batch only firing alerts are counted |
+| `alerts` | The grouped alert instances. The number of alerts not marked `resolved` is the batch count |
+| `alerts[].status` | `firing` or `resolved` for each alert. In a batch, resolved alerts are not counted |
 | `alerts[].annotations.summary` | First title fallback |
 | `alerts[].annotations.description` | Second title fallback |
 | `alerts[].labels.alertname` | The rule name in `<alertname> on <where>` and in batch titles |
