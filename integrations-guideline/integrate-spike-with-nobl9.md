@@ -21,7 +21,7 @@ Nobl9 does not send resolutions to webhook alert methods, so **Spike never resol
 
 Spike identifies the incident by `alert_id`, the unique id Nobl9 gives the alert (`$alert_id`). A repeat notification carrying the same `alert_id` joins the incident that is already open instead of paging again.
 
-If a notification arrives without a usable `alert_id` (empty, or still the literal `$alert_id`), Spike falls back to matching on the incident title. The title holds no readings, ids or timestamps, so it is the same every time for the same policy and SLO.
+If a notification arrives without a usable `alert_id` (empty, or an unexpanded variable such as `$alert_id`, `${alert_id}` or `{{alert_id}}`), Spike falls back to matching on the incident title. In that case the title holds no readings, thresholds, ids or timestamps, so it is the same every time for the same policy and SLO (see the table below).
 
 ## Incident title
 
@@ -35,13 +35,16 @@ Other shapes, used when the description is empty or the alert is a no-data alert
 
 | When | Title |
 | --- | --- |
-| The policy has no description | `fast-burn: Average burn rate is ≥ 5 and this condition lasts for 5 minutes (checkout-api-availability in checkout)` |
+| The policy has no description and the notification has a usable `alert_id` | `fast-burn: Average burn rate is ≥ 5 and this condition lasts for 5 minutes (checkout-api-availability in checkout)` |
+| The policy has no description and there is no usable `alert_id` | `fast-burn: Error budget burning (checkout-api-availability in checkout)` |
 | The policy has no description and no conditions text | `fast-burn (checkout-api-availability in checkout)` |
 | `anomaly_type` is `noData` | `No data from SLO for 15m (checkout-api-availability in checkout)` |
 | `anomaly_type` is `noData` and `no_data_alert_after` is empty | `No data from SLO (checkout-api-availability in checkout)` |
 | Nothing usable in the notification | `Nobl9 alert with no details` |
 
-A trailing full stop on the description is removed. The ` in checkout` part is left out when `service_name` is empty, and the parentheses are left out when both `slo_name` and `service_name` are empty. An empty value or an unexpanded variable such as `$slo_name` counts as missing. Titles are capped at 200 characters by shortening the sentence, so the `(slo in service)` part is always kept whole. The project, objective, severity and timestamp are on the incident page, not in the title.
+Without a usable `alert_id`, Spike matches repeats on the title, so the conditions text, which holds the thresholds, is replaced by the kind of condition it describes: `Error budget burning`, `Error budget running out` or `Error budget running low`. Editing a threshold on the policy then keeps the same title and the same incident. Conditions text that names none of these is left out, giving `fast-burn (checkout-api-availability in checkout)`.
+
+A trailing full stop on the description is removed. The ` in checkout` part is left out when `service_name` is empty, and with no SLO name the part reads `(checkout)`. The parentheses are left out when both `slo_name` and `service_name` are empty. An empty value or an unexpanded variable such as `$slo_name` counts as missing. Titles are capped at 200 characters. The description is shortened first; the SLO and service part is shortened only when it alone would leave fewer than 40 characters for the description. The project, objective, severity and timestamp are on the incident page, not in the title.
 
 Use a [Title Remapper](../alerts/title-remapper.md) if your team reads Nobl9 alerts by policy name rather than by description:
 
