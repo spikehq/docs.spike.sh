@@ -29,11 +29,11 @@ Send the whole incident. These are the fields Spike reads:
 | --- | --- | --- |
 | `object.name` | Yes | The incident ID. Matches repeats and the close to the open incident. |
 | `object.properties.status` | Yes | `New` opens or joins, `Active` joins or reopens, `Closed` resolves. |
-| `object.properties.description` | Recommended | The incident title in Spike. |
-| `object.properties.title` | Recommended | Title when `description` is empty, and in the resolved message. |
+| `object.properties.title` | Recommended | The incident title in Spike, and in the resolved message. |
+| `object.properties.description` | Optional | The title only when `title` is empty. |
 | `object.properties.classification` | Optional | Shown in the resolved message, for example `TruePositive`. |
 | `object.properties.severity` | Recommended | Sets the Spike severity. It is not part of the title. |
-| `workspaceInfo.WorkspaceName` | Recommended | The workspace, used in the title when `description` is empty. |
+| `workspaceInfo.WorkspaceName` | Recommended | The workspace, added to the end of the title. |
 
 Nothing else in the body is needed. Do not edit the body: send `@{triggerBody()}` as it is.
 
@@ -44,7 +44,9 @@ Nothing else in the body is needed. Do not edit the body: send `@{triggerBody()}
 1. In the [Azure portal](https://portal.azure.com), open **Microsoft Sentinel** and select your workspace.
 2. Go to **Configuration** and then **Automation**.
 3. Select the **Active playbooks** tab, then **Create** and **Playbook with incident trigger**.
-4. Pick the subscription, resource group and a name, for example `spike-notify`, then select **Review + create** and **Create and continue to designer**.
+4. On **Basics**, pick the subscription, resource group and a name, for example `spike-notify`. Select **Next : Connections >**, then **Next : Review and create >**, and on the **Review and create** tab select **Create playbook**. The playbook opens in the Logic App designer.
+
+In the Microsoft Defender portal, the same menu is **Create** > **Logic App playbook** > **Playbook with incident trigger (Legacy)**.
 
 #### Step 2: Add the HTTP action
 
@@ -53,7 +55,7 @@ Nothing else in the body is needed. Do not edit the body: send `@{triggerBody()}
 3. Set **Method** to `POST`.
 4. Set **URI** to the Spike webhook URL you copied.
 5. Under **Headers**, add `Content-Type` with the value `application/json`.
-6. In **Body**, select **Dynamic content** and choose **Incident** (the whole trigger body), or enter `@{triggerBody()}`.
+6. In **Body**, open the expression editor, enter `triggerBody()` and add it. You can also paste `@{triggerBody()}` into **Body** directly.
 7. Select **Save**.
 
 Spike receives the incident exactly as Sentinel hands it to the playbook. A new incident looks like this:
@@ -310,8 +312,8 @@ Open an incident in Sentinel and run the playbook on it manually: **Incidents**,
 
 ### Good to know
 
-* The Spike incident title is the incident `description`, which by default is the description of the analytics rule. Whitespace is collapsed and a long description is cut at a clause or word boundary to 200 characters.
-* When `description` is empty or missing, the title is `{title} in {WorkspaceName}`. Without a workspace it is `{title}`. With neither, it is `Microsoft Sentinel incident in {WorkspaceName}` or `Microsoft Sentinel incident with no details`.
+* The Spike incident title is the Sentinel incident title followed by the workspace: `{title} in {WorkspaceName}`, or `{title}` without a workspace. A long title is cut at a clause or word boundary so the whole fits 200 characters, and the workspace is always kept.
+* Only when `title` is empty or missing is the title the incident `description`, with whitespace collapsed and cut at a clause or word boundary to 200 characters. With neither, it is `Microsoft Sentinel incident in {WorkspaceName}` or `Microsoft Sentinel incident with no details`.
 * On close, the Spike message is `{title} closed in Microsoft Sentinel as {classification}`. Without a classification it is `{title} closed in Microsoft Sentinel`, and without a title `Microsoft Sentinel incident closed`.
 * Spike finds the open incident by the incident ID, not by the title, so an analyst editing the title or description in Sentinel does not break the close.
 * Resolving an incident in Spike does not close it in Sentinel. Close it in Sentinel and let the playbook resolve the Spike incident.
