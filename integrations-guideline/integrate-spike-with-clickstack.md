@@ -34,7 +34,7 @@ Alert for "Checkout API errors" in checkout-api
 
 Include `eventId` or `alertId` in the body (as in Step 3) so you get the fuller title.
 
-If `title` comes through empty, Spike builds one from `alertType`, `value`, `comparator`, `threshold` and `groupKey`, for example `Saved search alert: 152 lines found (threshold 100) in checkout-api`. That title cannot contain the alert's name, because HyperDX only puts the name in `title`. A body with nothing usable is titled `ClickStack alert with no details`.
+If `title` comes through empty, Spike builds one from `alertType`, `value`, `comparator`, `threshold` and `groupKey`, for example `ClickStack saved search alert: 152 lines found (threshold 100) in checkout-api`. That title cannot contain the alert's name, because HyperDX only puts the name in `title`. A body with nothing usable is titled `ClickStack alert with no details`.
 
 Use the [Title Remapper](../alerts/title-remapper.md) if you want a different shape.
 
