@@ -161,11 +161,11 @@ When the same object reconciles successfully, Flux sends a recovery event:
 ```
 
 **Key Fields:**
-* `involvedObject.uid` - Kubernetes UID of the Flux object. Spike uses it to match repeat and recovery events to the open incident. It must be a non-empty string or a number, not an unexpanded template such as `$uid` or `{{ .uid }}`. An event without a usable UID is not matched to an incident.
+* `involvedObject.uid` - Kubernetes UID of the Flux object. Spike uses it to match repeat and recovery events to the open incident. Flux always sends it. An event that arrives without a UID is grouped with an open incident that has the same title instead.
 * `involvedObject.kind`, `involvedObject.namespace`, `involvedObject.name` - The Flux object the event is about. They appear in the fallback and recovery titles.
 * `severity` - `error` opens an incident, or joins the open one for the same UID. `info` resolves the open incident for the same UID only when `reason` is a success reason. Every other `info` event (for example `Progressing` or `DependencyNotReady`) is accepted and ignored, and so is any other severity such as `trace`.
 * `reason` - Taken from the object's Ready condition, for example `ValidationFailed`, `ReconciliationFailed` or `HealthCheckFailed`. The success reasons that resolve an incident are `ReconciliationSucceeded` (kustomize-controller), `InstallSucceeded`, `UpgradeSucceeded` and `TestSucceeded` (helm-controller), `NewArtifact` and `Succeeded` (source-controller's GitRepository, OCIRepository, Bucket and HelmRepository), and `ChartPullSucceeded` and `ChartPackageSucceeded` (source-controller's HelmChart).
-* `message` - Flux's description of what happened. It becomes the incident title.
+* `message` - Flux's description of what happened. Its first sentence becomes the failure title (see [Incident titles](#incident-titles)).
 
 The remaining fields (`apiVersion`, `metadata`, `reportingController`, `reportingInstance`, `timestamp`) are sent by Flux and are not used to open or resolve incidents. Keys you add through `eventMetadata` appear in `metadata` and are kept on the incident, not read.
 
@@ -173,18 +173,20 @@ The remaining fields (`apiVersion`, `metadata`, `reportingController`, `reportin
 
 | Event | Title |
 | --- | --- |
-| Failure | Flux's `message`, whitespace collapsed and cut at 200 characters |
+| Failure | The first sentence of Flux's `message`, whitespace collapsed and cut at a word to at most 200 characters. `{kind} {namespace}/{name}: ` goes in front unless the sentence already names the object as `{namespace}/{name}`, `{kind}/{namespace}/{name}` or `{kind}/{name}` |
 | Failure with an empty `message` | `{reason} on {kind} {namespace}/{name}` |
 | Failure with neither | `Flux alert with no details` |
 | Recovery | `{kind} {namespace}/{name} reconciled successfully` |
-| Recovery when the object is not named | `Flux alert recovered` |
+| Recovery when the object is not named | `Flux reconciliation recovered` |
 
-The first payload above creates an incident titled `service/apps/webapp validation error: spec.type: Unsupported value: Ingress`. The second resolves it, and the recovery title is `Kustomization apps/webapp reconciled successfully`. The recovery title leaves out `message` because it carries durations.
+The first payload above creates an incident titled `Kustomization apps/webapp: service/apps/webapp validation error: spec.type: Unsupported value: Ingress`. Its `message` is about the Service `service/apps/webapp`, not the Kustomization, so the Kustomization goes in front. The second payload resolves it, and the recovery title is `Kustomization apps/webapp reconciled successfully`. The recovery title leaves out `message` because it carries durations.
+
+A HelmRelease `apps/podinfo` failing with `Helm upgrade failed for release apps/podinfo with chart podinfo@6.5.4: ...` already names itself, so its title starts with Flux's sentence as it is.
 
 ## Troubleshooting
 
 **No incidents appear in Spike:**
-* Check the Provider and Alert status with `kubectl -n flux-system get providers,alerts`; both should be ready.
+* Check that the notification-controller accepted the Provider and Alert: `kubectl -n flux-system get events --field-selector involvedObject.kind=Alert`, or `kubectl -n flux-system describe alert spike`. Flux's v1beta3 Alert and Provider have no Ready status to check.
 * Confirm the `address` in the Secret is the exact Spike webhook URL.
 * Confirm `eventSources` has an entry with the kind and `namespace` of the failing object. An entry without `namespace` only matches the Alert's own namespace.
 * Check the notification-controller logs: `kubectl -n flux-system logs deploy/notification-controller`.
