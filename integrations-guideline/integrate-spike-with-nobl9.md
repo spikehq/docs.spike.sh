@@ -74,17 +74,17 @@ In Spike, go to **Integrations → Add integration → Nobl9**, attach it to a s
 
 ## Step 2 — Add a webhook alert method in Nobl9
 
-1. **Sign in to Nobl9** and, in the side menu, go to **Integrations → Alert Methods**.
+1. **Sign in to Nobl9** and go to **Integrations > Alert methods**.
 
-2. **Select Add Alert Method** and choose **Webhook** as the type.
+2. **Click the + button**, then select **Webhook**.
 
 3. **Fill in the alert method:**
    * **Project** — the Nobl9 project the alert method belongs to. It can only be attached to alert policies in this project. *Required*
    * **Name** — something your team will recognise, for example `spike`. *Required*
    * **Display name** and **Description** — optional
-   * **URL** — the webhook URL from Step 1. *Required*
+   * **URL** — the webhook URL from Step 1. It must start with `https://`. *Required*
 
-4. **Set Notification Details to Custom** and paste the body below exactly as written. Spike reads `alert_id`, `alert_policy_description`, `alert_policy_name`, `alert_policy_conditions_text`, `slo_name`, `service_name`, `anomaly_type` and `no_data_alert_after`; `severity` becomes the badge. Nothing is rejected if a field is missing, but the title and the incident identity come from these, so send all of them. The rest is kept on the incident for responders and alert rules.
+4. **Under Notification details, select Custom** and paste the body below exactly as written. Spike reads `alert_id`, `alert_policy_description`, `alert_policy_name`, `alert_policy_conditions_text`, `slo_name`, `service_name`, `anomaly_type` and `no_data_alert_after`; `severity` becomes the badge. Nothing is rejected if a field is missing, but the title and the incident identity come from these, so send all of them. The rest is kept on the incident for responders and alert rules.
 
 ```json
 {
@@ -105,25 +105,25 @@ In Spike, go to **Integrations → Add integration → Nobl9**, attach it to a s
 }
 ```
 
-5. **Save** the alert method.
+5. **Click Add alert method.**
 
 {% hint style="danger" %}
 **Do not add a top-level `message` key to the template,** even though Nobl9's own webhook example has one. The body above is the one Spike builds titles from.
 {% endhint %}
 
 {% hint style="info" %}
-If you would rather use Nobl9's standard mode and pick variables as fields, include the same names as the keys above.
+If you would rather select the **Nobl9** option under Notification details and pick fields from Nobl9's predefined list, select the same fields as the keys above. `alert_id` must be among them, or Spike cannot tell one alert from another.
 {% endhint %}
 
 ## Step 3 — Attach it to your alert policies
 
 An alert method receives nothing until an alert policy uses it.
 
-1. In Nobl9, go to **Alerts → Alert Policies** and open an existing policy, or select **Add Alert Policy** to create one.
-2. Under **Alert methods**, select the webhook alert method you created in Step 2.
-3. **Save** the policy, then make sure the SLOs you want covered are attached to it.
+1. In Nobl9, go to **Alerts** and click the **+** button to open the alert policy wizard, or open an existing policy to edit it.
+2. In the wizard's alert methods step, select the webhook alert method you created in Step 2.
+3. Click **Create alert policy** (or save your changes to an existing one), then make sure the SLOs you want covered are attached to it.
 
-4. **Attach it to no-data alerts too.** No-data notifications are not sent by alert policies. Open the SLO, go to its **Anomaly detection / no-data** settings and select the same webhook alert method there.
+4. **Attach it to no-data alerts too.** No-data notifications are not sent by alert policies. Edit the SLO. In Step 5 of the SLO wizard, select **No data anomaly alert**, set how long the SLO waits for data before notifying, and select the same webhook alert method.
 
 ## Step 4 — Confirm it end to end
 
