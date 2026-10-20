@@ -71,11 +71,42 @@ In Spike, go to **Integrations → Add integration → Asana**, attach it to a s
 
 ## Step 2 — Send the task from your automation tool
 
-Create two automations, one for a new task and one for a completed task. Both send a `POST` request to the webhook URL from Step 1 with the header `Content-Type: application/json`.
+Create two automations, one for a new task and one for a completed task. Both send a `POST` request with a JSON body to the webhook URL from Step 1.
 
-1. **Trigger on the Asana task.** In Zapier choose the **Asana** app as the trigger and pick the new-task event for the first automation and the completed-task event for the second. In Make, add an **Asana** module that watches tasks in the project.
-2. **Add the request step.** In Zapier add **Webhooks by Zapier → Custom Request**, not the plain **POST** action: **POST** only takes flat key/value fields and cannot build the nested `assignee` and `projects` objects. Set **Method** to `POST`, **URL** to your Spike webhook URL, **Data** to the raw JSON below with the Asana fields mapped in, and add the header `Content-Type: application/json` under **Headers**. In Make add **HTTP → Make a request**, set the URL to your Spike webhook URL, the method to `POST`, the body type to **Raw** and the content type to **JSON (application/json)**.
-3. **Build the body** so that it has exactly the shape below, filling the fields from the Asana task. Send `"completed": false` from the new-task automation and `"completed": true` from the completed-task automation. If a variable is left unexpanded, Spike treats it as missing.
+Let your tool build the JSON from fields you map. Do not paste mapped values into JSON you write by hand. Task names often contain quotes, and notes often contain line breaks. Pasted unescaped, they make the body invalid JSON. Spike then rejects the request and no incident opens.
+
+### Zapier
+
+1. **Trigger.** Choose the **Asana** app. Use **New Task** for the first Zap and **Completed Task** for the second.
+2. **Action.** Add **Webhooks by Zapier** with the **POST** event. Set **URL** to your Spike webhook URL and **Payload Type** to `json`.
+3. **Data.** Add one row per field and map each value from the Asana trigger:
+
+| Key | Value |
+| --- | --- |
+| `gid` | The task's gid (ID) |
+| `name` | The task name |
+| `completed` | Type `false` in the New Task Zap and `true` in the Completed Task Zap |
+| `permalink_url` | The task's permalink URL |
+| `notes` | The task notes |
+| `assignee__name` | The assignee's name |
+
+Zapier encodes these values for you. A double underscore in a key nests the value, so `assignee__name` arrives as `"assignee": {"name": …}`. Zapier sends every value as text, which Spike accepts: the gid arrives as a quoted string, and `"true"` resolves the incident.
+
+Do not use **Custom Request** for this. It sends the **Data** box exactly as you type it and does not escape mapped values, so a task name with a `"` or notes with a line break produce invalid JSON. Custom Request adds only one thing: a `projects` array, which Spike uses for the `Asana task in <project>` title when a task has no name. If you need that, first pass `name` and `notes` through a Formatter step that escapes quotes and line breaks, or leave `notes` out.
+
+### Make
+
+1. **Trigger.** Start the first scenario with **Asana → Watch New Tasks**. Start the second with **Asana → Watch Tasks or Subtasks**, and set **Watch** to completed tasks.
+2. **Action.** Add **HTTP → Make a request**. Set **URL** to your Spike webhook URL, **Method** to `POST`, **Body content type** to `application/json`, and **Body input method** to **Data structure**.
+3. **Data structure.** Add the keys of the body below (`gid`, `name`, `notes`, `completed`, `permalink_url`, an `assignee` collection with `name`, and a `projects` array of collections with `name`), and map each one from the Asana module. Make escapes quotes and line breaks in mapped values. Avoid the **JSON string** input method, which sends mapped values unescaped.
+
+### A script
+
+`POST` the body below with the header `Content-Type: application/json`. Build it with your language's JSON encoder, for example `JSON.stringify` or `json.dumps`, not by joining strings.
+
+### The body Spike reads
+
+Send `completed: false` from the new-task automation and `completed: true` from the completed-task automation. If a variable is left unexpanded, Spike treats it as missing.
 
 A task body that opens an incident:
 
@@ -133,9 +164,7 @@ The same task when it is completed, which resolves the incident:
 
 Type `completed` as `false` or `true` without quotes, and quote `gid`. Spike also accepts `"true"` as text, in case your tool sends it that way.
 
-If you flatten `assignee` or `projects` in your tool, the incident still works, but the project fallback title is lost.
-
-From a script, `POST` the same JSON to the webhook URL with the header `Content-Type: application/json`.
+Without `projects`, as from a Zapier **POST**, the incident still works. Only the `Asana task in <project>` title for a task with no name is lost.
 
 ## Step 3 — Test it
 
