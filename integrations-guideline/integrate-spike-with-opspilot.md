@@ -7,7 +7,7 @@ description: >-
 
 ## Overview
 
-[OpsPilot](https://fusion-reactor.com) (formerly FusionReactor Cloud) monitors your FusionReactor instances and applications. Alert rules watch a metric, and when a rule fires OpsPilot notifies the contact points your alert policies route to.
+[OpsPilot](https://opspilot.com) (formerly FusionReactor Cloud) monitors your FusionReactor instances and applications. Alert rules watch a metric, and when a rule fires OpsPilot notifies the contact points the rule names or its notification policy routes to.
 
 A **Webhook** contact point posts each notification to Spike as JSON. A firing alert opens an incident and pages your escalation policy. A repeat of the same alert joins the incident that is already open, and the recovery resolves it.
 
@@ -51,7 +51,7 @@ Use a [Title Remapper](../alerts/title-remapper.md) if you want a different titl
 
 ## Prerequisites
 
-* An OpsPilot account that can create contact points and alert policies
+* An OpsPilot account that can create contact points and alert rules or notification policies
 * An OpsPilot integration in Spike and its webhook URL
 * Outbound HTTPS from OpsPilot to `hooks.spike.sh`
 
@@ -68,36 +68,36 @@ Use a [Title Remapper](../alerts/title-remapper.md) if you want a different titl
 {% tabs %}
 {% tab title="Setup on OpsPilot" %}
 1. **Open contact points:**
-   In OpsPilot, go to **Alerting → Contact points** and click **Add contact point**.
+   In OpsPilot, go to **Alerting > Notifications** and open the **Contact Points** tab.
 
-2. **Name it and choose the type:**
-   Enter a name such as `Spike`, and under **Integration** choose **Webhook**.
+2. **Choose Webhook:**
+   Click **+ New contact point** to open the integration picker, open the **Webhook** category tab and select **Webhook**.
 
 3. **Paste the Spike URL (required):**
-   Paste the webhook URL from Step 1 into the **URL** field and set **HTTP Method** to **POST**.
+   Paste the webhook URL from Step 1 into the webhook URL field, and enter a unique, descriptive **Name** such as `Spike`.
 
-4. **Set the Message (strongly recommended):**
-   Open **Optional Webhook settings** and set **Message** to:
+4. **Set the Message, if your form shows it (strongly recommended):**
+   OpsPilot's alerting is built on Grafana, and Grafana's Webhook form has a **Message** setting (under **Optional Webhook settings**). OpsPilot's documentation does not describe the Webhook form's fields, so if your form has **Message**, set it to:
 
    ```
    {{ .CommonAnnotations.summary }}
    ```
 
-   This becomes the incident title. Without it, Spike falls back to the rule's summary annotation, so add a **summary** annotation to each alert rule.
+   This becomes the incident title. Without it, Spike falls back to the rule's summary annotation, so add a **summary** annotation to each alert rule. If the form also shows an **HTTP Method** setting, leave it at **POST**.
 
 5. **Leave authorization empty:**
    The token in the URL is the credential. Treat the URL like a password.
 
-6. **Save, then test:**
-   Click **Save contact point**. To send a test notification, click **Test** on the contact point before saving or from the contact point list.
+6. **Save:**
+   Click **Save contact point**. If your form has a **Test** button, use it to send a test notification to Spike.
 
 7. **Route alerts to it:**
-   Go to **Alerting → Notification policies** and add a policy that sends the alerts you want paged to the `Spike` contact point. Make sure the alert rules you route carry **summary** and **description** annotations, and that the policy does not group on labels that differ between alerts you want in one incident.
+   Either pick the contact point on the alert rule itself: under **Then notify**, click **+ Add contact point** and choose `Spike`. Or route through a notification policy: go to **Alerting > Notifications**, open the **Notification Policy** tab, click **+ New route**, choose the `Spike` contact point and add a matcher, such as a `channel` label that your alert rules carry. Make sure the alert rules you route carry **summary** and **description** annotations, and that the route does not group on labels that differ between alerts you want in one incident.
 {% endtab %}
 {% endtabs %}
 
 {% hint style="info" %}
-The only required field is the **URL**. **Message** only sets the title; the rest of the payload is sent by the webhook contact point automatically.
+The only required field is the webhook **URL**. **Message**, where your form has it, only sets the title; the rest of the payload is sent by the webhook contact point automatically.
 {% endhint %}
 
 {% content-ref url="archive-an-integration.md" %}
@@ -253,4 +253,4 @@ The same alert group with the same `groupKey`, once it has recovered. Spike reso
 
 * **The title is a rule name, not a sentence.** **Message** is empty or still the default template, and the rule has no `summary` or `description` annotation. Set **Message** as in Step 2 or add a `summary` annotation to the rule.
 * **Repeats open new incidents.** Check that the payload carries a non-empty `groupKey` that is not an unfilled template variable such as `{{ .GroupKey }}`. Without one Spike matches by title.
-* **The incident does not resolve.** Check that the contact point is set to send resolved notifications (leave **Disable resolved message** off) and that the resolved notification carries the same `groupKey` as the firing one.
+* **The incident does not resolve.** Check that the contact point sends resolved notifications (if your form has Grafana's **Disable resolved message** setting, leave it off) and that the resolved notification carries the same `groupKey` as the firing one. OpsPilot's documentation does not say whether resolved notifications are sent.
