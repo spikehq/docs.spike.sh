@@ -164,7 +164,7 @@ When the same object reconciles successfully, Flux sends a recovery event:
 * `involvedObject.uid` - Kubernetes UID of the Flux object. Spike uses it to match repeat and recovery events to the open incident. It must be a non-empty string or a number, not an unexpanded template such as `$uid` or `{{ .uid }}`. An event without a usable UID is not matched to an incident.
 * `involvedObject.kind`, `involvedObject.namespace`, `involvedObject.name` - The Flux object the event is about. They appear in the fallback and recovery titles.
 * `severity` - `error` opens an incident, or joins the open one for the same UID. `info` resolves the open incident for the same UID only when `reason` is a success reason. Every other `info` event (for example `Progressing` or `DependencyNotReady`) is accepted and ignored, and so is any other severity such as `trace`.
-* `reason` - Taken from the object's Ready condition, for example `ValidationFailed`, `ReconciliationFailed` or `HealthCheckFailed`. The success reasons that resolve an incident are `ReconciliationSucceeded`, `Succeeded`, `InstallSucceeded`, `UpgradeSucceeded` and `TestSucceeded`.
+* `reason` - Taken from the object's Ready condition, for example `ValidationFailed`, `ReconciliationFailed` or `HealthCheckFailed`. The success reasons that resolve an incident are `ReconciliationSucceeded` (kustomize-controller), `InstallSucceeded`, `UpgradeSucceeded` and `TestSucceeded` (helm-controller), `NewArtifact` and `Succeeded` (source-controller's GitRepository, OCIRepository, Bucket and HelmRepository), and `ChartPullSucceeded` and `ChartPackageSucceeded` (source-controller's HelmChart).
 * `message` - Flux's description of what happened. It becomes the incident title.
 
 The remaining fields (`apiVersion`, `metadata`, `reportingController`, `reportingInstance`, `timestamp`) are sent by Flux and are not used to open or resolve incidents. Keys you add through `eventMetadata` appear in `metadata` and are kept on the incident, not read.
@@ -191,7 +191,7 @@ The first payload above creates an incident titled `service/apps/webapp validati
 
 **Incidents do not resolve:**
 * Set `eventSeverity: info` on the Alert so Flux sends success events.
-* Resolution happens when the same object (same `involvedObject.uid`) sends an `info` event whose `reason` is `ReconciliationSucceeded`, `Succeeded`, `InstallSucceeded`, `UpgradeSucceeded` or `TestSucceeded`. Only `ReconciliationSucceeded` (kustomize-controller) has been confirmed against Flux's source.
+* Resolution happens when the same object (same `involvedObject.uid`) sends an `info` event whose `reason` is `ReconciliationSucceeded` (kustomize-controller), `InstallSucceeded`, `UpgradeSucceeded` and `TestSucceeded` (helm-controller), `NewArtifact` and `Succeeded` (source-controller's GitRepository, OCIRepository, Bucket and HelmRepository), and `ChartPullSucceeded` and `ChartPackageSucceeded` (source-controller's HelmChart).
 
 {% hint style="success" %}
 This integration auto resolves
