@@ -14,8 +14,8 @@ Nothing is installed. One webhook URL and two database automations cover a whole
 ## How Spike reads the webhook
 
 * **Identity:** `data.id`, the id of the Notion task page. It is the same on the firing delivery and the recovery, so the recovery resolves the incident the firing opened, and a repeat firing for the same task joins the open incident instead of paging again.
-* **Title:** the task's title property. Its name is yours to choose (`Name`, `Task name`, ...), so Spike finds it by its type, joins the text segments, collapses whitespace and caps it at 200 characters. If the title is empty the incident is titled `Notion task with no title`.
-* **Recovery:** read from the first property whose type is **Status**. The names `done`, `complete`, `completed`, `resolved` and `closed`, in any letter case, resolve the incident. Any other status, such as `Not started` or `In progress`, is a firing. Older databases whose **Status** is a **Select** property named exactly `Status` are read the same way.
+* **Title:** the task's title property. Its name is yours to choose (`Name`, `Task name`, ...), so Spike finds it by its type, joins the text segments, collapses whitespace and shortens it at a word boundary to fit 200 characters. If the title is empty the incident is titled `Notion task with no title`.
+* **Recovery:** read from the first property whose type is **Status**. The names `done`, `complete`, `completed`, `resolved`, `closed`, `cancelled` and `canceled`, in any letter case, resolve the incident. Any other status, such as `Not started` or `In progress`, is a firing. Older databases whose status is a **Select** property named `Status` (in any letter case) are read the same way.
 
 Incident titles:
 
@@ -46,22 +46,22 @@ In Spike, go to **Integrations → Add integration → Notion**, attach it to a 
 
 ## Step 2 — Create the automation that pages
 
-1. Open your tasks database in Notion and select the **lightning bolt** (**Automations**) icon at the top right, then **New automation**.
-2. Under **When**, choose the trigger that should page your team, for example **Page added**, or **Status** is set to **Not started**. Add a filter if only some tasks should page, such as **Priority** is **High**.
-3. Under **Do**, select **Add action** and choose **Send webhook**.
+1. Open your tasks database in Notion, select **⚡** at the top of the database, then **New automation**.
+2. Select **New trigger** and choose the trigger that should page your team, for example **Page added**, or **Property edited** with **Status** is set to **Not started**. Add a filter if only some tasks should page, such as **Priority** is **High**.
+3. Select **New action** and choose **Send webhook**.
 4. In the **URL** field paste the Spike webhook URL from Step 1.
 5. Under **Properties**, select **Title** and **Status**. Both are required: the title becomes the incident title, and the status tells Spike whether the task is open or done. Other properties are optional and are kept on the incident.
-6. Name the automation, for example `Spike - task opened`, and save it.
+6. Name the automation, for example `Spike - task opened`, and select **Create**.
 
 ## Step 3 — Create the automation that resolves
 
-1. In the same database, select **Automations → New automation**.
-2. Under **When**, choose **Status** is set to **Done** (or the completed option your database uses).
-3. Under **Do**, choose **Send webhook** and paste the same Spike webhook URL.
-4. Under **Properties**, select **Title** and **Status**, name it `Spike - task done` and save it.
+1. In the same database, select **⚡ → New automation**.
+2. Select **New trigger**, choose **Property edited**, and set **Status** is set to **Done** (or the completed option your database uses).
+3. Select **New action**, choose **Send webhook** and paste the same Spike webhook URL.
+4. Under **Properties**, select **Title** and **Status**, name it `Spike - task done` and select **Create**.
 
 {% hint style="warning" %}
-Notion pauses an automation when its webhook fails. If tasks stop paging, check that the automation is still turned on and that the integration in Spike has not been archived.
+Notion pauses an automation when its webhook fails, and you may not be notified. A failure includes Spike answering `429` during a burst of events. If tasks stop paging, check that the automation is still turned on, resume it in Notion, and check that the integration in Spike has not been archived.
 {% endhint %}
 
 ## Step 4 — Confirm it end to end
@@ -255,7 +255,7 @@ Check that the automation is turned on and not paused, that the **URL** is the f
 
 <summary>The incident does not resolve</summary>
 
-Check that the resolving automation sends **Title** and **Status**, that the status name is one of `Done`, `Complete`, `Completed`, `Resolved` or `Closed`, and that the incident is still open.
+Check that the resolving automation sends **Title** and **Status**, that the status name is one of `Done`, `Complete`, `Completed`, `Resolved`, `Closed`, `Cancelled` or `Canceled`, and that the incident is still open.
 
 </details>
 
