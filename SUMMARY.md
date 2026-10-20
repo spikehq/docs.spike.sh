@@ -209,7 +209,7 @@
 * [Integrate Spike with Notion](integrations-guideline/integrate-spike-with-notion.md)
 * [Integrate Spike with NVADR (RedHunt Labs)](integrations-guideline/integrate-spike-with-nvadr.md)
 * [Integrate Spike with Observe](integrations-guideline/integrate-spike-with-observe.md)
-* [Integrate Spike with Oh-Dear](integrations-guideline/integrate-spike-with-oh-dear.md)
+* [Integrate Spike with Oh Dear](integrations-guideline/integrate-spike-with-oh-dear.md)
 * [Integrate Spike with OpenText SiteScope](integrations-guideline/opentext-sitescope.md)
 * [Integrate Spike with OpsPilot](integrations-guideline/integrate-spike-with-opspilot.md)
 * [Integrate Spike with PA Server Monitor](integrations-guideline/integrate-spike-with-pa-server-monitor.md)
