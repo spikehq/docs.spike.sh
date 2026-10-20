@@ -204,6 +204,7 @@
 * [Integrate Spike with Nixstats](integrations-guideline/integrate-spike-with-nixstats.md)
 * [Integrate Spike with Nobl9](integrations-guideline/integrate-spike-with-nobl9.md)
 * [Integrate Spike with NodePing](integrations-guideline/integrate-spike-with-nodeping.md)
+* [Integrate Spike with Notion](integrations-guideline/integrate-spike-with-notion.md)
 * [Integrate Spike with NVADR (RedHunt Labs)](integrations-guideline/integrate-spike-with-nvadr.md)
 * [Integrate Spike with Observe](integrations-guideline/integrate-spike-with-observe.md)
 * [Integrate Spike with Oh-Dear](integrations-guideline/integrate-spike-with-oh-dear.md)
