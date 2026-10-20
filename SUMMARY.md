@@ -217,6 +217,7 @@
 * [Integrate Spike with Rollbar](integrations-guideline/integrate-spike-with-rollbar.md)
 * [Integrate Spike with Runscope](integrations-guideline/integrate-spike-with-runscope.md)
 * [Integrate Spike with Scalyr](integrations-guideline/integrate-spike-with-scalyr.md)
+* [Integrate Spike with ScienceLogic SL1](integrations-guideline/integrate-spike-with-sciencelogic.md)
 * [Integrate Spike with Scout-apm](integrations-guideline/integrate-spike-with-scout-apm.md)
 * [Integrate Spike with Sedai](integrations-guideline/integrate-spike-with-sedai.md)
 * [Integrate Spike with Semaphore](integrations-guideline/integrate-spike-with-semaphore.md)
