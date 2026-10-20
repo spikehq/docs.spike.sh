@@ -78,7 +78,7 @@ mPulse does not document a notification when an alert clears, so Spike cannot re
    | --- | --- | --- |
    | `alert_name` | Yes | The **Alert Name** attribute. It identifies the alert, so repeats join the same incident, and it is the start of the incident title. |
    | `app_name` | No | The mPulse app the alert watches. Added to the title as `on <app_name>`. |
-   | `severity` | No | The alert's severity (Info, Low, Medium or High). High maps to sev1, Medium to sev2, Low and Info to sev3. Not shown in the title. |
+   | `severity` | No | The alert's severity (Info, Low, Medium or High; some mPulse pages call the top level Severe). High and Severe map to sev1, Medium to sev2, Low and Info to sev3. Not shown in the title. |
    | `beacon_count`, `bounce_rate`, `network_error_rate` | No | Readings at alert time, sent as strings. Context only. |
    | `page_load_time`, `dns_resolution_time`, `dom_load_time`, `dom_ready_time`, `back_end_time`, `ssl_time`, `front_end_time`, `tcp_time` | No | Timer readings at alert time, sent as strings with their unit. Context only. |
 
@@ -100,7 +100,7 @@ mPulse does not document a notification when an alert clears, so Spike cannot re
 ## FAQs
 <details>
 <summary>Will incidents auto-resolve in Spike when the alert clears in mPulse?</summary>
-No. mPulse does not send a webhook when an alert clears, so resolve the incident in Spike.
+No. mPulse does not document a notification when an alert clears, so resolve the incident in Spike.
 </details>
 <details>
 <summary>Why should <code>alert_name</code> always be included?</summary>
