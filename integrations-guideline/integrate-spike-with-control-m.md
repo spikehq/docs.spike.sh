@@ -11,7 +11,7 @@ description: >-
 With Spike's Control-M integration, an alert raised by Control-M becomes a Spike incident, and closing the alert in Control-M resolves it. Control-M does not send webhooks itself. It runs an alerts listener script that you provide, and that script posts the alert to Spike.
 
 ## How it works
-* `id` is the Control-M alert id. It stays the same across every `I` and `U` delivery about one alert, so Spike uses it to match them. It may be sent as a string or a number (`0` is an id). Spike reads it exactly as sent. An empty value, or a template variable that Control-M did not expand (`$id`, `$ID`, `${id}`, `{{id}}`, `%id%`), is not an id.
+* `id` is the Control-M alert id. It stays the same across every `I` and `U` delivery about one alert, so Spike uses it to match them. It may be sent as a string or a number (`0` is an id), and Spike treats `2193`, `"2193"` and `" 2193 "` as the same id. An empty value, a template variable that Control-M did not expand (`$id`, `$ID`, `${id}`, `{{id}}`, `%id%`, `%%ALERT_ID`, `<id>`), or a word for no value (`null`, `None`, `nil`, `undefined`, `NaN`, `n/a`) is not an id.
 * `eventType` is `I` for a newly issued alert and `U` for an update. Matching is case-insensitive. An `I` delivery opens an incident. A `U` delivery never opens one: it joins the open incident with the same `id`, and is dropped when none is open. Any other or missing `eventType` opens an incident.
 * `status` is `0` Not_Noticed (New), `1` Noticed (Reviewed) or `2` Handled (Closed). `0` opens on `I` and joins on `U`. `1` joins and never closes. `2` resolves the open incident with the same `id`, and never opens one, whatever the `eventType`. `status` may be a string or a number; `handled` and `closed` count as `2`, and `noticed` and `reviewed` as `1`, in any case. An unknown `status` never resolves.
 * Without a valid `id`, Spike falls back to matching by title. Always send `id`: an alert without one cannot be reliably resolved.
@@ -40,51 +40,80 @@ Auto-resolution is supported for this integration. Spike will also automatically
 
 {% tabs %}
 {% tab title="Setup on Control-M" %}
-1. Enable external alerts for your Control-M environment and choose the alert types to send (the `enableExternalAlerts` and `externalAlertTypes` settings, described in BMC's "Sending events to external monitoring tools" tutorial). Set `externalAlertTypes` to `{"value": "Alerts"}` so that only job alerts are sent. Control-M system alerts use different status codes and have no `id`, so Spike does not support them: do not send them to this integration.
-2. Keep the **default alert template**. Control-M then passes each alert to the **alerts listener** as `name: ` and `value ` arguments that use the field names in the table below (`eventType`, `id`, `status`, `message`, `jobName`, `host` and so on). Do not rename them.
-3. Save the listener script below on the machine that runs the alerts listener, and make it executable. Control-M starts it with `/bin/sh`, so it is written in plain POSIX shell. Control-M passes each field name as one argument with a trailing space (`id: `) and each value as the next argument (`4127 `). The script trims both and ignores template fields it does not know, such as `closedByControlM` and `ticketNumber`. Replace `SPIKE_WEBHOOK_URL` with the URL from Step 1.
-4. Register the script as the listener's command, following BMC's tutorial for your version, then restart the listener.
+1. Enable external alerts for your Control-M environment and choose the alert types to send, as described in BMC's "Sending events to external monitoring tools" tutorial. Set `enableExternalAlerts` to `{"value": "true"}` and `externalAlertTypes` to `{"value": "Alerts"}` with `ctm config systemsettings::set`, so that only job alerts are sent. Control-M system alerts use different status codes and have no `id`, so Spike does not support them: do not send them to this integration.
+2. Keep the **default alert template**. Control-M then passes each alert to the **alerts listener script** as arguments that use the field names in the table below (`eventType`, `id`, `status`, `message`, `jobName`, `host` and so on). Do not rename them.
+3. Save the listener script below on the machine that runs the alerts listener, and make it executable. Control-M starts it with `/bin/sh`, so it is written in plain POSIX shell. Replace `SPIKE_WEBHOOK_URL` with the URL from Step 1.
+   * BMC documents more than one argument format, depending on the Control-M version and the `useNewAlertFieldsFormat` setting. The script accepts all three: a field name and its value as two arguments (`"id: "` then `"2193 "`), one argument with no spaces (`"id:2193"`), and one argument with spaces around the colon (`"id : 2193"`).
+   * An argument starts a new field only when the text before its first colon is a field name from the table below, or one of the template fields the script drops (`closedByControlM`, `ticketNumber`). Any other text, including a value that contains or ends in a colon such as `Cause: disk full`, is part of the current field's value.
+   * When no argument names a known field, the script posts nothing and exits with status `2`. It also exits non-zero when the post to Spike fails.
+4. Register the script with the alerts listener and start it: `ctm run alerts:listener:environment::set <environment>`, then `ctm run alerts:listener:script::set <path to the script>`, then `ctm run alerts:listener::start`.
+5. Confirm the argument format your listener uses. Set the listener's `listenerLogLevel` to `debug`, raise a test alert and check the Alerts listener log in `$HOME/.ctm/python-logs/`: it records the script's exit status, and `2` means the script found no field it knows. To see the exact arguments, set `ARGS_LOG` at the top of the script to a file path; the script then appends each argument it receives, one per line in brackets. Clear `ARGS_LOG` again once alerts arrive in Spike, because the file holds alert text.
 
 ```bash
 #!/bin/sh
-# Turns Control-M "name: " / "value " arguments into a JSON body and posts it to Spike.
+# Turns a Control-M alert's arguments into a flat JSON body and posts it to Spike.
+# Accepts "name: " then "value ", "name:value" and "name : value".
 SPIKE_WEBHOOK_URL="https://hooks.spike.sh/..."
-FIELDS=" eventType id server fileName runId severity status time user updateTime message runAs subApplication application jobName host type runNo notes "
+ARGS_LOG=""
+SENT_FIELDS=" eventType id server fileName runId severity status time user updateTime message runAs subApplication application jobName host type runNo notes "
+DROPPED_FIELDS=" closedByControlM ticketNumber "
+
+if [ -n "$ARGS_LOG" ]; then
+  printf '[%s]\n' "$@" >> "$ARGS_LOG"
+fi
+
+trim() {
+  text="${1#"${1%%[![:space:]]*}"}"
+  printf '%s' "${text%"${text##*[![:space:]]}"}"
+}
+
+is_field_name() {
+  case "$1" in
+    ""|*[!A-Za-z]*) return 1 ;;
+  esac
+  case "$SENT_FIELDS$DROPPED_FIELDS" in
+    *" $1 "*) return 0 ;;
+  esac
+  return 1
+}
 
 body='{}'
 name=""
 value=""
-flush() {
-  if [ -n "$name" ]; then
-    body=$(printf '%s' "$body" | jq -c --arg k "$name" --arg v "$value" '. + {($k): $v}')
-  fi
-}
-for token in "$@"; do
-  trimmed="${token%"${token##*[![:space:]]}"}"
-  case "$trimmed" in
-    *[!A-Za-z:]*|*:?*|:|"")
-      value="${value:+$value }$trimmed"
-      ;;
-    *:)
-      flush
-      key="${trimmed%:}"
-      case "$FIELDS" in
-        *" $key "*) name="$key" ;;
-        *) name="" ;;
-      esac
-      value=""
-      ;;
-    *)
-      value="${value:+$value }$trimmed"
+add_field() {
+  case "$SENT_FIELDS" in
+    *" $name "*)
+      body=$(printf '%s' "$body" | jq -c --arg k "$name" --arg v "$value" '. + {($k): $v}')
       ;;
   esac
-done
-flush
+}
 
-curl -sS -X POST -H 'Content-Type: application/json' -d "$body" "$SPIKE_WEBHOOK_URL"
+for argument in "$@"; do
+  token=$(trim "$argument")
+  case "$token" in
+    *:*)
+      key=$(trim "${token%%:*}")
+      if is_field_name "$key"; then
+        add_field
+        name="$key"
+        value=$(trim "${token#*:}")
+        continue
+      fi
+      ;;
+  esac
+  value="${value:+$value }$token"
+done
+add_field
+
+if [ "$body" = '{}' ]; then
+  echo "No Control-M field found in the listener's arguments; nothing sent to Spike." >&2
+  exit 2
+fi
+
+curl -fsS --max-time 10 -X POST -H 'Content-Type: application/json' -d "$body" "$SPIKE_WEBHOOK_URL"
 ```
 
-The script needs `jq` and `curl`. A field with no value, such as `user:`, is sent as an empty string.
+The script needs `jq` and `curl`. A field with no value, such as `user:`, is sent as an empty string. Spaces around each name and value are trimmed.
 
 The script produces this body for a newly issued alert:
 
@@ -169,6 +198,8 @@ Send these fields and no others. All values are strings. `id`, `eventType`, `sta
 On-premises Control-M/EM uses the older names in the "Control-M name" column (`call_type`, `alert_id`, `data_center` and so on). If your listener receives those, map them to the field names in the first column before posting.
 
 {% hint style="warning" %}
+The argument format has not been confirmed on a real Control-M delivery: BMC's sample listener passes `name: ` and `value ` as separate arguments, while BMC's Alerts page describes `name:value` and a `key : value` format introduced in May 2025. The script accepts all three; check your listener's log as described in Step 2 before relying on it.
+
 Auto-resolve depends on Control-M sending a delivery with status `2` when an alert is handled. We expect an operator setting the alert to Handled to do this, but it has not been confirmed on a real delivery; alerts that are never handled stay open in Spike. Control-M has no setting that handles an alert automatically when a rerun ends OK.
 
 Alert ids are unique only within one Control-M/EM or SaaS environment. Create one Spike integration for each environment.
