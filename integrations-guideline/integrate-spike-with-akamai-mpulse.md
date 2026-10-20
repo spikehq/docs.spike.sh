@@ -39,17 +39,17 @@ mPulse does not document a notification when an alert clears, so Spike cannot re
 1. **Log in to mPulse** with a user who can edit alerts for your app.
 
 2. **Open the alert:**
-   Go to **Alerts**, then select **New** to create an alert, or open the alert definition you want to send to Spike.
+   Go to **Alerts** → **Alert Definitions** and click **+ New** (or open an existing alert definition).
 
 3. **Add the webhook notification:**
-   Add a notification and choose **Call Webhook**. Set:
+   Under the notification step, click **+ Add an action** and choose **Call Webhook**. Set:
    * **Method**: `POST`
    * **URL**: the Spike webhook URL, `https://hooks.spike.sh/<token>/push-events`
    * **Header**: `Content-Type: application/json`
    * **Mode**: `Custom`
 
    {% hint style="warning" %}
-   Keep the mode on **Custom**. With the default mode mPulse sends its own payload, which has no `alert_name` or `app_name`, so every alert gets the title `Akamai mPulse alert with no details` and they all merge into one incident.
+   Set the **Mode** slider to **Custom**. In **Auto**, mPulse generates the URL query parameters and headers itself and you cannot write the body below.
    {% endhint %}
 
 4. **Set the body:**
@@ -92,8 +92,8 @@ mPulse does not document a notification when an alert clears, so Spike cannot re
    If an attribute is left unexpanded (it arrives as text such as `$alert_name`, `{{alert_name}}` or `%alert_name%`), Spike treats it as missing. Two different alerts then cannot be told apart by name, so check that each value is replaced by the real mPulse attribute.
    {% endhint %}
 
-5. **Save and test:**
-   Save the alert, then trigger it or use mPulse's test option, and check that the incident appears in Spike.
+5. **Save the alert:**
+   Save the alert. When it next triggers, check that the incident appears in Spike.
 {% endtab %}
 {% endtabs %}
 
