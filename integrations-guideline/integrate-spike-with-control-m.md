@@ -171,7 +171,7 @@ When an operator handles (closes) the alert, the script sends the same alert wit
 
 ### Fields
 
-Send these fields and no others. All values are strings. `id`, `eventType`, `status` and `message` drive how alerts open and resolve; `jobName`, `host` and `server` build the title. The rest are kept on the incident.
+Send these fields and no others. All values are strings. `id`, `eventType`, `status` and `message` drive how alerts open and resolve; `jobName`, `host` and `server` build the title; `severity` sets the severity badge. The rest are kept on the incident.
 
 | Field | Control-M name | Meaning |
 | --- | --- | --- |
@@ -182,7 +182,7 @@ Send these fields and no others. All values are strings. `id`, `eventType`, `sta
 | `jobName` | `job_name` | Job that raised the alert. Used in the title. |
 | `host` | `host_id` | Agent host where the job ran. Used in the title. |
 | `server` | `data_center` | Control-M/Server. Used in the title when `host` is empty. |
-| `severity` | `severity` | `V` very urgent, `U` urgent, `R` regular. Kept only; no severity badge is set. |
+| `severity` | `severity` | `V` very urgent, `U` urgent, `R` regular. Sets the incident's severity badge: `V` → sev1, `U` → sev2, `R` → sev3. Never part of the title. |
 | `type` | `alert_type` | `R` regular, `B` SLA (BIM). Kept only. |
 | `application` | `application` | The job's application. Kept only. |
 | `subApplication` | `sub_application` | The job's sub-application. Kept only. |
