@@ -118,6 +118,7 @@
 * [Integrate Spike with AppSignal](integrations-guideline/integrate-spike-with-appsignal.md)
 * [Integrate Spike with AppViewX](integrations-guideline/integrate-spike-with-appviewx.md)
 * [Integrate Spike with Argo CD](integrations-guideline/integrate-spike-with-argo-cd.md)
+* [Integrate Spike with Asana](integrations-guideline/integrate-spike-with-asana.md)
 * [Integrate Spike with Assertible](integrations-guideline/integrate-spike-with-assertible.md)
 * [Integrate Spike with Atatus](integrations-guideline/integrate-spike-with-atatus.md)
 * [Integrate Spike with AWS](integrations-guideline/integrate-spike-with-aws.md)
