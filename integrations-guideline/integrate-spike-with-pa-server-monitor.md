@@ -64,7 +64,7 @@ One action sends both the alert and the recovery.
 1. In the PA Server Monitor console, create a **Call URL** action. Either select **All Actions** in the left pane, right-click **Call URL Action** and choose **Add Action**, or open a monitor's **Actions** dialog and click **New ...** above the list of global actions. Name it, for example, `Spike`.
 2. Set **URL to call** to the webhook URL from Step 1 and pass the parameters as **Custom POST**, with `application/json` as the encoding. Plain **POST** sends name/value pairs as a form post and cannot carry this body.
 3. Paste the template below into the **Parameters** section. Keep the field names exactly as written.
-4. Press the action's **Test** button. It builds the request and sends it to Spike, so a test incident should open on the integration's service. If nothing arrives, the body is not valid JSON; see the warning below. Resolve the test incident afterwards.
+4. Press the action's **Test** button. It builds the real request and sends it to Spike. Spike answers a body that is not valid JSON with HTTP 400 and opens nothing; see the warning below. A valid body with an alert status opens a test incident, which you can resolve afterwards. PA Server Monitor does not document which `$Status$` a test sends, and a recovery status opens nothing, so a test that opens no incident does not on its own prove the body is invalid.
 5. Save the action.
 
 ```json
