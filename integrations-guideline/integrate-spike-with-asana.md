@@ -10,7 +10,7 @@ description: >-
 With this integration, a task that is forwarded to Spike opens an incident, and the incident resolves when the same task is forwarded again as completed. The incident title is the task name, so write the task name as a sentence about what is wrong.
 
 {% hint style="warning" %}
-Asana does not send this request by itself. Native Asana webhooks are **not supported**: Asana's webhook handshake needs the `X-Hook-Secret` header echoed back, which the Spike webhook URL does not do, and the events Asana sends contain only ids, with no task name or completed value. Instead, use an automation tool (Zapier, Make or your own script) to send the task to Spike.
+Asana does not send this request by itself. Native Asana webhooks are **not supported**: Asana's webhook handshake needs the `X-Hook-Secret` header echoed back, which the Spike webhook URL does not do. Asana's events are also compact. They name the task that changed but not whether it is completed, and Asana expects you to fetch the task for its details. Instead, use an automation tool (Zapier, Make or your own script) to send the task to Spike.
 {% endhint %}
 
 ## What Spike does with each request
@@ -32,7 +32,7 @@ A repeat of the same task that changes only `modified_at`, `notes`, `assignee.na
 | --- | --- |
 | Open | `<name>` |
 | Open, `name` empty | `Asana task in <projects[0].name>`, or `Asana task with no details` when there is no project either |
-| Completed | `<name> marked complete`, or `Asana task marked complete` with no name |
+| Completed | `<name> marked complete`; with no name, `Asana task in <projects[0].name> marked complete`, or `Asana task marked complete` when there is no project either |
 
 For example, `Checkout API returning 502 errors for EU customers`, and on completion `Checkout API returning 502 errors for EU customers marked complete`.
 
@@ -169,7 +169,7 @@ Without `projects`, as from a Zapier **POST**, the incident still works. Only th
 ## Step 3 — Test it
 
 1. In Asana, create a task named like the example, in the project your automation watches.
-2. Within a minute or two, an incident titled `Checkout API returning 502 errors for EU customers` should open in Spike.
+2. Once your Zapier or Make plan's polling interval has passed, an incident titled `Checkout API returning 502 errors for EU customers` should open in Spike.
 3. Mark the task complete in Asana. The incident resolves, and an event titled `Checkout API returning 502 errors for EU customers marked complete` appears on it.
 
 ## Good to know
