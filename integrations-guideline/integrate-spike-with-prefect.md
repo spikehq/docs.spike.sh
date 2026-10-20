@@ -56,8 +56,8 @@ Spike does not auto-resolve Prefect incidents yet. The responder resolves the in
 2. Click **Add Block** (the **+** button) and choose **Webhook**.
 3. Enter a **Block Name**, for example `spike`.
 4. Set **Method** to `POST`.
-5. Paste the Spike webhook URL into the **URL** field.
-6. In **Headers**, enter the JSON below. This is required: Prefect sends the body without a content type, and Spike cannot read it without this header.
+5. Paste the Spike webhook URL into the **Webhook URL** field.
+6. In **Webhook Headers**, enter the JSON below. This is required: Prefect sends the body without a content type, and Spike cannot read it without this header.
 
 ```json
 {"Content-Type": "application/json"}
