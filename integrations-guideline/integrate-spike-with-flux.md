@@ -95,7 +95,7 @@ You send events to Spike with a Flux `Provider` of type `generic` and an `Alert`
 
    * **providerRef** (required): the Provider created in the previous step.
    * **eventSources** (required): the Flux objects to watch. A source without `namespace` only matches objects in the Alert's own namespace (`flux-system` here), and `*` is not supported for `namespace`. List one entry per kind and namespace you want to watch, as in the example (change `apps` to your own namespaces).
-   * **eventSeverity** (required for auto-resolution): use `info` so Flux also sends success events. With `error`, incidents open but never resolve automatically.
+   * **eventSeverity** (optional, default `info`): with `info`, or when it is left out, Flux sends every event, errors included, and the success events that resolve incidents. With `error`, incidents open but never resolve automatically.
    * **eventMetadata** (optional): any keys you add are sent in `metadata` and kept on the incident, but Spike does not read them.
 
 4. **Apply the manifests:**
@@ -163,11 +163,13 @@ When the same object reconciles successfully, Flux sends a recovery event:
 **Key Fields:**
 * `involvedObject.uid` - Kubernetes UID of the Flux object. Spike uses it to match repeat and recovery events to the open incident. Flux always sends it. An event that arrives without a UID is grouped with an open incident that has the same title instead.
 * `involvedObject.kind`, `involvedObject.namespace`, `involvedObject.name` - The Flux object the event is about. They appear in the fallback and recovery titles.
-* `severity` - `error` opens an incident, or joins the open one for the same UID. `info` resolves the open incident for the same UID only when `reason` is a success reason. Every other `info` event (for example `Progressing` or `DependencyNotReady`) is accepted and ignored, and so is any other severity such as `trace`.
+* `severity` - `error` opens an incident, or joins the open one for the same UID. `info` resolves the open incident for the same UID only when `reason` is a success reason. Every other `info` event (for example `Progressing` or `DependencyNotReady`), and any other severity such as `trace`, never opens or resolves an incident: it is added to the open incident for the same UID as a suppressed repeat, or dropped when there is none.
 * `reason` - Taken from the object's Ready condition, for example `ValidationFailed`, `ReconciliationFailed` or `HealthCheckFailed`. The success reasons that resolve an incident are `ReconciliationSucceeded` (kustomize-controller), `InstallSucceeded`, `UpgradeSucceeded` and `TestSucceeded` (helm-controller), `NewArtifact` and `Succeeded` (source-controller's GitRepository, OCIRepository, Bucket and HelmRepository), and `ChartPullSucceeded` and `ChartPackageSucceeded` (source-controller's HelmChart).
 * `message` - Flux's description of what happened. Its first sentence becomes the failure title (see [Incident titles](#incident-titles)).
 
 The remaining fields (`apiVersion`, `metadata`, `reportingController`, `reportingInstance`, `timestamp`) are sent by Flux and are not used to open or resolve incidents. Keys you add through `eventMetadata` appear in `metadata` and are kept on the incident, not read.
+
+kustomize-controller sends `ReconciliationSucceeded` after every successful reconciliation, so with `eventSeverity: info` each Kustomization posts to Spike once per interval even when nothing is wrong. Spike drops these when no incident is open. Do not filter them out with the Alert's `exclusionList`: they are the events that resolve Kustomization incidents.
 
 ## Incident titles
 
@@ -190,10 +192,18 @@ A HelmRelease `apps/podinfo` failing with `Helm upgrade failed for release apps/
 * Confirm the `address` in the Secret is the exact Spike webhook URL.
 * Confirm `eventSources` has an entry with the kind and `namespace` of the failing object. An entry without `namespace` only matches the Alert's own namespace.
 * Check the notification-controller logs: `kubectl -n flux-system logs deploy/notification-controller`.
+* If notification-controller runs with `--no-cross-namespace-refs`, an Alert only sees objects in its own namespace, so the example Alert in `flux-system` sees nothing from `apps`. Create a Provider and an Alert in each namespace you watch.
 
 **Incidents do not resolve:**
-* Set `eventSeverity: info` on the Alert so Flux sends success events.
+* Set `eventSeverity: info` on the Alert (or leave it out) so Flux sends success events.
 * Resolution happens when the same object (same `involvedObject.uid`) sends an `info` event whose `reason` is `ReconciliationSucceeded` (kustomize-controller), `InstallSucceeded`, `UpgradeSucceeded` and `TestSucceeded` (helm-controller), `NewArtifact` and `Succeeded` (source-controller's GitRepository, OCIRepository, Bucket and HelmRepository), and `ChartPullSucceeded` and `ChartPackageSucceeded` (source-controller's HelmChart).
+
+{% hint style="warning" %}
+Kustomization incidents will not resolve automatically when:
+* notification-controller is v1.8.0 to v1.8.3. Those versions drop events marked `commit_status: update` for generic providers, and kustomize-controller marks its `ReconciliationSucceeded` event that way. Upgrade to v1.8.4 or later. Check the version with `kubectl -n flux-system get deploy notification-controller -o jsonpath='{..image}'`.
+* kustomize-controller runs with the feature gate `DisableCommitStatusEvent` (opt-in from v1.9.6), which stops that same event. Leave it off.
+* the Alert cannot see the Kustomization, for example across namespaces with `--no-cross-namespace-refs`.
+{% endhint %}
 
 {% hint style="success" %}
 This integration auto resolves
