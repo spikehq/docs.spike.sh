@@ -106,7 +106,7 @@ The only required field is the webhook **URL**. **Message**, where your form has
 
 ## What OpsPilot sends
 
-The body below is exactly what the webhook contact point sends; Spike reads only the fields in this table. `groupKey`, `status` and `alerts[].status` are the ones that open and resolve incidents.
+OpsPilot does not document its webhook body. Its alerting is built on Grafana, so the webhook contact point is expected to send [Grafana's documented webhook body](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/integrations/webhook-notifier/). The bodies below are examples in that format, not captured OpsPilot notifications, and the hostnames in them are placeholders. Spike reads only the fields in this table. `groupKey`, `status` and `alerts[].status` are the ones that open and resolve incidents.
 
 | Field | Used for |
 | --- | --- |
