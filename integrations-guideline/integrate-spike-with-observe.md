@@ -5,7 +5,7 @@ description: >-
 
 # Integrate Spike with Observe
 
-[Observe](https://www.observeinc.com) is an observability platform for logs, metrics and traces. Its monitors watch your data and raise an alarm when a condition is met. A monitor sends its alarms to an **action**, and a webhook action can post them to any URL.
+[Observe](https://www.snowflake.com/en/product/observe/) is an observability platform for logs, metrics and traces. Its monitors watch your data and raise an alarm when a condition is met. A monitor sends its alarms to an **action**, and a webhook action can post them to any URL.
 
 Point a webhook action at a Spike integration URL and a firing alarm pages your on-call rotation, repeat notifications land on the incident already open, and the incident resolves itself when Observe reports the alarm condition has ended.
 
