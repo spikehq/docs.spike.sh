@@ -27,7 +27,7 @@ Spike reads the `status` field you type into each template and the Application's
 
 Spike identifies the incident by `app_uid`, the Application's Kubernetes UID. It is stable for the Application's whole life, so repeats join the incident already open and the recovery resolves it. The title is for reading only.
 
-`app_uid` counts only when it is a non-empty string (or a number) and not an unexpanded template: `<no value>`, anything containing `{{` or `}}`, or a whole value like `$app_uid`, `${app_uid}` or `%app_uid%`. Two alerts with the same unexpanded `app_uid` are therefore not treated as one. Without a usable `app_uid`, Spike matches the open incident by title instead, so the title is then the plain one with no Argo CD sentence in it.
+`app_uid` counts only when it is a non-empty string (or a number) and not an unexpanded template: `<no value>`, anything containing `{{` or `}}`, or a whole value like `$app_uid`, `${app_uid}` or `%app_uid%`. Without a usable `app_uid`, Spike matches the open incident by title instead of by `app_uid`, so repeats of the same alert for the same application still join one incident. The title is then the plain one with no Argo CD sentence in it: a failed sync reads `Sync failed on {app}` on every retry, however `operation_message` changes.
 
 ## Incident title
 
