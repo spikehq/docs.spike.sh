@@ -12,7 +12,7 @@ Guides for common identity providers:
 
 1. [Set up SAML on Microsoft Azure AD](https://docs.microsoft.com/en-us/power-apps/maker/portals/configure/configure-saml2-settings-azure-ad)
 2. [Set up SAML on Google Workspace](https://support.google.com/a/answer/6087519?hl=en)
-3. [Set up SAML on OneLogin](https://www.onelogin.com/blog/saml-configuration)
+3. [Set up SAML on OneLogin](https://www.onelogin.com/blog/saml-configuration/)
 4. [Set up SAML on Centrify](https://docs.centrify.com/Content/Applications/AppsCustom/AddConfigSAML.htm)
 
 ## Step 1: Configure SAML in your IdP
