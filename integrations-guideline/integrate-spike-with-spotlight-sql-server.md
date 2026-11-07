@@ -32,6 +32,12 @@ A partly expanded key, such as `sqlprod-01|{{RULE_NAME}}|D:`, does count as an i
 A `cleared` body with no matching open incident is dropped rather than turned into a new incident. Resolving an incident in Spike does not clear the alarm in Spotlight.
 {% endhint %}
 
+### What Spotlight does not send
+
+Spotlight runs alarm actions only on the conditions of a rule. Of those, Spike uses **The alarm severity is…** ("Take action when the alarm severity changes to one of the following": Information, Low, Medium, High) and **The alarm has been cleared** ("Take action when the alarm severity returns to Normal"), as [Quest documents](https://help.spotlightessentials.com/enterprise_cfgmonitor_alarmaction). Quest documents no action that runs when an alarm is acknowledged, snoozed or ignored, so acknowledging an alarm in Spotlight does not acknowledge the Spike incident. There is no test notification either.
+
+A rule with **Run actions again after** re-runs its script, and the repeat joins the open incident.
+
 ## Incident title
 
 When `alarm_key` is an id, the title is Spotlight's own sentence (`description`, from `{{MESSAGE}}`) with ` on {connection_name}` added when the sentence does not already name the connection:
@@ -89,7 +95,7 @@ Severity is set when the incident opens. A later raise at another severity joins
 1. In the Spotlight Client, click **Configure | Alarm Actions**, then click **New** to open the **Alarm Action** dialog.
 2. **Conditions:** add **The alarm severity is…** and pick **Information**, **Low**, **Medium** and **High**, the severities you want to be paged for. To limit the rule to some alarms or servers, also add **The alarm is…** or **The connection is…**.
 3. **Actions:** add **Run a Powershell script**.
-4. **Script:** paste the following, replacing `YOUR_SPIKE_WEBHOOK_URL` with the URL from Step 1. Spotlight replaces each `{{VARIABLE}}` with its value before it runs the script.
+4. **Script:** paste the following, replacing `YOUR_SPIKE_WEBHOOK_URL` with the URL from Step 1. Each `{{VARIABLE}}` is one of Spotlight's [alarm message variables](https://help.spotlightessentials.com/enterprise_cfgmonitor_alarm_messagevariables), which Quest documents for use in a PowerShell script.
 
    ```powershell
    $body = @{
@@ -208,7 +214,7 @@ Check that the cleared rule sends the same `alarm_key` template as the raised ru
 
 <details>
 <summary>Every alarm opens its own incident.</summary>
-Open an incident and look at the payload on its page. If `alarm_key` holds unexpanded variables, Spotlight did not substitute them; check the variable names in your version's alarm action help. Some Quest material names the alarm variable `{{ALARM_NAME}}` rather than `{{RULE_NAME}}`; use the one your Spotlight lists.
+Open an incident and look at the payload on its page. If `alarm_key` holds unexpanded variables, Spotlight did not substitute them; check the variable names in your version's alarm action help. Compare them with the [message variables](https://help.spotlightessentials.com/enterprise_cfgmonitor_alarm_messagevariables) your Spotlight version lists.
 </details>
 
 <details>
