@@ -5,7 +5,7 @@ description: >-
 
 # Integrate Spike with Chronosphere
 
-[Chronosphere](https://chronosphere.io) is a cloud-native observability platform. A **monitor** watches a query over your metrics, and a **notification policy** routes the alerts it raises to **notifiers**, which are the places a notification is delivered.
+[Chronosphere](https://chronosphere.io) is a cloud-native observability platform, now part of Palo Alto Networks as Cortex XCOR. A **monitor** watches a query over your metrics, and a **notification policy** routes the alerts it raises to **notifiers**, which are the places a notification is delivered.
 
 A Chronosphere **webhook notifier** posts every notification to a URL as JSON. Point one at a Spike integration URL and a firing monitor pages your on-call rotation, repeat notifications for the same alerting series land on the incident already open, and the incident resolves itself when Chronosphere sends the recovery.
 
@@ -26,7 +26,9 @@ Any other or missing `status` is treated as `firing`. A `resolved` notification 
 
 Spike identifies the incident by `alerts[].fingerprint`, the stable hash of the alerting series' labels that Chronosphere repeats on every firing notification and on the recovery. Spike looks for an open incident holding any fingerprint in the notification, so a notification that carries several series still finds its incident. Because identity is the fingerprint, the title is for display only: a repeat joins the open incident even when the reading in the sentence, or `commonAnnotations.summary` or `commonAnnotations.description`, has changed, and the recovery resolves the right incident whatever it is titled.
 
-A fingerprint counts when it is a non-blank string or a number. One that still contains an unexpanded template (`{{`, `${`, a leading `$`, `%var%`) does not count. A notification with no usable fingerprint cannot be matched that way. Spike then matches by title, so the title is built from the monitor's name and place only, never from the sentence, which can carry a changing reading.
+Spike also looks for an open incident from the same **notification group**: the same monitor, named by `ruleid` (or `monitor_slug` when there is no `ruleid`) in `alerts[].annotations` or `commonAnnotations`, with exactly the same `groupLabels`. Chronosphere groups a monitor's alerting series into one notification per monitor, per signal or per series, and each group's labels (with its severity) arrive in `groupLabels`. With the default per-monitor grouping the series listed in a notification change over time while the group stays, so a re-notification or a recovery that lists only series the incident never saw still lands on it. A different signal or a different severity of the same monitor has different `groupLabels`, so it is a different incident.
+
+A fingerprint counts when it is a non-blank string or a number. One that still contains an unexpanded template (`{{`, `${`, a leading `$`, `%var%`) does not count. A notification with neither a usable fingerprint nor a notification group (a monitor and `groupLabels`) is matched by title, so without a fingerprint the title is built from the monitor's name and place only, never from the sentence, which can carry a changing reading.
 
 ## Incident title
 
@@ -95,7 +97,7 @@ In Spike, go to **Integrations → Add integration → Chronosphere**, attach it
 3. **Fill in the notifier.**
    * **Name** (required) — something your team will recognise, for example `spike-oncall-webhook`. Chronosphere sends it as `notifier` in every body.
    * **URL** (required) — the URL from Step 1.
-   * **Notify when resolved** — an optional checkbox that is not selected by default in the web UI, so select it. Without it Chronosphere never sends the recovery and incidents do not resolve themselves. If you manage notifiers with Chronoctl, set `skip_resolved: false` (the scaffold ships `true`); in Terraform, set `send_resolved = true`.
+   * **Notify when resolved** — optional in Chronosphere, but select it. Without it Chronosphere never sends the recovery and incidents do not resolve themselves. If you manage notifiers with Chronoctl, set `skip_resolved: false` (the scaffold ships `true`); in Terraform, set `send_resolved = true`.
    * Leave any HTTP basic-auth or bearer-token settings empty. The token already in the webhook URL is the credential.
 4. **Save** the notifier.
 
@@ -130,7 +132,7 @@ If the incident opens but never resolves, check that **Notify when resolved** is
 
 ## Payload reference
 
-Chronosphere sends its own payload and there is no template to edit. Send exactly this body: Spike reads the fields below, and `alerts[]` can hold more than one alert. The same body is available to [alert rules](../alerts/alert-rules.md) and the [Title Remapper](../alerts/title-remapper.md) as `data.body.<field>`.
+Chronosphere sends a fixed body and has no template to edit. Spike reads the fields listed below, and `alerts[]` can hold more than one alert. The same body is available to [alert rules](../alerts/alert-rules.md) and the [Title Remapper](../alerts/title-remapper.md) as `data.body.<field>`.
 
 A firing notification, which opens the incident:
 
@@ -253,6 +255,8 @@ Spike keeps the whole body on the incident, so every field above is available to
 | `status` | Yes | `firing` opens, `resolved` resolves |
 | `alerts[].status` | Yes | Every alert must be `resolved` to resolve the incident. The count in `(+N more)` is the alerts sharing the first alert's status |
 | `alerts[].fingerprint` | Yes | Identity of the incident across firing and recovery. Without it the title is the fallback |
+| `alerts[].annotations.ruleid`, `commonAnnotations.ruleid` | No | The monitor, for the notification group. `monitor_slug` is used when there is no `ruleid` |
+| `groupLabels` | No | The notification group's labels. Every one must match for the group to match |
 | `alerts[0].annotations.summary`, `description`, `message` | No | The title sentence, in that order |
 | `commonAnnotations.summary`, `description` | No | Title sentence when the first alert lacks one |
 | `alerts[0].labels.alertname` | No | Monitor name in the fallback and recovery titles |
@@ -282,7 +286,7 @@ Check that the notifier URL is the full `https://hooks.spike.sh/<your-token>/pus
 
 <summary>Incidents never resolve</summary>
 
-Check that **Notify when resolved** is selected for the notifier. Spike resolves only when every alert in the notification is `resolved`, and only while the incident is still open.
+Check that **Notify when resolved** is selected for the notifier. Spike resolves only when every alert in the notification is `resolved`, the notification shares a fingerprint or its notification group with the incident, and the incident is still open.
 
 </details>
 
@@ -298,7 +302,7 @@ The monitor has no `summary` or `description` or `message` annotation, or Chrono
 
 <summary>Every notification opens its own incident</summary>
 
-Open two of the incidents and compare `alerts[0].fingerprint` in the payloads. The fingerprint is a hash of the alert's labels, so a label that changes between sends, such as a pod name after a restart, makes a new alerting series and a new incident.
+Open two of the incidents and compare `alerts[].fingerprint`, the monitor's `ruleid` and `groupLabels` in the payloads. The fingerprint is a hash of the alert's labels, so a label that changes between sends, such as a pod name after a restart, makes a new alerting series. That series still joins the open incident when its notification carries the same monitor and the same `groupLabels`; it opens a new incident when the group differs too, for example when the severity changed from `warn` to `critical` or the notification policy groups by a label that changed.
 
 </details>
 
