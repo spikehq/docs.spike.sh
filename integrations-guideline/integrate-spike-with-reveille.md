@@ -31,15 +31,15 @@ If the subject gives no usable `alertKey`, Spike matches by title instead. That 
 
 ## Incident title
 
-The title is the first sentence of the first line of the email body that is not blank, a greeting, or the status table's heading row. That line is the message you set for the error case, so write a sentence that says what is wrong and names the system:
+The title is the first line of the email body that is not blank, a greeting, or the status table's heading row. That line is the message you set for the error case, so write a sentence that says what is wrong and names the system:
 
 ```
 OnBase production checks failed on OnBase-Prod: the Unity Scheduler is down and DIP imports are backing up.
 ```
 
-URLs are removed, whitespace is collapsed, and the title is cut at a word boundary to 200 characters. If the body has no sentence but a status table, the title is built from the first failing table row (for example `Hyland Unity Scheduler service is not running on OnBase-AppServer-01`). If neither exists, the subject is the title (`OnBase-Prod CHECK – FAILED`), cut to 200 characters. If both are empty, the title is `Reveille alert with no details`.
+URLs are removed, whitespace is collapsed, and the title is cut at a word boundary to 200 characters. The status table's rows are never read for the title. If the body has no such line (for example, it holds only the status table), the subject is the title (`OnBase-Prod CHECK – FAILED`), cut to 200 characters. If both are empty, the title is `Reveille alert with no details`.
 
-A recovery email is titled the same way, from its first sentence, for example `OnBase production checks on OnBase-Prod are back to normal.` (the following `No action needed at this time.` is dropped).
+A recovery email is titled the same way, from its first line, for example `OnBase production checks on OnBase-Prod are back to normal. No action needed at this time.`
 
 When the subject gives no usable `alertKey`, the title is fixed so a repeat matches: `Reveille monitor check failed` for a failure and `Reveille monitor check successful` for a success. These two differ, so a recovery without a usable subject does not close a failure without one. Keep a real monitor name in both subjects.
 
@@ -132,9 +132,9 @@ Check three things:
 ## Things worth knowing
 
 * **A failure email that repeats** joins the open incident. How often Reveille repeats it depends on how you schedule the Monitor Status Email.
-* **A per-error email** from Reveille's Error Maintenance notifications has no outcome word. Spike treats it as a failure keyed on its subject, and it never resolves on its own. Resolve those in Spike.
+* **Other Reveille emails**, such as its per-test notification emails, are not Monitor Status Emails and usually carry no outcome word in the subject. Spike treats each as a failure keyed on its subject, and it never resolves on its own. Resolve those in Spike.
 * **Several monitors** can share one Spike integration, because the subject separates them. Use a different integration per team if different teams own them.
-* **A resolved incident is not reopened** by a late failure for the same monitor. The next failure email opens a new incident.
+* **A failure after a recovery** reopens the monitor's resolved incident, under the same incident number, and pages again.
 * Email integrations have a 30 MB payload limit.
 
 ## Troubleshooting
