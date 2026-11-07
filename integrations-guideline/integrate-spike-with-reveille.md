@@ -1,11 +1,11 @@
 ---
 description: >-
-  Send Reveille Monitor Status Emails to Spike so a failing Reveille monitor pages your on-call rotation, and resolves its incident when the monitor reports success.
+  Send Reveille Monitor Status Emails and status Metric notifications to Spike so a failing Reveille monitor pages your on-call rotation, and resolves its incident when the monitor reports success.
 ---
 
 # Integrate Spike with Reveille
 
-[Reveille](https://www.reveillesoftware.com) monitors applications such as OnBase and Epic from a Local Monitor Server. Its Monitor Status Email utility mails a message when a monitor's checks fail and another when they pass.
+[Reveille](https://www.reveillesoftware.com) monitors content services (ECM) platforms. Its [Monitor Status Email](https://www.reveillesoftware.com/sw/doc/hlp/Content/admin_console/Monitor%20Status%20Email%20Utility/Monitor_Status_Email_Template.html) utility mails a status email with an error subject and message when a monitor's checks fail, and a no-error subject and message when they pass.
 
 Reveille has no webhook, so this integration uses Spike's [email integration](integrate-spike-with-email.md). Point the Monitor Status Email at your Spike email address and a failing monitor pages your on-call rotation. The incident resolves itself when the same monitor sends its success email.
 
@@ -48,13 +48,12 @@ The status table that follows the first line (Group, Monitor, Resource, Test, St
 Matching uses the `alertKey`, not the title, so the title and table can change between cycles without opening a second incident.
 
 {% hint style="info" %}
-Reveille's own default message, `The following items need to be addressed.`, names neither the system nor the fault. Replace it with a sentence that does.
+Write `MessageError` as a sentence that names the system and the fault: it is what responders read.
 {% endhint %}
 
 ## Prerequisites
 
-* A Reveille installation where you can edit `MonitorStatusTemplate.xml` and schedule `ReveilleMonitorStatus.exe`
-* Permission to set the mail server and the From address Reveille sends with
+* A Reveille installation where you can edit the Monitor Status Email template and run `ReveilleMonitorStatus.exe`
 * A Spike email integration and its address
 
 ## Step 1 — Create the integration in Spike
@@ -67,27 +66,40 @@ In Spike, go to **Integrations → Add integration → Reveille**, attach it to 
 
 ## Step 2 — Configure the Monitor Status Email in Reveille
 
-Reveille sends this email through `ReveilleMonitorStatus.exe`, which reads its settings from an XML file, `MonitorStatusTemplate.xml`. Edit a copy of that file for each Spike address you want to notify.
+Reveille sends this email with `ReveilleMonitorStatus.exe`, configured by its [Monitor Status Email template](https://www.reveillesoftware.com/sw/doc/hlp/Content/admin_console/Monitor%20Status%20Email%20Utility/Monitor_Status_Email_Template.html). In the template:
 
-1. **Set the mail server and sender** in the file's mail settings as you do for your other Monitor Status Emails. The sender shows as `from` on the incident page. Spike does not use it for routing.
+1. **Add the Spike address** from Step 1 as a recipient of the email.
 
-2. **Add the Spike address** from Step 1 as a `<To>` under `<Recipients>`.
+2. **Set the subjects.** Both are required for auto-resolve:
+   * `SubjectError` — `<Monitor name> CHECK – FAILED`
+   * `SubjectNoError` — `<Monitor name> CHECK – SUCCESSFUL`
 
-3. **Set the subjects** under `<Message>`. Both are required for auto-resolve:
-   * `<SubjectError>` — `<Monitor name> CHECK – FAILED`
-   * `<SubjectNoError>` — `<Monitor name> CHECK – SUCCESSFUL`
+   Use the same monitor name in both, for example `OnBase-Prod CHECK – FAILED` and `OnBase-Prod CHECK – SUCCESSFUL`. These are the template's own sample subjects with your monitor's name.
 
-   Use the same monitor name in both, for example `OnBase-Prod CHECK – FAILED` and `OnBase-Prod CHECK – SUCCESSFUL`.
+3. **Set the messages:**
+   * `MessageError` — one sentence that names the system and what failed, for example `OnBase production checks failed on OnBase-Prod: the Unity Scheduler is down.` It becomes the incident title.
+   * `MessageNoError` — for example `OnBase production checks on OnBase-Prod are back to normal. No action needed at this time.`
 
-4. **Set the messages,** also under `<Message>`:
-   * `<MessageError>` — one sentence that names the system and what failed, for example `OnBase production checks failed on OnBase-Prod: the Unity Scheduler is down.` It must be the first line of the body, because it becomes the incident title.
-   * `<MessageNoError>` — for example `OnBase production checks on OnBase-Prod are back to normal. No action needed at this time.`
+4. **Set `OnlySendOnError` to false.** With it true, Reveille never sends the no-error email and incidents stay open until you resolve them in Spike.
 
-5. **Set `<OnlySendOnError>false</OnlySendOnError>`** under `<Message>`. With `true`, Reveille never sends the success email and incidents stay open until you resolve them in Spike.
+5. **Run `ReveilleMonitorStatus.exe`** once so the first email is sent, then keep running it as you run your other Monitor Status Emails. Use one template, with its own subjects, for each monitor name you want as a separate incident.
 
-6. **Choose the monitors** the email covers under `<StatusItems>`. Use one file, with its own subjects, for each monitor name you want as a separate incident.
+## Status Metric notifications
 
-7. **Schedule `ReveilleMonitorStatus.exe`** with that file (for example as a Windows scheduled task), and run it once so the first failure and success emails are sent.
+Reveille documents one notification message field for field, the [status Metric](https://www.reveillesoftware.com/sw/doc/hlp/Content/admin_console/Scorecard%20Metrics/Understanding%20Status%20Metrics.html) message:
+
+```
+<Metric><Status Metric Name>=<test status>;Monitor=<Monitor Name>;Resource=<Resource Name>;Test=<Test Number></Metric>
+```
+
+where `<test status>` is one of `Severity1 = 9`, `Severity2 = 8`, `Severity3 = 7`, `Severity4 = 6`, `Bad = 5`, `Warning = 4` or `Good = 3`. When an email to your Spike address carries this message, in its subject or body, as the word or as the number, Spike:
+
+* titles the incident `<name> is <status> on <monitor> / <resource>, test <n>`, for example `MonitorTest is Bad on OnBase-Prod / OnBase-AppServer-01, test 0`;
+* keys it on the metric name, monitor, resource and test, so each test is its own incident and a repeat joins it;
+* resolves it when the same metric, monitor, resource and test reports `Good`, and drops a `Good` with nothing open;
+* sets the incident's severity from `Severity1`, `Severity2`, `Severity3` and `Warning` (SEV1, SEV2, SEV3 and SEV2). `Severity4` and `Bad` open an incident with no severity.
+
+Reveille sends notifications to the people and support groups a test notifies ([Notify Support Group tab](https://www.reveillesoftware.com/sw/doc/hlp/Content/admin_console/Tests/Notify%20Support%20Group%20tab.html)); an employee profile has an **Email Address** and **Notify On** choices for Warning, Bad and Severity 1–4, plus **Notify When Available** ([Reveille's PagerDuty guide](https://reveillesoftware.com/sw/doc/PagerDuty/Reveille_PagerDuty_Integration_Documentation.pdf), page 4). Reveille does not document the email it sends to an employee's address, so test one: an email that carries neither the status Metric message nor a Monitor Status Email subject is handled as described under Things worth knowing.
 
 ## Step 3 — Confirm it end to end
 
@@ -132,7 +144,7 @@ Check three things:
 ## Things worth knowing
 
 * **A failure email that repeats** joins the open incident. How often Reveille repeats it depends on how you schedule the Monitor Status Email.
-* **Other Reveille emails**, such as its per-test notification emails, are not Monitor Status Emails and usually carry no outcome word in the subject. Spike treats each as a failure keyed on its subject, and it never resolves on its own. Resolve those in Spike.
+* **Any other Reveille email**, whose format Reveille does not document, is read like a Monitor Status Email: keyed on its subject without outcome words, and a failure unless the subject's last outcome word is a success word. If such a recovery email (for example from **Notify When Available**) has no success word, it opens an incident; leave that option off for the Spike address unless its emails carry the status Metric message.
 * **Several monitors** can share one Spike integration, because the subject separates them. Use a different integration per team if different teams own them.
 * **A failure after a recovery** reopens the monitor's resolved incident, under the same incident number, and pages again.
 * Email integrations have a 30 MB payload limit.
@@ -159,7 +171,7 @@ Some mail relays rewrite the en dash. Spike ignores stand-alone `-`, `–`, `—
 
 <summary>The title is vague</summary>
 
-The title is your `MessageError` sentence. If it reads `The following items need to be addressed.`, change it to say which system failed.
+The title is your `MessageError` sentence. Change it to say which system failed and how.
 
 </details>
 
@@ -167,7 +179,7 @@ The title is your `MessageError` sentence. If it reads `The following items need
 
 <summary>An incident titled "Reveille alert with no details" opened</summary>
 
-The email had neither a subject nor a body line. Check the `<Message>` settings in Step 2.
+The email had neither a subject nor a body line. Check the subjects and messages in Step 2.
 
 </details>
 
@@ -175,7 +187,7 @@ The email had neither a subject nor a body line. Check the `<Message>` settings 
 
 <summary>Nothing arrives in Spike</summary>
 
-Check that the Spike address is a `<To>` under `<Recipients>` in the file you scheduled and that the server running `ReveilleMonitorStatus.exe` can send mail to the outside. Test by sending a message to the address from any mail client.
+Check that the Spike address is a recipient in the template you run and that the server running `ReveilleMonitorStatus.exe` can send mail to the outside. Test by sending a message to the address from any mail client.
 
 </details>
 
