@@ -32,7 +32,7 @@ Identity is the event, not the device. Two different events on `db-prod-03` are 
 A `cleared` payload that arrives with no matching open incident is dropped rather than turned into a new incident. That happens when the incident was already resolved in Spike, or when the Active Events policy never ran for that event. Resolving an incident in Spike does not clear the event in SL1; clear it in SL1 and let the Cleared Events policy resolve the incident to keep the two sides in step.
 {% endhint %}
 
-If `event_id` is missing, empty, or still the unsubstituted run book variable `%e` (SL1 variables are `%` and one letter, or `%_` and a name), Spike treats the payload as having no id and falls back to matching on the incident title. A number counts as an id (`0` too). Keep `event_id` in both payloads so matching does not depend on the title.
+If `event_id` is missing, empty, or still the unsubstituted run book variable `%e` (SL1's run book variables are `%` and one letter or digit, or `%_` and a name), Spike treats the payload as having no id and falls back to matching on the incident title. A number counts as an id (`0` too). Keep `event_id` in both payloads so matching does not depend on the title.
 
 Spike uses the id exactly as SL1 sends it. When it compares the Active Events and Cleared Events ids it ignores surrounding spaces. A `cleared` payload resolves the open incident only when the ids match, or when neither side has a usable id and the title matches instead.
 
@@ -72,12 +72,22 @@ Use a [Title Remapper](../alerts/title-remapper.md) if your team reads events by
 
 ## Severity
 
-The `severity` field (SL1's `%S`) is read as text and shown on the incident's severity badge. SL1 documents the range as HEALTHY to CRITICAL; the exact text `%S` produces is not documented, so check on the first real event that the badge matches what you expect. If it does not, write an [alert rule](../alerts/alert-rules.md) on `severity` to set the level you want. Alert rules can also route an incident to another service or escalation policy, or suppress it entirely. Read more about [priority and severity](../incidents/priority-and-severity.md).
+The `severity` field (SL1's `%S`, documented as "Severity (HEALTHY - CRITICAL)") is read as text and shown on the incident's severity badge. SL1's severities are Critical, Major, Minor, Notice and Healthy. Spike maps them as follows:
+
+| SL1 severity | Spike severity badge |
+| --- | --- |
+| Critical | SEV1 |
+| Major | SEV1 |
+| Minor | SEV3 |
+| Notice | SEV3 |
+| Healthy | none (the badge is left unset) |
+
+To set a different level, write an [alert rule](../alerts/alert-rules.md) on `severity` to set the level you want. Alert rules can also route an incident to another service or escalation policy, or suppress it entirely. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
 ## Prerequisites
 
 * An SL1 (Skylar One) account that can manage **Run Book** automation: actions and automation policies
-* The **HTTP Action Type PowerPack, version 102 or later**, installed in your SL1. It provides the **Make an HTTP Request** action type. Older versions (for example v100) do not substitute the run book variables inside `payload`, so every event arrives as the literal text `%e`, `%M`, `%X` and so on. Update the PowerPack first if you are on an older version
+* The **HTTP Action Type PowerPack, version 102 or later**, installed in your SL1. It provides the **Make an HTTP Request** action type. ScienceLogic's v102 release notes say "Substitution characters are now correctly processed for the "payload" and "relative_url" parameters", so on an older version the run book variables can arrive as the literal text `%e`, `%M`, `%X`. Update the PowerPack first if you are on an older version
 * A ScienceLogic SL1 integration in Spike and its webhook URL
 * Outbound HTTPS from the SL1 system that runs the automation to `hooks.spike.sh`
 
@@ -96,8 +106,8 @@ You create two actions, one for each status. They differ only in the `status` li
 1. **Open the HTTP Action Template:**
    In SL1, go to **Registry > Run Book > Actions** and click the wrench icon for the **HTTP Action Template** action that the PowerPack installed. The Action Policy Editor opens with **Action Type** already set to **Make an HTTP Request**.
 
-2. **Name it:**
-   Change the **Action Name** to one your team will recognise, for example `Spike - event active`.
+2. **Name it and enable it:**
+   Change the **Action Name** to one your team will recognise, for example `Spike - event active`, and set **Action State** to **Enabled**.
 
 3. **Fill in the Input Parameters.** The **Make an HTTP Request** action takes one **Input Parameters** JSON document rather than separate method, URL and header fields. Enter the JSON below, replacing the URL with the webhook URL from Step 1 (nothing appended) and using the payload from the next section with `"status": "active"`:
 
@@ -112,7 +122,7 @@ You create two actions, one for each status. They differ only in the `status` li
 
    * `credential_id` — `0`. SL1 requires this when `url_override` is used, and it is correct: the token in the URL is the credential, so no username, password or authorization header is needed.
    * `url_override` — the Spike webhook URL. Treat it like a password, and if it leaks, archive the integration and create a new one.
-   * `payload_type` — `json`. Without it SL1 does not send the payload as JSON to the webhook.
+   * `payload_type` — `json`. ScienceLogic's documentation says to use `json` "if you are sending payloads to webhooks directly through this action using the payload field".
    * `payload` — the JSON body from the next section.
 
 4. **Click Save As,** so the template stays untouched and the action is saved under its new name. Then repeat from the template for a second action named `Spike - event cleared`, with the same `credential_id`, `url_override` and `payload_type` and the payload with `"status": "cleared"`.
@@ -174,7 +184,7 @@ For the cleared action, the payload is the same with the first line changed:
 ```
 
 {% hint style="warning" %}
-Check on the first real event that the incident page shows the fields separately and that the values are real (an event id and a device name), not the literal tokens `%e` and `%X`. Literal tokens mean the HTTP Action Type PowerPack is older than v102. If the request does not arrive as JSON, SL1 may need a SOAP/XML credential with JSON content encoding instead of `credential_id` `0`; ScienceLogic does not document which your version needs.
+Check on the first real event that the incident page shows the fields separately and that the values are real (an event id and a device name), not the literal tokens `%e` and `%X`. Literal tokens mean SL1 did not substitute the variables; check that the HTTP Action Type PowerPack is v102 or later.
 
 If every event carries literal tokens, all of them share one title and one open incident, so later faults do not page and the first cleared delivery closes it.
 {% endhint %}
@@ -204,7 +214,7 @@ If you give the Active Events policy a **Repeat Time**, SL1 resends the payload 
 
 ## Step 4 — Confirm it with a real event
 
-SL1 has no test button for an automation policy, so the first real event is the test. The quickest one to force is a threshold you can breach on demand on a test device: lower a threshold until the event goes active, then put it back.
+ScienceLogic documents no test notification for an automation policy, so a real event is the test. The quickest one to force is a threshold you can breach on demand on a test device: lower a threshold until the event goes active, then put it back.
 
 Watch for both statuses:
 
@@ -265,7 +275,8 @@ Spike keeps the whole body on the incident, so every field is available to [aler
 * **Two actions, two policies.** SL1 cannot tell the payload whether the event is active or cleared, so the two statuses need their own action each.
 * **Several Spike integrations are fine.** If different teams own different organizations or device groups, create one Spike integration per team and a pair of policies per integration, scoped to that team's events.
 * **Resolving in Spike does not touch SL1.** The event stays active in SL1 until the condition recovers or someone clears it there.
-* **Skylar One and SL1 are the same product.** ScienceLogic renamed SL1 to Skylar One; both names point at this integration.
+* **Skylar One and SL1 are the same product.** ScienceLogic's documentation now calls SL1 Skylar One; both names point at this integration.
+* **Acknowledging in SL1 does not acknowledge in Spike.** SL1 can match acknowledged events in a policy's criteria, but no run book variable carries the acknowledgement, and this setup sends only `active` and `cleared`. A payload with any other `status` is treated like `active`: with the same `event_id` it joins the open incident and never resolves it.
 
 ## Troubleshooting
 
@@ -273,7 +284,7 @@ Spike keeps the whole body on the incident, so every field is available to [aler
 
 <summary>Nothing arrives in Spike</summary>
 
-Check that the URL in the action is the full `https://hooks.spike.sh/<your-token>/push-events`, with nothing appended, and that the integration has not been archived in Spike. Then check that both policies are enabled, that the event matches their criteria, and that the SL1 system running the automation can reach `hooks.spike.sh`. The action log on the event in SL1 shows whether the request was made and what Spike answered.
+Check that the URL in the action is the full `https://hooks.spike.sh/<your-token>/push-events`, with nothing appended, and that the integration has not been archived in Spike. Then check that both policies are enabled, that the event matches their criteria, and that the SL1 system running the automation can reach `hooks.spike.sh`. The **Event Actions Log** in SL1 shows the response to each request, labelled with the URL (or the action's `command_label`).
 
 </details>
 
@@ -295,17 +306,9 @@ SL1 did not substitute that variable. If all of them are literal tokens, the HTT
 
 <details>
 
-<summary>The webhook is rejected or the JSON looks broken</summary>
-
-An event message containing a double quote or a line break can produce invalid JSON once SL1 has substituted it into the payload. Keep the fields quoted exactly as shown. If a particular event message breaks the request, drop `event_message` from the payload: the title then falls back to the policy name and the device.
-
-</details>
-
-<details>
-
 <summary>The severity badge ignores SL1's severity</summary>
 
-Spike reads `severity` as the text SL1 sends. If the text `%S` produces on your SL1 is not one Spike recognises, the badge may stay unset. The value is still on the incident, so an [alert rule](../alerts/alert-rules.md) matching `severity` can set whatever severity you want, and can also route or suppress the incident.
+Spike reads `severity` as the text SL1 sends and maps it as the table under Severity shows. Healthy sets no badge. The value is still on the incident, so an [alert rule](../alerts/alert-rules.md) matching `severity` can set whatever severity you want, and can also route or suppress the incident.
 
 </details>
 
