@@ -17,26 +17,34 @@ Make sure to add a StatusGator integration and copy the webhook URL.
 
 **Step 1**
 
-In StatusGator, go to **Integrations → Webhooks** and choose **Add**.
+Log in to StatusGator, go to **Integrations → Webhooks** and choose **Add**.
 
 **Step 2**
 
-Enter the Spike webhook URL and **Save**. StatusGator documents no signing or auth header for webhooks; the token in the Spike URL is the credential, so treat the URL like a password.
+Paste the Spike webhook URL as the **Webhook URL**. The token in the URL is the credential, so treat the URL like a password. StatusGator also signs every request with an `X-Signature` header; Spike does not check it.
 
 **Step 3**
 
-Set the webhook's payload schema to **v3.0**. Spike reads only the v3.0 fields (`type`, `monitor`, `service`, `status`). The v2.0 schema has no `type` and no `monitor`, so its deliveries all get the title `StatusGator alert with no details`, are not told apart by monitor and never auto resolve.
+In the **Event type** section, choose what is sent:
+
+* **Status changes**: keep this on. It opens incidents, and the change back to `up` resolves them.
+* **Early Warning Signals**: turn on to be paged when StatusGator sees signs of an outage before the provider confirms it.
+* **User outage reports**: turn on to be paged when a report from your StatusGator status page is confirmed.
 
 **Step 4**
 
-Choose which statuses notify. Keep **up** enabled: it is the status that resolves the incident, so without it incidents stay open until someone resolves them by hand. Enable **down** and **warn** to open incidents. If you also enable **maintenance**, a maintenance window opens an incident too.
+Click **Save**, then send a test notification to confirm it reaches Spike.
 
-**Step 5**
+**Step 5 (optional)**
 
-Send a test notification from the webhook's page in StatusGator. A real status change then opens, joins or resolves incidents as described below.
+Choose which incidents StatusGator notifies about for each monitor. On the **Monitors** page, open a monitor's ⋮ menu, choose **Configure**, and set its **Notifications** tab, for example to major incidents only. **Board Settings → Monitor Notifications** changes this for every monitor on a board. A notification you turn off there never reaches Spike.
+
+{% hint style="warning" %}
+Spike reads webhook version 3.0, which new webhooks use. If the webhook's settings show an older version, select 3.0. Version 2.0 has no `type` and no `monitor`: its events are not told apart by monitor, and a recovery does not resolve the incident.
+{% endhint %}
 
 {% hint style="info" %}
-StatusGator disables a webhook after five responses that are not `200`. If incidents stop arriving, check the integration's **Logs** tab in StatusGator and re-enable the webhook.
+StatusGator disables a webhook after five attempts that do not get a `200` back. If incidents stop arriving, check the webhook's **Logs** tab in StatusGator, then open **Integrations** to fix the URL and re-enable it.
 {% endhint %}
 
 ## What Spike does with each event
@@ -49,16 +57,17 @@ The `type` field decides what Spike does.
 | `StatusChange` with `status` `up` | Resolves the open incident for that monitor. |
 | `StatusChange` with any other or missing `status` | Treated as firing: opens or joins. |
 | `EarlyWarningSignal` | Has no `status`. Opens, or joins, the incident for that monitor. It never resolves it. |
+| `OutageReport` | A confirmed user report. Opens, or joins, the incident for that monitor. It never resolves it. |
 
 `status` is compared after trimming and ignoring case. `maintenance` is treated as firing.
 
 {% hint style="info" %}
-An early warning that StatusGator never follows with a `StatusChange` stays open until someone resolves it by hand.
+An early warning or user outage report that StatusGator never follows with a `StatusChange` to `up` stays open until someone resolves it by hand.
 {% endhint %}
 
 ## Incident identity
 
-Spike identifies the incident by `monitor.id`, the stable id of your StatusGator monitor. The firing, the early warning and the recovery of one monitor are therefore one incident, and a recovery only closes the incident of the same monitor. The title is for display only.
+Spike identifies the incident by `monitor.id`, the stable id of your StatusGator monitor. The firing, the early warning, the user outage report and the recovery of one monitor are therefore one incident, and a recovery only closes the incident of the same monitor. The title is for display only.
 
 `monitor.id` counts as an id when it is a non-empty string or a finite number, and is not an unexpanded template variable such as `$x`, `${x}`, `{{x}}` or `%x%`. Without a usable id Spike falls back to matching by title, which is why that shape gets the plain title described below.
 
@@ -73,17 +82,18 @@ With a `monitor.id`, a firing `StatusChange` is titled `{message} ({where} {leve
 * Empty `message`, naming up to two components whose `current_status` is not `up`: `Chat, Images down on OpenAI` or `Chat, Images +2 more down on OpenAI`; with no such components, `OpenAI is down`
 * Unknown or missing `status` with an empty `message`: `Chat changed on OpenAI` (components named) or `OpenAI status changed`
 * Early warning: `Service outage reported for OpenAI (early warning)`, or `Possible outage reported for OpenAI (early warning)` when `summary` is empty
+* User outage report: `Service down reported by users for OpenAI`, from `summary.description`, or `Outage reported by users for OpenAI` without one
 * Recovery (`status` `up`): `OpenAI is back up`, without the message
 * No usable `monitor.id`: `StatusGator alert for OpenAI`, identical for firing and recovery, because Spike matches these by title
 * Nothing usable in the body: `StatusGator alert with no details`
 
-`where` is the first non-empty of `monitor.display_name`, `service.name` and `monitor.host`, else `StatusGator monitor`. Titles never hold ids, URLs or timestamps. Whitespace is collapsed and titles are capped at 200 characters; to fit, the sentence is cut and the parenthesised name and level are kept whole.
+`where` is the first non-empty of `monitor.display_name`, `monitor.name` (user outage reports), `service.name` and `monitor.host`, else `StatusGator monitor`. Titles never hold ids, URLs or timestamps. Whitespace is collapsed and titles are capped at 200 characters; to fit, the sentence is cut and the parenthesised name and level are kept whole.
 
 ## Fields
 
 Required: `type` and `monitor.id`. `status` is required to resolve; without it a `StatusChange` is treated as firing. `StatusChange` with `up` and nothing open is dropped; it never opens an incident.
 
-Read when present: `message`, `summary` (early warnings), `monitor.display_name`, `service.name`, `monitor.host`, `component_status_changes[].name` and `component_status_changes[].current_status`.
+Read when present: `message`, `summary` (early warnings), `summary.description` (user outage reports), `monitor.display_name`, `monitor.name`, `service.name`, `monitor.host`, `component_status_changes[].name` and `component_status_changes[].current_status`.
 
 Everything else in the body is kept on the incident page.
 
