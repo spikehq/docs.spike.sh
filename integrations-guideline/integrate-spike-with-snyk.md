@@ -1,13 +1,13 @@
 ---
 description: >-
-  Subscribe Spike to a Snyk organization's webhook so a newly found vulnerability in a monitored project pages your on-call rotation by phone, SMS, Slack or Teams, and the incident resolves itself once the vulnerability is gone.
+  Subscribe Spike to a Snyk organization's webhook so a newly found vulnerability in a monitored project pages your on-call rotation by phone, SMS, Slack or Teams, and the incident resolves itself once the project has no known vulnerabilities left.
 ---
 
 # Integrate Spike with Snyk
 
 [Snyk](https://snyk.io) tests the projects you have imported into it. A Snyk webhook posts a snapshot of the project on every test of an Open Source or container project ([Snyk: Webhook events and payloads](https://docs.snyk.io/developer-tools/snyk-api/using-specific-snyk-apis/webhooks-apis/webhooks)).
 
-Snyk posts that snapshot to a webhook. Point the webhook at a Spike integration URL and a vulnerability that appears in a monitored project pages your on-call rotation on the next test, every later test of that same project lands on the incident already open instead of paging again, and the incident resolves itself once the vulnerability is no longer there.
+Snyk posts that snapshot to a webhook. Point the webhook at a Spike integration URL and a vulnerability that appears in a monitored project pages your on-call rotation on the next test, every later test of that same project lands on the incident already open instead of paging again, and the incident resolves itself once the project has no known vulnerabilities left.
 
 Nothing is installed anywhere. One webhook subscription per Snyk organization covers every monitored project in it.
 
@@ -19,20 +19,20 @@ Snyk marks the Webhooks API as **beta**: "Snyk may change the API and the struct
 
 ## What Spike does with each snapshot
 
-Snyk documents two webhook events: `ping` and `project_snapshot`. `project_snapshot` "is triggered on every test of a project, whether or not there are new issues". It carries the project it tested plus two arrays of issues: `newIssues` and `removedIssues`. Spike reads `newIssues` as the new vulnerabilities this test found, and `removedIssues` as the issues that are gone. Snyk documents both only as an "array of issues object", and every published sample shows `removedIssues` empty.
+Snyk documents two webhook events: `ping` and `project_snapshot`. `project_snapshot` "is triggered on every test of a project, whether or not there are new issues". It carries the project it tested plus two arrays of issues: `newIssues` and `removedIssues`. Spike reads `newIssues` as the new vulnerabilities this test found.
 
-Those two arrays are all Spike reads to decide what happens:
+The snapshot's `project` is "project object matching API responses", the Projects (v1) project. Its `issueCountsBySeverity` is the "Number of known vulnerabilities in the project, not including ignored issues", one count each for `low`, `medium`, `high` and `critical` ([Snyk: Projects (v1)](https://docs.snyk.io/developer-tools/snyk-api/reference/projects-v1)). Spike uses those counts, not `removedIssues`, to decide when the project is back to normal:
 
 | The snapshot | What Spike does |
 | --- | --- |
 | `newIssues` is **not empty** | Opens an incident for the project and pages, or adds to the project's open incident if there already is one |
-| `newIssues` empty, `removedIssues` **not empty** | Resolves the project's open incident. Opens nothing if none is open |
-| **Both empty** — a clean test | Nothing. No incident, no page |
+| `newIssues` empty, and **every** `issueCountsBySeverity` count is **0** | Resolves the project's open incident. Opens nothing if none is open |
+| `newIssues` empty, and **any** count above 0 | Nothing new opens, and the project's open incident **stays open**, even if this test removed some issues |
 
-The third row is the common case and the reason the integration is quiet. Snyk sends a snapshot on every test, so most of what Snyk sends has nothing in either array, and Spike deliberately opens nothing for it. Snyk has no acknowledge event and no resolve event; the two arrays are the only state it sends.
+Most snapshots fall in the last row: Snyk sends a snapshot on every test, whether or not there are new issues, and Spike opens nothing for it. Snyk has no acknowledge event and no resolve event.
 
 {% hint style="warning" %}
-The recovery is per project, not per vulnerability. A snapshot that removes **any** issue and finds none new resolves the project's open incident, even if other vulnerabilities that paged earlier are still open in Snyk. Check the project in Snyk before you treat a resolved Snyk incident as fully fixed.
+A Snyk incident resolves only when the project has **no** known vulnerabilities left at any severity. Fixing one vulnerability while others remain keeps the incident open. Snyk does not count ignored issues, so ignoring the last open issues also resolves the incident.
 {% endhint %}
 
 {% hint style="info" %}
@@ -59,10 +59,11 @@ That is the vulnerability's severity, Snyk's own name for it (`issueData.title`)
 3 new Snyk issues (1 critical, 2 high) in spikehq/api:package-lock.json: Prototype Pollution (lodash), Regular Expression Denial of Service (ReDoS) (ms) +1 more
 ```
 
-A recovery is a plain line about the project:
+A test that removed issues reads as a recovery only when the project has no known vulnerabilities left; otherwise it says the project is not all clear and the incident stays open:
 
 ```
 Snyk issues fixed in spikehq/api:package-lock.json — back to normal
+Some Snyk issues fixed in spikehq/api:package-lock.json — not all clear
 ```
 
 A clean test, the connection ping and a delivery Spike cannot read anything out of each have their own fixed line. None of them opens an incident, so you only see them in the integration's events:
@@ -176,7 +177,7 @@ Spike records the ping as an event titled `Snyk webhook test ping` but **opens n
 The real test is the next scheduled test of a monitored project. Watch for both moments:
 
 1. A test finds a new vulnerability (`newIssues` not empty) and an incident opens in Spike naming it, on the service you attached, escalating through your policy.
-2. A later test of that project reports issues in `removedIssues` and nothing in `newIssues`, and the incident resolves itself.
+2. A later test of that project reports no new issues and every `issueCountsBySeverity` count at 0, and the incident resolves itself.
 
 ## Managing the subscription later
 
@@ -364,17 +365,19 @@ It opens an incident titled:
 Low: Regular Expression Denial of Service (ReDoS) in ms 1.0.0 — snyk/goof
 ```
 
-The same snapshot with the issue in `removedIssues` and `newIssues` empty resolves the project's open incident, and its event reads:
+The same snapshot with the issue in `removedIssues` and `newIssues` empty does **not** resolve the incident: the documented project still counts known vulnerabilities (`issueCountsBySeverity` 13 low, 8 medium, 4 high, 5 critical). Its event reads:
 
 ```
-Snyk issues fixed in snyk/goof — back to normal
+Some Snyk issues fixed in snyk/goof — not all clear
 ```
+
+Only when all four counts are 0 does a snapshot resolve the project's incident, and its event reads `Snyk issues fixed in snyk/goof — back to normal`.
 
 {% hint style="info" %}
 Snyk publishes no example of a populated `removedIssues`; it documents the field as an "array of issues object matching API responses". Spike reads only how many entries it has, never what is inside them.
 {% endhint %}
 
-The fields Spike itself reads are a small subset of that: `project.id` for identity, `project.name` for the end of the title, the length of `newIssues` and `removedIssues` to tell firing from recovery, `issueData.title`, `issueData.severity`, `pkgName` and `pkgVersions` from the new issues for the rest of the title, and `severity` for the incident's severity. Everything else above is kept on the incident, so alert rules and the Title Remapper can read it.
+The fields Spike itself reads are a small subset of that: `project.id` for identity, `project.name` for the end of the title, the length of `newIssues` to tell a new finding, `project.issueCountsBySeverity` to tell a recovery, `issueData.title`, `issueData.severity`, `pkgName` and `pkgVersions` from the new issues for the rest of the title, and `severity` for the incident's severity. Everything else above is kept on the incident, so alert rules and the Title Remapper can read it.
 
 ## Things worth knowing
 
@@ -426,10 +429,10 @@ If the ids match and incidents still pile up, the earlier one was already resolv
 
 <summary>Incidents never resolve</summary>
 
-A recovery is a snapshot with an empty `newIssues` and a non-empty `removedIssues`, for the same `project.id`, while the incident is still open. The usual reasons it does not happen:
+A recovery is a snapshot for the same `project.id` with an empty `newIssues` and every `issueCountsBySeverity` count at 0, while the incident is still open. The usual reasons it does not happen:
 
-* No test has reported the issue in `removedIssues` yet.
-* The same test found something new as well. A snapshot carrying both arrays keeps the incident open on purpose.
+* The project still has known vulnerabilities at some severity, even if the one that paged is fixed. Check the project's issue counts in Snyk.
+* The same test found something new as well.
 
 A [resolve timer](../incidents/resolve-timer.md) is a reasonable backstop, not a replacement.
 
