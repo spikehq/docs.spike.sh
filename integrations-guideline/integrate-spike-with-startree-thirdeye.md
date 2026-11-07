@@ -7,7 +7,7 @@ description: >-
 
 [StarTree ThirdEye](https://startree.ai/products/startree-thirdeye) is anomaly detection and root-cause analysis on top of Apache Pinot. You write an **alert** — a detection function over one metric — group your alerts into a **subscription group**, and give the group a notification spec. The group's cron then runs on its own schedule and reports what the alerts found.
 
-One of those notification specs is a **webhook**. Point it at a Spike integration URL and an anomaly pages your on-call rotation the moment ThirdEye raises it, the later cron runs that repeat the same anomaly land on the incident already open instead of paging again, and the incident resolves itself on the run where ThirdEye reports the anomaly finished.
+One of those notification specs is a **webhook**. Point it at a Spike integration URL and an anomaly pages your on-call rotation on the first cron run after ThirdEye raises it, and the incident resolves itself on the run where ThirdEye reports the anomaly finished.
 
 Nothing is installed anywhere. One webhook spec on one subscription group covers every alert that group watches.
 
@@ -17,9 +17,10 @@ ThirdEye posts **one envelope per cron run of the subscription group**, not one 
 
 | What the envelope carries | What it means in ThirdEye | What happens in Spike |
 | --- | --- | --- |
-| `anomalyReports` with one or more reports | The group's alerts found these anomalies live on this run | Opens an incident and pages your escalation policy. A later run that reports the same anomaly again lands on that incident without paging |
+| `anomalyReports` with one or more reports | The group's alerts found these anomalies on this run | Opens an incident and pages your escalation policy. A redelivery of the same anomaly lands on that incident without paging |
 | `completedAnomalyReports`, with `anomalyReports` empty or absent | These anomalies finished since the previous run | Auto-resolves the open incident they belong to. Dropped when nothing is open |
-| Neither array | ThirdEye found nothing, or Spike could not read the body | Opens one incident titled `StarTree ThirdEye anomaly with no details` |
+| Both arrays populated | The run found new anomalies, and other anomalies finished since the previous run | Treated as the new anomalies only. The finished anomalies' incidents stay open; resolve them in Spike |
+| Neither array | Spike could not read the body | Opens one incident titled `StarTree ThirdEye anomaly with no details` |
 
 {% hint style="info" %}
 A recovery never opens an incident. An all-clear that arrives with nothing open — because the opening run was never delivered, or because the incident was already resolved in Spike — is dropped rather than turned into an incident, since paging somebody about an all-clear is worse than losing it.
@@ -29,7 +30,7 @@ Resolving an incident in Spike does not touch the anomaly in ThirdEye. Let Third
 
 ### Incident identity
 
-Spike identifies the incident by the ThirdEye **anomaly id** — `anomalyReports[].anomaly.id`, the numeric id ThirdEye gives each finding, falling back to `anomalyReports[].data.anomalyId`, the same id as a string. ThirdEye repeats a live anomaly's whole report under that id on every cron run until it finishes, and reports it once more as completed, so one anomaly's whole life reads as one Spike incident: it pages once, every later run is recorded on it, and the completed report closes it.
+Spike identifies the incident by the ThirdEye **anomaly id** — `anomalyReports[].anomaly.id`, the numeric id ThirdEye gives each finding, falling back to `anomalyReports[].data.anomalyId`, the same id as a string. ThirdEye notifies an anomaly on the first run after it is created, and reports it once more, under the same id, in `completedAnomalyReports` when it finishes. So one anomaly reads as one Spike incident: it pages once, a redelivery is recorded on it, and the completed report closes it.
 
 Identity is the anomaly, not the alert and not the metric. The same alert finding a second anomaly later is a second anomaly id, so it is a second incident — which is what you want, since it is a second thing to look at.
 
@@ -39,7 +40,7 @@ A report that carries neither id — no `anomaly.id` and an empty `data.anomalyI
 
 ### A run that finds several anomalies
 
-One cron run of one group can report several anomalies at once, and that run is **one incident**, titled for the batch. Every anomaly id in the run is remembered on it, so a later run that reports any one of them — on its own, or as completed — lands on that same incident. Two of three anomalies finishing is enough to resolve it; the third keeps its place on the incident's event list.
+One cron run of one group can report several anomalies at once, and that run is **one incident**, titled for the batch. Every anomaly id in the run is remembered on it, so a later run that reports any one of them — again, or as completed — lands on that same incident. The first of them reported finished resolves the incident; completions that arrive after that are dropped.
 
 If you would rather have one incident per anomaly, split the alerts across several subscription groups, each with its own Spike integration, or give the group a cron tight enough that its runs rarely find more than one thing.
 
@@ -86,7 +87,7 @@ Use a [Title Remapper](../alerts/title-remapper.md) if your team reads anomalies
 
 ## Severity
 
-Spike does not read a severity from the ThirdEye payload. ThirdEye's envelope carries no severity on the notification — `anomaly.severity` exists on its API but is not in what the webhook posts — so incidents open at your integration's default.
+StarTree's documented webhook sample carries no severity. ThirdEye's anomaly object does declare one, `anomaly.severity`, with the values `CRITICAL`, `HIGH`, `MEDIUM`, `LOW` and `DEFAULT`. When a payload carries it, Spike reads it like any `severity` field: `CRITICAL` and `HIGH` become Sev1, `MEDIUM` Sev2 and `LOW` Sev3. `DEFAULT`, or no severity at all, leaves the incident at your integration's default. In a run with several anomalies, the last one's severity is the one read.
 
 Write an [alert rule](../alerts/alert-rules.md) if you want some anomalies louder than others. The alert name (`data.function`), the dataset, the metric and the dimensions are all on the incident, so a rule can set severity from any of them, route the incident to another service or escalation policy, or suppress it. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
@@ -134,7 +135,7 @@ The webhook channel is configured as a notification **spec** on the subscription
 Both params matter:
 
 * **`url`** — required. The webhook URL from Step 1, exactly as Spike gave it to you, with nothing appended.
-* **`notifyResolvedAnomalies`** — set it to `true` if you want incidents to resolve themselves. This is the switch that makes ThirdEye send `completedAnomalyReports`, and without it ThirdEye only ever tells Spike about anomalies starting. Anomaly-resolution notification is supported for webhook and Slack notifications.
+* **`notifyResolvedAnomalies`** — set it to `true` if you want incidents to resolve themselves. StarTree's [Add notification](https://docs.startree.ai/thirdeye/how-tos/add_notification) page says anomaly-resolution notifications are "supported for Slack and Webhook notifications", and its example turns them on with `"notifyResolvedAnomalies": true` in a spec's `params`. Without it, ThirdEye only tells Spike about anomalies starting.
 
 To add the spec to the group you created in Step 2, fetch the group, add the spec to its `specs` array, and send the whole entity back — ThirdEye's `PUT` replaces the entity, so send everything the `GET` returned:
 
@@ -187,13 +188,12 @@ Treat the webhook URL like a password — it is the credential. If it leaks, arc
 
 ## Step 4 — Confirm it end to end
 
-ThirdEye has no "send a sample notification" button, so the first anomaly one of the group's alerts finds is the test. Watch for the three moments:
+StarTree's docs describe no test-notification button for webhooks, so the first anomaly one of the group's alerts finds is the test. Watch for the two moments:
 
 1. The cron run that finds the anomaly opens an incident in Spike, titled with the metric and the movement, on the service you attached, escalating through your policy.
-2. The next run, while the anomaly is still live, is recorded on that same incident without paging again.
-3. The run where ThirdEye reports the anomaly finished resolves the incident, with `back to normal` on the event list.
+2. The run where ThirdEye reports the anomaly finished resolves the incident, with `back to normal` on the event list.
 
-If the first moment works and the third does not, `notifyResolvedAnomalies` is the thing to check: without it ThirdEye never sends a completed report, so nothing can close the incident.
+If the first moment works and the second does not, check `notifyResolvedAnomalies` on the webhook spec first: without it ThirdEye sends no completed report, so nothing can close the incident.
 
 {% hint style="info" %}
 A [resolve timer](../incidents/resolve-timer.md) on the integration is a sensible backstop while you are confirming auto-resolution, not a replacement for it.
@@ -205,13 +205,13 @@ ThirdEye sends its own payload and there is nothing to template, so this section
 
 Every envelope has the same four parts: the `subscriptionGroup` whose cron sent it, the `anomalyReports` the run found, `completedAnomalyReports` on the runs where something finished, and a `report` summary of the run's own window.
 
-A run that found one anomaly, which opens the incident:
+StarTree documents this body as what a webhook spec receives ([Add notification](https://docs.startree.ai/thirdeye/how-tos/add_notification), "Webhook"). It is reproduced here unchanged. A run that found one anomaly opens the incident:
 
 ```json
 {
   "subscriptionGroup": {
     "id": 188059,
-    "name": "checkout-oncall",
+    "name": "webhook",
     "alertAssociations": [
       {
         "alert": {
@@ -224,8 +224,7 @@ A run that found one anomaly, which opens the incident:
       {
         "type": "webhook",
         "params": {
-          "url": "https://hooks.spike.sh/<spike-integration-token>/push-events",
-          "notifyResolvedAnomalies": true
+          "url": "http://localhost:8080/internal/webhook"
         }
       }
     ]
@@ -234,47 +233,47 @@ A run that found one anomaly, which opens the incident:
     {
       "anomaly": {
         "id": 188180,
-        "startTime": 1759824000000,
-        "endTime": 1759827600000,
-        "avgCurrentVal": 842,
-        "avgBaselineVal": 311,
-        "score": 0,
-        "weight": 0,
-        "impactToGlobal": 0,
-        "sourceType": "DEFAULT_ANOMALY_DETECTION",
-        "created": 1759827723451,
+        "startTime": 1583020800000,
+        "endTime": 1588291200000,
+        "avgCurrentVal": 23475211.0,
+        "avgBaselineVal": 61570800.760419734,
+        "score": 0.0,
+        "weight": 0.0,
+        "impactToGlobal": 0.0,
+        "sourceType": "ANOMALY_REPLAY",
+        "created": 1653463092111,
         "notified": true,
         "alert": {
-          "id": 136062
+          "id": 188172
         },
         "metric": {
-          "name": "checkout_p99_latency_ms"
+          "name": "passenger_count"
         },
         "metadata": {
           "dataset": {
-            "name": "checkout_events"
+            "name": "us_monthly_air_passengers_simplified"
           },
           "metric": {
-            "name": "checkout_p99_latency_ms"
+            "name": "passenger_count"
           }
         }
       },
-      "url": "https://acme.startree.cloud/anomalies/188180",
+      "url": "http://localhost:7004/anomalies/188180",
       "data": {
-        "metric": "checkout_p99_latency_ms",
-        "startDateTime": "Oct 07, 2025 08:00",
-        "lift": "+170.74 %",
+        "metric": "passenger_count",
+        "startDateTime": "Mar 01, 2020 00:00",
+        "lift": "-61.87 %",
         "feedback": "Not Resolved",
         "anomalyId": "188180",
-        "anomalyURL": "https://acme.startree.cloud/anomalies/",
-        "currentVal": "842.00",
-        "baselineVal": "311.00",
+        "anomalyURL": "http://localhost:7004/anomalies/",
+        "currentVal": "23,475,211",
+        "baselineVal": "61,570,800.76",
         "dimensions": [],
         "swi": "0.00 %",
-        "function": "checkout-latency-anomalies",
-        "funcDescription": "",
-        "duration": "1 hours",
-        "endTime": "Oct 07, 2025 09:00",
+        "function": "us_monthly_passengers_simplified-holtwinters",
+        "funcDescription": "Sample description payload for testing",
+        "duration": "1,464 hours",
+        "endTime": "May 01, 2020 00:00",
         "timezone": "UTC",
         "anomalyType": "Deviation",
         "properties": ""
@@ -282,11 +281,20 @@ A run that found one anomaly, which opens the incident:
     }
   ],
   "report": {
-    "startTime": "Oct 07, 2025 08:00",
-    "endTime": "Oct 07, 2025 09:00",
-    "reportGenerationTimeMillis": 1759827723600,
-    "dashboardHost": "https://acme.startree.cloud",
-    "relatedEvents": []
+    "startTime": "Sep 01, 2001 00:00",
+    "endTime": "May 01, 2020 00:00",
+    "reportGenerationTimeMillis": 1653464950589,
+    "dashboardHost": "http://localhost:7004",
+    "relatedEvents": [
+      {
+        "id": 3,
+        "name": "Related Holiday",
+        "type": "HOLIDAY",
+        "startTime": 1546310140005,
+        "endTime": 1546396540005,
+        "targetDimensionMap": {}
+      }
+    ]
   }
 }
 ```
@@ -294,16 +302,16 @@ A run that found one anomaly, which opens the incident:
 It opens an incident titled:
 
 ```
-checkout_p99_latency_ms up 171% (842 vs 311 expected) in checkout-latency-anomalies
+passenger_count down 62% (23,475,211 vs 61,570,801 expected) in us_monthly_passengers_simplified-holtwinters
 ```
 
-The run where that anomaly finished, which resolves it. `anomalyReports` is empty, the report has moved into `completedAnomalyReports`, and `anomaly.id` is the one the opening envelope carried — that is what joins the two:
+The run where that anomaly finished resolves it. ThirdEye's payload has a `completedAnomalyReports` array of the same report shape (`NotificationPayloadApi` in the [ThirdEye source](https://github.com/startreedata/thirdeye)); StarTree publishes no sample of it populated, so this is the documented report moved into that array, with `anomalyReports` empty. The `anomaly.id` is the one the opening envelope carried, and that is what joins the two:
 
 ```json
 {
   "subscriptionGroup": {
     "id": 188059,
-    "name": "checkout-oncall",
+    "name": "webhook",
     "alertAssociations": [
       {
         "alert": {
@@ -316,8 +324,7 @@ The run where that anomaly finished, which resolves it. `anomalyReports` is empt
       {
         "type": "webhook",
         "params": {
-          "url": "https://hooks.spike.sh/<spike-integration-token>/push-events",
-          "notifyResolvedAnomalies": true
+          "url": "http://localhost:8080/internal/webhook"
         }
       }
     ]
@@ -327,47 +334,47 @@ The run where that anomaly finished, which resolves it. `anomalyReports` is empt
     {
       "anomaly": {
         "id": 188180,
-        "startTime": 1759824000000,
-        "endTime": 1759838400000,
-        "avgCurrentVal": 318,
-        "avgBaselineVal": 311,
-        "score": 0,
-        "weight": 0,
-        "impactToGlobal": 0,
-        "sourceType": "DEFAULT_ANOMALY_DETECTION",
-        "created": 1759827723451,
+        "startTime": 1583020800000,
+        "endTime": 1588291200000,
+        "avgCurrentVal": 23475211.0,
+        "avgBaselineVal": 61570800.760419734,
+        "score": 0.0,
+        "weight": 0.0,
+        "impactToGlobal": 0.0,
+        "sourceType": "ANOMALY_REPLAY",
+        "created": 1653463092111,
         "notified": true,
         "alert": {
-          "id": 136062
+          "id": 188172
         },
         "metric": {
-          "name": "checkout_p99_latency_ms"
+          "name": "passenger_count"
         },
         "metadata": {
           "dataset": {
-            "name": "checkout_events"
+            "name": "us_monthly_air_passengers_simplified"
           },
           "metric": {
-            "name": "checkout_p99_latency_ms"
+            "name": "passenger_count"
           }
         }
       },
-      "url": "https://acme.startree.cloud/anomalies/188180",
+      "url": "http://localhost:7004/anomalies/188180",
       "data": {
-        "metric": "checkout_p99_latency_ms",
-        "startDateTime": "Oct 07, 2025 08:00",
-        "lift": "+2.25 %",
+        "metric": "passenger_count",
+        "startDateTime": "Mar 01, 2020 00:00",
+        "lift": "-61.87 %",
         "feedback": "Not Resolved",
         "anomalyId": "188180",
-        "anomalyURL": "https://acme.startree.cloud/anomalies/",
-        "currentVal": "318.00",
-        "baselineVal": "311.00",
+        "anomalyURL": "http://localhost:7004/anomalies/",
+        "currentVal": "23,475,211",
+        "baselineVal": "61,570,800.76",
         "dimensions": [],
         "swi": "0.00 %",
-        "function": "checkout-latency-anomalies",
-        "funcDescription": "",
-        "duration": "4 hours",
-        "endTime": "Oct 07, 2025 12:00",
+        "function": "us_monthly_passengers_simplified-holtwinters",
+        "funcDescription": "Sample description payload for testing",
+        "duration": "1,464 hours",
+        "endTime": "May 01, 2020 00:00",
         "timezone": "UTC",
         "anomalyType": "Deviation",
         "properties": ""
@@ -375,11 +382,20 @@ The run where that anomaly finished, which resolves it. `anomalyReports` is empt
     }
   ],
   "report": {
-    "startTime": "Oct 07, 2025 12:00",
-    "endTime": "Oct 07, 2025 12:05",
-    "reportGenerationTimeMillis": 1759838700000,
-    "dashboardHost": "https://acme.startree.cloud",
-    "relatedEvents": []
+    "startTime": "Sep 01, 2001 00:00",
+    "endTime": "May 01, 2020 00:00",
+    "reportGenerationTimeMillis": 1653464950589,
+    "dashboardHost": "http://localhost:7004",
+    "relatedEvents": [
+      {
+        "id": 3,
+        "name": "Related Holiday",
+        "type": "HOLIDAY",
+        "startTime": 1546310140005,
+        "endTime": 1546396540005,
+        "targetDimensionMap": {}
+      }
+    ]
   }
 }
 ```
@@ -387,7 +403,7 @@ The run where that anomaly finished, which resolves it. `anomalyReports` is empt
 It resolves the incident, and the event reads:
 
 ```
-checkout_p99_latency_ms back to normal in checkout-latency-anomalies
+passenger_count back to normal in us_monthly_passengers_simplified-holtwinters
 ```
 
 Spike keeps the whole envelope on the incident, so every field above — the anomaly's `url` back into ThirdEye, the window, the dataset, `feedback`, `duration` — is on the incident page and available to alert rules and the Title Remapper.
@@ -395,7 +411,8 @@ Spike keeps the whole envelope on the incident, so every field above — the ano
 ## Things worth knowing
 
 * **One spec covers every alert in the group.** There is nothing to configure per alert. Associate as many alerts as you like with the group and they all notify through the same webhook.
-* **The cron is your paging frequency.** ThirdEye finds the anomaly on its next run after it happens, so a group on `0 */5 * * * ?` pages up to five minutes after the fact, and reports the anomaly again every five minutes until it finishes. Those repeats are recorded on the incident and never page again.
+* **The cron is your paging frequency.** ThirdEye reports an anomaly on the group's next run after it is created, so a group on `0 */5 * * * ?` pages up to five minutes after the fact.
+* **A finished anomaly that arrives beside a new one does not resolve its incident.** ThirdEye can report new and finished anomalies in the same run. Spike treats that run as the new anomalies, so resolve the finished anomaly's incident in Spike, or keep busy alerts in their own subscription groups.
 * **Several Spike integrations are fine.** If different teams own different metrics, create one Spike integration per team and one subscription group per integration, then associate each team's alerts with its own group.
 * **An anomaly's own url is kept, not put in the title.** `url` and `data.anomalyURL` are on the incident page so a responder can open the anomaly in ThirdEye.
 * **Resolving in Spike does not touch ThirdEye.** The anomaly stays as it is in ThirdEye until the detection says it is over.
@@ -419,9 +436,9 @@ Third, that one of those alerts has actually detected an anomaly in the window t
 
 <summary>Incidents never resolve</summary>
 
-The usual cause is `notifyResolvedAnomalies`. `GET /api/subscription-groups/<id>` and look at the webhook spec's `params`: without `"notifyResolvedAnomalies": true` ThirdEye never sends a completed report, so nothing Spike receives can close the incident.
+The usual cause is `notifyResolvedAnomalies`. `GET /api/subscription-groups/<id>` and look at the webhook spec's `params`: without `"notifyResolvedAnomalies": true` ThirdEye sends no completed report, so nothing Spike receives can close the incident.
 
-If it is set, check that the anomaly has actually finished in ThirdEye rather than still being live, and that the incident was still open when the completed report arrived — a recovery with nothing open is dropped.
+If it is set, check that the anomaly has actually finished in ThirdEye rather than still being live, and that the incident was still open when the completed report arrived — a recovery with nothing open is dropped. Also check whether the completed report arrived in the same run as a new anomaly: that run is treated as the new anomaly, and the finished one's incident stays open.
 
 A [resolve timer](../incidents/resolve-timer.md) on the integration, or a **Resolve After** action on an [alert rule](../alerts/alert-rules.md), is the backstop for the cases ThirdEye cannot tell you about.
 
@@ -429,11 +446,11 @@ A [resolve timer](../incidents/resolve-timer.md) on the integration, or a **Reso
 
 <details>
 
-<summary>Every cron run opens a new incident</summary>
+<summary>Several incidents for what looks like one problem</summary>
 
-Open two of the incidents and compare the payloads on the incident page. If `anomalyReports[].anomaly.id` differs, ThirdEye genuinely found separate anomalies, and separate anomalies are separate incidents by design.
+Open two of the incidents and compare the payloads on the incident page. If `anomalyReports[].anomaly.id` differs, ThirdEye found separate anomalies, and separate anomalies are separate incidents by design.
 
-If the ids match and the incidents still pile up, check whether the first incident was still open when the second run arrived — a run that arrives after the incident was resolved in Spike opens a new one.
+If the ids match, check whether the first incident was still open when the second envelope arrived — an envelope that arrives after the incident was resolved in Spike opens a new one.
 
 </details>
 
@@ -459,7 +476,7 @@ Spike could not read a metric, a dimension, an alert name, a dataset or a group 
 
 <summary>The severity badge is always the same</summary>
 
-Expected. ThirdEye's webhook payload carries no severity, so Spike opens every anomaly at the integration's default. Use [alert rules](../alerts/alert-rules.md) on the alert name, dataset, metric or dimensions to set severity, route or suppress.
+Expected when the payload carries no `anomaly.severity`, as StarTree's documented sample does not: Spike then opens every anomaly at the integration's default. Use [alert rules](../alerts/alert-rules.md) on the alert name, dataset, metric or dimensions to set severity, route or suppress.
 
 </details>
 
