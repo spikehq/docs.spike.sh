@@ -9,7 +9,7 @@ description: "Send Oracle Visual Builder Studio build results to Spike so a fail
 
 Point a VBS **Generic webhook** at a Spike integration URL and Spike will:
 
-* **Open an incident** when a build job ends `FAILURE` (the build failed), `UNSTABLE` (the build ran but tests or quality gates failed) or any other unrecognised non-empty result.
+* **Open an incident** when a build job ends `FAILURE` or `UNSTABLE`. (Spike also opens one for any other non-empty result, should VBS ever send one; Oracle documents only `SUCCESS`, `UNSTABLE`, `FAILURE`, `NOT_BUILT` and `ABORTED`.)
 * **Group repeats**: further failures of the same build job in the same project join the incident that is already open instead of paging again.
 * **Resolve the incident** when a later build of the same job in the same project ends `SUCCESS`.
 
@@ -66,6 +66,8 @@ VBS sends these fields itself; you do not build the body.
 {% endtabs %}
 
 ## Event payload structure
+
+The field names and nesting below are Oracle's, from [What Is a Generic Webhook's Data Structure?](https://docs.oracle.com/en/cloud/paas/visual-builder/visualbuilder-manage-development-process/what-is-generic-webhooks-data-structure.html); the values are illustrative. Oracle documents no severity, acknowledge or resolve field: recovery is the next build of the same job with the result `SUCCESS`.
 
 Oracle Visual Builder Studio sends a body like this when a build fails:
 
@@ -134,7 +136,7 @@ The next successful build of the same job arrives as:
 ```
 
 **Key fields:**
-* `events[0].eventId` - only `BUILD` is an alert. A message whose first event is anything else (`ISSUE`, `PUSH`, `REVIEW`, `ACTIVITY`) never opens or resolves an incident. The value is compared after trimming, ignoring case.
+* `events[0].eventId` - only `BUILD` is an alert. A message whose first event is anything else (`ISSUE`, `PUSH` (Oracle's example sends `GIT_PUSH`), `REVIEW`, `ACTIVITY`) never opens or resolves an incident. The value is compared after trimming, ignoring case.
 * `events[0].data.jobName` and `projectId` - together they identify the incident, so every build of the same job in the same project joins or resolves the same incident. Two projects posting to one Spike integration never cross. If `jobName` is empty, Spike matches by title instead.
 * `events[0].data.details.result` - compared after trimming, ignoring case:
   * `FAILURE` and `UNSTABLE` open an incident, or join the one already open for the job.
