@@ -160,6 +160,7 @@
 * [Integrate Spike with Flux](integrations-guideline/integrate-spike-with-flux.md)
 * [Integrate Spike with Ghost Inspector](integrations-guideline/integrate-spike-with-ghost-inspector.md)
 * [Integrate Spike with GitHub Workflows](integrations-guideline/integrate-spike-with-github-workflows.md)
+* [Integrate Spike with GitLab CI/CD](integrations-guideline/integrate-spike-with-gitlab-ci-cd.md)
 * [Integrate Spike with Google Cloud](integrations-guideline/integrate-google-cloud-with-spike.md)
 * [Integrate Spike with Grafana](integrations-guideline/integrate-spike-with-grafana.md)
 * [Integrate Spike with Graylog](integrations-guideline/integrate-spike-with-graylog.md)
