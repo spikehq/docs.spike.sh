@@ -24,7 +24,9 @@ Any other value, or a missing `state`, is treated as `raised` and opens an incid
 
 Spike identifies the incident by `alarm_key`, which the script composes as `{{CONNECTION_NAME}}|{{RULE_NAME}}|{{key}}`. It leaves out the severity on purpose: Spotlight raises a new alarm whenever the severity changes, and without the severity in the key a Medium alarm that becomes High joins the same incident instead of paging again. The clear then resolves it.
 
-An `alarm_key` only counts as an id when it holds something other than unexpanded variables. A value such as `{{CONNECTION_NAME}}|{{RULE_NAME}}|{{key}}` arriving as literal text is not an id, and two such alarms stay two incidents.
+An `alarm_key` only counts as an id when it holds something other than unexpanded variables. A value such as `{{CONNECTION_NAME}}|{{RULE_NAME}}|{{key}}` arriving as literal text is not an id, and Spike then matches the alarm by its plain title (see below).
+
+A partly expanded key, such as `sqlprod-01|{{RULE_NAME}}|D:`, does count as an id, so every alarm on that connection and drive would share one incident. After setup, open the first incident's payload and check that `alarm_key` holds no `{{` left over.
 
 {% hint style="info" %}
 A `cleared` body with no matching open incident is dropped rather than turned into a new incident. Resolving an incident in Spike does not clear the alarm in Spotlight.
@@ -38,7 +40,7 @@ When `alarm_key` is an id, the title is Spotlight's own sentence (`description`,
 Disk D: has 4.2% free space remaining, below the High threshold of 5% on sqlprod-01
 ```
 
-Whitespace is collapsed and the title is capped at 200 characters. A longer sentence is cut at its first clause (up to a `;`), else at a comma, else at a word boundary, and ` on {connection_name}` is always kept whole.
+Whitespace is collapsed and the title is capped at 200 characters. A longer sentence is cut at its first clause (up to a `;`), else at a comma, else at a word boundary, and ` on {connection_name}` is kept whole (a connection name longer than 100 characters is cut to 100).
 
 The title is display only, so readings in it may change between deliveries without opening a new incident; the `alarm_key` is what joins them.
 
