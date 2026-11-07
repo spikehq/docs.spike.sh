@@ -245,6 +245,7 @@
 * [Integrate Spike with Simple Observability](integrations-guideline/integrate-spike-with-simple-observability.md)
 * [Integrate Spike with Site24x7](integrations-guideline/integrate-spike-with-site24x7.md)
 * [Integrate Spike with SnappyFlow](integrations-guideline/integrate-spike-with-snappyflow.md)
+* [Integrate Spike with Snyk](integrations-guideline/integrate-spike-with-snyk.md)
 * [Integrate Spike with Solarwinds Orion](integrations-guideline/integrate-spike-with-solarwinds-orion.md)
 * [Integrate Spike with Splunk](integrations-guideline/integrate-spike-with-splunk.md)
 * [Integrate Spike with Spotlight on SQL Server Enterprise](integrations-guideline/integrate-spike-with-spotlight-sql-server.md)
