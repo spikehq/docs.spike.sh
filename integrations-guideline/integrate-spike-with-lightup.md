@@ -1,109 +1,69 @@
 ---
 description: >-
-  Send Lightup data quality incident emails to Spike so a failing monitor pages your on-call rotation, and the incident resolves when Lightup says it has ended.
+  Send Lightup data quality notifications to Spike through a Lightup Email List, so each incident alert opens an incident and pages your on-call rotation.
 ---
 
 # Integrate Spike with Lightup
 
-[Lightup](https://lightup.ai) monitors the data in your warehouse and lakehouse, such as row counts, null rates and freshness, and opens an incident when a monitor sees a metric leave its expected range. Lightup delivers those incidents by email, so Spike receives them through its email address rather than a webhook.
+[Lightup](https://lightup.ai) monitors data quality. When a monitor detects a variation that is out of bounds, Lightup logs an incident and sends alerts to the alerting channels registered for that monitor. Lightup has no webhook channel; its alerting channels are Email List, Jira, Microsoft Teams, Opsgenie, PagerDuty, ServiceNow and Slack ([Lightup: Integrations overview](https://docs.lightup.ai/docs/integrations-overview)). Spike connects through an **Email List**: you add the Spike integration's email address to the list, and every email Lightup sends to it opens or joins an incident in Spike.
 
-Add a Spike integration email address to a Lightup **Email List** and an incident in Lightup pages your on-call rotation by phone, SMS, Slack or Teams. When Lightup sends the email saying the incident has ended, the Spike incident resolves.
+{% hint style="info" %}
+Lightup does not publish the format of its notification emails: their subject, their body, or how an alert for a resolved incident differs from a new one. Spike therefore reads only the email's subject, and does not auto-resolve Lightup incidents. Resolve them in Spike when the Lightup incident is over.
+{% endhint %}
 
 ## Prerequisites
 
-* A Lightup workspace where you can create Email Lists and attach them to monitors or alert destinations
-* A Lightup integration in Spike and its email address
+* A Lightup workspace where you can add integrations. Lightup's [Integrations overview](https://docs.lightup.ai/docs/integrations-overview) says you can add one in any workspace where you have at least the Workspace Editor role.
+* Permission to create integrations in Spike.
 
-## Step 1 — Create the integration in Spike
+## Step 1: Create the integration in Spike
 
-In Spike, go to **Integrations → Add integration → Lightup**, attach it to a service and an escalation policy, and copy the email address. It looks like `<your-token>@email-hooks.spike.sh`.
+1. From the header, click [Add integration](https://app.spike.sh/integrations/new) and select **Lightup**.
+2. Give it a name and select the service it should alert.
+3. Click **Create integration**.
+4. Copy the email address shown on the integration page. It looks like `ced6f1c82327db079e3f@email-hooks.spike.sh`.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-## Step 2 — Add the address to a Lightup Email List
+## Step 2: Create an Email List alerting channel in Lightup
 
-1. Sign in to Lightup and open the page where your **Email Lists** are managed.
-2. Create a new Email List, for example `Spike`, or open an existing one.
-3. Paste the Spike email address from Step 1 as a recipient and save the list.
+These steps are from Lightup's [Email List](https://docs.lightup.ai/docs/email-list) page.
 
-## Step 3 — Send incidents to that list
+1. Select the workspace where you want to add the integration, and then select **Integrations** on the left panel.
+2. Select **Create Integration +**.
+3. In the list that appears, choose **Email List**.
+4. In the **Add Email List** dialog, enter a name for the list, for example `Spike`.
+5. Enter the Spike email address from Step 1, then select **+** in the same row to add it to the list.
+6. Select **Add**.
 
-Attach the Email List to the monitors, or to the alert configuration, whose incidents should page you. Lightup only emails the lists a monitor notifies, so a monitor without the list never reaches Spike.
+Lightup can send a channel's alerts immediately, or as an hourly, daily or weekly digest that summarises how many incidents started, ended or are ongoing ([Lightup: Manage incidents](https://docs.lightup.ai/docs/manage-incidents#recurring-incident-alerts)). If the dialog offers a choice, send alerts immediately: a digest is one email about many incidents, so Spike would open one incident for all of them, once per period.
 
-Where Lightup offers a setting to also send an email when an incident is resolved or ends, turn it on. Without it Spike never sees the recovery.
+Lightup channels can also send alerts for resolved incidents (the Slack and Microsoft Teams dialogs have a toggle for it, and the API's email channel setting is `muteResolvedAlerts`). Spike cannot tell such an email from a new alert, so each one opens or joins an incident like any other email. If you do not want that, turn alerts for resolved incidents off for this list.
 
-## What Spike does with each email
+## Step 3: Send monitor incidents to the list
 
-Spike reads these fields of the email:
+Attach the Email List to every monitor that should page through Spike. When you create or edit a monitor, choose the alerting channel in the **Manage alerts** setting ([Lightup: Create a monitor manually](https://docs.lightup.ai/docs/create-a-monitor-manually)). A monitor with **Mute notifications** on, or inside its muting schedule, sends no alerts.
 
-| Field | Required | What Spike does with it |
-| --- | --- | --- |
-| `to` | Yes | Finds your integration from the address at `email-hooks.spike.sh` |
-| `envelope` | No | Finds the integration when the mail was forwarded to the address |
-| `from` | No | Kept on the incident for display |
-| `subject` | No | Used as the title when the body is empty, kept on the incident, and checked for the recovery words |
-| `text` | No | Its first paragraph is the incident title; searched for the Lightup incident link |
-| `html` | No | Used when `text` is empty, and searched for the incident link when `text` has none |
+To also page on Lightup's system events, such as a datasource that is not reachable, open **System Events** from the workspace menu, go to the **Configuration** tab, and add the Email List under **Alert Channels** for the event levels you want ([Lightup: Work with system events](https://docs.lightup.ai/docs/system-events)).
 
-Only the address is needed to reach your integration. Lightup sends the rest.
+## How Spike handles each email
 
-## Incident title
+| What arrives | What Spike does |
+| --- | --- |
+| An alert email | Opens an incident. The incident title is the email's subject. |
+| Another email with the same subject while that incident is open | Joins the open incident instead of paging again. Subjects are compared whole, ignoring case and extra whitespace. |
+| An email with a different subject | Opens a separate incident. |
+| An alert for a resolved incident | Treated like any other email. Spike does not auto-resolve Lightup incidents. |
+| A digest email | Treated like any other email: one incident per subject. |
+| An email with no subject | Opens a new incident each time, because there is nothing to match it by. |
 
-The title is Lightup's own sentence about the fault: the first paragraph of the email body, with links removed, whitespace collapsed and cut at a word boundary at 200 characters.
+Spike reads no severity or priority from a Lightup email, because Lightup does not publish where its email carries one. Set them with [alert routing rules](../alerts/alert-rules.md) if you need them.
 
-```
-New incident detected by monitor "orders row count drop": orders_row_count went down 62% (1,140 vs 3,020 expected) on analytics.orders, slice region=us-east-1.
-```
+## Step 4: Test it
 
-When the body is empty, the title falls back to the subject, and with neither it reads `Lightup alert with no details`.
-
-## Incident identity and recovery
-
-Spike identifies the incident by the Lightup incident id, which it reads from the first `/incidents/<id>` link in the email. A repeat email for the same incident lands on the incident already open instead of paging again, and the recovery email resolves it. Because the id decides this and not the title, the title can carry the readings Lightup writes.
-
-If an email has no incident link, Spike falls back to the exact subject line.
-
-An email is a recovery when its subject contains the whole word `resolved` or `ended`, in any case. Every other email is a firing alert.
-
-{% hint style="warning" %}
-A recovery or update that arrives when no matching incident is open is dropped. Digest emails (hourly, daily or weekly) are treated as one event titled by their first paragraph and are not split into incidents.
-{% endhint %}
-
-## Example
-
-A Lightup incident email, as Spike receives it:
-
-```json
-{
-  "to": "3f9c2a7e1b4d6c8e0a5f@email-hooks.spike.sh",
-  "from": "Lightup <alerts@lightup.ai>",
-  "subject": "[Lightup] New incident: orders row count drop",
-  "text": "New incident detected by monitor \"orders row count drop\": orders_row_count went down 62% (1,140 vs 3,020 expected) on analytics.orders, slice region=us-east-1.\n\nWorkspace: Production\nDatasource: prod-snowflake\nMetric: orders_row_count\nImpact: 8 of 10\nStarted: Oct 9, 2026 03:12 UTC\n\nView incident: https://app.lightup.ai/ws/5d1e7a20-3c4b-4f6e-9a8d-2b7c1e0f4a93/incidents/7b1e2c4a-9d3f-4e8a-b6c1-0f2d5a7e9c31\n",
-  "html": "<p>New incident detected by monitor \"orders row count drop\": orders_row_count went down 62% (1,140 vs 3,020 expected) on analytics.orders, slice region=us-east-1.</p><p>Workspace: Production<br>Datasource: prod-snowflake<br>Metric: orders_row_count<br>Impact: 8 of 10<br>Started: Oct 9, 2026 03:12 UTC</p><p><a href=\"https://app.lightup.ai/ws/5d1e7a20-3c4b-4f6e-9a8d-2b7c1e0f4a93/incidents/7b1e2c4a-9d3f-4e8a-b6c1-0f2d5a7e9c31\">View incident</a></p>",
-  "envelope": "{\"to\":[\"3f9c2a7e1b4d6c8e0a5f@email-hooks.spike.sh\"],\"from\":\"alerts@lightup.ai\"}"
-}
-```
-
-And the email that resolves it:
-
-```json
-{
-  "to": "3f9c2a7e1b4d6c8e0a5f@email-hooks.spike.sh",
-  "from": "Lightup <alerts@lightup.ai>",
-  "subject": "[Lightup] Incident resolved: orders row count drop",
-  "text": "Incident ended for monitor \"orders row count drop\": orders_row_count on analytics.orders, slice region=us-east-1, is back within the expected range.\n\nWorkspace: Production\nDatasource: prod-snowflake\nMetric: orders_row_count\nEnded: Oct 9, 2026 04:05 UTC\n\nView incident: https://app.lightup.ai/ws/5d1e7a20-3c4b-4f6e-9a8d-2b7c1e0f4a93/incidents/7b1e2c4a-9d3f-4e8a-b6c1-0f2d5a7e9c31\n",
-  "html": "<p>Incident ended for monitor \"orders row count drop\": orders_row_count on analytics.orders, slice region=us-east-1, is back within the expected range.</p><p>Workspace: Production<br>Datasource: prod-snowflake<br>Metric: orders_row_count<br>Ended: Oct 9, 2026 04:05 UTC</p><p><a href=\"https://app.lightup.ai/ws/5d1e7a20-3c4b-4f6e-9a8d-2b7c1e0f4a93/incidents/7b1e2c4a-9d3f-4e8a-b6c1-0f2d5a7e9c31\">View incident</a></p>",
-  "envelope": "{\"to\":[\"3f9c2a7e1b4d6c8e0a5f@email-hooks.spike.sh\"],\"from\":\"alerts@lightup.ai\"}"
-}
-```
-
-## Step 4 — Confirm it end to end
-
-1. Let a monitor open an incident, or trigger one. An incident opens in Spike with Lightup's sentence as the title.
-2. A repeat email for the same Lightup incident lands on that incident without paging again.
-3. When the Lightup incident ends and Lightup emails about it, the Spike incident resolves.
+Wait for a monitor to open an incident in Lightup, or forward an earlier Lightup alert email to your Spike address. An incident titled with the email's subject should appear in Spike within a minute.
 
 ## Troubleshooting
 
@@ -111,15 +71,15 @@ And the email that resolves it:
 
 <summary>Nothing arrives in Spike</summary>
 
-Check that the Spike address is a recipient of the Email List, that the List is attached to the monitor, and that the integration has not been archived in Spike.
+Check that the Spike address is a member of the Email List, that the list is selected as the monitor's alerting channel, and that the monitor's notifications are not muted. Check also that the integration has not been archived in Spike.
 
 </details>
 
 <details>
 
-<summary>Incidents never resolve</summary>
+<summary>Every email opens a new incident</summary>
 
-Spike resolves on an email whose subject contains `resolved` or `ended`. Check that Lightup sends an email when the incident ends, and that the incident link in it matches the one in the original email.
+Spike joins emails into one incident only when their subjects are the same. If each of Lightup's emails for one incident has a different subject, each one opens its own incident.
 
 </details>
 
