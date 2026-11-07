@@ -67,10 +67,14 @@ Spike automatically **groups repeated incidents** from the same PRTG sensor, and
 {% endtabs %}
 
 ## FAQs
-<details> 
-<summary>Will incidents in Spike auto-resolve when a sensor recovers?</summary> 
-Yes. The JSON payload includes `%status` and `%message`. When PRTG reports recovery, Spike automatically resolves the incident. The status needs to be either `up`, `resolve`, or `ok` for auto-resolution to work.
-</details> 
+<details>
+<summary>Will incidents in Spike auto-resolve when a sensor recovers?</summary>
+Yes. Spike reads the sensor's current state from the `status` field, which the recommended payload fills from `%status`. PRTG writes transitions as `<new state> (before: <old state>)` or `<old state> ended (now: <new state>)`, and Spike uses the new state. The incident resolves when the new state is `Up` (or `OK`, `Normal`, `Resolved`), or when a state has ended and the new state is not a down state, for example `Down ended (now: Up)` or `Paused ended (now: Up)`. It does not resolve when the sensor is still down, for example `Down ended (now: Down (Partial))`. A body that is exactly `up` or `ok` also resolves.
+</details>
+<details>
+<summary>How does Spike treat PRTG cluster states such as Down (Partial)?</summary>
+Any state that starts with `Down`, including `Down (Partial)` and `Down (Acknowledged)`, is an alarm. It opens a new incident, or is added to the open incident for the same sensor. `Warning`, `Unusual`, `Paused` and `Unknown` do not open incidents. If you want a different rule, set the `status` field to a fixed word in the PRTG notification template instead of `%status`: `status=Down` on the "sensor is Down" trigger and `status=up` on the recovery trigger.
+</details>
 <details> 
 <summary>Do I need to create multiple notification templates for different sensors?</summary>
 No. A single template with the Spike webhook can be assigned to multiple devices, groups, or sensors. You only need one template per Spike integration. 
