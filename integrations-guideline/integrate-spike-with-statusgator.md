@@ -33,14 +33,14 @@ In the **Event type** section, choose what is sent:
 
 **Step 4**
 
-Click **Save**, then send a test notification to confirm it reaches Spike.
+Click **Save**, then send a test notification to confirm it reaches Spike. StatusGator does not document the test notification's body, so it may open an incident; resolve it by hand.
 
 **Step 5 (optional)**
 
 Choose which incidents StatusGator notifies about for each monitor. On the **Monitors** page, open a monitor's ⋮ menu, choose **Configure**, and set its **Notifications** tab, for example to major incidents only. **Board Settings → Monitor Notifications** changes this for every monitor on a board. A notification you turn off there never reaches Spike.
 
 {% hint style="warning" %}
-Spike reads webhook version 3.0, which new webhooks use. If the webhook's settings show an older version, select 3.0. Version 2.0 has no `type` and no `monitor`: its events are not told apart by monitor, and a recovery does not resolve the incident.
+Spike reads webhook version 3.0, which new webhooks use. StatusGator says integrations created before June 2025 are likely on version 2.0; if the webhook's settings show it, select 3.0. Version 2.0 has no `type` and no `monitor`: Spike titles its events `StatusGator alert for {service_name}`, matches them by that title, and resolves the incident when `current_status` is `up`. Early warnings and outage reports are v3.0 only.
 {% endhint %}
 
 {% hint style="info" %}
@@ -58,6 +58,7 @@ The `type` field decides what Spike does.
 | `StatusChange` with any other or missing `status` | Treated as firing: opens or joins. |
 | `EarlyWarningSignal` | Has no `status`. Opens, or joins, the incident for that monitor. It never resolves it. |
 | `OutageReport` | A confirmed user report. Opens, or joins, the incident for that monitor. It never resolves it. |
+| No `type` (webhook version 2.0) | `current_status` `up` resolves the incident with the same title; any other value opens or joins it. |
 
 `status` is compared after trimming and ignoring case. `maintenance` is treated as firing.
 
@@ -85,13 +86,14 @@ With a `monitor.id`, a firing `StatusChange` is titled `{message} ({where} {leve
 * User outage report: `Service down reported by users for OpenAI`, from `summary.description`, or `Outage reported by users for OpenAI` without one
 * Recovery (`status` `up`): `OpenAI is back up`, without the message
 * No usable `monitor.id`: `StatusGator alert for OpenAI`, identical for firing and recovery, because Spike matches these by title
+* Webhook version 2.0: `StatusGator alert for Heroku`, from `service_name`
 * Nothing usable in the body: `StatusGator alert with no details`
 
 `where` is the first non-empty of `monitor.display_name`, `monitor.name` (user outage reports), `service.name` and `monitor.host`, else `StatusGator monitor`. Titles never hold ids, URLs or timestamps. Whitespace is collapsed and titles are capped at 200 characters; to fit, the sentence is cut and the parenthesised name and level are kept whole.
 
 ## Fields
 
-Required: `type` and `monitor.id`. `status` is required to resolve; without it a `StatusChange` is treated as firing. `StatusChange` with `up` and nothing open is dropped; it never opens an incident.
+Required (v3.0): `type` and `monitor.id`. `status` is required to resolve; without it a `StatusChange` is treated as firing. `StatusChange` with `up` and nothing open is dropped; it never opens an incident.
 
 Read when present: `message`, `summary` (early warnings), `summary.description` (user outage reports), `monitor.display_name`, `monitor.name`, `service.name`, `monitor.host`, `component_status_changes[].name` and `component_status_changes[].current_status`.
 
