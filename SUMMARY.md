@@ -250,6 +250,7 @@
 * [Integrate Spike with Stackify](integrations-guideline/integrate-spike-with-stackify.md)
 * [Integrate Spike with StarTree ThirdEye](integrations-guideline/integrate-spike-with-startree-thirdeye.md)
 * [Integrate Spike with StatusCake](integrations-guideline/integrate-spike-with-statuscake.md)
+* [Integrate Spike with StatusGator](integrations-guideline/integrate-spike-with-statusgator.md)
 * [Integrate Spike with Sumo Logic](integrations-guideline/integrate-spike-with-sumo-logic.md)
 * [Integrate Spike with Sysdig](integrations-guideline/integrate-spike-with-sysdig.md)
 * [Integrate Spike with Tenderly](integrations-guideline/integrate-spike-with-tenderly.md)
