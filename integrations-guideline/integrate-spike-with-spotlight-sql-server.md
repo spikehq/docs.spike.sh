@@ -61,7 +61,9 @@ Severity comes from the `severity` field (`{{SEVERITY}}`):
 | `High` | SEV1 |
 | `Medium` | SEV2 |
 | `Low` | SEV3 |
-| `Information`, `Normal` | Left unset |
+| `Information` | Left unset |
+
+Severity is set when the incident opens. A later raise at another severity joins the open incident and does not change it.
 
 [Alert rules](../alerts/alert-rules.md) can override severity, route the incident, or suppress it. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
@@ -69,7 +71,8 @@ Severity comes from the `severity` field (`{{SEVERITY}}`):
 
 * Spotlight on SQL Server Enterprise, with access to its alarm actions
 * A Spotlight on SQL Server Enterprise integration in Spike and its webhook URL
-* Outbound HTTPS from the machine that runs Spotlight's alarm actions to `hooks.spike.sh`
+* Outbound HTTPS to `hooks.spike.sh` from each monitored Windows server. Spotlight runs a **Run a Powershell script** action on the monitored server itself, as the account set in that Windows connection's properties
+* A Windows connection that does not use **Use Diagnostic Server credentials**. Spotlight cannot run a PowerShell script action for such a connection ([Quest KB 4221017](https://support.quest.com/spotlight-on-sql-server-enterprise/kb/4221017/error-running-powershell-script-in-alarm-actions-cannot-execute-a-powershell-script-for-a-windows-connection-that-uses-the-diagnostic-server))
 
 ## Set up instructions
 
@@ -79,11 +82,11 @@ Severity comes from the `severity` field (`{{SEVERITY}}`):
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
 {% endcontent-ref %}
 
-**Step 2:** Create the two alarm actions in Spotlight. You need one for raised alarms and one for cleared alarms.
+**Step 2:** Create two alarm action rules in Spotlight, one for raised alarms and one for cleared alarms. A rule runs its actions when all of its conditions are met.
 
-1. Open **Spotlight on SQL Server Enterprise** and open the **Alarm Action** settings.
-2. Create a new action of type **Run a Powershell script**.
-3. **Conditions:** choose **The alarm severity is Information**, **Low**, **Medium** and **High**, the severities you want to be paged for.
+1. In the Spotlight Client, click **Configure | Alarm Actions**, then click **New** to open the **Alarm Action** dialog.
+2. **Conditions:** add **The alarm severity is…** and pick **Information**, **Low**, **Medium** and **High**, the severities you want to be paged for. To limit the rule to some alarms or servers, also add **The alarm is…** or **The connection is…**.
+3. **Actions:** add **Run a Powershell script**.
 4. **Script:** paste the following, replacing `YOUR_SPIKE_WEBHOOK_URL` with the URL from Step 1. Spotlight replaces each `{{VARIABLE}}` with its value before it runs the script.
 
    ```powershell
@@ -121,11 +124,11 @@ Severity comes from the `severity` field (`{{SEVERITY}}`):
    Invoke-RestMethod -Uri 'YOUR_SPIKE_WEBHOOK_URL' -Method Post -ContentType 'application/json' -Body ($body | ConvertTo-Json) -TimeoutSec 20
    ```
 
-   The here-strings (`@'` … `'@`, each closing `'@` at the start of its line) let a value hold quotes and backslashes without breaking the JSON. `-TimeoutSec 20` matters: Spotlight ignores a new run of an action while the previous run is still executing, so a hanging request could swallow the cleared event. Keep the timeout.
-5. Save the action.
-6. Create a second **Run a Powershell script** action. For **Conditions** choose **The alarm has been cleared**.
+   The here-strings (`@'` … `'@`, each closing `'@` at the start of its line) let a value hold quotes and backslashes without breaking the JSON. Keep `-TimeoutSec 20`, so a request that cannot reach Spike ends instead of holding the script open.
+5. Save the rule.
+6. Click **New** again. For **Conditions** add **The alarm has been cleared**, plus the same **The alarm is…** or **The connection is…** conditions as the first rule. For **Actions** add **Run a Powershell script**.
 7. Use the same script with one change: `state = 'cleared'` instead of `state = 'raised'`. Every other line stays exactly as above.
-8. Save the action and assign both actions to the alarms (or to all alarms) you want in Spike.
+8. Save the rule. Make sure no earlier rule with **Stop processing further rules** or **Suppress the alarm** catches these alarms first.
 
 **Step 3:** Spotlight has no test button for a script action. Run the script by hand in PowerShell with literal values in place of the `{{VARIABLE}}` tokens, or lower a threshold until an alarm fires, and confirm that an incident appears in Spike. Then restore the threshold and confirm the incident resolves.
 
@@ -182,7 +185,7 @@ Spike opens an incident titled `Disk D: has 4.2% free space remaining, below the
 }
 ```
 
-Spike finds the incident with the same `alarm_key` and resolves it. If the raised alarm had no usable `alarm_key`, the clear is matched by `rule_name`, `key` and `connection_name` instead. Its title is `Disk Free Space D: on sqlprod-01 cleared`.
+Spike finds the incident with the same `alarm_key` and resolves it. If the raised alarm had no usable `alarm_key`, the clear is matched by its plain title, `{rule_name} {key} on {connection_name}`, instead. Its title is `Disk Free Space D: on sqlprod-01 cleared`.
 
 ## FAQs
 
@@ -198,7 +201,7 @@ Spotlight raises a new alarm when the severity changes. Without the severity in 
 
 <details>
 <summary>The incident did not resolve. What should I check?</summary>
-Check that the cleared action sends the same `alarm_key` template as the raised action and that its `state` is `cleared`. Also check that the script finished within the timeout, and that Spotlight expanded the variables: an `alarm_key` that arrives as literal `{{CONNECTION_NAME}}|{{RULE_NAME}}|{{key}}` is not an id.
+Check that the cleared rule sends the same `alarm_key` template as the raised rule and that its `state` is `cleared`. Also check the Spotlight alarm log for a failed script action, that the monitored server can reach `hooks.spike.sh`, and that Spotlight expanded the variables: an `alarm_key` that arrives as literal `{{CONNECTION_NAME}}|{{RULE_NAME}}|{{key}}` is not an id.
 </details>
 
 <details>
