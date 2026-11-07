@@ -23,6 +23,7 @@ Spike decides what a webhook means from the run status, in this order:
 * Only when `data.runStatusCode` is missing or not a number does Spike read `data.runStatus`, compared case-insensitively after trimming: `Errored` or `Error` creates or joins, `Success` resolves, anything else is ignored.
 * Only when neither is readable does Spike use `eventType`: `job.run.errored` creates or joins, while `job.run.started` and `job.run.completed` are ignored.
 * If you subscribe to both **Run errored** and **Run completed**, a failed run sends `job.run.errored` and then `job.run.completed` with code `20`; the second joins the incident that is already open.
+* Started and cancelled runs never create or resolve an incident.
 
 Spike identifies the incident by `data.jobId`, the dbt Cloud job. It stays the same from run to run, so every failed run of a job groups into one incident and the job's next successful run resolves it. A value counts as an id when it is a non-empty string or a number (`0` is an id). If `data.jobId` is missing, a failure is matched to an open incident by its title instead, and a success cannot resolve anything. Resolving needs an exact `data.jobId` match between the failure and the success.
 
@@ -59,7 +60,7 @@ Auto-resolution is supported for this integration. Spike will also automatically
 6. Paste the Spike webhook URL into the **Endpoint** field.
 7. Click **Save**.
 
-Spike needs `data.jobId` and `data.runStatusCode` on every delivery; dbt Cloud includes both. Send all jobs of one Spike integration from a single dbt Cloud account, because job ids are not known to be unique across accounts. After you save, dbt Cloud shows a secret token it uses to sign each delivery; Spike does not need it, because the token in the webhook URL is the credential.
+dbt Cloud includes `data.jobId` and `data.runStatusCode` on every delivery, and those are what Spike groups and resolves by. Send all jobs of one Spike integration from a single dbt Cloud account, because job ids are not known to be unique across accounts. After you save, dbt Cloud shows a secret token it uses to sign each delivery; Spike does not need it, because the token in the webhook URL is the credential.
 
 **Run errored** opens the incident and **Run completed** resolves it when the job next succeeds. Without **Run completed**, incidents never auto-resolve.
 {% endtab %}
