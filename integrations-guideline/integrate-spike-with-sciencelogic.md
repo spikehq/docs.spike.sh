@@ -32,7 +32,7 @@ Identity is the event, not the device. Two different events on `db-prod-03` are 
 A `cleared` payload that arrives with no matching open incident is dropped rather than turned into a new incident. That happens when the incident was already resolved in Spike, or when the Active Events policy never ran for that event. Resolving an incident in Spike does not clear the event in SL1; clear it in SL1 and let the Cleared Events policy resolve the incident to keep the two sides in step.
 {% endhint %}
 
-If `event_id` is missing, empty, or still an unexpanded template token such as `%e`, `$event_id`, `${event_id}`, `{{event_id}}` or `%event_id%`, Spike treats the payload as having no id and falls back to matching on the incident title. A number counts as an id (`0` too). Keep `event_id` in both payloads so matching does not depend on the title.
+If `event_id` is missing, empty, or still the unsubstituted run book variable `%e` (SL1 variables are `%` and one letter, or `%_` and a name), Spike treats the payload as having no id and falls back to matching on the incident title. A number counts as an id (`0` too). Keep `event_id` in both payloads so matching does not depend on the title.
 
 Spike uses the id exactly as SL1 sends it. When it compares the Active Events and Cleared Events ids it ignores surrounding spaces. A `cleared` payload resolves the open incident only when the ids match, or when neither side has a usable id and the title matches instead.
 
@@ -58,7 +58,7 @@ It falls back to `ScienceLogic event on <entity_name> cleared`, then `ScienceLog
 
 When a payload has no usable `event_id`, the title is the plain `event_policy_name` on `entity_name` form (then `event_policy_name`, `ScienceLogic event on <entity_name>`, `ScienceLogic event with no details`), because the title is then the only thing that ties the firing and the recovery together and `event_message` carries readings that change between runs. A recovery with no id resolves the incident that has that plain title.
 
-Any field SL1 left as an unexpanded token such as `%M` is treated as empty.
+Any field SL1 left as an unsubstituted run book variable such as `%M` or `%_event_policy_name` is treated as empty.
 
 {% hint style="info" %}
 A recovery reads differently from the notification that opened the incident, on purpose: the person scanning an event list needs to know which of their open incidents went away. It still resolves the right incident, because matching is done on `event_id` and not on the title.
@@ -83,7 +83,7 @@ The `severity` field (SL1's `%S`) is read as text and shown on the incident's se
 
 ## Step 1 — Create the integration in Spike
 
-In Spike, go to **Integrations → Add integration → ScienceLogic SL1**, attach it to a service and an escalation policy, and copy the webhook URL. It looks like `https://hooks.spike.sh/<your-token>/push-events`.
+In Spike, go to **Integrations → Add integration → ScienceLogic Skylar One (SL1)**, attach it to a service and an escalation policy, and copy the webhook URL. It looks like `https://hooks.spike.sh/<your-token>/push-events`.
 
 {% content-ref url="create-integration-and-service-on-dashboard.md" %}
 [create-integration-and-service-on-dashboard.md](create-integration-and-service-on-dashboard.md)
@@ -93,11 +93,11 @@ In Spike, go to **Integrations → Add integration → ScienceLogic SL1**, attac
 
 You create two actions, one for each status. They differ only in the `status` line of the payload.
 
-1. **Open the Action Policy Manager:**
-   In SL1, go to **Registry → Run Book → Action Policy Manager** (in the classic interface, **Registry > Run Book > Actions**) and select **Create** to add a new action.
+1. **Open the HTTP Action Template:**
+   In SL1, go to **Registry > Run Book > Actions** and click the wrench icon for the **HTTP Action Template** action that the PowerPack installed. The Action Policy Editor opens with **Action Type** already set to **Make an HTTP Request**.
 
-2. **Name it and choose the action type:**
-   Give the action a name your team will recognise, for example `Spike - event active`, and set **Action Type** to **Make an HTTP Request**.
+2. **Name it:**
+   Change the **Action Name** to one your team will recognise, for example `Spike - event active`.
 
 3. **Fill in the Input Parameters.** The **Make an HTTP Request** action takes one **Input Parameters** JSON document rather than separate method, URL and header fields. Enter the JSON below, replacing the URL with the webhook URL from Step 1 (nothing appended) and using the payload from the next section with `"status": "active"`:
 
@@ -115,7 +115,7 @@ You create two actions, one for each status. They differ only in the `status` li
    * `payload_type` — `json`. Without it SL1 does not send the payload as JSON to the webhook.
    * `payload` — the JSON body from the next section.
 
-4. **Save the action,** then repeat for a second action named `Spike - event cleared`, with the same `credential_id`, `url_override` and `payload_type` and the payload with `"status": "cleared"`.
+4. **Click Save As,** so the template stays untouched and the action is saved under its new name. Then repeat from the template for a second action named `Spike - event cleared`, with the same `credential_id`, `url_override` and `payload_type` and the payload with `"status": "cleared"`.
 
 {% content-ref url="archive-an-integration.md" %}
 [archive-an-integration.md](archive-an-integration.md)
@@ -184,18 +184,19 @@ If every event carries literal tokens, all of them share one title and one open 
 An automation policy decides which events run which action. You create two.
 
 1. **Open the Automation Policy Manager:**
-   Go to **Registry → Run Book → Automation Policy Manager** (classic: **Registry > Run Book > Automation**) and select **Create**.
+   Go to **Registry > Run Book > Automation** and click **Create**. The Automation Policy Editor opens.
 
 2. **Active Events policy:**
    * **Policy Name** — `Spike - active events`
    * **Policy Type** — **Active Events**
+   * **Policy State** — **Enabled**
+   * **Organization**, **Criteria Logic** (severity and the other conditions), and the **Aligned Devices** or **Aligned Events** — scope the policy to the events a human should be woken up for. A policy that matches every event on every device pages far more than your on-call wants
    * **Aligned Actions** — the `Spike - event active` action
-   * **Event matching** — scope the policy with the event criteria, organizations, severities and devices that a human should be woken up for. A policy that matches every event on every device pages far more than your on-call wants
 
 3. **Cleared Events policy:**
-   Create a second policy named `Spike - cleared events` with **Policy Type** set to **Cleared Events**, the `Spike - event cleared` action aligned, and **the same event matching** as the first. SL1 runs a Cleared Events policy once, when the event is cleared.
+   Create a second policy named `Spike - cleared events` with **Policy Type** set to **Cleared Events**, the `Spike - event cleared` action aligned, and **the same organization, devices and events** as the first. SL1 runs a Cleared Events policy once, when the event is cleared, and hides the **Repeat Time** field for it.
 
-4. **Save both policies** and make sure they are enabled.
+4. **Save both policies** and make sure their **Policy State** is **Enabled**.
 
 {% hint style="info" %}
 If you give the Active Events policy a **Repeat Time**, SL1 resends the payload while the event stays active. Each resend carries the same `event_id`, so it joins the open incident and does not page again.
