@@ -6,7 +6,7 @@ description: >-
 # How Spike Integrates with dbt Cloud
 
 ## Overview
-[dbt Cloud](https://www.getdbt.com/product/dbt-cloud) is the hosted platform for running dbt projects. Scheduled and triggered jobs build your data models, run tests and refresh your warehouse.
+[dbt Cloud](https://www.getdbt.com) (now also called the dbt platform) is the hosted platform for running dbt projects. Scheduled and triggered jobs build your data models, run tests and refresh your warehouse.
 
 With Spike’s dbt Cloud integration, a job run that errors creates an incident, and the incident resolves itself when the same job next succeeds.
 
@@ -51,15 +51,15 @@ Auto-resolution is supported for this integration. Spike will also automatically
 
 {% tabs %}
 {% tab title="Setup on dbt Cloud" %}
-1. Log in to dbt Cloud and open **Account settings**.
-2. In the left menu, click **Webhooks**, then **Create webhook**.
+1. In dbt Cloud, open **Account settings** by clicking your account name in the left side panel.
+2. Go to the **Webhooks** section and click **Create webhook**.
 3. Enter a **Webhook name** (for example `Spike on-call`) and, if you like, a **Description**.
 4. Under **Events**, select **Run errored** and **Run completed**. Optionally add **Run started**; Spike ignores it.
 5. Under **Jobs**, select the specific jobs you want Spike to page on, or leave it empty to cover all jobs.
 6. Paste the Spike webhook URL into the **Endpoint** field.
 7. Click **Save**.
 
-The **Webhook name**, **Events** and **Endpoint** fields are required. Spike needs `data.jobId` and `data.runStatusCode` on every delivery; dbt Cloud includes both. Send all jobs of one Spike integration from a single dbt Cloud account, because job ids are not known to be unique across accounts. dbt Cloud shows a secret key for the webhook after saving; Spike does not use it, because the token in the webhook URL is the credential.
+Spike needs `data.jobId` and `data.runStatusCode` on every delivery; dbt Cloud includes both. Send all jobs of one Spike integration from a single dbt Cloud account, because job ids are not known to be unique across accounts. After you save, dbt Cloud shows a secret token it uses to sign each delivery; Spike does not need it, because the token in the webhook URL is the credential.
 
 **Run errored** opens the incident and **Run completed** resolves it when the job next succeeds. Without **Run completed**, incidents never auto-resolve.
 {% endtab %}
