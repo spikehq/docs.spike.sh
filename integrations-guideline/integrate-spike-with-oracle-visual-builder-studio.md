@@ -36,15 +36,16 @@ Only `BUILD` events are alerts. Issue, push, review and activity events are acce
 
 **Steps:**
 
-1. Open your project in Visual Builder Studio and click **Project Administration** in the left navigation.
-2. Click the **Webhooks** tab, then click **+ Create Webhook**.
-3. Choose **Generic** as the webhook type.
+1. Open your project in Visual Builder Studio and click **Project Administration** in the left navigator.
+2. Click **Webhooks**, then click **+ Create Webhook**.
+3. From the **Type** drop-down list, select **Generic**.
 4. Fill in the form:
-   * **Name** (required): for example `Spike`.
-   * **Payload URL** (required): paste the Spike webhook URL copied in Step 1.
-   * **Secret** (optional): Spike does not check it, so leave it empty.
-5. Under **Events**, tick the **Build** events: the build job events for the jobs you want to monitor. Leave the other event groups unticked, or tick them if you like; Spike ignores everything except `BUILD`.
-6. Click **Create**.
+   * **Name**: a unique name, for example `Spike`.
+   * **URL**: paste the Spike webhook URL copied in Step 1.
+   * **Secret**: optional. VBS sends it as a signature header, and Spike does not check it, so you can leave it empty.
+   * Leave **Ignore SSL Errors** unticked.
+5. In **Event Groups**, choose **Select specific events**, then in **Events** tick only the build event. Other events are accepted but Spike ignores everything except `BUILD`.
+6. Click **Done**.
 7. To confirm delivery, run a build that you expect to fail, then run one that succeeds.
 
 **Required fields in the payload:**
@@ -163,7 +164,7 @@ Spike builds the title because the payload has no sentence about the fault. It n
 
 ` in <project>` is dropped when there is no project. Titles are whitespace-collapsed and capped at 200 characters; the job name is shortened with `...` and the project is kept whole.
 
-The incident is found by project and job name, so the title is for display only (except when the job name is missing, where the title is what matches the recovery).
+The incident is found by project and job name, so the title is for display only. When the job name is missing, Spike matches by title instead: repeats of the same failure still join, but the success title differs from the failure title, so such an incident is not resolved automatically.
 
 {% hint style="success" %}
 This integration supports auto-resolution. When a later build of the same job in the same project succeeds, the open incident resolves.
