@@ -29,6 +29,10 @@ Those two arrays are all Spike reads to decide what happens:
 
 The third row is the common case and the reason the integration is quiet. A monitored project is tested daily whether or not anything changed, so most of what Snyk sends is a snapshot with nothing in either array, and Spike deliberately opens nothing for it.
 
+{% hint style="warning" %}
+The recovery is per project, not per vulnerability. A snapshot that removes **any** issue and finds none new resolves the project's open incident, even if other vulnerabilities that paged earlier are still open in Snyk. Check the project in Snyk before you treat a resolved Snyk incident as fully fixed.
+{% endhint %}
+
 {% hint style="info" %}
 A snapshot that carries **both** new and removed issues keeps the incident open rather than resolving it. Snyk found something new in the same test that cleared something old, and the new finding is the one that still needs a person.
 {% endhint %}
@@ -51,25 +55,19 @@ The title names the vulnerability, the package it is in and the project it was f
 Critical: Prototype Pollution in lodash 4.17.15 — spikehq/api:package-lock.json
 ```
 
-That is Snyk's own name for the vulnerability (`issueData.title`), its severity, the affected package and version, and the project last. When one test turns up several new vulnerabilities, the first one Snyk lists is named and the rest are counted:
+That is the vulnerability's severity, Snyk's own name for it (`issueData.title`), the affected package and version, and the project last. When one test turns up several new vulnerabilities, the title counts them, breaks them down by severity, and names the two worst:
 
 ```
-Critical: Prototype Pollution in lodash 4.17.15 — spikehq/api:package-lock.json (+2 more)
+3 new Snyk issues (1 critical, 2 high) in spikehq/api:package-lock.json: Prototype Pollution (lodash), Regular Expression Denial of Service (ReDoS) (ms) +1 more
 ```
 
-A recovery names what was fixed:
-
-```
-Prototype Pollution in lodash 4.17.15 fixed — spikehq/api:package-lock.json
-```
-
-and falls back to a plain line when the snapshot names nothing Spike can read:
+A recovery is a plain line about the project:
 
 ```
 Snyk issues fixed in spikehq/api:package-lock.json — back to normal
 ```
 
-A clean test, a connection ping and a delivery Spike cannot read anything out of each have their own fixed line:
+A clean test, the connection ping and a delivery Spike cannot read anything out of each have their own fixed line. None of them opens an incident, so you only see them in the integration's events:
 
 ```
 Snyk tested spikehq/api:package-lock.json — no new issues
@@ -80,7 +78,7 @@ Snyk alert with no details
 Titles are capped at 200 characters and carry no Snyk issue ids, CVE numbers, advisory URLs or timestamps. Those are all on the incident page.
 
 {% hint style="info" %}
-The recovery reads differently from the notification that opened the incident, and that is fine — matching is done on `project.id`, never on the title. A responder scanning their event list needs to see which of their open incidents went away.
+The recovery reads differently from the notification that opened the incident, and that is fine — matching is done on `project.id`, never on the title.
 {% endhint %}
 
 Use a [Title Remapper](../alerts/title-remapper.md) if your team reads findings by package rather than by vulnerability:
@@ -91,20 +89,20 @@ Use a [Title Remapper](../alerts/title-remapper.md) if your team reads findings 
 
 ## Severity
 
-Spike does not set the severity badge from Snyk's `severity`. Snyk's `low` / `medium` / `high` / `critical` is kept on the incident and shown in the title, but incidents open at your integration's default.
+Spike reads Snyk's `severity` field and sets the incident's severity from it: `critical` and `high` become **SEV1**, `medium` **SEV2** and `low` **SEV3**. When one test finds several new vulnerabilities, the severity of the last one in `newIssues` is the one used, so a batch can open at a lower severity than its worst finding. The title always leads with the worst.
 
-To put Snyk's level on the badge, write an [alert rule](../alerts/alert-rules.md) on `newIssues.0.issueData.severity`. Alert rules can also route the incident to another service or escalation policy, or suppress it — useful if you only want to be paged for `critical` and `high`. Read more about [priority and severity](../incidents/priority-and-severity.md).
+To change that, write an [alert rule](../alerts/alert-rules.md). Alert rules can set the severity or priority, route the incident to another service or escalation policy, or suppress it — useful if you only want to be paged for `critical` and `high`. Read more about [priority and severity](../incidents/priority-and-severity.md).
 
 ## Prerequisites
 
-* A Snyk account, and a **Snyk API token** belonging to a user with admin access to the organization, or a service account with the **Org Admin** role. Webhook endpoints reject anything with less
+* A Snyk account, and a **Snyk API token** belonging to an organization admin, or to a service account with the **Org Admin** role. Creating a webhook needs the organization's outbound-webhook permissions
 * Your **Snyk organization ID**
 * At least one **monitored** project in that organization. Snyk only sends snapshots for projects it is monitoring on a schedule, not for one-off `snyk test` runs
 * A Snyk integration in Spike and its webhook URL
 * Nothing to open on your own network. Snyk calls out to Spike
 
 {% hint style="warning" %}
-**Only Open Source and container projects emit `project_snapshot`.** Snyk Code, Snyk IaC and Snyk Container registry-scanning targets do not send this event, so importing one of those and waiting for an incident will wait forever.
+**Only Open Source and container projects emit `project_snapshot`.** Snyk Code and Snyk IaC projects do not send this event, so importing one of those and waiting for an incident will wait forever.
 {% endhint %}
 
 ## Step 1 — Create the integration in Spike
@@ -121,7 +119,7 @@ Both are in the Snyk Web UI, and both are needed for the call in Step 3.
 
 1. **Organization ID.** Select the organization in the top-left organization picker, then go to **Settings** (the cog, next to the organization name) **→ General**. **Organization ID** is the first field; copy it. It is a UUID.
 
-2. **API token.** Select your avatar in the bottom-left **→ Account settings → General → Auth Token (KEY)**, then select **click to show** and copy it.
+2. **API token.** Open your **Account settings**, find the **KEY** field and select **Click to show**, then copy it.
 
    For a long-lived integration, use a service account instead: **Settings → Service accounts → Create a service account**, give it the **Org Admin** role, and copy the token Snyk shows you. Snyk shows a service account token once and never again.
 
@@ -145,10 +143,10 @@ curl -X POST "https://api.snyk.io/v1/org/{SNYK-ORG-ID}/webhooks" \
 
 Both body fields are required:
 
-* **`url`** — the Spike integration URL from Step 1, in full. Snyk requires `https://`, which it is
-* **`secret`** — a random string you make up, at least 20 characters. Snyk signs every delivery with it. Generate one with `openssl rand -hex 32` and keep it somewhere; you cannot read it back out of Snyk later
+* **`url`** — the Spike integration URL from Step 1, in full
+* **`secret`** — a random string you make up. Snyk signs every delivery with it. Generate one with `openssl rand -hex 32` and keep it somewhere; you cannot read it back out of Snyk later
 
-A successful call answers `201 Created` with the webhook it made:
+A successful call answers with the webhook it made:
 
 ```json
 {
@@ -169,18 +167,14 @@ Spike does not verify the `X-Hub-Signature` header Snyk signs each delivery with
 
 ## Step 4 — Confirm it
 
-Snyk can send a test delivery for a webhook it has created. Using the `id` from Step 3:
+Snyk sends a `ping` to a webhook as soon as it is created, and you can send another one at any time, using the `id` from Step 3:
 
 ```bash
 curl -X POST "https://api.snyk.io/v1/org/{SNYK-ORG-ID}/webhooks/{WEBHOOK-ID}/ping" \
   -H "Authorization: token <SNYK-TOKEN>"
 ```
 
-That opens an incident in Spike titled `Snyk webhook test ping`. Acknowledge and resolve it — it has done its job, which is to prove the URL, the escalation policy and the notification channels all work.
-
-{% hint style="info" %}
-The ping body carries only a `webhookId` and no project, so Spike cannot key it on `project.id` the way it keys a real snapshot. It is titled with the same fixed line every time, which means repeated pings join one incident instead of opening a new one each time. Run the ping before you attach a live escalation policy if you would rather not wake anyone.
-{% endhint %}
+Spike records the ping as an event titled `Snyk webhook test ping` but **opens no incident** for it, and pages nobody: a ping reports no vulnerability. It only proves that Snyk can reach the URL.
 
 The real test is the next scheduled test of a monitored project. Watch for both moments:
 
@@ -486,10 +480,10 @@ The snapshot from the next test, once `lodash` has been upgraded. The vulnerabil
 It resolves the incident, and the event reads:
 
 ```
-Prototype Pollution in lodash 4.17.15 fixed — spikehq/api:package-lock.json
+Snyk issues fixed in spikehq/api:package-lock.json — back to normal
 ```
 
-The fields Spike itself reads are a small subset of that: `project.id` for identity, `project.name` for the end of the title, the length of `newIssues` and `removedIssues` to tell firing from recovery, and `issueData.title`, `issueData.severity`, `pkgName` and `pkgVersions` from each new issue for the rest of the title. Everything else above is kept on the incident, so alert rules and the Title Remapper can read it.
+The fields Spike itself reads are a small subset of that: `project.id` for identity, `project.name` for the end of the title, the length of `newIssues` and `removedIssues` to tell firing from recovery, `issueData.title`, `issueData.severity`, `pkgName` and `pkgVersions` from the new issues for the rest of the title, and `severity` for the incident's severity. Everything else above is kept on the incident, so alert rules and the Title Remapper can read it.
 
 ## Things worth knowing
 
@@ -515,17 +509,9 @@ If both look right, check the hostname: a token for an EU or AU instance will no
 
 <details>
 
-<summary>The curl returns 422</summary>
-
-The body was rejected. Both `url` and `secret` are required, `url` has to be `https://`, and the secret has to be a reasonable length — use `openssl rand -hex 32`.
-
-</details>
-
-<details>
-
 <summary>Nothing arrives in Spike</summary>
 
-Run the ping from Step 4 first. If the ping arrives and real snapshots do not, the subscription is fine and the projects are the problem — check in order:
+Send the ping from Step 4 first and look for the `Snyk webhook test ping` event on the integration. If the ping arrives and real snapshots do not, the subscription is fine and the projects are the problem — check in order:
 
 1. The project is **monitored**. `snyk test` on its own sends nothing; `snyk monitor`, or importing the project through a Snyk integration, is what puts it on a schedule.
 2. The project is an **Open Source or container** project. Snyk Code and Snyk IaC targets do not emit `project_snapshot`.
@@ -565,16 +551,6 @@ A [resolve timer](../incidents/resolve-timer.md) is a reasonable backstop, not a
 <summary>We get paged for low-severity findings we do not care about</summary>
 
 Snyk sends the whole snapshot and Spike opens an incident for anything in `newIssues`, so filter on the Spike side with an [alert rule](../alerts/alert-rules.md) on `newIssues.0.issueData.severity` — suppress `low` and `medium`, or route them to a service with a quieter escalation policy.
-
-Narrowing what Snyk reports at all is a Snyk-side setting, in the organization's **Settings → Severity threshold** for the relevant target.
-
-</details>
-
-<details>
-
-<summary>An incident titled "Snyk alert with no details" opened</summary>
-
-Spike could not read a project, any issues or a `webhookId` out of the delivery. It opens an incident rather than dropping it, because the alternative is losing a real security finding silently. Acknowledge it, resolve it, and send the payload on the incident page to Spike support — a delivery shaped this way is one Spike has not seen before.
 
 </details>
 
