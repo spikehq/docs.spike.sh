@@ -9,7 +9,7 @@ Alert routing rules evaluate conditions on every incoming incident and execute a
 <figure><img src="../.gitbook/assets/alert_config.svg" alt="Example alert routing rule in Spike"><figcaption><p>An example alert routing rule with conditions and actions.</p></figcaption></figure>
 
 {% hint style="info" %}
-Not sure where to start? Spike offers [alert routing rule templates](https://spike.sh/templates/alert-rule-templates) with pre-built configurations.
+Not sure where to start? Spike offers alert routing rule templates with pre-built configurations.
 {% endhint %}
 
 ## Conditions

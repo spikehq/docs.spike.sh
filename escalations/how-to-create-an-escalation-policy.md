@@ -5,7 +5,7 @@ description: "Step-by-step guide to creating an escalation policy in Spike to de
 # How to create an escalation policy
 
 {% hint style="info" %}
-Not sure where to start? Spike offers [escalation policy templates](https://spike.sh/templates/escalation-templates) with pre-built configurations.
+Not sure where to start? Spike offers escalation policy templates with pre-built configurations.
 {% endhint %}
 
 {% stepper %}
