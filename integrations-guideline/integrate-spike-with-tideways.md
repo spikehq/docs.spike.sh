@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Tideways notifications to Spike so a response-time breach, a PHP exception or a slow SQL query pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when Tideways says the problem is over.
+  Send Tideways alerts to Spike so a slow response, PHP exception or slow SQL query alerts your on-call team, and resolves when Tideways reports recovery.
 ---
 
 # Integrate Spike with Tideways

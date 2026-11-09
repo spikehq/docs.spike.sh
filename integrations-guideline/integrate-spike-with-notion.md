@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send a Notion database automation to Spike so a task landing in your tasks database pages your on-call rotation, and resolves its incident when the task is marked Done.
+  Send a Notion database automation to Spike so a new task in your tasks database alerts on-call, and the incident resolves when the task is marked Done.
 ---
 
 # Integrate Spike with Notion

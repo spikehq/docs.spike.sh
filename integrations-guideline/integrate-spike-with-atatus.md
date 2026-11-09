@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Atatus alert incidents to Spike so a breached threshold pages your on-call rotation by phone, SMS, Slack or Teams, and the incident resolves itself when Atatus closes it.
+  Send Atatus alerts to Spike so a breached threshold alerts your on-call team by phone, SMS, Slack or Teams, and resolves when Atatus closes the incident.
 ---
 
 # Integrate Spike with Atatus

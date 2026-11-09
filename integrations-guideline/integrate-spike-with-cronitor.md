@@ -1,6 +1,6 @@
 ---
 description: >-
-   Integrate Spike with Cronitor.io to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more for uptime monitoring, cron job monitoring, and heartbeat checks.
+  Integrate Spike with Cronitor to get alerts by phone call, SMS, Slack, MS Teams and more for uptime checks, cron jobs and heartbeat monitoring.
 ---
 
 # Integrate Spike with Cronitor

@@ -1,8 +1,6 @@
 ---
 description: >-
-  Integrate Spike with Nodeping.io to receive real-time alerts via Phone calls,
-  SMS, Slack, MS Teams, and more for uptime monitoring, server health, and
-  network performance, for fast quick incident resp
+  Integrate Spike with NodePing to get alerts by phone call, SMS, Slack, MS Teams and more for uptime, server health and network performance issues.
 ---
 
 # Integrate Spike with NodePing

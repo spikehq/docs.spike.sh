@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Kentik alarms to Spike so a threshold policy firing pages your on-call rotation by phone, SMS, Slack or Teams, and the incident resolves itself when Kentik clears the alarm.
+  Send Kentik alarms to Spike so a firing threshold policy alerts your on-call team by phone, SMS, Slack or Teams, and resolves when Kentik clears it.
 ---
 
 # Integrate Spike with Kentik

@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send BitBar test run notification emails to your Spike integration address so a failed test run opens an incident, and a success email for the same run resolves it.
+  Send BitBar test run emails to your Spike integration address so a failed run opens an incident, and a success email for the same run resolves it.
 ---
 
 # Integrate Spike with BitBar

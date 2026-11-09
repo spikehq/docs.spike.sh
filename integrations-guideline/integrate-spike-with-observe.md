@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Observe monitor alarms to Spike with a webhook action, so a firing alarm pages your on-call rotation and the incident resolves when the alarm condition ends.
+  Send Observe monitor alarms to Spike with a webhook action, so a firing alarm alerts your on-call team and resolves when the alarm condition ends.
 ---
 
 # Integrate Spike with Observe

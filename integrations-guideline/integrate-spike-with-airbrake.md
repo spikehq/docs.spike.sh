@@ -1,6 +1,6 @@
 ---
 description: >-
-  Integrate Spike with Airbrake.io to receive real-time alerts on Phone calls, SMS, Slack, MS Teams, and more for application error monitoring, ensuring faster incident response.
+  Integrate Spike with Airbrake to get error alerts by phone call, SMS, Slack, MS Teams and more, so your on-call team responds to application errors faster.
 ---
 
 # Integrate Spike with Airbrake.io

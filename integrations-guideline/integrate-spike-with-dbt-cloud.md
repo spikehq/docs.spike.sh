@@ -1,6 +1,6 @@
 ---
 description: >-
-   Integrate Spike with dbt Cloud to get alerted by Phone calls, SMS, Slack, MS Teams, and more when a dbt job run errors, and auto-resolve the incident when the job succeeds again.
+  Integrate Spike with dbt Cloud to get alerted by phone, SMS, Slack, MS Teams and more when a job run errors, with auto-resolve when it succeeds again.
 ---
 
 # How Spike Integrates with dbt Cloud

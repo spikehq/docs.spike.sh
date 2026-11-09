@@ -1,8 +1,6 @@
 ---
 description: >-
-  The six Spike records the Terraform provider creates and owns: services,
-  escalation policies, integrations, alert routing rules, outbound webhooks and
-  on-call schedules.
+  The six Spike records the Terraform provider creates and owns: services, escalation policies, integrations, routing rules, webhooks and on-call schedules.
 ---
 
 # Resources

@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Wiz Issues and Wiz Defend Threats to Spike so a cloud security finding pages your on-call rotation, and resolving or rejecting it in Wiz closes the incident.
+  Send Wiz Issues and Wiz Defend Threats to Spike so a cloud security finding alerts on-call, and resolving or rejecting it in Wiz closes the incident.
 ---
 
 # Integrate Spike with Wiz

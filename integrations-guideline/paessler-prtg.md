@@ -1,6 +1,6 @@
 ---
 description: >-
-   Integrate Spike with Paessler PRTG to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more when your sensors detect issues in your network, servers, or applications.
+  Integrate Spike with Paessler PRTG to get alerts by phone call, SMS, Slack, MS Teams and more when sensors detect issues in your network or servers.
 ---
 
 # Integrate Spike with Paessler PRTG

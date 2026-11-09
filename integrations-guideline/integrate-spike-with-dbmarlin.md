@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send DBmarlin database alerts to Spike so a breached rule on a database instance or host pages your on-call rotation by phone, SMS, Slack or Teams, and closes its incident when DBmarlin reports the alert has ended.
+  Send DBmarlin database alerts to Spike so a breached rule alerts your on-call team by phone, SMS, Slack or Teams, and closes when DBmarlin clears it.
 ---
 
 # Integrate Spike with DBmarlin

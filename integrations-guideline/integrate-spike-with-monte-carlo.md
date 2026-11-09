@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Monte Carlo data observability alerts to Spike so your data on-call rotation is paged by phone, SMS, Slack or Teams, and incidents resolve themselves when the alert is fixed.
+  Send Monte Carlo data observability alerts to Spike so your data on-call team is alerted by phone, SMS, Slack or Teams, and incidents auto-resolve.
 ---
 
 # Integrate Spike with Monte Carlo

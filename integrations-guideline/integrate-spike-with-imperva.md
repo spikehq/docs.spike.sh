@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Imperva Cloud WAF (Incapsula) notifications to Spike so a DDoS attack, BGP session loss or degraded connection pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when Imperva reports recovery.
+  Send Imperva Cloud WAF (Incapsula) alerts to Spike so a DDoS attack, BGP session loss or degraded connection alerts your on-call team right away.
 ---
 
 # Integrate Spike with Imperva Cloud WAF

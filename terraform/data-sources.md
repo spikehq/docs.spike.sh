@@ -1,8 +1,6 @@
 ---
 description: >-
-  The eight lookups the Terraform provider offers for referencing teams, users
-  and existing Spike records by id, whether Terraform manages them or you
-  created them in the dashboard.
+  The eight Terraform provider lookups for referencing teams, users and existing Spike records by id, whether Terraform manages them or not.
 ---
 
 # Data sources

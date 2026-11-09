@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send ITRS Geneos alerts to Spike with a Script effect, so a breached dataview cell pages your on-call rotation by phone, SMS, Slack or Teams, and the incident resolves when Geneos clears the alert.
+  Send ITRS Geneos alerts to Spike with a Script effect, so a breached dataview cell alerts your on-call team and resolves when Geneos clears it.
 ---
 
 # Integrate Spike with ITRS Geneos

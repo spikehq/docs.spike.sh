@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send HEAL problem, early warning and info emails to Spike so a HEAL signal pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when HEAL closes the problem.
+  Send HEAL problem and early warning emails to Spike so a HEAL signal alerts your on-call team, and the incident resolves when HEAL closes the problem.
 ---
 
 # Integrate Spike with HEAL

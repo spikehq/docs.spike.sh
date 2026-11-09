@@ -1,8 +1,6 @@
 ---
 description: >-
-  Healthchecks.io monitors the heartbeat messages sent by your cron jobs,
-  services and APIs. Spike integrates easily so get immediate alerts when they
-  don't arrive on schedule.
+  Integrate Healthchecks.io with Spike to get alerted right away when heartbeats from your cron jobs, services or APIs don't arrive on schedule.
 ---
 
 # Integrate Spike with Healthchecks

@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send TestMu AI (formerly LambdaTest) test results to Spike so a failed or errored test pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when the same test passes again.
+  Send TestMu AI (formerly LambdaTest) test results to Spike so a failed test alerts your on-call team, and resolves when the same test passes again.
 ---
 
 # Integrate Spike with TestMu AI

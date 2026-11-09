@@ -1,6 +1,6 @@
 ---
 description: >-
-   Integrate Spike with Akamai mPulse (formerly SOASTA) to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more when your real user monitoring alerts fire.
+  Integrate Spike with Akamai mPulse (formerly SOASTA) to get real user monitoring alerts by phone call, SMS, Slack, MS Teams and more.
 ---
 
 # Integrate Spike with Akamai mPulse

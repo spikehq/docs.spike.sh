@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send PA Server Monitor (Power Admin) alerts to Spike so a failing monitor pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when the monitor is back to OK.
+  Send PA Server Monitor (Power Admin) alerts to Spike so a failing monitor alerts your on-call team, and the incident resolves when it is back to OK.
 ---
 
 # Integrate Spike with PA Server Monitor

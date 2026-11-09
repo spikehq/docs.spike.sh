@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Argo CD notifications to Spike so a failed sync or an unhealthy application pages your on-call rotation, and the incident resolves when the app is healthy and synced again.
+  Send Argo CD notifications to Spike so a failed sync or unhealthy app alerts your on-call team, and the incident resolves when the app is healthy again.
 ---
 
 # Integrate Spike with Argo CD

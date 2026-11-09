@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Spotlight on SQL Server Enterprise alarms to Spike so a raised alarm pages your on-call team by phone, SMS, Slack or Teams, and resolves its incident when Spotlight clears the alarm.
+  Send Spotlight on SQL Server alarms to Spike so a raised alarm alerts your on-call team, and the incident resolves when Spotlight clears the alarm.
 ---
 
 # Integrate Spike with Spotlight on SQL Server Enterprise

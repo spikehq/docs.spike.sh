@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send elmah.io errors, uptime checks and heartbeats to Spike so a new exception or a failing endpoint pages your on-call rotation by phone, SMS, Slack or Teams, and closes its incident when elmah.io logs that it is working again.
+  Send elmah.io errors, uptime checks and heartbeats to Spike so a new exception or failing endpoint alerts on-call, and closes when elmah.io resolves it.
 ---
 
 # Integrate Spike with elmah.io

@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Metoro alerts to Spike through a webhook alert destination so a firing alert pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when Metoro says the alert recovered.
+  Send Metoro alerts to Spike through a webhook destination so a firing alert reaches your on-call team, and resolves when Metoro reports recovery.
 ---
 
 # Integrate Spike with Metoro
