@@ -16,7 +16,7 @@ Every on-call schedule is built from layers (covered on the next page). Each lay
 ## Create a schedule
 
 {% hint style="info" %}
-Not sure where to start? Spike offers [on-call templates](https://spike.sh/templates/oncall-templates) with pre-built schedule configurations.
+Not sure where to start? Spike offers on-call templates with pre-built schedule configurations.
 {% endhint %}
 
 Go to the [On-call section](https://app.spike.sh/on-calls) and click **New schedule**.
