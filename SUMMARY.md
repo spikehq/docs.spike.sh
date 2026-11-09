@@ -25,7 +25,7 @@
 * [SMS alerts](alerts/sms.md)
 * [Mobile app alerts](alerts/mobile-app-alerts.md)
 * [Email alerts](alerts/email.md)
-* [Slack](alerts/slack.md)
+* [Slack app](alerts/slack.md)
 * [Microsoft Teams](alerts/microsoft-teams.md)
 * [WhatsApp](alerts/whatsapp.md)
 * [Telegram](alerts/telegram.md)
@@ -54,7 +54,7 @@
   * [JIRA Cloud](collaboration/task-management-integrations/jira-cloud.md)
   * [JIRA server (self-hosted)](collaboration/task-management-integrations/jira-server-self-hosted.md)
   * [ClickUp](collaboration/task-management-integrations/clickup.md)
-  * [Linear](collaboration/task-management-integrations/linear.md)
+  * [Linear integration](collaboration/task-management-integrations/linear.md)
   * [Shortcut](collaboration/task-management-integrations/shortcut.md)
 * [Helpdesk integrations](collaboration/helpdesk-integrations/README.md)
   * [Zendesk](collaboration/helpdesk-integrations/zendesk.md)
@@ -289,7 +289,7 @@
 ## Administration
 
 * [Roles and access](administration/roles-and-access.md)
-* [SSO](administration/sso.md)
+* [Single Sign-On (SSO)](administration/sso.md)
 * [Sign-in rules](administration/sign-in-rules.md)
 * [Our notification numbers](administration/our-notification-numbers.md)
 * [Contact the support team](administration/contact-the-support-team.md)
