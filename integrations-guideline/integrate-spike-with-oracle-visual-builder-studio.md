@@ -1,5 +1,6 @@
 ---
-description: "Send Oracle Visual Builder Studio build results to Spike so a failed or unstable build pages your on-call rotation and a later successful build resolves the incident."
+description: >-
+  Send Oracle Visual Builder Studio build results to Spike so a failed build alerts your on-call team, and a later successful build resolves it.
 ---
 # Integrate Spike with Oracle Visual Builder Studio
 

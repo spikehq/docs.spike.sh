@@ -1,8 +1,6 @@
 ---
 description: >-
-  Ping by Apex is a very beautiful minimalist uptime monitoring solution for
-  businesses. Spike integrates with Apex ping using webhooks to alert you when
-  your websites are down
+  Integrate Ping by Apex uptime monitoring with Spike using webhooks, and get alerted by phone, SMS, Slack and more when your website goes down.
 ---
 
 # Integrate Spike with Apex ping

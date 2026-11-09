@@ -1,8 +1,6 @@
 ---
 description: >-
-  Integrate Spike with Cloudflare to receive real-time alerts via Phone calls,
-  SMS, Slack, MS Teams, and more for security events, DDoS attacks, DNS changes,
-  and other critical incidents. Ensure faster
+  Integrate Spike with Cloudflare to get alerts by phone call, SMS, Slack, MS Teams and more for security events, DDoS attacks and DNS changes.
 ---
 
 # Integrate Spike with Cloudflare

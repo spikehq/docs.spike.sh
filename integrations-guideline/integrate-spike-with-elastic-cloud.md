@@ -1,8 +1,6 @@
 ---
 description: >-
-  This guide will walk you through the steps to integrate Spike with Elastic
-  Cloud using webhooks. With this integration, you can send alerts from Elastic
-  Cloud directly to Spike for streamlined i
+  Integrate Spike with Elastic Cloud using webhooks, and get Elastic alerts by phone call, SMS, Slack, MS Teams and more.
 ---
 
 # Integrate Spike with Elastic Cloud

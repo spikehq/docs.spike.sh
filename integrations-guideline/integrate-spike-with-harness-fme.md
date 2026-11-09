@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Harness FME (formerly Split) metric alerts to Spike so a feature flag or experiment that degrades a metric pages your on-call rotation by phone, SMS, Slack or Teams.
+  Send Harness FME (formerly Split) metric alerts to Spike so a feature flag that degrades a metric alerts your on-call team by phone, SMS, Slack or Teams.
 ---
 
 # Integrate Spike with Harness FME

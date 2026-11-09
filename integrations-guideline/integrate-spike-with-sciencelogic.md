@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send ScienceLogic Skylar One (SL1) events to Spike so an active event pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when SL1 clears the event.
+  Send ScienceLogic Skylar One (SL1) events to Spike so an active event alerts your on-call team, and the incident resolves when SL1 clears the event.
 ---
 
 # Integrate Spike with ScienceLogic Skylar One (SL1)

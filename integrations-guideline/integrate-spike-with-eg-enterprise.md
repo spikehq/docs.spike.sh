@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send eG Enterprise alarms to Spike so an alarm on a Citrix, VDI, Java or database component pages your on-call rotation by phone, SMS, Slack or Teams, and closes its incident when eG clears the alarm.
+  Send eG Enterprise alarms to Spike so a Citrix, VDI, Java or database alarm alerts your on-call team, and the incident closes when eG clears it.
 ---
 
 # Integrate Spike with eG Enterprise

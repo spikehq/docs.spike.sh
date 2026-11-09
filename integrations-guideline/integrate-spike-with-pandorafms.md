@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Pandora FMS alerts to Spike so a failing module pages your on-call rotation by phone, SMS, Slack or Teams, and its incident resolves when the alert recovers.
+  Send Pandora FMS alerts to Spike so a failing module alerts your on-call team by phone, SMS, Slack or Teams, and resolves when the alert recovers.
 ---
 
 # Integrate Spike with Pandora FMS

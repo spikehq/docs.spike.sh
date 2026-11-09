@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send OpsPilot (formerly FusionReactor Cloud) alerts to Spike so a firing alert pages your on-call rotation by phone, SMS, Slack or Teams, and closes its incident when the alert recovers.
+  Send OpsPilot (formerly FusionReactor Cloud) alerts to Spike so a firing alert reaches your on-call team, and the incident closes when it recovers.
 ---
 
 # Integrate Spike with OpsPilot

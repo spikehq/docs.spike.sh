@@ -1,6 +1,6 @@
 ---
 description: >-
-   Integrate Spike with Updown.io to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more when your website goes down or experiences performance issues.
+  Integrate Spike with Updown.io to get alerts by phone call, SMS, Slack, MS Teams and more when your website goes down or slows down.
 ---
 
 # Integrate Spike with Updown.io

@@ -1,6 +1,6 @@
 ---
 description: >-
-  Subscribe Spike to a Snyk organization's webhook so a newly found vulnerability in a monitored project pages your on-call rotation by phone, SMS, Slack or Teams, and the incident resolves itself once the project has no known vulnerabilities left.
+  Subscribe Spike to a Snyk organization webhook so a new vulnerability in a monitored project alerts your on-call team by phone, SMS, Slack or Teams.
 ---
 
 # Integrate Spike with Snyk

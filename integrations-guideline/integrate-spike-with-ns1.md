@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send IBM NS1 Connect monitoring job notifications to Spike so a failing ping, TCP, HTTP or DNS monitor pages your on-call rotation, and the incident resolves itself when the monitor recovers.
+  Send IBM NS1 Connect monitoring alerts to Spike so a failing ping, TCP, HTTP or DNS monitor alerts on-call, and resolves when the monitor recovers.
 ---
 
 # Integrate Spike with IBM NS1 Connect

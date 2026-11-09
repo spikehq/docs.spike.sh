@@ -1,5 +1,6 @@
 ---
-description: "Connect BugBase to Spike for real-time alerts when a security report or vulnerability is submitted, and automatic resolution when it is resolved, closed, or marked duplicate, invalid, or informational."
+description: >-
+  Connect BugBase to Spike to get alerted when a security report is submitted, and resolve the incident automatically when the report is closed.
 ---
 
 # Integrate Spike with BugBase

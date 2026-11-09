@@ -1,8 +1,6 @@
 ---
 description: >-
-  Instana's automated Application Performance Monitoring solution for
-  microservice and cloud-native applications. Integrate with Spike to get
-  triggered for all issues and alerts with your performances
+  Integrate Instana application performance monitoring with Spike to alert your on-call team for every Instana issue and alert.
 ---
 
 # Integrate Spike with Instana

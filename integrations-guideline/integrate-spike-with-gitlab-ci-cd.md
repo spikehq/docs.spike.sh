@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send GitLab CI/CD pipeline, job and deployment failures to Spike so on-call is paged, and have the incident resolve when the same pipeline, job or deployment succeeds again.
+  Send GitLab CI/CD pipeline, job and deployment failures to Spike to alert on-call, and resolve the incident when the same pipeline succeeds again.
 ---
 
 # Integrate Spike with GitLab CI/CD

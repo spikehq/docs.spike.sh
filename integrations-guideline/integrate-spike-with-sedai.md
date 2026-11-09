@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Sedai alerts to Spike through a custom webhook so an issue Sedai detects pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when Sedai reports the alert as resolved.
+  Send Sedai alerts to Spike through a custom webhook so an issue Sedai detects alerts your on-call team, and resolves when Sedai marks it resolved.
 ---
 
 # Integrate Spike with Sedai

@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send OpenText SiteScope alerts to Spike so a monitor crossing its threshold pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when the monitor returns to good.
+  Send OpenText SiteScope alerts to Spike so a monitor over its threshold alerts your on-call team, and resolves when the monitor returns to good.
 ---
 
 # Integrate Spike with OpenText SiteScope

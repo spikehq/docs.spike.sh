@@ -1,6 +1,6 @@
 ---
 description: >-
-  Integrate Spike with Semaphore CI to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more for pipeline results and build statuses, ensuring continuous integration monitoring.
+  Integrate Spike with Semaphore CI to get alerts by phone call, SMS, Slack, MS Teams and more for pipeline results and build statuses.
 ---
 
 # Integrate Spike with Semaphore CI

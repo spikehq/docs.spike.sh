@@ -1,8 +1,6 @@
 ---
 description: >-
-  Integrate Spike with SolarWinds Orion to get real-time alerts on Phone calls,
-  SMS, Slack, MS Teams and more for network, server, and application incidents,
-  for faster incident response.
+  Integrate Spike with SolarWinds Orion to get alerts by phone call, SMS, Slack, MS Teams and more for network, server and application incidents.
 ---
 
 # Integrate Spike with Solarwinds Orion

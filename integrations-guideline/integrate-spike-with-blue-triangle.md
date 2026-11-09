@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Blue Triangle alerts to Spike with a Notification Group webhook so a Warning or Critical performance alert pages your on-call team, and the incident resolves itself when the alert clears.
+  Send Blue Triangle alerts to Spike with a webhook so a Warning or Critical performance alert reaches your on-call team, and resolves when the alert clears.
 ---
 
 # Integrate Spike with Blue Triangle

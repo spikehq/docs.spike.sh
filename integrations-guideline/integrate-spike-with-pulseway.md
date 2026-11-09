@@ -1,6 +1,6 @@
 ---
 description: >-
-  Create a Pulseway notification webhook with its REST API so Critical and Elevated device notifications open incidents in Spike and page your on-call team by phone, SMS, Slack or Teams.
+  Create a Pulseway webhook so Critical and Elevated device notifications open incidents in Spike and alert your on-call team by phone, SMS or Slack.
 ---
 
 # Integrate Spike with Pulseway

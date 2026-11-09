@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Chronosphere monitor notifications to Spike so a firing monitor pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when the monitor recovers.
+  Send Chronosphere monitor alerts to Spike so a firing monitor alerts your on-call team by phone, SMS, Slack or Teams, and resolves when it recovers.
 ---
 
 # Integrate Spike with Chronosphere

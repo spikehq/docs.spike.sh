@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Expel Workbench notifications to Spike so an Expel alert, investigation or incident pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when Expel's analysts close it.
+  Send Expel Workbench alerts, investigations and incidents to Spike so your on-call team is alerted, and the incident resolves when Expel closes it.
 ---
 
 # Integrate Spike with Expel

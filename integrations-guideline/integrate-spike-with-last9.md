@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Last9 alert notifications to Spike so a firing Last9 alert pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when Last9 sends the recovery.
+  Send Last9 alerts to Spike so a firing alert reaches your on-call team by phone, SMS, Slack or Teams, and resolves when Last9 sends the recovery.
 ---
 
 # Integrate Spike with Last9

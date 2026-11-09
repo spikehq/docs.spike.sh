@@ -1,5 +1,6 @@
 ---
-description: "Send Microsoft Sentinel incidents to Spike with an automation rule and a playbook, so a new incident pages your on-call rotation and closing it resolves the Spike incident."
+description: >-
+  Send Microsoft Sentinel incidents to Spike with an automation rule and playbook, so on-call is alerted and closing the incident resolves it in Spike.
 ---
 # Integrate Spike with Microsoft Sentinel
 

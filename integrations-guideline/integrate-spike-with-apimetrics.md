@@ -1,5 +1,6 @@
 ---
-description: "Send APImetrics API call alerts to Spike so a failing, slow or warning API call pages your on-call rotation by phone, SMS, Slack or Teams, and resolves when the call passes again."
+description: >-
+  Send APImetrics alerts to Spike so a failing or slow API call alerts your on-call team by phone, SMS, Slack or Teams, and resolves when the call passes.
 ---
 
 # Integrate Spike with APImetrics

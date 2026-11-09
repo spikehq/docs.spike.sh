@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send StarTree ThirdEye anomalies to Spike so an anomaly a subscription group reports pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when ThirdEye reports the anomaly finished.
+  Send StarTree ThirdEye anomalies to Spike so a reported anomaly alerts your on-call team, and the incident resolves when ThirdEye marks it finished.
 ---
 
 # Integrate Spike with StarTree ThirdEye

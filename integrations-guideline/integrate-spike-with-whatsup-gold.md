@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send WhatsUp Gold alerts to Spike with a PowerShell Script Action so a down device or monitor pages your on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when WhatsUp Gold reports it up again.
+  Send WhatsUp Gold alerts to Spike with a PowerShell action so a down device or monitor alerts your on-call team, and resolves when it comes back up.
 ---
 
 # Integrate Spike with WhatsUp Gold

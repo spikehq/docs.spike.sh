@@ -1,6 +1,6 @@
 ---
 description: >-
-  Integrate Spike with Travis CI to receive real-time alerts via Phone calls, SMS, Slack, MS Teams, and more for build statuses and pipeline results, ensuring continuous integration monitoring.
+  Integrate Spike with Travis CI to get alerts by phone call, SMS, Slack, MS Teams and more for build statuses and pipeline results.
 ---
 
 # Integrate Spike with Travis CI

@@ -1,6 +1,6 @@
 ---
 description: >-
-  Add a Robusta webhook sink so Kubernetes alerts from your clusters open incidents in Spike and page your on-call team by phone, SMS, Slack or Teams, and resolve when Robusta reports the alert recovered.
+  Add a Robusta webhook sink so Kubernetes alerts open incidents in Spike, alert your on-call team, and resolve when Robusta reports recovery.
 ---
 
 # Integrate Spike with Robusta

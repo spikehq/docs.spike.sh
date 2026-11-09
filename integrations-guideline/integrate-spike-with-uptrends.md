@@ -1,5 +1,6 @@
 ---
-description: "Send Uptrends monitor alerts to Spike so a failing website, API or transaction monitor pages your on-call rotation, and the incident resolves when Uptrends reports the monitor is OK again."
+description: >-
+  Send Uptrends alerts to Spike so a failing website, API or transaction monitor alerts on-call, and resolves when Uptrends reports the monitor OK.
 ---
 
 # Integrate Spike with Uptrends

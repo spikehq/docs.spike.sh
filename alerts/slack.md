@@ -1,8 +1,6 @@
 ---
 description: >-
-  The Spike app for Slack sends incident and on-call alerts to your channels,
-  lets you run incident actions without leaving Slack, unfurls incident links,
-  and answers @Spike mentions with an AI assistant.
+  The Spike app for Slack sends incident and on-call alerts to your channels, runs incident actions from Slack, and answers @Spike mentions with AI.
 ---
 
 # Slack

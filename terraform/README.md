@@ -1,8 +1,6 @@
 ---
 description: >-
-  Manage your Spike configuration as code with the official Terraform provider:
-  escalation policies, services, integrations, alert routing rules, outbound
-  webhooks and on-call schedules.
+  Manage your Spike setup as code with the official Terraform provider: escalation policies, services, integrations, routing rules, webhooks and schedules.
 ---
 
 # Terraform provider

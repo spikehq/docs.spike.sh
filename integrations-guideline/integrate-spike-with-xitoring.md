@@ -1,8 +1,6 @@
 ---
 description: >-
-  Integrate Spike with Xitoring to receive real-time alerts via Phone calls,
-  SMS, Slack, MS Teams, and more for server monitoring, uptime checks, and
-  system performance, ensuring quick incident response
+  Integrate Spike with Xitoring to get alerts by phone call, SMS, Slack, MS Teams and more for server monitoring, uptime checks and performance issues.
 ---
 
 # Integrate Spike with Xitoring

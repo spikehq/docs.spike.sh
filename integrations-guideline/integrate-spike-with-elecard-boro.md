@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send Elecard Boro webhook notifications to Spike so a trigger going active on an IPTV, OTT or MPEG-TS task pages your broadcast on-call rotation by phone, SMS, Slack or Teams, and resolves its incident when Boro reports the error state cleared.
+  Send Elecard Boro webhooks to Spike so an active trigger on an IPTV, OTT or MPEG-TS task alerts your broadcast on-call team, and resolves when it clears.
 ---
 
 # Integrate Spike with Elecard Boro

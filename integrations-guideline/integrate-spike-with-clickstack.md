@@ -1,6 +1,6 @@
 ---
 description: >-
-  Send ClickStack (HyperDX) saved search and chart alerts to Spike through a Generic webhook, so a firing alert pages your on-call rotation and resolves when it recovers.
+  Send ClickStack (HyperDX) search and chart alerts to Spike with a generic webhook, so a firing alert reaches on-call and resolves when it recovers.
 ---
 
 # Integrate Spike with ClickStack
