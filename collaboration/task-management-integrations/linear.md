@@ -4,7 +4,7 @@ description: Connect Linear to Spike and create issues directly from incidents. 
 
 <figure><img src="../../.gitbook/assets/task-management-integrations/Linear-hero.png" alt="Linear integration with Spike"><figcaption></figcaption></figure>
 
-# Linear
+# Linear integration
 
 Spike's Linear integration bridges incident response with task tracking. Create an issue from any incident and both platforms stay updated as it moves through resolution.
 

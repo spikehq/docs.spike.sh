@@ -5,7 +5,7 @@ description: >-
   and answers @Spike mentions with an AI assistant.
 ---
 
-# Slack
+# Slack app
 
 <figure><img src="../.gitbook/assets/slack/cover.png" alt="Spike app for Slack"><figcaption><p>Spike app for Slack.</p></figcaption></figure>
 
