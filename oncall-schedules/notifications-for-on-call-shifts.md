@@ -8,6 +8,8 @@ description: "Spike notifies you when your on-call shift starts or ends, across 
 
 Spike notifies you when your on-call shift starts or ends. Personal notifications go directly to you. Team notifications go to shared channels like Slack, Teams, and Discord.
 
+Want a heads-up before your shift, not just when it starts? Set up [shift reminders](shift-reminders.md) — for example, a week before your shift starts — by email, push, Slack or Microsoft Teams.
+
 ## Personal notifications
 
 <figure><img src="../.gitbook/assets/oncall/oncall-notifications-personal-1.png" alt="Personal on-call shift notification settings"><figcaption><p>Personal notification settings for shift start and end.</p></figcaption></figure>
@@ -127,3 +129,7 @@ Yes. Visit **On-call > Settings > My alerts** to override notification settings 
 ### Do on-call notifications count toward my monthly alert quota?
 
 Yes. For plans with a monthly alert limit, on-call shift notifications count toward that quota.
+
+## Related
+
+* [Shift reminders](shift-reminders.md)
