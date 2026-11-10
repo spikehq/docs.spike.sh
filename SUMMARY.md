@@ -70,6 +70,7 @@
   * [Layers in on-call schedules](oncall-schedules/introduction-to-layers-in-on-call-schedules.md)
   * [Override an on-call](oncall-schedules/override-an-on-call.md)
   * [Notifications for on-call shifts](oncall-schedules/notifications-for-on-call-shifts.md)
+  * [Shift reminders](oncall-schedules/shift-reminders.md)
   * [Change on-call rotation day](oncall-schedules/change-on-call-rotation-day.md)
   * [Sync with your calendar](oncall-schedules/calendar-sync-for-oncall/README.md)
     * [Google Calendar](oncall-schedules/calendar-sync-for-oncall/google-calendar-sync.md)
