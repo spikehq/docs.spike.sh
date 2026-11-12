@@ -14,7 +14,7 @@ Every incident starts with an integration. When a connected monitoring tool dete
 
 ### Integrations
 
-Spike connects to [over 100 monitoring, logging, and observability tools](integrations-guideline/setup-integrations.md). Each integration gets a unique token, so incidents from different sources stay separate. You can add as many integrations as you need with no restrictions.
+Spike connects to [180+ monitoring, logging, and observability tools](integrations-guideline/setup-integrations.md). Each integration gets a unique token, so incidents from different sources stay separate. You can add as many integrations as you need with no restrictions.
 
 {% hint style="info" %}
 Don't see an integration you need? Email [integrations@spike.sh](mailto:integrations@spike.sh) and we'll build it.
