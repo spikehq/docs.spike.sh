@@ -14,6 +14,7 @@
 * [Priority and severity](incidents/priority-and-severity.md)
 * [Mute alerts](incidents/mute-alerts.md)
 * [Reassign incidents](incidents/reassign-incidents.md)
+* [Paging people](incidents/paging-people.md)
 * [Sharing incidents](incidents/sharing-incidents.md)
 * [Why does message parsing fail?](incidents/why-does-message-parsing-fail.md)
 * [Rate limiting on duplicate incidents](incidents/rate-limiting-on-duplicate-incidents.md)

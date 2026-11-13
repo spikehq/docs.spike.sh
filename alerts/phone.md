@@ -17,3 +17,7 @@ Check if your country or region supports phone calls on the [geo permissions pag
 {% hint style="info" %}
 Make sure to verify your phone number before setting up phone alerts. You can update it in your [profile settings](https://app.spike.sh/settings/profile).
 {% endhint %}
+
+## Calling someone from an incident
+
+Besides escalation policies, anyone on an incident can call a teammate or another team's on-call by hand, from the incident itself. That needs the Business plan or higher. See [Paging people](../incidents/paging-people.md).
