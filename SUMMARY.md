@@ -69,6 +69,7 @@
   * [Slots in schedules](oncall-schedules/introduction-to-slots-in-schedules.md)
   * [Layers in on-call schedules](oncall-schedules/introduction-to-layers-in-on-call-schedules.md)
   * [Override an on-call](oncall-schedules/override-an-on-call.md)
+  * [Pause the rotation](oncall-schedules/pause-the-rotation.md)
   * [Notifications for on-call shifts](oncall-schedules/notifications-for-on-call-shifts.md)
   * [Shift reminders](oncall-schedules/shift-reminders.md)
   * [Change on-call rotation day](oncall-schedules/change-on-call-rotation-day.md)

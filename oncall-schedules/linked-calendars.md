@@ -10,6 +10,10 @@ Linked calendars display external or holiday calendars as overlays on your on-ca
 
 <figure><img src="../.gitbook/assets/oncall/linked-calendars/christmas-example.png" alt="Holiday calendar overlaid on an on-call schedule"><figcaption><p>A holiday calendar overlaid on the on-call schedule.</p></figcaption></figure>
 
+{% hint style="info" %}
+To change the shifts for a holiday, [pause the rotation](pause-the-rotation.md). Nobody is on call during the break, and the shifts continue afterwards.
+{% endhint %}
+
 ## Adding a linked calendar
 
 Visit the [Linked Calendars](https://app.spike.sh/oncalls/linked-calendars) section on your dashboard. You can upload an `.ics` file or link directly from Google Calendar or Outlook.
