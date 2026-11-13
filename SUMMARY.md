@@ -31,6 +31,7 @@
 * [Telegram](alerts/telegram.md)
 * [Discord](alerts/discord.md)
 * [Alert routing rules](alerts/alert-rules.md)
+* [Paging people](incidents/paging-people.md)
 * [Title Remapper](alerts/title-remapper.md)
 * [Personal alerts management](alerts/personal-alerts-management/README.md)
   * [During office hours](alerts/personal-alerts-management/during-office-hours.md)
